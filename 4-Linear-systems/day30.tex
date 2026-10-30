@@ -1,0 +1,726 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[
+    lmargin=2.2in,
+    rmargin=0.7in,
+    tmargin=1.0in,
+    bmargin=1.0in
+]{geometry}
+\usepackage{notes}
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{DAY 30 -- Eigenvalues, Eigenvectors, and Linear Systems}\\
+\normalsize (Section 4.3)
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Finding Solutions to a Linear System}
+
+\subsection{Motivation}
+
+Our goal for the lecture is to solve systems of differential equations
+of the form
+\begin{equation} \label{1}
+\mathbf{x}'=A\mathbf{x}, \quad \textbf{x}(0)=\textbf{x}_0
+\end{equation}
+where $A$ is a constant $2\times2$ matrix and $\mathbf{x}(t)$ is a vector of unknown functions.
+
+
+%-------------------------------------------------------------
+\subsection{An Exponential Guess}
+
+Solving the matrix problem $\mathbf{x}'=A\mathbf{x}$ has many similarities to solving $x'=4x$.
+
+\cols{
+\begin{center}
+    \textbf{1D Case}
+\end{center}
+\[
+x'=4x
+\]
+We want a function whose derivative is a constant
+multiple of itself. An exponential is a natural guess:
+\[
+x(t)=e^{\lambda t}.
+\]
+Substituting gives
+\begin{align*}
+x'&=4x,\\
+\lambda e^{\lambda t}&=4e^{\lambda t}
+\end{align*}
+Thus, $\lambda=4$. The general solution is
+\[
+x(t)=Ce^{4t}.
+\]
+}{
+\begin{center}
+    \textbf{2D Case}
+\end{center}
+\[
+\mathbf{x}'=A\mathbf{x}
+\]
+We guess an exponential multiplied by a constant vector:
+\[
+\mathbf{x}(t)=e^{\lambda t}\mathbf{v},
+\qquad \mathbf{v}\ne\mathbf{0}.
+\]
+Substituting gives
+\begin{align*}
+\mathbf{x}'&=A\mathbf{x},\\
+\lambda e^{\lambda t}\mathbf{v}
+&=e^{\lambda t}A\mathbf{v},\\
+\lambda\mathbf{v}&=A\mathbf{v}.
+\end{align*}
+If we find such a scalar and nonzero vector, we obtain solutions
+$$
+    \textbf{x}_1(t) = C e^{\lambda t} \textbf{v}. 
+$$
+}
+
+Solving this equation 
+\begin{equation}    
+    A\mathbf{v} = \lambda \mathbf{v}, \quad \mathbf{v}\ne\mathbf{0}
+\end{equation}
+is called the \textbf{eigenvalue problem}. We must learn how to solve the eigenvalue problem before we can solve the system \eqref{1}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Review of Fundamental Concepts}
+
+% Separate the algebra review from the exponential motivation.
+\subsection{Matrix Operations and Determinants}
+Consider the matrices
+\[
+A=\begin{pmatrix}1&2\\3&4\end{pmatrix},
+\qquad I=\begin{pmatrix}1&0\\0&1\end{pmatrix}.
+\]
+Let $\lambda$ be any number. We can define $M:=A-\lambda I$ and calculate its components
+\[
+M:=A-\lambda I
+=\begin{pmatrix}1&2\\3&4\end{pmatrix}
+-\begin{pmatrix}\lambda&0\\0&\lambda\end{pmatrix}
+=\begin{pmatrix}1-\lambda&2\\3&4-\lambda\end{pmatrix}.
+\]
+Only the diagonal entries change. Next, recall the definition of a determinant 
+$$
+\text{If } A=\begin{pmatrix}
+    a & b\\
+    c & d
+\end{pmatrix} \text{ then } \det(A) = \begin{vmatrix}
+    a & b\\
+    c & d
+\end{vmatrix}= ad-bc.
+$$
+We can calculate the determinant of the $M$ matrix 
+\begin{align*}
+\det(M)=\det(A-\lambda I)=& \begin{vmatrix}
+    1-\lambda & 2\\
+    3 & 4-\lambda
+\end{vmatrix}\\
+&=(1-\lambda)(4-\lambda)-2(3)\\
+&=\lambda^2-5\lambda-2.
+\end{align*}
+The result is a quadratic polynomial in $\lambda$.
+
+\subsection{Nonhomogeneous Systems}
+An algebraic system $$M\mathbf{v}=\mathbf{b}$$ is
+\textbf{nonhomogeneous} when $\mathbf{b}\ne\mathbf{0}$.
+If $\det(M)\ne0$, it has exactly one solution. For example,
+\[
+\begin{pmatrix}1&2\\3&4\end{pmatrix}
+\begin{pmatrix}u\\w\end{pmatrix}
+=\begin{pmatrix}3\\7\end{pmatrix}
+\quad\Longleftrightarrow\quad
+\begin{dcases}u+2w=3,\\3u+4w=7.\end{dcases}
+\]
+The determinant is $4-6=-2\ne0$, so there is exactly one solution. The solution is $u=1$, $w=1.$ There are no other combinations $(u,w)$ that satisfy the system.
+
+\subsection{Homogeneous Systems}
+A system is \textbf{homogeneous} when its right-hand side is zero:
+\[
+M\mathbf{v}=\mathbf{0}.
+\]
+The zero vector $\textbf{v}=\textbf{0}$ always solves this system; hence, we call it the
+\textbf{trivial solution}. Any nonzero solution is called
+\textbf{nontrivial}.
+\begin{itemize}
+\item If $\det(M)\ne0$, the only solution is $\mathbf{v}=\mathbf{0}$.
+\item If $\det(M)=0$, there are infinitely many solutions,
+including nontrivial solutions.
+\end{itemize}
+A homogeneous system can never have no solution. If you were asked to find one answer out of infinite possible choices, it is wise to choose the simplest one.
+
+\begin{example}[0]{    
+Find one non-trivial solution to 
+\[
+\begin{pmatrix}1&2\\3&6\end{pmatrix}
+\begin{pmatrix}x\\y\end{pmatrix}=\begin{pmatrix}0\\0\end{pmatrix}.
+\]
+}
+First, notice that coefficient matrix has a zero determinant. The second equation is three times the first, so they impose the same condition:
+\[
+x+2y=0,\qquad 3x+6y=0.
+\]
+Any point on the line $y=-\tfrac{1}{2}x$ is a valid answer. We can choose any value of $x$, except $x=0$. We can choose $x=2$, for example, then we get
+\[
+\begin{pmatrix}
+    x\\y
+\end{pmatrix}=\begin{pmatrix}
+ x\\
+ -\tfrac{1}{2}x
+\end{pmatrix}
+=
+\begin{pmatrix}2\\-1\end{pmatrix}.
+\]
+That's it. $(2,-1)$ is a nontrivial answer.
+\end{example}
+
+\subsection{Connecting to the Eigenvalue Problem}
+To solve the eigenvalue problem, we first convert it to a \textit{homogeneous} system:
+\[
+A\mathbf{v}=\lambda\mathbf{v}
+\quad\Longleftrightarrow\quad
+(A-\lambda I)\mathbf{v}=\mathbf{0}.
+\]
+We need $\mathbf{v}\ne\mathbf{0}$. That means we cannot allow $\det(A-\lambda I)\ne0$ because that only has the trivial solution. Therefore, in order for a nontrivial $\textbf{v}$ to exist, we require 
+\[
+\boxed{\det(A-\lambda I)=0.}
+\]
+This is the \textbf{characteristic equation}. Its roots are the
+\textbf{eigenvalues}. For each eigenvalue, we then find a nonzero
+solution of $(A-\lambda I)\mathbf{v}=\mathbf{0}$, called an
+\textbf{eigenvector}. Next, we discuss how to find the eigenvalues and eigenvectors.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eigenvalues and Eigenvectors}
+
+
+\subsection{Finding Eigenvalues}
+In order to find the eigenvalues $\lambda$ for a matrix $A$, you must first set up the characteristic equation
+$$
+\det(A-\lambda I)=0
+$$
+and then solve for $\lambda$. Since this is a quadratic equation, we expect \textit{two values}. Let's call them
+$$
+\lambda_1  \quad \text{and} \quad \lambda_2.
+$$
+Here is a demonstration.
+
+\begin{example}[1]{
+Find the two eigenvalues of
+\[
+A=
+\begin{pmatrix}
+4&1\\
+2&3
+\end{pmatrix}.
+\]
+}
+
+\paragraph{Step 1. Form the matrix $A-\lambda I$.}
+Subtract $\lambda$ from each diagonal entry:
+\[
+M=A-\lambda I
+=
+\begin{pmatrix}
+4&1\\2&3
+\end{pmatrix}
+-
+\begin{pmatrix}
+\lambda&0\\0&\lambda
+\end{pmatrix}
+=
+\begin{pmatrix}
+4-\lambda&1\\
+2&3-\lambda
+\end{pmatrix}.
+\]
+
+\paragraph{Step 2. Compute the determinant.} Calculate $\det(M)$. It is standard to rearrange the terms in the form $a\lambda^2 + b\lambda + c$
+\begin{align*}
+\det(A-\lambda I)
+&=(4-\lambda)(3-\lambda)-2\\
+&=12-3\lambda -4\lambda +\lambda^2-2\\
+&=\lambda^2-7\lambda+10.
+\end{align*}
+
+\paragraph{Step 3. Solve the characteristic equation.} Sometimes, we need the quadratic formula to solve $a\lambda^2 + b\lambda + c=0$. But here, it is easier to factor the polynomial
+\[
+\lambda^2-7\lambda+10
+=(\lambda-5)(\lambda-2)=0.
+\]
+Therefore,
+\[
+\boxed{\lambda_1=5,\qquad \lambda_2=2.}
+\]
+\end{example}
+
+%-------------------------------------------------------------
+\subsection{An Equivalent Form}
+
+If you want to find eigenvalues, you may alternatively use
+\[
+\boxed{\det(\lambda I-A)=0} \quad  \text{instead of} \quad \det(A-\lambda I)=0
+\]
+This gives the same characteristic polynomial. Here is a redo of Example 1:
+\begin{align*}
+\det(\lambda I-A)
+&=
+\begin{vmatrix}
+\lambda-4&-1\\
+-2&\lambda-3
+\end{vmatrix}\\
+&=(\lambda^2-7\lambda+12)-2\\
+&=\lambda^2-7\lambda+10.
+\end{align*}
+I personally prefer using $\lambda I-A$ over $A-\lambda I$ because it puts $\lambda$ first
+in the diagonal entries. It is easier to mentally expand $(\lambda-4)(\lambda-3)$ rather than $(4-\lambda)(3-\lambda)$.
+
+%-------------------------------------------------------------
+\begin{example}[2]{
+Find the eigenvalues of
+\[
+A=
+\begin{pmatrix}
+0&1\\
+-2&-3
+\end{pmatrix}.
+\]
+}
+
+\paragraph{Step 1. Form $\lambda I-A$.}
+\[
+\lambda I-A=
+\begin{pmatrix}
+\lambda&-1\\
+2&\lambda+3
+\end{pmatrix}.
+\]
+
+\paragraph{Step 2. Compute the determinant.}
+\[
+\det(\lambda I-A)
+=\lambda(\lambda+3)+2
+=\lambda^2+3\lambda+2.
+\]
+
+\paragraph{Step 3. Solve the characteristic equation.}
+\[
+\lambda^2+3\lambda+2
+=(\lambda+1)(\lambda+2)=0.
+\]
+Therefore,
+\[
+\boxed{\lambda_1=-1,\qquad \lambda_2=-2.}
+\]
+\end{example}
+
+
+%-------------------------------------------------------------
+
+\subsection{Finding Eigenvectors}
+Once an eigenvalue is known, substitute it into
+$(A-\lambda I)\mathbf{v}=\mathbf{0}$ and choose one nonzero solution. Since there are infinite choices for eigenvectors, simply choose the one with the cleanest numbers.
+
+\begin{example}[3]{
+For the matrix from Example 1,
+\[
+A=
+\begin{pmatrix}
+4&1\\
+2&3
+\end{pmatrix},
+\]
+find an eigenvector corresponding to each eigenvalue
+$\lambda_1=5$ and $\lambda_2=2$.
+}
+
+\paragraph{1. Substitute $\lambda_1=5$ into $A-\lambda I$.}
+Substituting $\lambda = 5$ into $\begin{pmatrix}
+4-\lambda&1\\
+2&3-\lambda
+\end{pmatrix}$ gives
+\[
+A-5I=
+\begin{pmatrix}
+    4-5& 1 \\
+    2 & 3-5
+\end{pmatrix}=
+\begin{pmatrix}
+-1&1\\
+2&-2
+\end{pmatrix}.
+\]
+\paragraph{2. Set up and solve $(A-5 I)\textbf{v}=\textbf{0}$.}
+We can let $\mathbf{v}=\begin{pmatrix}u\\w\end{pmatrix}$. Then
+the equation $(A-5I)\mathbf{v}=\mathbf{0}$ becomes
+\[
+\begin{dcases}
+-u+w=0,\\
+2u-2w=0.
+\end{dcases}
+\]
+Both equations say $w=u$. There are infinitely many answers. The easiest is to choose $u=1$, which means $w=1$. So the eigenvector for $\lambda_1=5$ is
+\[
+\boxed{
+\mathbf{v}_1=\begin{pmatrix}
+    u\\w
+\end{pmatrix}=\begin{pmatrix}1\\1\end{pmatrix}.
+}
+\]
+
+\paragraph{3. Substitute $\lambda_2=2$ into $A-\lambda I$.}
+Substitution yields 
+\[
+A-2I=\begin{pmatrix}
+    4-2& 1 \\
+    2 & 3-2
+\end{pmatrix}=
+\begin{pmatrix}
+2&1\\
+2&1
+\end{pmatrix}.
+\]
+\paragraph{4. Set up and solve $(A-2 I)\textbf{v}=\textbf{0}$.}
+The equation $(A-2I)\mathbf{v}=\mathbf{0}$ becomes
+\[
+\begin{dcases}
+2u+w=0,\\
+2u+w=0.
+\end{dcases}
+\]
+Thus, $w=-2u$. To keep it simple, choose $u=1$, which means $w=-2$. Therefore, the eigenvector for $\lambda_2=2$ is 
+\[
+\boxed{
+\mathbf{v}_2=\begin{pmatrix}1\\-2\end{pmatrix}.
+}
+\]
+In these examples, we can choose either component and then use the equation to determine the other. The two components cannot be chosen independently, and the resulting vector must be nonzero.
+\end{example}
+
+%-------------------------------------------------------------
+\subsection{Properties of Eigenvectors}
+
+Keep three facts in mind:
+\begin{enumerate}
+    \item \textbf{Nonzero}: an eigenvector must be nontrivial: $\mathbf{v}\ne\mathbf{0}$.
+
+    \item \textbf{Correspondence}: an eigenvector belongs
+    to a particular eigenvalue. Keep each eigenvalue
+    paired with its eigenvector.
+
+    \item \textbf{Nonuniqueness}: if $\mathbf{v}$ is an
+    eigenvector, then $c\mathbf{v}$ is also an eigenvector
+    for the same eigenvalue whenever $c\ne0$.
+\end{enumerate}
+Individual components may be zero; the entire vector
+cannot be zero.
+
+%-------------------------------------------------------------
+\subsection{Tip on Choosing Simple Components}
+
+Choose components that avoid unnecessary fractions.
+For example, suppose you want to find the cleanest solution to 
+\[
+3u+7w=0.
+\]
+Choosing $u=1$ works, but it is not clever because then $w=-3/7$. In contrast, 
+choosing $u=7$ gives $w=-3$. Thus, we obtain a convenient 
+eigenvector with integers
+\[
+\mathbf{v}=\begin{pmatrix}7\\-3\end{pmatrix}.
+\]
+Here is a tip: suppose you want to find the eigenvector satisfying 
+\[
+\begin{pmatrix}
+    a & b\\
+    a & b
+\end{pmatrix} \textbf{v} = \begin{pmatrix}
+    0\\0
+\end{pmatrix}
+\]
+You may choose your eigenvector to be 
+\[
+\boxed{\mathbf{v}=\begin{pmatrix}b\\-a\end{pmatrix}.}
+\]
+
+\subsection{The General Theory}
+
+The goal of the eigenvalue problem is to find a number $\lambda$ and a
+nonzero vector $\mathbf{v}$ such that
+\[
+A\mathbf{v}=\lambda\mathbf{v}.
+\]
+There will be two values  of $\lambda$ which are called the \textbf{eigenvalue} of $A$. Each $\lambda$ has a vector $\mathbf{v}\ne\mathbf{0}$ is its \textbf{eigenvector}. Together, $(\lambda,\mathbf{v})$ form an \textbf{eigenpair}.
+We exclude the zero vector because $A\mathbf{0}=\lambda\mathbf{0}$ holds for every
+$\lambda$ and tells us nothing about $A$. To find the two values of $\lambda$, you must solve the quadratic equation
+$$
+    \det(A-\lambda I)=0 \quad \text{or} \quad \det(\lambda I-A)=0.
+$$
+Then you must find an eigenvector for each eigenvalue by finding one nontrivial solution to 
+$$
+    (A-\lambda I)\textbf{v}=\textbf{0} \quad \text{or} \quad (\lambda I-A) \textbf{v}=0.
+$$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Solving the System}
+
+\subsection{The Initial Value Problem}
+
+Finally, we are ready to solve systems of DEs. Suppose you are given a linear system of DEs
+\begin{equation} \label{2}    
+\textbf{x}' = \begin{pmatrix}
+    a & b\\
+    c & d
+\end{pmatrix} \textbf{x}
+\end{equation}
+and an initial condition 
+$$
+\textbf{x}(0) = \begin{pmatrix}
+    x_0\\y_0
+\end{pmatrix}. 
+$$
+Your task is to find a parametric solution $\textbf{x}(t)=(x(t),y(t))$ that satisfies both the system and the IC. It comes down to memorizing a formula.
+
+\subsection{General Solution Formula}
+
+Here is the formula for the general solution to \eqref{2}:
+\[
+\boxed{
+\mathbf{x}(t)
+=c_1e^{\lambda_1t}\mathbf{v}_1
++c_2e^{\lambda_2t}\mathbf{v}_2.
+}
+\]
+In this formula, $\lambda_1, \textbf{v}_1$ and $\lambda_2, \textbf{v}_2$ are the two eigenpairs of the matrix $A$. The constant coefficients $c_1$ and $c_2$ are arbitrary. Notice how similar this formula is to the solution
+$$
+    x(t) = c_1 e^{\lambda_1 t}+c_2 e^{\lambda_2 t}.
+$$
+The values of $c_1$ and $c_2$ can be determined by the IC.  Let's first focus on finding the general solution.
+
+%-------------------------------------------------------------
+\begin{example}[4]{
+Find the general solution to
+\[
+\mathbf{x}'=
+\begin{pmatrix}
+4&1\\
+2&3
+\end{pmatrix}\mathbf{x}.
+\]
+}
+
+\paragraph{Step 1. Find both eigenpairs.}
+We have already found the two eigenpairs for the matrix $A$. From Examples 1 and 3, we have
+\[
+\lambda_1=5,\qquad
+\mathbf{v}_1=\begin{pmatrix}1\\1\end{pmatrix},
+\]
+and
+\[
+\lambda_2=2,\qquad
+\mathbf{v}_2=\begin{pmatrix}1\\-2\end{pmatrix}.
+\]
+
+\paragraph{Step 2. Write the general solution.} Next, you write down the formula which you have memorized, and then substitute the corresponding values.
+\begin{align*}    
+\mathbf{x}(t)&=c_1e^{\lambda_1t}\mathbf{v}_1 +c_2e^{\lambda_2t}\mathbf{v}_2\\
+&=
+\boxed{
+c_1e^{5t}\begin{pmatrix}1\\1\end{pmatrix}
++c_2e^{2t}\begin{pmatrix}1\\-2\end{pmatrix}.
+}
+\end{align*}
+Not everyone's general solution may look the same due to the non-uniqueness of eigenvectors. For example, it is valid to choose $\textbf{v}_1=(2,2)$ instead of $\textbf{v}_1=(1,1)$ as the eigenvector. However, the arbitrary constant $c_1$ negates any constant multiple differences between eigenvectors.
+
+\end{example}
+
+%-------------------------------------------------------------
+\subsection{Applying Initial Conditions}
+
+Suppose we are given
+\[
+\mathbf{x}(0)=\mathbf{x}_0.
+\]
+Since both exponential factors equal $1$ at $t=0$,
+\[
+c_1\mathbf{v}_1+c_2\mathbf{v}_2=\mathbf{x}_0.
+\]
+The vectors $\textbf{v}_1$ and $\textbf{v}_2$ are known. If
+\[
+\mathbf{v}_1=\begin{pmatrix}u_1\\w_1\end{pmatrix},
+\qquad
+\mathbf{v}_2=\begin{pmatrix}u_2\\w_2\end{pmatrix},
+\]
+then solving for the coefficients amounts to solving a linear system 
+\[
+\begin{pmatrix}
+u_1&u_2\\
+w_1&w_2
+\end{pmatrix}
+\begin{pmatrix}c_1\\c_2\end{pmatrix}
+=\mathbf{x}_0.
+\]
+To solve an IVP, you have to solve a system at the end. This is the reason why you want to choose eigenvectors with clean numbers.
+
+%-------------------------------------------------------------
+\begin{example}[5]{
+Solve the IVP:
+\[
+\mathbf{x}'=
+\begin{pmatrix}
+4&1\\
+2&3
+\end{pmatrix}\mathbf{x},
+\qquad
+\mathbf{x}(0)=\begin{pmatrix}7\\1\end{pmatrix}.
+\]
+}
+
+\paragraph{Step 1. Write the general solution.}
+From Example 4,
+\[
+\mathbf{x}(t)
+=c_1e^{5t}\begin{pmatrix}1\\1\end{pmatrix}
++c_2e^{2t}\begin{pmatrix}1\\-2\end{pmatrix}.
+\]
+
+\paragraph{Step 2. Apply the initial condition.}
+At $t=0$,
+\[
+c_1\begin{pmatrix}1\\1\end{pmatrix}
++c_2\begin{pmatrix}1\\-2\end{pmatrix}
+=\begin{pmatrix}7\\1\end{pmatrix}.
+\]
+Equating components gives
+\[
+\begin{dcases}
+c_1+c_2=7,\\
+c_1-2c_2=1.
+\end{dcases}
+\]
+Subtracting the second equation from the first,
+\[
+3c_2=6
+\implies c_2=2.
+\]
+Then $c_1=7-2=5$.
+
+\paragraph{Step 3. State the solution.}
+\[
+\boxed{
+\mathbf{x}(t)
+=5e^{5t}\begin{pmatrix}1\\1\end{pmatrix}
++2e^{2t}\begin{pmatrix}1\\-2\end{pmatrix}.
+}
+\]
+\end{example}
+
+%-------------------------------------------------------------
+\subsection{Putting the Steps Together}
+If you want to solve an IVP $\textbf{x}'=A\textbf{x}$ with $\textbf{x}(0)=\textbf{x}_0$, then you must find eigenpairs and solve for the unknown coefficients. Here is a full example from beginning to end.
+
+\begin{example}[6]{
+Solve the IVP:
+\[
+\mathbf{x}'=
+\begin{pmatrix}
+3&1\\
+0&2
+\end{pmatrix}\mathbf{x},
+\qquad
+\mathbf{x}(0)=\begin{pmatrix}4\\2\end{pmatrix}.
+\]
+}
+
+\paragraph{Step 1. Find the eigenvalues.}
+The characteristic equation is
+\[
+\det(\lambda I-A)
+=
+\begin{vmatrix}
+\lambda-3&-1\\
+0&\lambda-2
+\end{vmatrix}
+=(\lambda-3)(\lambda-2)=0.
+\]
+Therefore,
+\[
+\lambda_1=3,\qquad \lambda_2=2.
+\]
+
+\paragraph{Step 2. Find the eigenvectors.}
+For $\lambda_1=3$,
+\[
+(A-3I)\mathbf{v}=\mathbf{0}
+\quad\Longleftrightarrow\quad
+\begin{pmatrix}
+0&1\\
+0&-1
+\end{pmatrix}
+\begin{pmatrix}u\\w\end{pmatrix}
+=\begin{pmatrix}0\\0\end{pmatrix}.
+\]
+We don't have freedom over $w$. Both equations require $w=0$. But, $u$ is completely free. For simplicity, we can choose $u=1$, so the eigenvector for $\lambda_1=3$ is
+\[
+\mathbf{v}_1=\begin{pmatrix}1\\0\end{pmatrix}.
+\]
+
+For $\lambda_2=2$,
+\[
+(A-2I)\mathbf{v}=\mathbf{0}
+\quad\Longleftrightarrow\quad
+\begin{pmatrix}
+1&1\\
+0&0
+\end{pmatrix}
+\begin{pmatrix}u\\w\end{pmatrix}
+=\begin{pmatrix}0\\0\end{pmatrix}.
+\]
+Thus, $u+w=0$. We have freedom over $u$ or $w$. If we force $u=1$, then $w$ must be $-1$. The 2nd eigenvector is
+\[
+\mathbf{v}_2=\begin{pmatrix}1\\-1\end{pmatrix}.
+\]
+
+\paragraph{Step 3. Write the general solution.} Just memorize the formula and substitute
+\[
+\mathbf{x}(t)=c_1e^{\lambda_1t}\mathbf{v}_1 +c_2e^{\lambda_2t}\mathbf{v}_2
+=c_1e^{3t}\begin{pmatrix}1\\0\end{pmatrix}
++c_2e^{2t}\begin{pmatrix}1\\-1\end{pmatrix}.
+\]
+
+\paragraph{Step 4. Apply the initial condition.}
+At $t=0$,
+\[
+c_1\begin{pmatrix}1\\0\end{pmatrix}
++c_2\begin{pmatrix}1\\-1\end{pmatrix}
+=\begin{pmatrix}4\\2\end{pmatrix}.
+\]
+Equating components,
+\[
+\begin{dcases}
+c_1+c_2=4,\\
+-c_2=2.
+\end{dcases}
+\]
+Therefore, $c_2=-2$ and $c_1=6$. The solution is
+\[
+\boxed{
+\mathbf{x}(t)
+=6e^{3t}\begin{pmatrix}1\\0\end{pmatrix}
+-2e^{2t}\begin{pmatrix}1\\-1\end{pmatrix}.
+}
+\]
+\end{example}
+
+\textbf{Note:} This formula 
+$$
+\mathbf{x}(t)
+=c_1e^{\lambda_1t}\mathbf{v}_1
++c_2e^{\lambda_2t}\mathbf{v}_2.
+$$
+holds for when $A$ has 2 \textit{distinct, real} eigenvalues. There are two other formulas you will need for when the eigenvalues are repeated or when they are complex.
+
+\end{document}

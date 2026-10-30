@@ -1,0 +1,270 @@
+% -------------------
+% Packages
+% -------------------
+\usepackage{
+    amsmath,			% Math Environments
+    amsthm,             % proofs
+    amssymb,			% Extended Symbols
+    mathtools,         
+    enumerate,		    % Enumerate Environments
+    graphicx,			% Include Images
+    lastpage,			% Reference Lastpage
+    multicol,			% Use Multi-columns
+    multirow,			% Use Multi-rows
+    float,              % for in-place figures [H]
+    xcolor,
+    gensymb,
+    fancyhdr,
+    tikz,
+    pgfplots,
+    tikz-3dplot,
+    physics,
+    ulem,
+    bm,
+    cancel,              % for \cancel 
+    wasysym,
+    subcaption, % for subfigure
+    tabularx,    % for wrapping in tables
+    array,
+    circuitikz,
+    titlesec,
+    wrapfig
+}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{parcolumns}
+% Custom style file for notes
+\usepackage{textcomp}
+
+
+% \usetikzlibrary{positioning,arrows.meta}
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xparse}
+
+% list spacing 
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+% section spacing 
+\titlespacing*{\section}
+{0pt}{6pt}{4pt}
+\titlespacing*{\subsection}
+{0pt}{4pt}{2pt}
+
+% tikz 
+\usetikzlibrary{3d}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{shapes.geometric, positioning}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+
+% boolean 
+\usepackage{ifthen}
+\newboolean{showanswer} % 
+
+% -------------------
+% Font
+% -------------------
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage{titlesec}
+% \titleformat*{\section}{\fontsize{16}{24}\selectfont\bfseries} 
+
+\titleformat{\section}[frame]
+{\normalfont} % format 
+{} % label 
+{0pt} % sep
+{\Large\bfseries\filcenter \thesection. } % before-code
+[\titlerule] % after-code
+
+\titleformat*{\subsection}
+{\fontsize{13}{20}\selectfont\bfseries}   
+% \titleformat{command}[shape]
+% {format}
+% {label}
+% {sep}
+% {before-code}
+% [after-code]
+
+
+% -------------------
+% Customize Variables 
+% -------------------
+\newcommand{\class}{Math 316}
+\newcommand{\term}{Fall 2025}
+\newcommand{\instructor}{T. Takahashi}
+
+
+% -----------
+% environments
+% -----------
+\newenvironment{ans}{%
+  \begin{itemize}%
+    \color{blue}%
+}{
+  \end{itemize}%
+  \vspace{\baselineskip}
+}
+
+\newenvironment{note}{%
+  \begin{itemize}%
+    \color{red}%
+}{
+  \end{itemize}%
+  \vspace{\baselineskip}
+}
+
+\newtheorem{theorem}{Theorem}
+
+
+% --------------
+% Example 
+% ---------------
+\definecolor{exampleaccent}{RGB}{150,25,25}
+\definecolor{exampleborder}{RGB}{250,250,250}
+\definecolor{examplebg}{RGB}{250,250,250}
+
+% dark green
+% \definecolor{dgreen}{RGB}{1,50,32}
+\definecolor{dgreen}{RGB}{30,100,60}
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{etoolbox}
+
+\definecolor{exampleaccent}{RGB}{150,25,25}
+\definecolor{exampleborder}{RGB}{70,70,70}
+\definecolor{examplebg}{RGB}{250,250,250}
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xparse}
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{etoolbox}
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xparse}
+
+\NewDocumentEnvironment{example}{ O{} +m }
+{
+\begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=gray,
+    boxrule=0.6pt,
+    left=4mm,
+    right=4mm,
+    top=2mm,
+    bottom=2mm,
+    before skip=12pt,
+    after skip=12pt,
+    fonttitle=\bfseries,
+    coltitle=black,
+    colbacktitle=white,
+    title={EXAMPLE~#1},
+    lower separated=true,
+    segmentation style={solid, gray, line width=0.4pt}
+]
+#2
+\tcblower
+\textbf{Solution.}\par\medskip
+}
+{
+\end{tcolorbox}
+}
+
+
+% ----------
+% Align 
+% ----------
+\definecolor{commentblue}{RGB}{0,120,190}
+\newcommand{\com}[1]{\textcolor{commentblue}{\text{(#1)}}}
+% use \com inside align environments to produce blue comments off to the right side
+
+
+% -------------------
+% Header & Footer
+% -------------------
+\fancypagestyle{pages}{
+	%Headers
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+\renewcommand{\headrulewidth}{0pt}
+	%Footers
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{}
+\renewcommand{\footrulewidth}{0.0pt}
+}
+\headheight=14pt
+\footskip=6pt
+
+
+% ------------------------
+% Shortcuts
+% ------------------------
+
+
+% color shortcuts
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+
+\newcommand{\B}[1]{\mathbf{#1}}
+\newcommand{\ve}[1]{\mathbf{#1}}
+
+
+% x and check 
+\newcommand{\xmark}{\ding{55}}%
+
+
+% bracket notation 
+\newcommand{\cvec}[1]{\left\langle #1 \right\rangle} % <a,b,c>
+
+% sign sunfction 
+\newcommand{\sgn}{\operatorname{sgn}}
+
+% real and imaginary 
+\let\Re\relax
+\let\Im\relax
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Im}{Im}
+
+\newcommand{\mySpacing}{0.295} % Define your variable here
+
+\pagestyle{pages}
+
+\let\oldvec\vec 
+\renewcommand{\vec}[1]{\overrightarrow{#1}} %overwrite \vec command
+
+
+% Two columns with a vertical divider
+\NewDocumentCommand{\cols}{+m +m}{%
+    \par\noindent
+    \begin{minipage}[t]{0.46\textwidth}
+        \vspace{0pt}
+        #1
+    \end{minipage}%
+    \hfill
+    \vrule width 0.4pt
+    \hfill
+    \begin{minipage}[t]{0.46\textwidth}
+        \vspace{0pt}
+        #2
+    \end{minipage}%
+    \par
+}
+% \cols{
+%     Consider the function
+%     \[
+%         f(x) = x^2 - 1.
+%     \]
+
+%     We want to approximate its derivative.
+% }{
+%     \centering
+%     \includegraphics[width=\linewidth]{fig.png}
+% }

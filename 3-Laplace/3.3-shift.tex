@@ -1,0 +1,502 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
+\usepackage{notes}
+\begin{document}
+
+\begin{center}
+\Large\textbf{3.3 - The Shift Formula}\\
+\normalsize (Section 3.1)
+\end{center}
+
+% ---------------------------------------
+\section{Need More Transform Formulas}
+
+\subsection{What We Can Solve}
+
+\begin{wraptable}{r}{0.32\textwidth}
+\vspace{-\baselineskip}
+\centering
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{%
+    \shortstack{\textbf{Current Table}\\\textbf{of Transforms}}}\\
+\hline
+&$x(t)$ & $X(s)$\\
+\hline
+1&$1$ & $\tfrac{1}{s}$\\
+2&$t$ & $\tfrac{1}{s^2}$\\
+3&$t^n$ & $\tfrac{n!}{s^{n+1}}$\\
+4&$e^{at}$ & $\tfrac{1}{s-a}$\\
+5&$\cos(\beta t)$ & $\tfrac{s}{s^2+\beta^2}$\\
+6&$\sin(\beta t)$ & $\tfrac{\beta}{s^2+\beta^2}$\\
+\hline
+\end{tabular}
+% \vspace{-\baselineskip}
+\end{wraptable}
+
+Our goal is to use Laplace transforms to solve more
+types of second-order DEs. Our current table lets us
+recover constants, polynomials, exponentials,
+sines, and cosines.
+
+If the solution to the DE is a sum of exponentials
+$$
+    x=c_1e^{\lambda_1t}+c_2 e^{\lambda_2t} \implies X=\frac{As+B}{(s-\lambda_1)(s-\lambda_2)}
+$$
+then we can use partial fraction decomposition on $X(s)$. Doing so will yield sums of formulas that appear in the right column of the transform table. 
+
+The same is true for purely imaginary eigenvalues $\lambda=\pm \beta i$. The solution is a sum
+of sine and cosine terms
+$$
+    x = c_1\cos\beta t+c_2\sin\beta t \implies X=\frac{As+B}{s^2+\beta^2}
+$$
+The transforms of these terms also appear in the table. However, other root types produce functions
+that our table does not yet include.
+
+\subsection{What We Cannot Solve Yet}
+
+\begin{wraptable}{r}{0.6\textwidth}
+\vspace{-\baselineskip}
+\renewcommand{\arraystretch}{1.4}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Root type}
+& \textbf{Example}
+& \shortstack{\textbf{Can we solve}\\\textbf{with Laplace?}}\\
+\hline
+Distinct real & $x''+3x'+2x=0$ & $\checkmark$\\
+\hline
+Purely imaginary & $x''+4x=0$ & $\checkmark$\\
+\hline
+Repeated real & $x''+4x'+4x=0$ & \\
+\hline
+Complex ($\alpha\ne0$) & $x''+2x'+5x=0$ & \\
+\hline
+\end{tabular}
+\end{wraptable}
+Now consider an equation with a repeated root:
+\[
+x''+4x'+4x=0.
+\]
+which has the general solution
+\[
+x(t)=c_1e^{-2t}+c_2te^{-2t}.
+\]
+We know the transforms of $t$ and $e^{-2t}$ separately,
+but our table does not yet include their product $te^{-2t}$. 
+Similarly, consider an equation with complex roots
+having a nonzero real part:
+\[
+x''+2x'+5x=0.
+\]
+The roots are $\lambda=-1\pm2i$, so we expect
+\[
+x(t)=e^{-t}\bigl(c_1\cos2t+c_2\sin2t\bigr).
+\]
+Our \textit{current table of transforms} does not have a formula for the transform of this solution. 
+
+\subsection{Goal}
+Notice that both the repeated roots and complex roots cases have a solution of the form 
+\[
+e^{at}f(t).
+\]
+This is the missing piece. The goal of today is to learn the \textit{exponential shift property} and solve the 2nd order DEs with repeated or complex roots.
+
+% ---------------------------------------
+
+\section{The Exponential Shift Property}
+
+\subsection{The Shift Property}
+Multiplying a function by an exponential produces a shift in the Laplace domain. 
+\begin{theorem}[Shift Property]
+If
+\[
+\mathcal L[f(t)]=F(s),
+\]
+then
+\[
+\mathcal L[e^{at}f(t)]=F(s-a).
+\]
+\end{theorem}
+This will be given as Formula 7 in the Laplace table.
+Although proofs are not usually required, the calculation below illustrates a technique you will use in the homework. We therefore present it as a worked example.
+
+\begin{example}[1]{
+Prove the formula 
+\[
+\mathcal L[e^{at}f(t)]=F(s-a).
+\]
+}
+    
+By definition 
+$$
+\mathcal L[e^{at}f(t)] = \int_0^\infty e^{at} f(t) e^{-st}\,dt.
+$$
+We can manipulate the exponent and create a new variable $s^* = s-a$:
+\begin{align*}
+    \mathcal L[e^{at}f(t)] &= \int_0^\infty e^{at} f(t) e^{-st}\,dt&&\com{by definition}\\
+    &= \int_0^\infty f(t) e^{-t(s-a)}\,dt\\
+    &= \int_0^\infty f(t) e^{-ts^*}\,dt &&\com{let $s^*=s-a$}\\
+    &=F(s^*) &&\com{by definition}
+\end{align*}
+Therefore, we have
+$$
+\mathcal L[e^{at}f(t)] = F(s^*) = F(s-a).
+$$
+\end{example}
+
+The shift property lets us build new transform formulas
+from ones already in our table. First, identify the
+\textit{base transform} $f(t)\to F(s)$.
+Then account for the exponential factor $e^{at}$ by
+replacing $s$ with $s-a$. Let's apply this to $te^{-2t}$, the term that appeared
+in our repeated-root solution.
+
+\begin{example}[2]{
+Compute the transform
+\[
+\mathcal L[te^{-2t}].
+\]
+}
+First, identify the \textit{base transform}. Since our function is $t$ times $e^{-2t}$ the base function is $f(t)=t$. Find the transform of $f(t)$ by itself 
+\[
+\mathcal{L}[f(t)]=\mathcal L[t]=\frac{1}{s^2} =: F(s).
+\]
+Since the function contains $e^{-2t}$, the shift is
+\[
+a=-2 \implies F(s-a)=F(s+2).
+\]
+Therefore
+\[
+\mathcal L[te^{-2t}]
+= F(s+2)=
+\boxed{
+\frac{1}{(s+2)^2}.
+}
+\]
+\end{example}
+
+% --------------
+
+
+
+\subsection{Using the Shift Property in Reverse}
+
+To solve differential equations, we use the shift
+property backward:
+\[
+\mathcal{L}^{-1}[F(s-a)]=e^{at}f(t).
+\]
+First, recognize the base function $F(s)$.
+Then identify the shift amount $a$. Then apply the formula by substitution.
+
+\begin{example}[3]{
+Compute the inverse Laplace transform of 
+\[
+X(s)=
+\frac{s-1}{(s-1)^2+9}.
+\]
+}
+The base transform function and its inverse are
+\[
+F(s)=\frac{s}{s^2+9},
+\qquad
+f(t)=\cos3t.
+\]
+Next, we observe by comparison that the original function can be written as
+\[
+F(s-1)=\frac{s-1}{(s-1)^2+9}.
+\]
+Thus, if $F(s-a)=F(s-1)$ then the shift is $a=1$. Finally, we apply the formula and substitute
+\[
+\mathcal L^{-1}
+\left[
+\frac{s-1}{(s-1)^2+9}
+\right] = e^{at}f(t)=
+\boxed{
+e^t\cos3t.
+}
+\]
+\end{example}
+
+In Example 3, the numerator and denominator contain
+the same shift $s-1$. When they do not match,
+we must rewrite the numerator before using the table.
+
+\begin{example}[4]{
+Compute the inverse Laplace transform of 
+\[
+X(s)=
+\frac{s}{(s-1)^2+1}
+\]
+}
+First, compare the function to formulas in the table to identify the base transform. We see that this resembles the cosine transformation, and so 
+$$
+    F(s)=\frac{s}{s^2+1}, \quad f(t)=\cos t.
+$$
+The denominator suggests a shift $a=1$, but the
+shifted cosine formula requires $s-1$ in the numerator.
+Write $s=(s-1)+1$ and split the function over addition:
+\begin{align*}
+\frac{s}{(s-1)^2+1}
+&=\frac{(s-1)+1}{(s-1)^2+1}\\
+&=\frac{s-1}{(s-1)^2+1} 
++\frac{1}{(s-1)^2+1}.
+\end{align*}
+Now apply the inverse transform to each term:
+\begin{align*}
+\mathcal{L}^{-1}\left[\frac{s}{(s-1)^2+1}\right]
+&=
+\underbrace{\mathcal{L}^{-1}
+\left[\frac{s-1}{(s-1)^2+1}\right]}_{\text{shifted cosine}}
++
+\underbrace{\mathcal{L}^{-1}
+\left[\frac{1}{(s-1)^2+1}\right]}_{\text{shifted sine}}\\
+&=e^t\cos t+e^t\sin t.
+\end{align*}
+Therefore,
+\[
+\boxed{x(t)=e^t(\cos t+\sin t).}
+\]
+\end{example}
+
+\textbf{Key idea:} match the numerator to the shift
+in the denominator. Any leftover constant produces
+a sine term.
+% --------------
+
+\section{Solving IVPs}
+
+\subsection{Procedure}
+Let's review the general procedure for solving IVPs:
+\begin{enumerate}
+    \item Transform the entire DE.
+    \item Solve for $X$. 
+    \item Apply the inverse transform.
+\end{enumerate}
+The third step is most difficult out of the three. The third step may require a combination of 
+\begin{itemize}
+    \item partial fraction decomposition,
+    \item shift formula, or
+    \item completing the square.
+\end{itemize}
+Here is an example of an IVP with repeated roots.
+
+\begin{example}[5]{
+Use Laplace transforms to solve
+\[
+x''+4x'+4x=0,\qquad x(0)=1,\quad x'(0)=0.
+\]
+}
+\textbf{Step 1: Transform the DE.}
+\begin{align*}
+\mathcal{L}[x'']+4\mathcal{L}[x']+4\mathcal{L}[x]&=0,\\
+(s^2X-sx(0)-x'(0))+4(sX-x(0))+4X&=0,\\
+(s^2X-s)+4sX-4+4X&=0.
+\end{align*}
+
+\textbf{Step 2: Solve for $X(s)$.}
+\[
+(s^2+4s+4)X=s+4
+\quad\implies\quad
+X(s)=\frac{s+4}{s^2+4s+4}.
+\]
+
+\textbf{Step 3: Apply the inverse transform.}
+The denominator factors as $(s+2)^2$, so
+\[
+X(s)=\frac{s+4}{(s+2)^2}.
+\]
+We must deal with the $s$ in the numerator. One option is to partial fraction decomposition
+$$
+X(s)=\frac{s+4}{(s+2)^2} = \frac{A}{s+2}+\frac{B}{(s+2)^2},
+$$
+but there is a simpler approach. You can add and subtract 2 in the numerator 
+$$
+X(s)=\frac{s+4}{(s+2)^2} = \frac{s+4+2-2}{(s+2)^2}=\frac{(s+2)+2}{(s+2)^2} = \frac{1}{s+2}+\frac{2}{(s+2)^2}
+$$
+The base function in $\frac{2}{(s+2)^2}$ is $F(t)=\frac{1}{s^2}$ which has the inverse $f(t)=t$. The shift is $a=-2$. Therefore, the inverse of the entire function is 
+\[
+x(t)=\mathcal{L}^{-1}\left[\frac{1}{s+2}+\frac{1}{(s+2)^2}\right]=
+\boxed{
+e^{-2t}+te^{-2t}.
+}
+\]
+\end{example}
+
+% ------
+
+We now consider an equation with complex roots. Its solution should contain
+an exponential multiplied by sine and cosine. 
+
+
+\begin{example}[6]{
+Use Laplace transforms to solve
+\[
+x''+2x'+5x=0,\qquad x(0)=1,\quad x'(0)=0.
+\]
+}
+\textbf{Step 1: Transform the DE.}
+\begin{align*}
+\mathcal{L}[x'']+2\mathcal{L}[x']+5\mathcal{L}[x]&=0,\\
+(s^2X-sx(0)-x'(0))+2(sX-x(0))+5X&=0,\\
+(s^2X-s)+2(sX-1)+5X&=0.
+\end{align*}
+
+\textbf{Step 2: Solve for $X(s)$.}
+\[
+(s^2+2s+5)X=s+2
+\quad\implies\quad
+X(s)=\frac{s+2}{s^2+2s+5}.
+\]
+
+\textbf{Step 3: Apply the inverse transform.}
+Even though $X$ is a rational function, partial fraction decomposition will not be effective here. The denominator $s^2+2s+5$ is \textit{irreducible}. 
+
+We want the denominator in the form $(s-a)^2+\beta^2$.
+Since $(s+1)^2=s^2+2s+1$, we add and subtract $1$:
+\begin{align*}
+s^2+2s+5
+&=(s^2+2s+1)+5-1\\
+&=(s+1)^2+4.
+\end{align*}
+This technique is called \textbf{completing the square}.
+Now
+\[
+X(s)=\frac{s+2}{(s+1)^2+4}.
+\]
+The denominator reveals the shift $a=-1$ and frequency
+$\beta=2$. To match the shifted cosine formula,
+write the numerator as $s+2=(s+1)+1$:
+\begin{align*}
+X(s)
+&=\frac{s+1}{(s+1)^2+4}
++\frac{1}{(s+1)^2+4}\\
+&=\frac{s+1}{(s+1)^2+2^2}
++\frac12\frac{2}{(s+1)^2+2^2}.
+\end{align*}
+
+\textbf{Step 4: Apply the inverse transform.}
+The first term gives a shifted cosine, and the second
+gives a shifted sine:
+\[
+x(t)=e^{-t}\cos2t+\frac12e^{-t}\sin2t.
+\]
+Therefore,
+\[
+\boxed{
+x(t)=e^{-t}\left(\cos2t+\frac12\sin2t\right).
+}
+\]
+The characteristic roots are $\lambda=-1\pm2i$,
+so this agrees with the expected form:
+an exponential decay multiplied by a wave.
+\end{example}
+
+% ------
+
+\subsection{Completing the Square}
+
+In Example 6, we rewrote the denominator to reveal
+the shift. In general, we complete the square by
+taking half the coefficient of $s$, squaring it,
+and adding and subtracting that quantity:
+\begin{align*}
+s^2+bs+c
+&=\left(s^2+bs+\frac{b^2}{4}\right)
++c-\frac{b^2}{4}\\
+&=\boxed{\left(s+\frac{b}{2}\right)^2
++c-\frac{b^2}{4}.}
+\end{align*}
+For an irreducible quadratic, $c-b^2/4>0$.
+This gives the form $(s-a)^2+\beta^2$ needed for
+the shifted sine and cosine formulas, where
+\[
+a=-\frac{b}{2},
+\qquad
+\beta=\sqrt{c-\frac{b^2}{4}}.
+\]
+If the coefficient of $s^2$ is not $1$, factor it
+out before completing the square.
+
+
+\begin{example}[7]{
+Find the inverse transform by completing the square
+\[
+\mathcal{L}^{-1}\left[\frac{7}{s^2+2s+50}\right].
+\]
+}
+The denominator is an irreducible quadratic. Complete
+the square to reveal the shift:
+\[
+s^2+2s+50=(s+1)^2+49.
+\]
+Thus,
+\[
+X(s)=\frac{7}{(s+1)^2+7^2}.
+\]
+The base transform is
+\[
+F(s)=\frac{7}{s^2+7^2},
+\qquad
+f(t)=\sin(7t).
+\]
+Since $X(s)=F(s+1)=F(s-(-1))$, the shift is $a=-1$.
+Therefore,
+\[
+\boxed{
+x(t)=\mathcal{L}^{-1}[X(s)]=e^{-t}\sin(7t).
+}
+\]
+\end{example}
+\section{Choosing the Right Formula}
+
+We can now solve homogeneous second-order IVPs with
+all four root types from our opening checklist.
+The roots of the characteristic equation
+\[
+a\lambda^2+b\lambda+c=0
+\]
+help us anticipate the form of $X(s)$ and choose
+the inverse transform.
+
+\subsection{Distinct Real Roots}
+For roots $\lambda_1\ne\lambda_2$, your transformed solution should be expressed in the form
+\[
+X(s)=\frac{A}{s-\lambda_1}+\frac{B}{s-\lambda_2}.
+\]
+This will require \textbf{partial fraction decomposition}. Each fraction produces an exponential:
+\[
+x(t)=Ae^{\lambda_1t}+Be^{\lambda_2t}.
+\]
+The shift formula is not required for this case.
+
+\subsection{Repeated Real Root}
+For a repeated root $\lambda$, your transformed solution should be expressed in the form
+\[
+X(s)=\frac{A}{s-\lambda}+\frac{B}{(s-\lambda)^2}.
+\]
+To get your solution in this form you may need \textbf{partial fraction decomposition}. Then you use the \textbf{shift formula} on the second term to get the solution 
+\[
+x(t)=Ae^{\lambda t}+Bte^{\lambda t}.
+\]
+
+\subsection{Complex Roots}
+For roots $\alpha\pm i\beta$, you should aim to write your transformed solution in the form
+\[
+X(s)=
+A\frac{s-\alpha}{(s-\alpha)^2+\beta^2}
++B\frac{\beta}{(s-\alpha)^2+\beta^2}.
+\]
+You will need to \textbf{complete the square}. Then apply the \textbf{shift formula} to obtain:
+\[
+x(t)=e^{\alpha t}\bigl(A\cos\beta t+B\sin\beta t\bigr).
+\]
+Purely imaginary roots are the special case $\alpha=0$,
+so no exponential shift is needed.
+
+
+
+\end{document}

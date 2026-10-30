@@ -1,0 +1,351 @@
+\documentclass[09pt,letterpaper]{article}
+\usepackage[lmargin=2.4in,rmargin=0.5in,tmargin=1.0in,bmargin=1.0in]{geometry}\usepackage{notes}
+\begin{document}
+
+
+
+\begin{center}
+\Large\textbf{1.4 – Linear Differential Equations: Integrating Factors}\\
+\normalsize (Section 1.4.1)
+\end{center}
+
+
+%-------------------------------------------------------------
+\section{Linear vs. Nonlinear}
+
+\subsection{Definitions}
+The most general first-order differential equation (DE) has the form
+\[
+x' = f(t,x),
+\]
+where $f(t,x)$ is some combination of $t$ and $x$. Some can be written in the form
+\[
+x' + p(t)x = q(t),
+\]
+where $p(t)$ and $q(t)$ are functions of $t$ only. This equation arrangement is called \textbf{normal form}. If a DE can be written in normal form, then it is said to be \textbf{linear}. Otherwise, the DE is \textbf{nonlinear}. 
+
+\subsection{Linear Examples}
+Each of the following equations is linear. Some equations require manipulation to be put into normal form. 
+
+\begin{center}
+\begin{tabular}{c c}
+\hline
+Equation & Normal Form\\
+\hline
+$x' + 3x = t$ & Already normal \\[1mm]
+$x' = tx$ & $x'-tx = 0$ \\[1mm]
+$(\sin t)x' = 3tx + \sqrt{t}$ & $x' - \frac{3t}{\sin t} x=\frac{\sqrt{t}}{\sin t}$ \\[1mm]
+$t^2x' - 4(t+1) = 0$ & $x' =\frac{4(t+1)}{t^2}$ \\[1mm]
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Nonlinear Examples}
+Each of the following equations is nonlinear because $x$ and $x'$ appear in a nonlinear combination.
+
+\begin{center}
+\begin{tabular}{c c}
+\hline
+Equation & Why Nonlinear? \\
+\hline
+$x' = x^2$ & $x$ is squared \\[1mm]
+$x' + \sin(x) = t$ &$\sin x$ is nonlinear\\[1mm]
+$x\,x' + t = 0$ & product of $x$ and $x'$ \\[1mm]
+$(x')^2 + x = e^t$ & $x'$ is squared \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Goal}
+The goal of this lecture is to learn a technique to solve 
+$$
+    x' + p(t)\,x=q(t)
+$$
+using \textit{integrating factors.}
+
+
+
+%------
+\section{Solving a Linear DE}
+
+\subsection{Linear Example}
+Suppose you want to solve
+$$
+x'+\frac2tx= 3e^{t^3}.
+$$
+The antiderivative technique does not work. Separation of variables does not work. Notice that it is a linear DE. Something interesting occurs when we multiply both sides by $\mu(t)=t^2$:
+\begin{align*}
+x'+\frac2tx &= 3e^{t^3}\\
+\mu(x'+\frac2t x) &= \mu(3e^{t^3}) && \com{mult. by $\mu$}\\
+t^2(x'+\frac2t)x &= 3t^2e^{t^3}\\
+t^2x'+2tx &= 3t^2e^{t^3}. &&\com{distribute}
+\end{align*}
+There is something special about the LHS that is related to the product rule for derivatives. 
+
+\subsection{Total Derivative}
+Let $f(t)=t^2$ and $x=x(t)$. Notice that the LHS of the equation is the result of a product rule for derivatives:
+\begin{align*}
+    \frac{d}{dt}(f(t)\,x(t)) &= fx'+f'x\\
+                             &= (t^2)(x)'+(t^2)'(x)\\
+                             &=t^2x' +2tx.
+\end{align*}
+The compact form of the product rule is called the \textbf{total derivative}:
+\begin{align*}
+t^2x'+2tx = \underbrace{(t^2x)'}_{\text{total derivative}}.
+\end{align*}
+There is a special advantage to rewriting it this way.
+
+\subsection{Advantage}
+The advantage of rewriting the LHS as the total derivative is that we can now integrate both sides with respect to $t$, and solve for $x$:
+\begin{align*}
+t^2x'+2tx &= 3t^2e^{t^3}\\
+(t^2x)' &= 3t^2e^{t^3} && \com{total deriv.}\\
+\int(t^2x)'dt &= \int 3t^2e^{t^3}dt&& \com{integrate}\\
+t^2x &= e^{t^3}+C\\
+x &= t^{-2}e^{t^3}+Ct^{-2} && \com{solve for $x$}
+\end{align*}
+We have solved a seemingly difficult DE simply by multiplying both sides by $t^2$. 
+
+\subsection{Summary}
+Let's summarize the steps: 
+\begin{align*}    
+x'+\frac2tx &= 3e^{t^3} \\
+t^2x'+2tx &= 3t^2e^{t^3} &&\com{1. Mult. by $t^2$}\\ 
+(t^2x)' &= 3t^2e^{t^3} &&\com{2. Total Deriv.}\\ 
+t^2x &= e^{t^3}+C &&\com{3. Integrate}\\ 
+x &= t^{-2}e^{t^3}+Ct^{-2} &&\com{4. Divide $t^2$}
+\end{align*}
+We have arrived at our solution. Multiplying by $\mu=t^2$ was the key to unraveling the entire problem. We call $\mu$ the \textit{integrating factor}. We will discuss how to find $\mu$ next.
+
+% ----------------------------------
+
+\section{General Theory}
+
+\subsection{Integrating Factor}
+
+To solve the linear DE
+$$
+    x' +p(t)x = q(t),
+$$
+multiply both sides of the equation by the \textbf{integrating factor} $\mu(t)$ so that the LHS becomes a total derivative:
+\begin{align*}
+    x' +p\,x &= q\\
+    \mu(x' +p\,x) &= \mu\,q          \\
+    \mu x' +\mu p\,x &= \mu\,q && \com{line 3}\\
+    \underbrace{(\mu \,x)'}_{\text{total deriv.}} &= \mu\,q && \com{line 4}
+\end{align*}
+By comparing the left sides of line 3 and line 4, we can derive an equation for $\mu$. That means $\mu$ must satisfy 
+\begin{align*}
+        \mu\, x' + \mu\,p\,x &= (\mu\,x)'\\
+        \mu\, x' + \mu\,p\,x &= \mu'x + \mu \,x'  && \com{product rule}\\
+        \cancel{\mu\, x'} + \mu\,p\,x &=\mu'x + \cancel{\mu \,x'} && \com{cancel common term}\\
+        \mu\,p\, \cancel{x} &=   \mu'\cancel{x} && \com{divide by $x$}
+\end{align*}
+Finally, we get the simplified equation for $\mu$
+$$
+    \mu' = \mu p.
+$$
+
+\subsection{Integrating Factor Formula}
+We may obtain the integrating factor $\mu(t)$ by solving
+$$
+\frac{d\mu}{dt} = \mu p.
+$$
+This can be done using separation of variables 
+\begin{align*}
+    \frac{d\mu}{\mu} &= p\,dt\\
+    \ln|\mu| &= \int p\,dt+C\\
+    \mu &= C e^{\int p\,dt}
+\end{align*}
+Although there is an arbitrary constant in $\mu$, it is not needed when solving linear DEs. This is because we multiply both sides of the equation by $\mu$. Therefore, the formula for the integrating factor is 
+$$
+    \mu(t) = e^{\int p(t)\,dt}.
+$$
+
+\subsection{How to Solve Linear DEs}
+Now let's go over the general procedure for solving linear DEs.
+\begin{enumerate}
+    \item Put the DE in normal form.
+    $$x' + p(t)\,x =q(t)$$
+    \item Calculate the integrating factor.
+    $$
+        \mu = e^{\int p(t) \,dt}
+    $$
+    \item Multiply both sides by $\mu$, and then rewrite the LHS as the total derivative.
+    \begin{align*}    
+    \mu (x' + p(t)\,x) &=\mu \,q(t) \\
+    (\mu\,x)' &=\mu \,q(t). 
+    \end{align*}
+    \item Integrate both sides. Be sure to add $C$.
+    \begin{align*}    
+        \mu\,x &= \int \mu \,q(t)\,dt +C 
+    \end{align*}
+    \item Divide both sides by $\mu$. 
+    $$
+        x = \frac{1}{\mu}\int \mu \,q(t)\,dt +C \frac{1}{\mu} 
+    $$
+    
+\end{enumerate}
+
+%-------------------------------------------------------------
+\section{Worked Examples}
+For the rest of the lecture, we'll work through complete examples.
+
+\begin{example}[1]{    
+Find the general solution to the DE using the method of integrating factors 
+\[
+x' = e^{-t}-2x.
+\]
+}
+\paragraph{Step 1: Put DE in normal form.}
+\begin{align*}
+x' &= e^{-t}-2x\\
+x' + 2x &= e^{-t}
+\end{align*}
+
+\paragraph{Step 2: Find the integrating factor.}
+
+\begin{align*}
+\mu &= e^{\int p \,dt}\\
+    &= e^{\int 2\,dt}\\
+    &= e^{2t}.
+\end{align*}
+
+\paragraph{Step 3: Multiply both sides by $\mu$ and rewrite the LHS.}
+\begin{align*}    
+e^{2t}(x' + 2x )&= e^{2t}e^{-t}\\
+(e^{2t}x)' &= e^{t}
+\end{align*}
+
+\paragraph{Step 4: Integrate both sides.}
+\begin{align*}    
+\int (e^{2t}x)'dt &= \int e^{t}\,dt\\
+e^{2t}x &=e^{t} + C.
+\end{align*}
+
+\paragraph{Step 5: Divide by $\mu$.}
+\begin{align*}
+    x &= \frac{e^t +C}{e^{2t}}\\
+      &= e^{-t} + Ce^{-2t}
+\end{align*}
+The general solution is
+\[
+\boxed{
+x(t) = e^{-t} + C e^{-2t}.
+}
+\]
+\end{example}
+
+% ---------
+The next example involves an initial condition. 
+
+\begin{example}[2]{
+Find the particular solution to the IVP
+\[
+\begin{dcases}
+tx' = x + t^3,\\
+x(1)=0.
+\end{dcases}
+\]
+}
+\paragraph{Step 1: Put DE in normal form.}
+\begin{align*}
+tx' &= x + t^3\\
+tx'-x &=  + t^3\\
+x'+\underbrace{\left(-\frac{1}{t}\right)}_{p(t)}x &=   t^2.
+\end{align*}
+
+\paragraph{Step 2: Find the integrating factor.}
+\begin{align*}
+    \mu &= e^{\int p\,dt}\\
+     &= e^{\int -\frac{1}{t}\,dt}\\
+     &= e^{-\ln t}=e^{\ln \frac{1}{t}} = \tfrac{1}{t}.
+\end{align*}
+Don't include $+C$ when calculating $\mu$. 
+
+\paragraph{Step 2: Multiply the equation by $\mu$, and rewrite the LHS.}
+\begin{align*}
+   \frac{1}{t}( x'-\frac{1}{t}x) &= \frac{1}{t}(t^2)          & \\
+\frac{d}{dt}\!\left(\frac{x}{t}\right) &=t
+\end{align*}
+
+\paragraph{Step 3: Integrate both sides.}
+\begin{align*}
+   \int \frac{d}{dt}\!\left(\frac{x}{t}\right)\,dt &=\int t\,dt\\
+\frac{x}{t} &=\frac{1}{2}t^2 + C.
+\end{align*}
+This is the step where you include $+C$.
+
+\paragraph{Step 4: Solve for $x(t)$.}
+\[
+x(t) = \frac{1}{2}t^3 + Ct.
+\]
+
+\paragraph{Step 5: Apply the initial condition.}
+Using $x(1)=0$,
+\[
+0 = \frac{1}{2} + C
+\quad\Rightarrow\quad
+C = -\frac{1}{2}.
+\]
+
+\[
+\boxed{x(t) = \frac{1}{2}(t^3 - t).}
+\]
+\end{example}
+
+
+% -----------------
+\begin{example}[3]{
+Find the general solution to the DE
+\[
+x' = 2e^{-t} - 3x.
+\]
+}
+\paragraph{Step 1: Put the DE in normal form.}
+\begin{align*}
+x' &= 2e^{-t} - 3x\\
+x' + \underbrace{(3)}_{p}x &= 2e^{-t}.
+\end{align*}
+\paragraph{Step 2: Compute the integrating factor.} 
+\[
+\mu(t)=e^{\int p(t)\,dt}=e^{\int 3\,dt}=e^{3t}.
+\]
+
+\paragraph{Step 3: Multiply the DE by $\mu(t)$, then rewrite the LHS as the total derivative.} 
+\begin{align*}
+    x' + 3x &= 2e^{-t}\\
+    e^{3t}\,(x' + 3x) &= 2e^{-t}\,e^{3t}\\
+(e^{3t}\,x)' &= 2e^{2t}.
+\end{align*}
+
+\paragraph{Step 4: Integrate both sides.}
+\begin{align*}
+\int (e^{3t}\,x)'\,dt &= \int 2e^{2t}\,dt\\
+e^{3t}\,x &= e^{2t}+C
+\end{align*}
+
+\paragraph{Step 5: Solve for $x$.}
+\begin{align*}    
+e^{3t}\,x &= e^{2t}+C\\
+x&=e^{-t}+Ce^{-3t}.
+\end{align*}
+The general solution is 
+$$
+\boxed{x(t)=e^{-t}+Ce^{-3t}.}
+$$
+\end{example}
+
+% -----------------
+\subsection{Warning About the Formula}
+There is a one-shot formula to solve 
+$$
+    x' + p(t) x=q(t).
+$$
+The general solution is 
+$$
+    x(t) = e^{-P(t)}\left( \int e^{P(t)} q(t)\,dt+C\right),
+$$
+where $P(t)$ is the antiderivative of $p(t)$. There is nothing new in this formula. It is the integrating factor method unrolled into one big equation. I have seen many students try to replicate this formula poorly on exams. I want you to know that this exists, but I do not recommend memorizing it. It is far better to understand the integrating factor method.
+
+\end{document}

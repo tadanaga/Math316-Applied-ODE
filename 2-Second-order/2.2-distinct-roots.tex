@@ -1,0 +1,627 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
+\usepackage{notes}
+\begin{document}
+
+
+\begin{center}
+\Large\textbf{2.2 - Characteristic Equation: Real, Distinct Roots}\\
+\normalsize (Section 2.2.1)
+\end{center}
+
+%-------------------------------------------------------------
+\section{Second-Order Problem}
+We are moving away from first-order differential equations for a while. Recall that the \textbf{order} of a DE is the order of the highest derivative that appears in the equation.
+
+
+\subsection{Linear Equation}
+A general second-order DE has the form
+\[
+F(x,x',x'',t)=0.
+\]
+This is a very broad class of equations and, in general, they can be difficult to solve. We will simplify the problem by making two assumptions: the DE is \textit{linear} and has \textit{constant coefficients}. Thus, we will focus on equations of the form
+\[
+ax''+bx'+cx=0,
+\]
+where $a,b,c$ are real constants and $a\neq0$.
+
+Since this is a second-order DE, we need two initial conditions to determine a unique solution:
+\[
+x(t_0)=x_0,
+\qquad
+x'(t_0)=v_0.
+\]
+This should be familiar from acceleration problems in calculus. If you were given the acceleration $x''(t)$ and wanted to determine the position $x(t)$, you needed both an initial position and an initial velocity.
+
+
+\subsection{Existence and Uniqueness}
+
+\begin{theorem}
+Consider the IVP
+\[
+\begin{dcases}
+ax''+bx'+cx=0,\\
+x(t_0)=x_0,\\
+x'(t_0)=v_0,
+\end{dcases}
+\]
+where $a,b,c$ are real constants and $a\neq0$. This IVP has a unique solution defined for all $t\in \mathbb{R}$.
+
+\end{theorem}
+
+This is a powerful result. It tells us three things:
+\begin{itemize}
+    \item a solution exists,
+    \item the solution is unique,
+    \item the solution is defined for all time.
+\end{itemize}
+
+Thus, for any choice of $t_0,x_0,$ and $v_0$, and any constants $a,b,c$ with $a\neq0$, the problem is well-defined and has exactly one solution. Our task is to figure out how to find it.
+
+\subsection{The Method}
+We have learned the antiderivative method, separation of variables, and integrating factors for first order differential equations. However, none of these techniques will help us solve the second order equation. We need a new method called the \textbf{characteristic equation method}. We guess a solution of the form 
+$$
+    x = e^{\lambda t}
+$$
+where $\lambda$ is an unknown value that is to be determined. The value of $\lambda$ is obtained by substituting the solution into the DE. This method works for linear DEs with constant coefficients.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Finding the General Solution}
+
+\subsection{A First-Order Equation}
+Before tackling second-order equations, let's first review the first-order equation
+\[
+x' = 3x.
+\]
+To find a solution, let's start with a guess function 
+\[
+x(t)=e^{\lambda t},
+\]
+where $\lambda$ is an unknown constant. This is a good guess because we know that $x'$ is a scalar multiple of $x$ and that the derivative of an exponential is an exponential.
+Substituting the guess into the DE gives:
+\[
+\lambda e^{\lambda t} = 3e^{\lambda t} \implies \lambda=3.
+\]
+This tells us that one solution to $x'=3x$ is
+\[
+x(t)=e^{3t}.
+\]
+By including an arbitrary constant $C$, we obtain the general solution
+\[
+x(t)=Ce^{3t}.
+\]
+This technique works for linear second-order equations.
+
+% --------------------
+
+\subsection{A Second-Order Equation}
+Now consider the second-order equation
+\[
+x'' - 5x' + 6x = 0.
+\]
+Again, we guess the solution
+\[
+x(t)=e^{\lambda t}, 
+\]
+where $\lambda$ is a constant to be determined. This should be reasonable since any order derivative of an exponential $\tfrac{d^nx}{dt^n}$ is still an exponential. The derivatives are
+\[
+x'=\lambda e^{\lambda t}, \qquad x''=\lambda^2 e^{\lambda t}.
+\]
+Substituting gives
+\begin{align*}
+(\lambda^2 e^{\lambda t}) - 5(\lambda e^{\lambda t}) + 6(e^{\lambda t})&=0\\
+e^{\lambda t}(\lambda^2 - 5\lambda + 6)&=0\\
+\lambda^2 - 5\lambda + 6 &= 0.
+\end{align*}
+Solving the quadratic gives
+\[
+\lambda=2, \quad \lambda=3.
+\]
+Each value of $\lambda$ produces a solution. Thus, we have found two
+solutions:
+\[
+x_1(t)=e^{2t},
+\qquad
+x_2(t)=e^{3t}.
+\]
+This might seem concerning. We began the lecture by stating that our
+second-order IVPs have a unique solution, but now we have found two
+different solutions to the same DE. What is happening? There is no contradiction. The differential equation can have many
+solutions. It is the \textit{initial value problem} that has a unique
+solution.
+
+% --------------------
+
+\subsection{General Solution Theorem}
+
+\begin{theorem}
+If $x_1(t)$ and $x_2(t)$ are two linearly independent solutions to
+\[
+ax''+bx'+cx=0,
+\]
+then the general solution is
+\[
+x(t)=C_1x_1(t)+C_2x_2(t),
+\]
+where $C_1$ and $C_2$ are arbitrary constants.
+\end{theorem}
+
+This theorem tells us that if we can find two independent solutions $x_1$ and $x_2$, then the general solution can be constructed by taking a linear combination of the two functions! For those who are curious, the proof can be found in the textbook.
+
+Two functions are \textbf{linearly independent} if neither is a constant multiple
+of the other. For example,
+\[
+x_1(t)=2t+4,
+\qquad
+x_2(t)=4t+8
+\]
+are dependent because
+\[
+x_2(t)=2x_1(t).
+\]
+On the other hand, the pair
+\[
+x_1(t)=e^{2t},
+\qquad
+x_2(t)=e^{3t}
+\]
+are linearly independent. If $x_1$ and $x_2$ are both solutions to $ax''+bx'+cx=0$ and they are independent then we say
+$$
+\mathcal{F}=\{x_1,\,x_2\}
+$$
+forms a \textbf{fundamental set}. Taking a linear combination of the functions in the fundamental set gives you the  general solution. 
+
+\begin{example}[1]{    
+Find the \textit{general solution} to 
+\[
+x'' - 5x' + 6x = 0.
+\]
+}
+Substitute $x=e^{\lambda t}$ into the DE and solve for $\lambda$:
+\begin{align*}
+    x'' - 5x' + 6x &= 0\\
+    e^{\lambda t}(\lambda^2 - 5\lambda + 6)&=0\\
+    \lambda^2 - 5\lambda + 6&=0\\
+    (\lambda-3)(\lambda-2)&=0
+\end{align*}
+We get two values
+\[
+\lambda=2, \quad \lambda=3.
+\]
+That means we get two solutions that happen to be independent 
+\[
+x_1(t)=e^{2t}, \quad \text{and} \quad x_2(t)=e^{3t}.
+\]
+Therefore, according to the theorem, the general solution is the combination
+\begin{align*}    
+\boxed{
+x(t)=C_1 e^{2t} + C_2 e^{3 t}.}
+\end{align*}
+\end{example}
+The constants $C_1$ and $C_2$ are arbitrary. If you are given two initial conditions, you would be able to solve for both $C_1$ and $C_2$. If you are asked for the \textit{general solution}, then this form of the function is sufficient.
+
+
+
+%-------------------------------------------------------------
+\section{Three Cases}
+Solving a quadratic equation $a\lambda^2+b\lambda +c=0$ falls into one of three cases. We must be able to distinguish each of the cases.
+
+\subsection{The Characteristic Equation}
+
+The initial guess function
+\[
+x(t)=e^{\lambda t}
+\]
+is called an \textbf{ansatz}. This is a German word for "approach" or "starting point". We substitute the ansatz into the general second-order equation
+\begin{align*}
+    ax''+bx'+cx &= 0,\\
+    a(\lambda^2e^{\lambda t})
+        +b(\lambda e^{\lambda t})
+        +c(e^{\lambda t}) &= 0,\\
+    e^{\lambda t}
+        \left(a\lambda^2+b\lambda+c\right) &= 0\\
+a\lambda^2+b\lambda+c&=0
+\end{align*}
+and end up with a quadratic that is called the \textbf{characteristic equation}. The roots of the characteristic equation are called the \textbf{eigenvalues}. The German word eigen means "own" or "proper"; think of eigenvalues as intrinsic numbers associated with the differential operator. 
+
+To save time, you should not substitute the ansatz $x=e^{\lambda t}$ into the DE. It is more efficient to copy the coefficients of the DE over to the characteristic equation:
+\[
+\boxed{
+ax''+bx'+cx=0
+\quad\implies\quad
+a\lambda^2+b\lambda+c=0.
+}
+\]
+For example, 
+$$
+3x''+2x'-9x=0
+\quad\implies\quad
+3\lambda^2+2\lambda-9=0.
+$$
+
+
+\subsection{The Discriminant}
+The roots of $a\lambda^2+b\lambda+c=0$ can be calculated using the \textbf{quadratic formula}: 
+$$
+\lambda_{1,2} = \frac{-b\pm \sqrt{b^2-4ac}}{2a}.
+$$
+Hence, the eigenvalues $\lambda$ can be categorized into one of three types
+\begin{enumerate}
+    \item Real, distinct roots 
+    \item Real, repeated roots
+    \item Complex roots
+\end{enumerate}
+The quantity inside the square root 
+$$D = b^2-4ac,$$ called the \textbf{discriminant}, dictates which of the three cases we have. 
+
+\subsection*{Case 1: Real, Distinct Roots}
+Consider the case where the discriminant is positive
+$$D=b^2-4ac>0.$$
+Let's call this \textbf{Case 1}. The quadratic formula gives us two distinct roots
+$$
+\lambda_1 = \frac{-b+\sqrt{D}}{2a}, \quad \lambda_2=\frac{-b-\sqrt{D}}{2a}.
+$$
+They must be distinct, i.e. $\lambda_1\neq\lambda_2$, because we assume $D\ne0$. In Case 1, the general solution to the 2nd order DE is
+\[
+x(t)=C_1 e^{\lambda_1 t}+C_2 e^{\lambda_2 t}.
+\]
+
+
+\subsection*{Case 2: Real, Repeated Roots}
+Next, consider the case where the discriminant is zero
+$$D=b^2-4ac=0.$$
+Let's call this \textbf{Case 2}. If $D=0$, the quadratic formula gives us a real, repeated root
+$$
+\lambda = \frac{-b\pm\sqrt{D}}{2a}=\frac{-b}{2a}.
+$$
+In Case 2, the general solution takes on a slightly different form. We will discuss this in the next lecture.
+
+
+\subsection*{Case 3: Complex Roots}
+Finally, consider the case where the discriminant is negative
+$$D=b^2-4ac<0.$$
+We call this \textbf{Case 3}. The major distinction in Case 3 is that $\sqrt{D}$ is undefined as a real number. But if we \textit{invent} a number
+$i= \sqrt{-1}$ then we may write an expression for the roots $\lambda_{1,2}$. 
+Numbers containing $i$ are called \textit{complex numbers}. In Case 3, we say that the quadratic equation has \textit{complex roots}. We will hold off on presenting the general solution until we cover complex numbers.
+
+Now that we have gone over the three cases, you should be able to identify the type of eigenvalues for any second order DE.
+
+\begin{example}[2]{
+For each of the following DEs, identify whether the eigenvalues are
+\textit{real and distinct}, \textit{real and repeated}, or \textit{complex}.\\
+\begin{enumerate}
+    \item[a)] $x''-5x'+6x=0$
+    \item[b)] $x''-6x'+9x=0$
+    \item[c)] $x''+4x'+13x=0$
+\end{enumerate}
+}
+
+\begin{enumerate}
+    \item[a)] The characteristic equation is  $\lambda^2-5\lambda+6=0$ which has coefficients
+    \[
+    a=1,\qquad b=-5,\qquad c=6.
+    \]
+    The discriminant is
+    \[
+    D=b^2-4ac
+    =(-5)^2-4(1)(6)
+    =25-24
+    =1>0.
+    \]
+    Therefore, the eigenvalues are \boxed{\textbf{real and distinct}}.\\
+
+    \item[b)] The characteristic equation is $\lambda^2-6\lambda+9=0$ which has coefficients
+    \[
+    a=1,\qquad b=-6,\qquad c=9.
+    \]
+    The discriminant is
+    \[
+    D=b^2-4ac
+    =(-6)^2-4(1)(9)
+    =36-36
+    =0.
+    \]
+    Therefore, the eigenvalues are \boxed{\textbf{real and repeated}}.\\
+
+    \item[c)] The characteristic equation is $\lambda^2+4\lambda+13=0$ which has coefficients
+    \[
+    a=1,\qquad b=4,\qquad c=13.
+    \]
+    The discriminant is
+    \[
+    D=b^2-4ac
+    =(4)^2-4(1)(13)
+    =16-52
+    =-36<0.
+    \]
+    Therefore, the eigenvalues are \boxed{\textbf{complex}}.
+\end{enumerate}
+
+\end{example}
+
+%-------------------------------------------------------------
+
+\section{Plotting the Solution}
+
+\subsection{Goal}
+
+The goal of this section is to sketch solutions in the case of real,
+distinct roots:
+\[
+x(t)=C_1e^{\lambda_1t}+C_2e^{\lambda_2t}.
+\]
+The signs of $\lambda_1$, $\lambda_2$, $C_1$, and $C_2$ will affect the
+shape of the graph. If either $C_1$ or $C_2$ is zero, then plotting the solution becomes
+much simpler. We will focus on the case where $C_1,C_2\neq0$.
+
+First, we must establish the convention that  
+\[
+\lambda_1>\lambda_2.
+\]
+The eigenvalues may be both negative, both positive, or have opposite
+signs. In every case, we will label the larger eigenvalue $\lambda_1$. This ordering makes it easier to determine which exponential controls
+the behavior of the solution. We use the
+guiding principle:
+\begin{quote}
+\textbf{$C_1e^{\lambda_1t}$ dominates as $t\to+\infty$, and}
+\textbf{$C_2e^{\lambda_2t}$ dominates as $t\to-\infty$.}
+\end{quote}
+This tells us how to sketch the solution regardless of the signs of the constants.
+
+%-------------------------------------------------------------
+\subsection{Dominant Behavior at $+\infty$}
+
+To understand the behavior as $t\to\infty$, we can factor out the
+$e^{\lambda_1t}$ term:
+\begin{align*}
+    x(t) &= C_1e^{\lambda_1t}+C_2e^{\lambda_2t}\\
+         &= e^{\lambda_1t}
+            \left(C_1+C_2\frac{e^{\lambda_2t}}{e^{\lambda_1t}}\right)\\
+         &= e^{\lambda_1t}
+            \left(C_1+C_2e^{(\lambda_2-\lambda_1)t}\right).
+\end{align*}
+Since $\lambda_1>\lambda_2$, we have $\lambda_2-\lambda_1<0$. Therefore,
+\[
+e^{(\lambda_2-\lambda_1)t}\to0
+\qquad\text{as }t\to\infty.
+\]
+Thus, assuming $C_1\neq0$, the solution behaves like
+\[
+x(t)\sim C_1e^{\lambda_1t}
+\qquad\text{as }t\to\infty.
+\]
+This simply means that we may "ignore" the $C_2$ term when calculating the limit at $\infty$:
+$$ 
+    \lim_{t\to \infty} C_1e^{\lambda_1t}+\underbrace{C_2e^{\lambda_2t}}_{\text{ignore}} = \lim_{t\to\infty} C_1 e^{\lambda_1 t}.
+$$
+
+%-------------------------------------------------------------
+\subsection{Dominant Behavior at $-\infty$}
+
+To understand the behavior as $t\to-\infty$, we can factor out the
+$e^{\lambda_2t}$ term:
+\begin{align*}
+    x(t) &= C_1e^{\lambda_1t}+C_2e^{\lambda_2t}\\
+         &= e^{\lambda_2t}
+            \left(C_1\frac{e^{\lambda_1t}}{e^{\lambda_2t}}+C_2\right)\\
+         &= e^{\lambda_2t}
+            \left(C_1e^{(\lambda_1-\lambda_2)t}+C_2\right).
+\end{align*}
+Since $\lambda_1>\lambda_2$, we have $\lambda_1-\lambda_2>0$. Therefore,
+\[
+e^{(\lambda_1-\lambda_2)t}\to0
+\qquad\text{as }t\to-\infty.
+\]
+Thus, assuming $C_2\neq0$, the solution behaves like
+\[
+x(t)\sim C_2e^{\lambda_2t}
+\qquad\text{as }t\to-\infty.
+\]
+This means that we may "ignore" the $C_1$ term when calculating the limit at $-\infty$:
+$$ 
+    \lim_{t\to-\infty} \underbrace{C_1e^{\lambda_1t}}_{\text{ignore}} + C_2 e^{\lambda_2t} = \lim_{t\to-\infty} C_2 e^{\lambda_2 t}.
+$$
+
+%-------------------------------------------------------------
+\subsection{Initial Conditions}
+
+The dominant terms tell us how the solution behaves as $t\to\pm\infty$, but we still need information about what happens
+near $t=0$. The initial conditions give us two important pieces of
+information:
+\[
+x(0)=x_0,
+\qquad
+x'(0)=v_0.
+\]
+The initial position tells us that the graph must pass through the point
+\[
+(0,x_0).
+\]
+The initial velocity tells us the slope of the graph at this point:
+\[
+x'(0)=v_0.
+\]
+Together, the initial conditions tell us where the solution starts and
+which direction it is moving. Combined with the dominant behavior as
+$t\to\pm\infty$, this gives us the main information needed to sketch
+the solution.
+
+%-------------------------------------------------------------
+
+
+\begin{example}[3]
+{Sketch the graph of
+\[
+x(t)=e^{3t}-e^{2t}.
+\]
+}
+
+We first make sure that the terms are ordered correctly. Since $\lambda_1=3>\lambda_2=2$, 
+$$
+x(t)=e^{3t}-e^{2t}.
+$$
+follows the established ordering.\\
+
+\textbf{Step 1: Behavior as $t\to\infty$.}
+
+Direct substitution of the limit gives
+\[
+\lim_{t\to\infty}\left(e^{3t}-e^{2t}\right)
+=\infty-\infty,
+\]
+which is an indeterminate form. However, we know that the 2nd term can be ignored in the limit at $\infty$. Thus 
+$$ 
+ \lim_{t\to\infty}x =    \lim_{t\to \infty} e^{3t}-\underbrace{e^{2t}}_{\text{ignore}} = \lim_{t\to\infty}  e^{3 t}=\infty.
+$$
+
+
+
+\textbf{Step 2: Behavior as $t\to-\infty$.}
+
+As $t\to-\infty$, the dominant term is the one corresponding to the
+smaller eigenvalue $\lambda_2=2$. Thus,
+$$ 
+ \lim_{t\to-\infty}x =    \lim_{t\to-\infty} \underbrace{e^{3t}}_{\text{ignore}} -e^{2t}= \lim_{t\to-\infty}  -e^{2 t}=0.
+$$
+Because of the negative coefficient, we should expect $x(t)$ to flatten out toward $x=0$ from below.\\
+
+\textbf{Step 3: Initial conditions.}
+
+The solution passes through
+\[
+x(0)=e^0-e^0=0,
+\]
+so the graph contains the point
+\[
+(0,0).
+\]
+
+Next,
+\[
+x'(t)=3e^{3t}-2e^{2t},
+\]
+so
+\[
+x'(0)=1.
+\]
+Thus, the graph has positive slope at $(0,0)$. Putting everything together, the solution approaches $0$ from below
+as $t\to-\infty$, eventually turns upward, passes through $(0,0)$ with
+positive slope, and grows to $\infty$ as $t\to\infty$.
+
+\begin{figure}[H]
+    \centering
+  \begin{tikzpicture}[scale=0.8]
+    % axes
+    \draw[->,thick] (-3,0) -- (3,0) node[right] {$t$};
+    \draw[->,thick] (0,-3) -- (0,3) node[above] {$x$};
+
+    % function: x(t)=e^{3t}-e^{2t}
+    \draw[thick,domain=-2.5:0.6,samples=200]
+        plot (\x,{exp(3*\x)-exp(2*\x)});
+
+    % initial point (0,0)
+    \fill (0,0) circle (2.2pt);
+    \node[above left] at (0,0) {$(0,0)$};
+
+    % tangent line at t=0
+    \draw[thick] (-0.65,-0.65) -- (0.65,0.65);
+    \node[right] at (0.3,-0.2) {\small slope $=1$};
+\end{tikzpicture}
+\caption{$x(t)=e^{3t}-e^{2t}$.}
+\end{figure}
+
+\end{example}
+
+Try to sketch the solution using the technique outlined in this section. 
+After you plot it by hand, use a graphing calculator to check your work. If your sketch looks different, make sure you understand where you made the mistake.
+
+%-------------------------------------------------------------
+
+% \section{Extra Topic: Sinh Function}
+
+
+% \section{Full Example}
+% \subsection*{Problem}
+% Consider the IVP: 
+% $$
+% \begin{dcases}
+%     x'' + 3x' + 2x=0\\
+%     x(0)=1\\
+%     x'(0)=-3
+% \end{dcases}.
+% $$
+% \begin{enumerate}
+%     \item Find the general solution.
+%     \item Find the solution satisfying the initial conditions.
+%     \item Sketch the solution.
+% \end{enumerate}
+% Before reading on, you should pause and try to solve this yourself.
+% \subsection*{General Solution}
+% Start by writing the characteristic equation for the DE: 
+% $$
+% x'' + 3x' + 2x=0 \quad\implies\quad \lambda^2  + 3\lambda+2=0
+% $$
+% We can use the quadratic formula or notice that this quadratic factors cleanly
+% $$
+% \lambda^2  + 3\lambda+2 = (\lambda+2)(\lambda+1) = 0 \implies \lambda_{1,2}=-1,-2.
+% $$
+% Therefore, the general solution is 
+% $$
+% \boxed{x(t) = C_1 e^{-t} + C_2e^{-2t}}.
+% $$
+% \subsection*{Initial Conditions}
+% The condition $x(0)=1$ tells us 
+% $
+% C_1 + C_2=1.
+% $
+% The condition $x'(0)=-3$ tells us
+% $
+% -C_1 -2C_2 = -3. 
+% $ 
+% We can solve them simultaneously by adding the equations:
+% $$
+% \begin{dcases}
+%     C_1+C_2=1\\
+%     -C_1-2C_2 = -3
+% \end{dcases} \implies 
+% -C_2 = -2 \implies C_2 = 2 \implies C_1 = -1.
+% $$
+% Therefore, the solution is 
+% $$
+% \boxed{x(t) = - e^{-t} + 2e^{-2t}}.
+% $$
+
+% \subsection*{Sketch}
+% As $t\rightarrow\infty$, $-e^{-t}$ dominates so $x(t)$ must go to zero. At $t\rightarrow -\infty$, $2e^{-2t}$ dominates so $x(t)$ must go to positive infinity. 
+% Plot the initial point $(0,1)$
+% \begin{enumerate}
+%     \item Plot the initial point $(0,1)$
+%     \item Draw a curve coming down to $(0,1)$ from positive infinity at slope of $x'(0)=-3$.   
+%     \item Continue the curve and let it approach 0. , draw a curve coming down to 
+% \end{enumerate}
+% You can use the derivative test to find the absolute minimum, but that is not necessary. 
+% \begin{figure}[H]
+%     \centering
+%     \begin{tikzpicture}[scale=0.9]
+%     % axes
+%     \draw[->,thick] (-3,0) -- (3,0) node[right] {$t$};
+%     \draw[->,thick] (0,-1) -- (0,3) node[above] {$x$};
+
+%     % function: x(t)=e^{3t}-e^{2t}
+%     \draw[thick,domain=-0.4:3,samples=200]
+%         plot (\x,{-exp(-\x)+2*exp(-2*\x)});
+
+%     % initial point (0,0)
+%     \fill (0,1) circle (2.2pt);
+%     \node[above right] at (0,1) {$(0,1)$};
+
+%     % small slope indicator triangle
+%     % tangent line at t=0: y = x (since slope = 1 and passes through origin)
+%     % \draw[thick] (-0.65,-0.65) -- (0.65,0.65);
+%     \node[left] at (0,1) {\small slope $=-3$};
+% \end{tikzpicture}\caption{ $x(t) = -e^{-t} + 2e^{-2t}$.}
+% \end{figure}
+
+
+\end{document}

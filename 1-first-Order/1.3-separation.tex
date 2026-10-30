@@ -1,0 +1,415 @@
+\documentclass[09pt,letterpaper]{article}
+\usepackage[lmargin=2.4in,rmargin=0.5in,tmargin=1.0in,bmargin=1.0in]{geometry}\usepackage{notes}
+\begin{document}
+
+
+\begin{center}
+\Large\textbf{1.3 – Separation of Variables}\\
+\normalsize (Sections 1.3.1)
+\end{center}
+
+%-------------------------------------------------------------
+\section{Separable Functions} 
+
+\subsection{Definition}
+A function of two variables $f(x,t)$ is \textbf{separable} if it can be written as a product of a function of $x$ and a function of $t$, i.e.
+\[
+f(x,t) = g(x)\,h(t).
+\]
+The function $g$ depends only on $x$. The function $h$ depends only on $t$.
+
+\subsection{Separable Examples}
+The following functions are separable:
+\begin{multicols}{2}
+\begin{itemize}
+    \item $f = x^2 \sin t $\\[0.5mm]
+    \item $f = \dfrac{2x}{t+1}$
+    \item $f = e^{x+t}=e^xe^t$\\[0.5mm]
+    \item $f = x+1$ 
+\end{itemize}
+\end{multicols}
+\subsection{Non-Separable Examples}
+The following functions are \emph{not} separable:
+\begin{multicols}{2}
+\begin{itemize}
+    \item $f = x + t$\\[0.5mm]
+    \item $f = (x+t)^2$
+    \item $f = \sin(xt)$\\[0.5mm]
+    \item $f = x +\sin(t)$
+\end{itemize}
+\end{multicols}
+
+\subsection{Goal}
+Today's objective is to learn how to study DEs of the form
+$$
+\frac{dx}{dt}=g(x)\,h(t).
+$$
+This is a DE where the RHS is a separable function. The technique is called \textit{separation of variables.}
+
+%-------------------------------------------------------------
+\section{Solving $x'=g(x)h(t)$}
+
+\subsection{Separation of Variables}
+\textbf{Separation of variables} (SOV) is a method to solve separable DEs of the form
+$$
+\frac{dx}{dt}= g(x)\,h(t).
+$$
+The idea is to rearrange the equation so that: all terms involving $x$ are on the left side, and all terms involving $t$ are on the right side. Here are four main steps: 
+\begin{enumerate}
+    \item Move all $x$ terms to the LHS.
+    \begin{align*}
+        \frac{dx}{dt} &= g(x)\,h(t)\\
+        \frac{1}{g(x)}\frac{dx}{dt} &= h(t) && \com{divide both sides by $g$}
+    \end{align*}
+    \item Move all $t$ terms to the RHS. Treat $\frac{dx}{dt}$ as a fraction.
+    \begin{align*}
+        \cancel{dt} \,\frac{1}{g(x)}\frac{dx}{\cancel{dt}} &= h(t) \,dt  && \com{mult. both sides by $dt$}\\
+        \frac{1}{g(x)}\,dx &= h(t) \,dt
+    \end{align*}
+\item Integrate both sides 
+\[
+\int \frac{1}{g(x)}\,dx = \int h(t)\,dt+C
+\]
+\item Algebraically solve for $x(t)$.\\[1mm] 
+\end{enumerate}
+
+\subsection{Disclaimer}
+The derivative $\frac{dx}{dt}$ is not a fraction. When using separation of variables, however, we formally treat it like one. In mathematics, this is called a formal calculation. Although the manipulation is not literally valid algebra, the method can be justified rigorously using the chain rule and the Fundamental Theorem of Calculus. For now, let's focus on how to utilize the SOV.
+
+% -----------
+\begin{example}[1]{
+Use SOV to find the general solution of 
+\[
+\frac{dx}{dt} = x\,t.
+\]
+}
+
+\textbf{Step 1}: Separate $x$ to the left, and $t$ to the right.
+\begin{align*}
+\frac{dx}{dt} &= x\,t\\    
+\frac{1}{x}\,dx &= t\,dt .
+\end{align*}
+
+
+\textbf{Step 2}: Integrate both sides.
+\begin{align*}   
+\int \frac{1}{x}\,dx &= \int t\,dt\\
+\ln|x| &= \frac{1}{2}t^2 + C .
+\end{align*}
+
+\textbf{Step 3}: Solve for $x$.
+Exponentiating both sides gives
+\begin{align*}    
+|x| &= e^{\frac12 t^2 + C} = e^C e^{\frac12 t^2} \\
+x &= \pm e^C e^{\frac12 t^2}.
+\end{align*}
+The value of $\pm e^{C}$ is arbitrary. To clean up the answer, we introduce a new constant $\tilde{C}=\pm e^C$ so we end up with
+\[
+\boxed{x(t) = \tilde{C} e^{\frac12 t^2}.}
+\]
+\end{example}
+
+\subsection{Why Separation Works}
+
+Now we prove why separation of variables works. The proof requires the \textbf{chain rule} and the \textbf{Fundamental Theorem of Calculus}. Recall that the chain rule says $\frac{d}{dt}p(x(t))=p'(x (t))\,x'(t)$. We can use this in reverse. Start by assuming $x(t)$ is a solution to the separable DE
+\begin{align*}
+    \frac{dx}{dt} &= g(x)\,h(t) \\
+    \frac{1}{g(x)}\frac{dx}{dt} &= h(t) &&\com{divide by $g$}\\
+    \frac{dp}{dx}\frac{dx}{dt} &= h(t) &&\com{let $\frac{dp}{dx}=1/g(x)$}\\
+    \frac{dp}{dt} &= h(t) &&\com{rewrite LHS with chain rule}\\
+    p &= \int h(t)\,dt+C &&\com{integrate both side w.r.t. $t$}\\
+    \int \frac{1}{g(x)}\,dx &= \int h(t)\,dt +C &&\com{rewrite $p(x)$ using FTC}
+\end{align*}
+The last line 
+\[
+\int \frac{1}{g(x)}\,dx = \int h(t)\,dt + C,
+\]
+is exactly the equation obtained when we formally treat $\frac{dx}{dt}$ as a fraction. This proves why separation of variables yields the correct answer, even if one of the steps involved is a heinous mathematical sin. If this was confusing, don't worry about it. You just need to know how to \textit{use} the technique.
+
+%-----------------------------------------------------
+\section{Rules for Arbitrary Constants}
+
+\subsection{Making New Constants}
+If $C$ is an arbitrary constant, then the following expressions
+\[
+2C, \quad -C, \quad e^C, \quad C+5, 
+\]
+are also arbitrary. After all, anything multiplied by a constant is still anything. In practice, we often \textbf{create new constants} (e.g. $\tilde{C}=2C$) to simplify expressions. Creating new constants should never affect the solution to a DE.
+
+\subsection{Demonstration}
+Consider the IVP
+$$
+\begin{dcases}
+    \frac{dx}{dt}=\frac{t}{x}\\
+    x(0)= 2
+\end{dcases}.
+$$
+We can solve this two ways: the standard way and one renaming the constant.
+\begin{align*}
+    && \frac{dx}{dt}&=\frac{t}{x}  && \\
+    &&\int xdx&=\int tdt &&\\
+    &&\frac{1}{2}x^2&=\frac{1}{2}t^2+C &&
+\end{align*}
+
+\begin{align*}
+    &\text{1. standard way} && &  &\text{2. rename constant} \\
+    x^2&=t^2+2C && &  x^2&=t^2+\tilde{C} \\
+    x&=\pm\sqrt{t^2+2C} && &  x&=\pm\sqrt{t^2+\tilde{C}} \\
+    x(0)&=+\sqrt{2C}=2 && &  x(0)&=+\sqrt{\tilde{C}}=2 \\
+    C&=2 && &  \tilde{C}&=4 \\
+    && x&=\sqrt{t^2+4}  && 
+\end{align*}
+Both methods yield the same solution. This should be expected because there can only be one particular solution. 
+
+
+\subsection{Absorbing Constants}
+If $C$ is arbitrary, then we may create a new constant $\tilde{C}=2C$. \textbf{Absorbing a constant} is the process of creating a new constant and then renaming it back to its original name. For example, 
+$$
+    2C \rightarrow \tilde{C} \rightarrow C.
+$$
+This is technically an abuse of notation. Nevertheless, mathematicians do this all the time. It's very cumbersome to write $C$, $\tilde{C}$, $\tilde{\tilde{C}}$, etc. When we apply the initial condition, we get the same answer in the end anyway. Here is a separation example with absorbing constants.
+\begin{example}[2]{
+
+Find the general solution to 
+$$
+\frac{dx}{dt} = \frac{2x}{t+1}.
+$$
+}
+We will solve it step while absorbing constants along the way 
+\begin{align*}
+    \frac{dx}{dt} &= \frac{2x}{t+1}\\
+    \frac{dx}{2x} &= \frac{dt}{t+1} &&\com{separate variables}\\
+    \int\frac{dx}{2x} &= \int \frac{dt}{t+1}\\
+    \frac{1}{2}\ln |x| &= \ln |t+1|+C \\
+     \ln |x| &= 2\ln |t+1|+C &&\com{C absorbs the 2}\\
+      |x|  &= e^{2\ln |t+1|+C } &&\com{exponentiate}\\
+      |x|  &= Ce^{2\ln |t+1|} &&\com{C absorbs the e}\\
+      x  &= Ce^{2\ln |t+1|} &&\com{C absorbs the $\pm$}\\
+      x  &= Ce^{\ln |t+1|^2} &&\com{use property of logs}\\
+    x  &= C (t+1)^2  &&\com{log is canceled out by $e$}
+\end{align*}
+In its most simplified form, the solution is 
+$$
+\boxed{
+x(t) = C (t+1)^2.
+}
+$$
+
+\end{example}
+
+\subsection{Rules for Absorbing Constants}
+Absorbing constants is very convenient for solving DEs, but it can lead to incorrect answers if you do not abide by a few rules. To my knowledge, there are only three rules that you must know:\\[1mm] 
+\begin{enumerate}
+    \item $C$ can absorb constants if $C$ remains a constant.
+    \begin{itemize}
+        \item $-2C \rightarrow C \quad \checkmark$ 
+        \item $e^C \rightarrow  C \quad \checkmark$
+        \item $\pm C \to C \quad \checkmark $
+    \end{itemize}
+    \item $C$ cannot absorb variables. 
+    \begin{itemize}
+        \item $Ce^t \to C \quad $ WRONG 
+        \item $Cx\to C\quad$ WRONG 
+    \end{itemize}
+    \item All instances of $C$ must absorb the same constant.
+    \begin{itemize}
+        \item $\frac{2C}{1+4C} \to \frac{C}{1+C}$ \quad WRONG
+        \item $\frac{2C}{1+4C} \to \frac{C}{1+2C}$ \quad \checkmark
+    \end{itemize}
+\end{enumerate}
+
+%-----------------------------------------------------
+\section{Division by Zero}
+
+\subsection{Issue with SOV}
+When using separation of variables, the first step is to divide by $g(x)$:
+\[
+\frac{dx}{dt}=g(x)h(t)
+\qquad\longrightarrow\qquad
+\frac{1}{g(x)}\,dx=h(t)\,dt.
+\]
+However, this step assumes that $g(x)\neq 0$. Is this a safe assumption? Consider the DE
+$$
+\frac{dx}{dt} = 1+x^2.
+$$
+Here, $g(x)=1+x^2$ is never zero, so SOV works just fine. Now consider
+$$
+\frac{dx}{dt} = x^2.
+$$
+The RHS is zero when $x=0$. There is \textit{nothing inherently wrong} with $x=0$. It only becomes an issue when we try to use SOV. Here is the main problem: \textbf{using SOV potentially destroys solutions for which $g(x)=0$.} Let's try to solve this DE with SOV anyway.
+
+\begin{example}[3]{
+Find the general solution to
+$$
+\frac{dx}{dt} = x^2.
+$$
+When using separation of variables, assume $x\ne0$.
+}
+\begin{align*}
+    \frac{dx}{dt} &= x^2\\
+    \frac{dx}{x^2} &= dt &&\com{allowed because $x\ne0$}\\
+    \int x^{-2}\,dx &= \int dt &&\com{integrate}\\
+    -\frac{1}{x} &= t+C \\
+    \frac{1}{x} &= -t-C \\
+    \frac{1}{x} &= C-t &&\com{$C$ absorbs the negative sign}\\
+    x &= \frac{1}{C-t} &&\com{solve for $x$}
+\end{align*}
+Thus, separation of variables gives the family
+$$
+\boxed{x(t)=\frac{1}{C-t}, \quad x\ne0.}
+$$
+\end{example}
+
+\subsection{Problematic IC}
+Now let's include an IC. Consider the IVP
+$$
+\begin{dcases}
+x' =x^2\\
+x(1)=0
+\end{dcases}. 
+$$
+If we apply this IC to the general solution, then we get 
+$$
+x(1) = \frac{1}{C-1}\equiv 0\implies ???
+$$
+We are unable to get a value of $C$. The general solution obtained in the last example assumes $x\ne0$, but the IC demands that the solution takes on the value $x=0$. But, this doesn't mean that the IVP is unsolvable. In fact, the solution is extremely simple.
+
+\subsection{Constant Solutions}
+There is a simple solution to this headache. This issue with the SOV only arises when $g(x)=0$. Notice that if $g(x)=0$, then the DE simplifies to 
+$$
+\frac{dx}{dt}=g(x)h(t)=0.
+$$
+The only function satisfying $x'=0$ is a \textit{constant}. Therefore, the solution is simply
+$$
+    x = x_0.
+$$
+The solution to the IVP
+$$
+\begin{dcases}
+x' =x^2\\
+x(1)=0
+\end{dcases} 
+$$
+is $x=0$. You can verify this by substitution.
+
+%-----------------------------------------------------
+\section{Partial Fraction Decomposition}
+\textit{Partial fraction decomposition} (PFD) is a technique that allows us to rewrite fractions as a sum of simpler fractions. It is a necessary technique for some integrals.
+
+\subsection{Rational Function} 
+A \textbf{rational function} is a polynomial divided by a higher order polynomial such as 
+$$
+f(x)=\frac{1}{x(3-x)} \quad \left(\frac{\text{zeroth order in } x}{\text{second order in }x}\right). 
+$$
+Rational functions may be difficult to integrate in their original form, but they can be rewritten as a sum of functions. \textbf{Partial fraction decomposition} (PFD) is a technique that decomposes rational functions into a sum of simpler rational functions. Here is an example.
+
+
+\begin{example}[4]{
+
+Calculate the PFD of 
+$$
+\frac{6}{x(3-x)}.
+$$
+}
+
+\textbf{Step A}: Write the decomposed functions with linear factors in the denominator and undetermined coefficients in the numerator: 
+$$
+\frac{6}{x(3-x)} = \frac{A}{x} + \frac{B}{3-x}.
+$$
+\textbf{Step B:} Multiply both sides by the original denominator: 
+\begin{align*}
+    (x(3-x))\frac{6}{x(3-x)} &= \left(\frac{A}{x} + \frac{B}{3-x}\right) (x(3-x))\\
+    6 &= A(3-x) + B(x)
+\end{align*}
+\textbf{Step C:} Group both sides into factors of orders of $x$.
+\begin{align*}
+    6 &= A(3-x) + Bx\\
+    (0)x + (6) &=  (-A+B)x + (3A)
+\end{align*}
+\textbf{Step D:} Equate factors on either side of the equation according to the orders of $x$ and then solve the linear system:
+$$
+\begin{dcases}
+    6A=3\\
+    -A+B=0\\
+\end{dcases} \implies  A=2, B=2.
+$$
+Thus, the PFD is 
+$$
+\boxed{
+\frac{6}{x(3-x)} = \frac{2}{x} + \frac{2}{3-x}
+}
+$$
+\end{example}
+
+The next example shows how to solve an IVP which will require PFD.
+
+\begin{example}[5]{
+
+Find the particular solution to the IVP
+\[
+\begin{dcases}
+\displaystyle \frac{dx}{dt} = \frac{1}{6}x(3-x),\\
+x(0)=6.
+\end{dcases}
+\]
+}
+\textbf{Step 1: Separate variables.}
+\[
+\frac{6}{x(3-x)}\,dx = dt.
+\]
+\textbf{Step 2: Integrate both sides.} 
+\begin{align*}
+\int\frac{6}{x(3-x)}\,dx &= \int dt\\
+\int \left( \frac{2}{x} + \frac{2}{3-x} \right)dx &= \int dt && \com{PDF}\\
+2\ln|x| - 2\ln|3-x| &= t + C && \com{Integrate}
+\end{align*}
+\textbf{Step 4: Solve for $x$.} 
+\begin{align*}
+    \frac{1}{2}\left(2\ln|x| - 2\ln|3-x|\right) &= \tfrac12\left(t + C\right)\\
+    \ln|x| - \ln|3-x| &= \frac{1}{2}t + C &&\com{$C$ absorbs the $\tfrac12$}\\
+    \ln\left|\frac{x}{3-x}\right| &= \tfrac12t + C && \com{$\ln(a)-\ln(b)=\ln(\frac{a}{b})$}\\
+    \left|\frac{x}{3-x}\right| &= Ce^{\frac12t}  &&\com{$C$ absorbs the $e$}\\
+    \frac{x}{3-x} &= Ce^{\frac12t}  &&\com{C absorbs the $\pm$}\\
+    x  &= (3-x)Ce^{\frac12t} \\
+    x +xCe^{\frac12t} &= 3Ce^{\frac12t}\\
+    x  &= \frac{3Ce^{\frac12t}}{1+Ce^{\frac12t}}
+\end{align*}
+Be careful about letting $C$ absorb the 3 in the numerator. Since $C$ appears in two locations, you cannot absorb the constant.\\ 
+\textbf{Step 5: Apply the initial condition.}
+\[
+6 \equiv x(0)= \frac{3C}{1+C} \implies  6+6C=3C \implies C=-2.
+\]
+\[
+\boxed{
+x(t) = \frac{-6 e^{\frac12t}}{1-2e^{\frac{1}{2}t}}.
+}
+\]
+\end{example}
+
+
+% \begin{example}[3]{
+% Find the general solution to
+% $$
+% \frac{dx}{dt} = x+1.
+% $$
+% When using separation of variables, we must assume $x\ne-1$. 
+% }
+% \begin{align*}
+%     \frac{dx}{dt} &= x+1\\
+%     \frac{dx}{x+1} &= dt \qquad&(\text{allowed because }x\ne-1)\\
+%     \int\frac{dx}{x+1} &= \int dt \qquad &(\text{integrate})\\
+%     \ln |x+1| &= t+C  \qquad &(C\text{ appears here})\\
+%       |x+1|  &= e^{t+C }=e^te^C \qquad &(\text{exponentiate})\\
+%       |x+1|  &= Ce^t \qquad&(e^C\text{ becomes }C)\\
+%       x+1  &= \pm Ce^t \qquad&(\text{remove abs. value})\\
+%       x+1  &= Ce^{t} \qquad&(\text{C absorbs the } \pm)\\
+%      x  &= C e^t-1  \qquad&(\text{solve for } x)
+% \end{align*}
+% The general solution in its most simplified form is
+% $$
+% \boxed{x(t) =Ce^{t} -1.}
+% $$
+% This can be verified quickly by substituting it into the DE.
+% \end{example}
+
+\end{document}

@@ -1,0 +1,512 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
+\usepackage{notes}
+\usetikzlibrary{decorations.pathmorphing}
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{2.4 -- Characteristic Equation: Complex Roots}\\
+\normalsize (Section 2.2.3)
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theory of Complex Solutions}
+
+\subsection{Complex Eigenvalues}
+
+Last lecture, we found the eigenvalues of
+\[
+x''-2x'+5x=0.
+\]
+The characteristic equation gave us two complex eigenvalues
+\[
+\lambda_1=1+2i,\quad \lambda_2=1-2i.
+\]
+We can write them both compactly using the $\pm$ symbol
+$$
+\lambda = 1\pm 2i.
+$$
+The complex eigenvalues always come in pairs in the form
+\[
+\lambda=\alpha\pm i\beta,
+\qquad \alpha\in\mathbb{R},\quad \beta>0.
+\]
+Just as before, each eigenvalue gives an exponential solution.
+The next step is to use these complex solutions to obtain
+real solutions.
+
+%-------------------------------------------------------------
+\subsection{Using Euler's Formula}
+
+The eigenvalue $\lambda=1+2i$ gives the complex solution
+\[
+z(t)=e^{(1+2i)t}.
+\]
+Recall Euler's formula from the last lecture:
+\[
+e^{it}=\cos t+i\sin t.
+\]
+Use it to separate the real and imaginary parts:
+\begin{align*}
+z(t)
+&=e^t e^{2it}\\
+&=e^t(\cos2t+i\sin2t)\\
+&=\underbrace{e^t\cos2t}_{\text{real}}
++i\underbrace{e^t\sin2t}_{\text{imaginary}}.
+\end{align*}
+These two real functions turn out to be solutions to our DE.
+The next theorem explains why.
+%-------------------------------------------------------------
+\subsection{Theorem about Complex Solutions}
+
+\begin{theorem}
+Suppose $z(t)=f(t)+ig(t)$ is a complex solution to
+\[
+az''+bz'+cz=0,
+\]
+where $a,b,c$ are real constants and $a\ne0$, and $f,g$ are
+real-valued functions. Then $f(t)$ and $g(t)$ are also
+solutions to the same DE.
+\end{theorem}
+
+\begin{proof}
+Substitute $z=f+ig$ into the DE:
+\begin{align*}
+0
+&=az''+bz'+cz\\
+&=a(f''+ig'')+b(f'+ig')+c(f+ig)\\
+&=(af''+bf'+cf)+i(ag''+bg'+cg).
+\end{align*}
+Two complex numbers are equal when their real parts match
+and their imaginary parts match. Comparing with $0=0+0i$ gives
+\[
+af''+bf'+cf=0,
+\qquad
+ag''+bg'+cg=0.
+\]
+Thus, $f$ and $g$ each satisfy the original DE.
+\end{proof}
+
+This theorem gives us two real solutions from a single complex
+solution. In practice, we choose one complex eigenvalue, write
+$e^{\lambda t}$ using Euler's formula, and take its real and
+imaginary parts. For the complex roots considered here, these
+two functions are linearly independent, so their linear
+combination gives the real general solution. We are now ready for an example.
+
+%-------------------------------------------------------------
+\begin{example}[1]
+{
+Find the real general solution to
+\[
+x''-2x'+5x=0.
+\]
+}
+We already found the eigenvalues $\lambda=1\pm2i$.
+Using $\lambda=1+2i$, we obtain the complex solution
+\[
+z(t)=e^{(1+2i)t}.
+\]
+Apply Euler's formula to identify its real and imaginary parts:
+\begin{align*}
+z(t)
+&=e^t e^{2it}\\
+&=e^t(\cos2t+i\sin2t)\\
+&=\underbrace{e^t\cos2t}_{\text{real}}
++i\underbrace{e^t\sin2t}_{\text{imaginary}}.
+\end{align*}
+By the theorem, the functions
+\[
+x_1(t)=e^t\cos2t,
+\qquad
+x_2(t)=e^t\sin2t
+\]
+are real solutions. They are linearly independent, so the real
+general solution is
+\[
+\boxed{
+x(t)=C_1e^t\cos2t+C_2e^t\sin2t.
+}
+\]
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{IVPs}
+
+\subsection{General Solution Formula}
+
+Suppose the characteristic equation
+\[
+a\lambda^2+b\lambda+c=0
+\]
+has a negative discriminant $D=b^2-4ac<0$. Its roots have the form
+\[
+\lambda=\alpha\pm i\beta,
+\qquad \beta>0.
+\]
+Euler's formula gives
+\[
+e^{(\alpha+i\beta)t}
+=e^{\alpha t}\cos(\beta t)
++i e^{\alpha t}\sin(\beta t).
+\]
+The real and imaginary parts form two linearly independent
+solutions. Therefore, the real general solution is
+\[
+\boxed{
+x(t)=e^{\alpha t}
+\left(C_1\cos(\beta t)+C_2\sin(\beta t)\right).
+}
+\]
+You should commit this formula to memory. Identify $\alpha$
+and $\beta$ from the eigenvalues, write the general solution,
+and then use the initial conditions to find $C_1$ and $C_2$. If you happen to forget the general solution formula, you can use 
+Euler's formula to derive the equation.
+
+%-------------------------------------------------------------
+\begin{example}[2]
+{
+Find the solution to the IVP
+\[
+\begin{dcases}
+x''+2x'+10x=0,\\
+x(0)=1,\\
+x'(0)=5.
+\end{dcases}
+\]
+}
+The characteristic equation is
+\[
+\lambda^2+2\lambda+10=0.
+\]
+We could use the quadratic formula, but let's \textbf{complete the square} instead:
+\begin{align*}
+\lambda^2+2\lambda&=-10 &&\com{move 10 to RHS}\\
+\lambda^2+2\lambda+1&=-9 &&\com{add $(2/2)^2$ to both sides}\\
+(\lambda+1)^2&=-9  &&\com{rewrite LHS as the square}\\
+\lambda+1&=\pm3i &&\com{square root both sides}\\
+\lambda&=-1\pm3i &&\com{subtract 1}.
+\end{align*}
+Thus, $\alpha=-1$ and $\beta=3$. The general solution is
+\[
+x(t)=e^{-t}(C_1\cos3t+C_2\sin3t).
+\]
+Apply the first initial condition:
+\[
+x(0)=e^0(C_1\cos0+C_2\sin0)=C_1\equiv1.
+\]
+With $C_1=1$, differentiate using the product rule:
+\begin{align*}
+x'(t)
+&=-e^{-t}(\cos3t+C_2\sin3t)\\
+&\qquad+e^{-t}(-3\sin3t+3C_2\cos3t).
+\end{align*}
+The second initial condition gives
+\[
+x'(0)=-1+3C_2\equiv5
+\quad\Rightarrow\quad C_2=2.
+\]
+Therefore,
+\[
+\boxed{
+x(t)=e^{-t}(\cos3t+2\sin3t).
+}
+\]
+\end{example}
+
+% ------------------
+
+\subsection{Solution to IVP}
+Suppose you are given the solution of the form 
+$$
+x(t)=e^{\alpha t}
+\left(C_1\cos(\beta t)+C_2\sin(\beta t)\right).
+$$
+Can we work in reverse to find the differential equation? This solution is derived from a characteristic equation with complex eigenvalues
+$$
+\lambda=\alpha \pm i\beta.
+$$
+That means we can recover the quadratic equation by doing the steps of completing the square but in reverse. Let's do an example.
+
+\begin{example}[3]
+{
+Find a differential equation that has the solution 
+$$
+x = e^{-2t}(3\cos(4t)-\sin(4t)).
+$$
+}
+First, we identify the eigenvalues. Since $\alpha = -2$ and $\beta=4$, the eigenvalues are 
+$$
+\lambda = -2\pm 4i.
+$$
+Then we perform the steps of completing the square in reverse 
+\begin{align*}
+    \lambda &= -2\pm 4i \\
+    \lambda +2 &= \pm 4i && \com{Add 2}\\
+    (\lambda +2)^2 &= (\pm 4)^2(i)^2 && \com{Square both sides}\\
+    \lambda^2 +4\lambda + 4 &= -16   && \com{Simplify}\\
+    \lambda^2 +4\lambda + 20 &= 0 && \com{Add 16}
+\end{align*}
+Finally, we take the coefficients of the characteristics $(a=1,b=4,c=20)$ and write the differential equation
+$$
+\boxed{
+    x'' +4x'+20x=0.
+}
+$$
+\end{example}
+There are other ways to find the characteristic equation. For example, you may write
+\[
+(\lambda-(-2+4i))(\lambda-(-2-4i))=0.
+\]
+and expand it. It will eventually give you same equation $\lambda^2+4\lambda+20=0$. You can also use the quadratic formula in reverse. Alternatively, choose $a=1$ and compare
+\[
+\lambda=-\frac{b}{2}\pm\frac{\sqrt{4c-b^2}}{2}i
+\]
+with $\lambda=-2\pm4i$. Then
+\[
+-\frac{b}{2}=-2 \implies b=4,
+\qquad
+\frac{\sqrt{4c-16}}{2}=4 \implies c=20.
+\]
+You have three options to choose from. Choose whichever you feel comfortable with.
+
+% ---------------------------------
+
+\subsection{Shape of the Solution}
+
+Let's briefly discuss how the solution appears when plotted on the $tx$-plane.
+A complex-root solution is the product of an exponential and a wave:
+\[
+x(t)=
+\underbrace{e^{\alpha t}}_{\text{exponential}}
+\underbrace{(C_1\cos\beta t+C_2\sin\beta t)}_{\text{wave}}.
+\]
+The parameter $\beta>0$ represents the frequency which controls how fast the wave oscillates.
+The parameter $\alpha$ determines its amplitude: growing when
+$\alpha>0$, decaying when $\alpha<0$, and remaining constant when $\alpha=0$. The sign of $\alpha$ determines the three main differences in the behavior of the solution. The three cases are shown in the figure below.
+
+\begin{figure}[H]
+\centering
+
+% Growing wave
+\begin{subfigure}[t]{0.32\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+    \draw[->,thick] (-0.3,0) -- (12.2,0);
+    \draw[->,thick] (0,-3.5) -- (0,3.5);
+
+    \draw[thick,domain=0:11.8,samples=350]
+        plot (\x,{exp(0.1*\x)*cos(60*\x)});
+    \draw[dashed,domain=0:11.8,samples=150]
+        plot (\x,{exp(0.1*\x)});
+    \draw[dashed,domain=0:11.8,samples=150]
+        plot (\x,{-exp(0.1*\x)});
+\end{tikzpicture}%
+}
+\caption{Growing wave\\$\alpha>0$.}
+\end{subfigure}
+\hfill
+% Decaying wave
+\begin{subfigure}[t]{0.32\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+    \draw[->,thick] (-0.3,0) -- (12.2,0);
+    \draw[->,thick] (0,-3.5) -- (0,3.5);
+
+    \draw[thick,domain=0:11.8,samples=350]
+        plot (\x,{2*exp(-0.1*\x)*cos(60*\x)});
+    \draw[dashed,domain=0:11.8,samples=150]
+        plot (\x,{2*exp(-0.1*\x)});
+    \draw[dashed,domain=0:11.8,samples=150]
+        plot (\x,{-2*exp(-0.1*\x)});
+\end{tikzpicture}%
+}
+\caption{Decaying wave\\$\alpha<0$.}
+\end{subfigure}
+\hfill
+% Pure oscillation
+\begin{subfigure}[t]{0.32\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+    \draw[->,thick] (-0.3,0) -- (12.2,0);
+    \draw[->,thick] (0,-3.5) -- (0,3.5);
+
+    \draw[thick,domain=0:11.8,samples=350]
+        plot (\x,{2*cos(60*\x)});
+    \draw[dashed] (0,2) -- (11.8,2);
+    \draw[dashed] (0,-2) -- (11.8,-2);
+\end{tikzpicture}%
+}
+\caption{Pure oscillation\\$\alpha=0$.}
+\end{subfigure}
+
+\caption{The real part of the eigenvalue determines whether
+the amplitude grows, decays, or stays constant.
+Dashed curves indicate the envelopes.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary of the Characteristic Equation Method}
+
+
+\subsection{Table}
+Over Days 12–14, we have learned to solve
+\[
+ax''+bx'+cx=0
+\]
+by finding the roots of the characteristic equation
+\[
+a\lambda^2+b\lambda+c=0.
+\]
+The sign of the discriminant $D=b^2-4ac$ determines which solution form to use. The three cases are summarized in the table below. It is useful to memorize the general solutions.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.0}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|
+    >{\centering\arraybackslash}m{2.0cm}|
+    >{\centering\arraybackslash}m{2.0cm}|
+    >{\centering\arraybackslash}m{2.3cm}|
+    >{\centering\arraybackslash}m{1.7cm}|
+    >{\centering\arraybackslash}m{4.5cm}|
+}
+\hline
+\textbf{Roots}
+& \shortstack{\textbf{General}\\\textbf{eigenvalues}}
+& \textbf{Example DE}
+& \shortstack{\textbf{Example}\\\textbf{eigenvalues}}
+& \textbf{General solution} $x(t)$
+\\
+\hline
+\shortstack{Real, distinct\\$D>0$}
+&
+$\lambda_1\ne\lambda_2$
+&
+$x''-x'-2x=0$
+&
+\shortstack{$\lambda_1=2$\\$\lambda_2=-1$}
+&
+$C_1e^{\lambda_1t}+C_2e^{\lambda_2t}$
+\\
+\hline
+\shortstack{Real, repeated\\$D=0$}
+&
+$\lambda$
+&
+$x''-4x'+4x=0$
+&
+$\lambda=2$
+&
+$(C_1+C_2t)e^{\lambda t}$
+\\
+\hline
+\shortstack{Complex\\$D<0$}
+&
+$\lambda=\alpha\pm i\beta$
+&
+$x''-2x'+5x=0$
+&
+$\lambda=1\pm2i$
+&
+$C_1e^{\alpha t}\cos(\beta t)+C_2e^{\alpha t}\sin(\beta t)$
+\\
+\hline
+\end{tabular}
+\caption{Summary of the cases for the second-order linear constant coefficient DEs}
+\end{table}
+
+\subsection{Tips on Solving the Quadratic}
+
+The characteristic equation is a quadratic, so we can solve it using familiar algebraic techniques:
+\begin{itemize}
+\item \textbf{Factoring:} Try factoring when the factors are
+easy to recognize. Try to rewrite the quadratic in the form
+$(\lambda-r_1)(\lambda-r_2)$. If the factors are not apparent,
+use another method. Here is an example,
+    \[
+    \lambda^2-\lambda-2
+    =(\lambda-2)(\lambda+1)=0
+    \quad\Rightarrow\quad \lambda=2,-1.
+    \]
+    If you want to be safe, you can verify your factorization by FOILing.
+    
+    \item \textbf{Completing the square:} If you know for sure that the roots are complex, then try to complete the square.
+    \[
+    \lambda^2+2\lambda+10=0
+    \quad\Rightarrow\quad
+    (\lambda+1)^2=-9
+    \quad\Rightarrow\quad \lambda=-1\pm3i.
+    \]
+
+    \item \textbf{Quadratic formula:} This method always works, even when
+    the factors are not obvious. You should memorize this. 
+    \[
+    \lambda=\frac{-b\pm\sqrt{b^2-4ac}}{2a}.
+    \]
+\end{itemize}
+Last tip, try to simplify the equation when you spot a common factor, or have fractions in the characteristic equation. For example,
+\begin{align*}
+3x''+9x'+27x=0
+&\quad\implies\quad x''+3x'+9x=0,\\
+\tfrac12 x''+8x'+4x=0
+&\quad\implies\quad x''+16x'+8x=0.
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Connection to Springs}
+
+\subsection{Review Spring Model}
+
+Let $x(t)$ be the displacement from equilibrium of a ball attached
+to a spring moving over a table. Combining Newton's second law,
+Hooke's law, and a damping force gives \textbf{spring-mass equation}
+\begin{align*}
+\sum F&=mx'',\\
+-kx-\gamma x'&=mx'',\\
+mx''+\gamma x'+kx&=0.
+\end{align*}
+Here, $m>0$ is the mass, $\gamma\ge0$ is the damping coefficient,
+and $k>0$ is the spring constant. This is exactly the type of
+second-order linear constant-coefficient DE we have been solving.
+
+
+%-------------------------------------------------------------
+\subsection{Key Differences}
+
+There is one key difference between
+\[
+ax''+bx'+cx=0 \quad \text{versus}\quad mx''+\gamma x'+kx=0.
+\]
+In the general equation, the coefficients are real and $a\ne0$,
+but their signs are otherwise unrestricted. In the spring model,
+the physical parameters must satisfy
+\[
+m>0,\qquad \gamma\ge0,\qquad k>0.
+\]
+The mass and spring constant are positive, and damping opposes
+the motion. The case $\gamma=0$ represents a spring with no damping.
+
+These restrictions affect the possible solutions. For example,
+a general constant-coefficient DE may have a growing solution such as
+\[
+y(t)=e^{2t}\cos3t.
+\]
+If $y(t)$ describes the displacement of the mass, its amplitude
+increases with each swing. Such behavior cannot occur in our
+unforced spring-mass model: the spring restores the mass toward
+equilibrium, while damping removes energy rather than supplying it.
+
+It turns out that a solution such as $y(t)=e^{2t}\cos3t$ is \textit{impossible} to obtain as a solution to 
+$$
+mx''+\gamma x'+kx=0.
+$$
+In a later lecture, we will explain why this is so. We will connect all three root types to
+different kinds of spring motion.
+
+\end{document}

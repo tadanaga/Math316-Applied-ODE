@@ -1,0 +1,457 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
+\usepackage{notes}
+\begin{document}
+
+\begin{center}
+\Large\textbf{3.2 - Solving IVPs Using Tables, and Partial Fractions}\\
+\normalsize (Section 3.2.1)
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Inverse Transforms}
+
+
+\subsection{Goal}
+The goal of this lecture is to learn how to solve the initial value problem
+$$
+ax''+bx'+cx=f(t),\quad x(0)=x_0,\quad x'(0)=v_0
+$$
+using Laplace transforms. Here is the general idea of how this works:
+\begin{enumerate}
+    \item Transform the entire differential equation into one containing no derivatives 
+        $$
+        \mathcal{L}[\underbrace{ax''+bx'+cx=f}_{\text{DE}}] \to \underbrace{F(X) = B}_{\text{algebraic}}.
+        $$
+    \item Solve for $X$ in the transform domain
+        $$
+            X = F^{-1}(B).
+        $$
+    \item Then undo the transform to bring the solution back into the time domain 
+        $$
+            x(t) = \mathcal{L}^{-1}\left[ X\right].
+        $$
+\end{enumerate}
+Let's briefly discuss how to perform the last step. 
+
+\subsection{Inverse Laplace}
+Throughout the lecture notes, we will use $x$ and $t$ for the time domain, and $X$ and $s$ for the transform domain. The notation for the transform of $x(t)$ is denoted
+$$
+\mathcal{L}\left[x(t)\right]= X(s). 
+$$
+We define the \textbf{inverse Laplace} to be the operator $\mathcal{L}^{-1}\left[\cdot \right]$ satisfying
+\[
+\mathcal{L}^{-1}[X(s)]=x(t).
+\]
+There is a formula to find the inverse Laplace transform, and it looks like this:
+\[
+\mathcal{L}^{-1}[X(s)]
+= \frac{1}{2\pi i}\lim_{T\to\infty}
+\int_{\gamma - iT}^{\gamma + iT} e^{st} X(s)\,ds .
+\]
+However, we will never make direct use of the definition. This formula is linear in \(X\), so the inverse Laplace transform is linear.
+$$
+\mathcal{L}^{-1}[aX+bY] = a\mathcal{L}^{-1}[X]+b\mathcal{L}^{-1}[Y].
+$$
+Linearity and the table of transforms are all we need to solve differential equations.
+
+\subsection{The Table}
+So far, we have learned 5 transforms. They are listed in the table below. You are not responsible for memorizing any of these formulas. We will use the formulas in reverse. Each formula is numbered. 
+\[
+\renewcommand{\arraystretch}{2.3}
+\begin{array}{|c|c|c|}
+\hline
+ & \quad x(t)\qquad & \quad X(s) \qquad \\ 
+\hline
+1. & 1 & \dfrac{1}{s} \\ 
+\hline
+2. & t & \dfrac{1}{s^2} \\ 
+\hline
+3. & e^{at} & \dfrac{1}{s-a} \\ 
+\hline
+4. & \cos(at) & \dfrac{s}{s^2 + a^2} \\ 
+\hline
+5. & \sin(at) & \dfrac{a}{s^2 + a^2} \\ 
+\hline
+\end{array}
+\]
+Let's practice finding a few inverse transforms.
+You should get in the habit of citing which formulas you are referencing.
+
+\begin{example}[1]{
+Compute the inverse Laplace transforms of the following functions:
+\begin{enumerate}
+    \item $X(s) = \frac{2}{s}$
+    \item $X(s)=\frac{1}{s-1} + \frac{9}{s^2}$
+    \item $X(s)=\frac{17}{s^2+4}$
+\end{enumerate}
+}
+\begin{enumerate}
+    \item Using Formula (1), the inverse is
+$$
+\mathcal{L}^{-1}\left[\frac{2}{s}\right] = 2\,\mathcal{L}^{-1}\left[\frac{1}{s}\right] = 2(1)=\boxed{2}.
+$$
+\item We may split the operator over addition. Then we use Formulas (2) and (3):
+$$
+\mathcal{L}^{-1}\left[\frac{1}{s-1} + \frac{9}{s^2}\right] = \mathcal{L}^{-1}\left[\frac{1}{s-1}\right] + 9\mathcal{L}^{-1}\left[\frac{1}{s^2}\right] = \boxed{e^{t}+9t}.
+$$
+\item Notice that $X(s)=\frac{17}{s^2+4}$ resembles the transform of $\sin(2t)$ but the numerator is different. Using Formula (5) and some manipulation, we get
+\begin{align*}
+\mathcal{L}^{-1}\left[\frac{17}{s^2+4} \right] = 17\cdot \frac{2}{2}\mathcal{L}^{-1}\left[\frac{1}{s^2+4}\right] =  \frac{17}{2}\mathcal{L}^{-1}\left[\frac{2}{s^2+4}\right] = \boxed{\frac{17}{2}\sin2t}.
+\end{align*}
+\end{enumerate}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Solving DEs with Laplace Transforms}
+
+\subsection{First Derivative Formula}
+In order to use the Laplace transform to solve DEs, we must first establish the transform of the derivative. Suppose $X(s)=\mathcal{L}[x(t)]$. Then
+\[
+\boxed{\mathcal{L}[x'(t)]=sX(s)-x(0)}
+\]
+Notice that the initial value $x(0)$ naturally results from the formula. Let's do a first-order IVP example to demonstrate how to use this formula.
+
+\begin{example}[2]{
+Use the Laplace transform to solve the IVP
+\[
+x'+3x=0, \qquad x(0)=2.
+\]
+}
+    
+\textbf{Step 1: Take Laplace transforms of both sides of the equation.} 
+\begin{align*}
+\mathcal{L}[x'+3x]&=\mathcal{L}[0]\\
+\mathcal{L}[x']+3\mathcal{L}[x]&=0
+\end{align*}
+Substitute the derivative transform.
+\begin{align*}  
+(sX-x(0))+3X&=0\\ 
+(sX-2)+3X&=0 
+\end{align*}
+\textbf{Step 2: Solve for X algebraically.}
+\begin{align*}    
+(sX-2)+3X&=0 \implies (s+3)X=2\implies X=\frac{2}{s+3}
+\end{align*}
+\textbf{Step 3: Apply the inverse transform}
+\[
+x(t) = \mathcal{L}^{-1}[X(s)]= \mathcal{L}^{-1}\left[\frac{2}{s+3}\right]=2\mathcal{L}^{-1}\left[\frac{1}{s+3}\right]=2(e^{-3t}).
+\]
+We have found the solution 
+\[
+\boxed{
+x(t)=2e^{-3t}.
+}
+\]
+\end{example}
+
+\subsection{Proof of the Formula}
+We will prove that
+\[
+\mathcal{L}[x'(t)]=sX(s)-x(0).
+\]
+\begin{proof}
+We begin by assuming this product vanishes $x(t)e^{-st}\to0$ as $t\to\infty$.
+For integration by parts, choose
+\[
+u=e^{-st},\qquad dv=x'(t)\,dt,
+\qquad du=-se^{-st}\,dt,\qquad v=x(t).
+\]
+Then
+\begin{alignat*}{2}
+\mathcal{L}[x'(t)]&=\int_0^\infty x'(t)e^{-st}\,dt&&\com{Definition}\\
+&=\left[x(t)e^{-st}\right]_0^\infty+s\int_0^\infty x(t)e^{-st}\,dt\quad&&\com{Integration by parts}\\
+&=0-x(0)+sX(s)&&\com{Boundary term vanishes at $\infty$}\\
+&=sX(s)-x(0).
+\end{alignat*}
+\end{proof}
+
+
+\subsection{Second Derivative Formula}
+To solve a 2nd order DE we need the following formula:
+\[
+\boxed{\mathcal{L}[x''(t)]=s^2X(s)-sx(0)-x'(0)}
+\]
+Notice how the two initial values $x(0)$ and $x'(0)$ arise. You do not have to memorize this equation. It is included in the table of transforms which is provided on the exam.
+
+\subsection{Proof of the Second Derivative Formula}
+The proof of the second-order formula is just a repeated application of the first-order formula.
+
+\begin{proof}
+\begin{align*}
+\mathcal{L}[x''(t)]
+&=s\mathcal{L}[x'(t)]-x'(0)\\
+&=s\bigl(sX(s)-x(0)\bigr)-x'(0)\\
+&=s^2X(s)-sx(0)-x'(0).
+\end{align*}
+\end{proof}
+We can begin solving simple second-order DEs.
+
+\begin{example}[3]{
+Solve
+\[
+x''+4x=0, \qquad x(0)=1, \qquad x'(0)=0.
+\]
+}
+\textbf{Step 1: Take Laplace transforms}
+\[
+\mathcal{L}[x'']+4\mathcal{L}[x]=0
+\]
+Substitute derivative transforms. Note that $\mathcal{L}[x]$ is simply $X$.  
+\begin{align*}    
+(s^2X-sx(0)-x'(0))+4X&=0\\
+(s^2X-s)+4X&=0
+\end{align*}
+\textbf{Step 2: Solve for $X(s)$}
+\[
+(s^2+4)X=s
+\]
+\[
+X(s)=\frac{s}{s^2+4}
+\]
+\textbf{Step 3: Apply the inverse transform.}
+Directly using the table we find the inverse transform
+$$
+x(t) = \mathcal{L}^{-1}\left[\frac{s}{s^2+4}\right] = \cos 2t. 
+$$
+\end{example}
+
+There is a small flaw in this methodology. Suppose you successfully perform Steps 1 and 2, and you obtain a formula for $X(s)$. What happens if $X(s)$ does not resemble any of the functions in the Laplace Table? The remaining challenge is recognizing the inverse transform. The next example will address such a case.
+
+\begin{example}[4]{   
+Attempt to solve the IVP
+\[
+x''+3x'+2x=0, \qquad x(0)=1, \qquad x'(0)=0
+\]
+using Laplace transforms.
+}
+\textbf{Step 1: Take Laplace transforms}
+\[
+\mathcal{L}[x'']+3\mathcal{L}[x']+2\mathcal{L}[x]=0.
+\]
+Substitute derivative transforms.
+\[
+(s^2X-s)+3(sX-1)+2X=0
+\]
+\textbf{Step 2: Solve for $X$}
+\[
+(s^2+3s+2)X=s+3
+\]
+\[
+X=\frac{s+3}{s^2+3s+2}
+\]
+\textbf{Step 3: Use the table to find the inverse.}
+\[
+X=\frac{s+3}{s^2+3s+2}.
+\]
+We are stuck here. There is no formula in the table for this particular function.
+\end{example}
+
+But of course, we know that there is a solution to $x''+3x'+2x=0$. In fact, we know the general solution should be 
+$$
+    x(t) = c_1 e^{-t}+c_2e^{-2t}.
+$$
+The Laplace transforms of the exponential functions are hidden in $X(s)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Partial Fraction Decomposition}
+
+In many problems, the function $X(s)$ will not match a formula in the Laplace transform table. When this happens, we may be able to rewrite the function as a sum of simpler fractions using \textit{partial fraction decomposition}.
+
+\subsection{Definitions}
+A \textbf{rational function} is a ratio of two polynomials
+$P(s)/Q(s)$, where $Q$ is not the zero polynomial.
+In this lecture, we consider \textbf{proper rational functions},
+meaning the degree of $P$ is less than the degree of $Q$.\textbf{Partial fraction decomposition} rewrites a rational function as a sum of simpler rational functions.
+The form of the decomposition depends on the factors of the denominator.
+There are two common types of factors:
+\begin{itemize}
+\item \textbf{Linear factors} such as $(s+1)$ or $(s-3)$
+\item \textbf{Irreducible quadratic factors} such as $(s^2+4)$
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Two Linear Factors in the Denominator}
+Suppose the denominator factors as
+\[
+(s+a)(s+b)
+\]
+where $a$ and $b$ are distinct. Then we write
+\[
+\frac{P(s)}{(s+a)(s+b)}
+=
+\frac{A}{s+a}+\frac{B}{s+b}.
+\]
+The constants $A$ and $B$ are chosen so that the two sides are equal. For example, the rational function can be factored like so:
+\[
+X=\frac{s+3}{s^2+3s+2}
+=
+\frac{s+3}{(s+1)(s+2)}.
+\]
+Assume
+\[
+\frac{s+3}{(s+1)(s+2)}
+=
+\frac{A}{s+1}+\frac{B}{s+2}.
+\]
+Multiply both sides by $(s+1)(s+2)$.
+\[
+s+3=A(s+2)+B(s+1).
+\]
+Solve for $A$ and $B$.
+\[
+A=2, \qquad B=-1.
+\]
+Thus
+\[
+X=\frac{2}{s+1}-\frac{1}{s+2}.
+\]
+
+
+\begin{example}[4 (cont.)]{    
+Complete the problem
+\[
+x''+3x'+2x=0, \qquad x(0)=1, \qquad x'(0)=0,
+\]
+where we found 
+\[
+X=\frac{s+3}{s^2+3s+2}.
+\]
+}
+Now we know that we can use PFD to rewrite the function as 
+\[
+X=\frac{2}{s+1}-\frac{1}{s+2}.
+\]
+Now each term matches a formula in the transform table. We can find the inverse transform using linearity:
+\begin{align*}
+    x(t) &= \mathcal{L}^{-1}[X] \\
+         &=\mathcal{L}^{-1}\left[\frac{2}{s+1}-\frac{1}{s+2}\right]\\
+         &= \mathcal{L}^{-1}\left[\frac{2}{s+1}\right]-\mathcal{L}^{-1}\left[\frac{1}{s+2}\right]\\
+         &= 2\mathcal{L}^{-1}\left[\frac{1}{s+1}\right]-\mathcal{L}^{-1}\left[\frac{1}{s+2}\right]\\
+         &= 2e^{-t}-e^{-2t}
+\end{align*}
+Therefore, we have found the solution to the IVP 
+\[
+\boxed{
+x(t)=2e^{-t}-e^{-2t}.
+}
+\]
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Anticipating the Solution}
+It is helpful to analyze the differential equations before attempting to solve them with Laplace transforms. Suppose your goal is to solve the second-order DE
+$$
+ax''+bx'+cx=0
+$$
+and you notice that the eigenvalues are real and distinct. The characteristic equation factors cleanly: 
+$$
+    (\lambda-\lambda_1)(\lambda-\lambda_2)=0.
+$$
+That means the general solution should have the form
+$$
+    x = c_1e^{\lambda_1 t}+c_2e^{\lambda_2 t}.
+$$
+Knowing this ahead of time, we should expect a certain form for $X(s)$. We should anticipate a form 
+$$
+    X(s)=\frac{c_1}{s-\lambda_1} +\frac{c_2}{s-\lambda_2},
+$$
+which, when unfactorized, may appear as 
+$$
+    X(s) = \frac{As+B}{(s-\lambda_1)(s-\lambda_2)}.
+$$
+Think about the nonhomogeneous problem
+$$
+x''+9x=4e^{t}.
+$$
+What kind of $X(s)$ can we expect from this equation based on what we know about the form of the solution?
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Irreducible Quadratic}
+When it comes to rational functions, you must be able to identify reducible quadratics versus irreducible quadratics. For example, this quadratic is reducible
+$$
+    \frac{3s+1}{\underbrace{(s^2-4)}_{\text{quadratic}}(s-1)} =   \frac{3s+1}{\underbrace{(s-2)(s+2)}_{\text{linears}}(s-1)}.
+$$
+Sometimes the denominator contains a quadratic that cannot be factored. For example, 
+\[
+\frac{2s+1}{(s^2+9)(s-1)}.
+\]
+In this case, the decomposition must contain a linear term in the numerator
+\[
+\frac{2s+1}{(s^2+9)(s-1)} =\frac{As+B}{s^2+9} + \frac{C}{s-1}.
+\]
+
+\begin{example}[5]{    
+Find the inverse Laplace transform of the function
+$$
+X(s)=\frac{5s^2+5}{(s^2+9)(s-1)} =\frac{As+B}{s^2+9} + \frac{C}{s-1}.
+$$
+}
+\textbf{Step 1:} Multiply both sides by $(s^2+9)(s-1)$:
+\begin{align*}
+5s^2+5&=(As+B)(s-1)+C(s^2+9)\\
+5s^2+5&=As^2-As+Bs-B + Cs^2+9C.
+\end{align*}
+\textbf{Step 2:} Group like powers of $s$ and derive a system of equations:
+\[
+(5)s^2+(0)s+(5) = (A+C)s^2 +(-A+B)s +(9C-B).
+\]
+System:
+$$
+\begin{dcases}
+A+C=5\\
+-A+B=0\\
+9C-B=5.
+\end{dcases}
+$$
+\textbf{Step 3:} Solve the system:
+\[
+C=1, \qquad A=4, \qquad B=4.
+\]
+Therefore, the decomposition is
+\[
+X(s)=
+\frac{4s+4}{s^2+9}
++\frac{1}{s-1}.
+\]
+\textbf{Step 4:} Apply the inverse transform using linearity and the table
+\[
+X(s)=
+\frac{4s+4}{s^2+9}
++\frac{1}{s-1}=
+4\frac{s}{s^2+9}
++
+4\frac{1}{s^2+9}
++
+\frac{1}{s-1}.
+\]
+\begin{align*}
+x(t)&=\mathcal{L}^{-1}[X]\\
+&=\mathcal{L}^{-1}\left[
+4\frac{s}{s^2+9}
++
+4\frac{1}{s^2+9}
++
+\frac{1}{s-1}\right]\\
+&=4\mathcal{L}^{-1}\left[\frac{s}{s^2+9}\right]
++
+\frac{4}{3}\mathcal{L}^{-1}\left[\frac{3}{s^2+9}\right]
++
+\mathcal{L}^{-1}\left[\frac{1}{s-1}\right]\\
+&=4\cos(3t)
++\frac{4}{3}\sin(3t)
++e^{t}.
+\end{align*}
+\end{example}
+
+
+
+
+\end{document}

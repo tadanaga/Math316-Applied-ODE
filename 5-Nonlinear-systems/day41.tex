@@ -1,0 +1,519 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
+\usepackage{notes}
+\usepackage{listings}
+
+\lstdefinestyle{lecturematlab}{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red!60!black},
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single
+}
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{DAY 41 -- From Differential Equations to Animations}\\
+\normalsize Optional Lecture
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Euler's Method}
+
+\subsection{Why Numerical Solutions?}
+
+We have learned several methods for solving differential
+equations. However, many equations do not have solutions
+that we can conveniently write using familiar functions.
+
+For example, the nonlinear pendulum equation
+\[
+\theta''+\gamma\theta'+4\sin\theta=0
+\]
+is easy to write down but difficult to solve explicitly.
+
+Instead of finding a formula, we can approximate
+the solution at many closely spaced times.
+These values let us plot the solution and animate
+the motion.
+
+%-------------------------------------------------------------
+\subsection{Following the Tangent Line}
+
+Consider the initial value problem
+\[
+x'=f(t,x),\qquad x(0)=x_0.
+\]
+Suppose we know the solution at time $t$.
+For a small time step $h$, the tangent-line approximation
+gives
+\[
+x(t+h)\approx x(t)+hx'(t).
+\]
+Substituting the differential equation,
+\[
+x(t+h)\approx x(t)+hf(t,x(t)).
+\]
+
+Let $t_n=nh$ and let $x_n$ approximate $x(t_n)$.
+Then \textbf{Euler's method} is
+\[
+\boxed{
+t_{n+1}=t_n+h,
+\qquad
+x_{n+1}=x_n+hf(t_n,x_n).
+}
+\]
+In words:
+\[
+\text{new value}
+=
+\text{old value}
++
+(\text{time step})(\text{current rate of change}).
+\]
+
+%-------------------------------------------------------------
+\subsection{A Short Calculation}
+
+\begin{example}[1]{
+Use Euler's method with $h=0.1$ to approximate
+$x(0.1)$ and $x(0.2)$:
+\[
+x'=-2x,\qquad x(0)=1.
+\]
+}
+
+\paragraph{Step 1. Write the update formula.}
+Since $f(t,x)=-2x$,
+\[
+x_{n+1}=x_n+0.1(-2x_n)=0.8x_n.
+\]
+
+\paragraph{Step 2. Take two steps.}
+Starting from $x_0=1$,
+\[
+x_1=0.8(1)=0.8,
+\qquad
+x_2=0.8(0.8)=0.64.
+\]
+Thus,
+\[
+\boxed{x(0.1)\approx0.8,\qquad x(0.2)\approx0.64.}
+\]
+
+\paragraph{Step 3. Compare with the exact solution.}
+The exact solution is $x(t)=e^{-2t}$, so
+\[
+x(0.2)=e^{-0.4}\approx0.6703.
+\]
+Euler's method gives an approximation, not the exact value.
+\end{example}
+
+%-------------------------------------------------------------
+\subsection{Implementing the Method}
+
+A loop repeats the same update many times:
+
+\begin{lstlisting}[style=lecturematlab]
+h = 0.1;
+t = 0:h:2;
+
+x = zeros(size(t));
+x(1) = 1;
+
+for n = 1:length(t)-1
+    x(n+1) = x(n) + h*(-2*x(n));
+end
+
+figure
+plot(t, x, 'o-', t, exp(-2*t), '--')
+xlabel('Time')
+ylabel('x(t)')
+legend('Euler', 'Exact')
+grid on
+\end{lstlisting}
+
+MATLAB indexing begins at $1$, so \texttt{x(1)}
+stores the initial value $x_0$.
+
+Try changing $h$ to $0.05$ and then $0.01$.
+Over this fixed time interval, the approximation
+improves as the step size decreases.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simulating a Pendulum}
+
+\subsection{Euler's Method for Systems}
+
+For a system
+\[
+\mathbf{x}'=\mathbf{F}(t,\mathbf{x}),
+\]
+Euler's method has the same form:
+\[
+\boxed{
+\mathbf{x}_{n+1}
+=
+\mathbf{x}_n+h\mathbf{F}(t_n,\mathbf{x}_n).
+}
+\]
+We update every component using the values
+at the current time.
+
+For the pendulum, let $v=\theta'$. Then
+\[
+\begin{dcases}
+\theta'=v,\\
+v'=-\gamma v-4\sin\theta.
+\end{dcases}
+\]
+The Euler updates are
+\[
+\boxed{
+\begin{aligned}
+\theta_{n+1}&=\theta_n+hv_n,\\
+v_{n+1}&=v_n+h(-\gamma v_n-4\sin\theta_n).
+\end{aligned}
+}
+\]
+Both updates use $\theta_n$ and $v_n$.
+Do not use the newly computed $\theta_{n+1}$
+in the second equation.
+
+%-------------------------------------------------------------
+\subsection{One Step by Hand}
+
+\begin{example}[2]{
+For the pendulum
+\[
+\theta''+0.4\theta'+4\sin\theta=0,
+\qquad
+\theta(0)=\frac{\pi}{2},
+\qquad
+\theta'(0)=0,
+\]
+take one Euler step with $h=0.1$.
+}
+
+\paragraph{Step 1. Update the angle.}
+\[
+\theta_1=\theta_0+hv_0
+=\frac{\pi}{2}+0.1(0)
+=\frac{\pi}{2}.
+\]
+
+\paragraph{Step 2. Update the angular velocity.}
+\[
+v_1
+=0+0.1\left(-0.4(0)-4\sin\frac{\pi}{2}\right)
+=-0.4.
+\]
+Therefore,
+\[
+\boxed{
+\theta(0.1)\approx\frac{\pi}{2},
+\qquad
+v(0.1)\approx-0.4.
+}
+\]
+The negative velocity indicates that the bob
+begins moving back toward the hanging position.
+
+The unchanged angle after the first step is a feature
+of the approximation: Euler uses the initial velocity,
+which is zero.
+\end{example}
+
+%-------------------------------------------------------------
+\subsection{Computing the Motion}
+
+Use a smaller time step for the simulation:
+
+\begin{lstlisting}[style=lecturematlab]
+% Parameters and initial conditions
+gamma = 0.4;
+theta0 = pi/2;
+v0 = 0;
+
+% Time grid
+h = 1/300;
+T = 15;
+t = 0:h:T;
+
+% Allocate arrays
+theta = zeros(size(t));
+v = zeros(size(t));
+
+theta(1) = theta0;
+v(1) = v0;
+
+% Euler updates
+for n = 1:length(t)-1
+    theta(n+1) = theta(n) + h*v(n);
+    v(n+1) = v(n) ...
+        + h*(-gamma*v(n) - 4*sin(theta(n)));
+end
+\end{lstlisting}
+
+We now have three arrays:
+\begin{itemize}
+    \item \texttt{t}: the times;
+    \item \texttt{theta}: the approximate angles;
+    \item \texttt{v}: the approximate angular velocities.
+\end{itemize}
+
+%-------------------------------------------------------------
+\subsection{Two Ways to Plot the Solution}
+
+A time plot shows how the angle changes.
+A phase portrait shows angle and angular velocity
+together.
+
+\begin{lstlisting}[style=lecturematlab]
+figure
+
+subplot(1,2,1)
+plot(t, theta, 'LineWidth', 1.5)
+xlabel('Time')
+ylabel('\theta')
+title('Angle versus time')
+grid on
+
+subplot(1,2,2)
+plot(theta, v, 'LineWidth', 1.5)
+xlabel('\theta')
+ylabel('Angular velocity')
+title('Phase trajectory')
+grid on
+\end{lstlisting}
+
+For these parameters, the angle oscillates with
+decreasing amplitude. The phase trajectory spirals
+toward the origin.
+
+%-------------------------------------------------------------
+\subsection{Checking the Approximation}
+
+A smooth-looking curve is not necessarily accurate.
+Repeat the calculation with a smaller $h$ and compare.
+
+Euler's method can introduce artificial energy.
+For example, consider the undamped linear oscillator
+\[
+\theta'=v,\qquad v'=-4\theta.
+\]
+Its exact energy
+\[
+E=\frac12v^2+2\theta^2
+\]
+is constant. Euler's method instead gives
+\[
+E_{n+1}=(1+4h^2)E_n.
+\]
+Thus, the numerical energy grows even though
+the true energy does not.
+
+For more accurate simulations, MATLAB provides
+solvers such as \texttt{ode45}. The following replaces
+the Euler loop and supplies values at the same times:
+
+\begin{lstlisting}[style=lecturematlab]
+F = @(t,z) [z(2); ...
+    -gamma*z(2) - 4*sin(z(1))];
+
+options = odeset('RelTol',1e-8,'AbsTol',1e-10);
+
+[t, Z] = ode45(F, t, [theta0; v0], options);
+
+theta = Z(:,1);
+v = Z(:,2);
+\end{lstlisting}
+
+The rest of our plotting and animation code works
+with either numerical solution.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Animating the Pendulum}
+
+\subsection{From Angle to Position}
+
+A simulation gives us $\theta(t)$, but an animation
+needs the position of the bob.
+
+Place the pivot at $(0,0)$. For a rod of length $L$,
+\[
+\boxed{
+X(t)=L\sin\theta(t),
+\qquad
+Y(t)=-L\cos\theta(t).
+}
+\]
+At $\theta=0$, the bob is at $(0,-L)$,
+directly below the pivot.
+
+For the drawing, we can use $L=1$ as a visual scale:
+
+\begin{lstlisting}[style=lecturematlab]
+L = 1;
+X = L*sin(theta);
+Y = -L*cos(theta);
+\end{lstlisting}
+
+%-------------------------------------------------------------
+\subsection{Preparing the Figure}
+
+We will display the pendulum beside its phase trajectory.
+A moving point on the phase portrait shows the
+current angle and angular velocity.
+
+\begin{lstlisting}[style=lecturematlab]
+fig = figure('Color','w', ...
+    'Position',[100 100 900 400]);
+
+% Pendulum panel
+ax1 = subplot(1,2,1);
+hold on
+axis equal
+axis([-1.2 1.2 -1.2 1.2])
+grid on
+xlabel('X')
+ylabel('Y')
+
+plot(0,0,'k.','MarkerSize',20);
+
+rod = plot([0 X(1)], [0 Y(1)], ...
+    'k-', 'LineWidth',2);
+
+bob = plot(X(1),Y(1),'ro', ...
+    'MarkerFaceColor','r','MarkerSize',12);
+
+clockLabel = title(ax1,'t = 0');
+
+% Phase portrait panel
+ax2 = subplot(1,2,2);
+plot(theta,v,'Color',[0.7 0.7 0.7])
+hold on
+grid on
+xlabel('\theta')
+ylabel('Angular velocity')
+title('Phase trajectory')
+
+point = plot(theta(1),v(1),'ro', ...
+    'MarkerFaceColor','r','MarkerSize',8);
+
+axis tight
+axis manual
+\end{lstlisting}
+
+The variables \texttt{rod}, \texttt{bob}, and
+\texttt{point} refer to objects in the figure.
+We can move these objects by changing their coordinates.
+
+%-------------------------------------------------------------
+\subsection{Updating the Picture}
+
+Our simulation uses $300$ time steps per second.
+Displaying every tenth point gives $30$ frames
+per second.
+
+\begin{lstlisting}[style=lecturematlab]
+stride = 10;
+fps = 1/(stride*h);
+
+for n = 1:stride:length(t)
+    set(rod, ...
+        'XData',[0 X(n)], ...
+        'YData',[0 Y(n)]);
+
+    set(bob,'XData',X(n),'YData',Y(n));
+
+    set(point, ...
+        'XData',theta(n), ...
+        'YData',v(n));
+
+    set(clockLabel, ...
+        'String',sprintf('t = %.2f',t(n)));
+
+    drawnow
+    pause(1/fps)
+end
+\end{lstlisting}
+
+The loop moves the rod, the bob, and the phase-plane
+point together.
+
+The pause controls the preview speed approximately.
+Rendering the figure also takes time, so the preview
+may run slower than real time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Saving and Exploring}
+
+\subsection{Saving a Video}
+
+To save the animation, create a video file before
+the animation loop:
+
+\begin{lstlisting}[style=lecturematlab]
+movieFile = VideoWriter('pendulum.avi');
+movieFile.FrameRate = fps;
+open(movieFile);
+\end{lstlisting}
+
+Inside the loop, replace
+\texttt{pause(1/fps)} with:
+
+\begin{lstlisting}[style=lecturematlab]
+writeVideo(movieFile,getframe(fig));
+\end{lstlisting}
+
+Keep \texttt{drawnow} immediately before capturing
+each frame. After the loop, close the video:
+
+\begin{lstlisting}[style=lecturematlab]
+close(movieFile);
+\end{lstlisting}
+
+The file \texttt{pendulum.avi} is saved in MATLAB's
+current folder. Keep the figure size fixed while
+recording so all frames have the same dimensions.
+
+%-------------------------------------------------------------
+\subsection{Experiments}
+
+Change one parameter at a time, rerun the simulation,
+and predict the result before watching it.
+
+\begin{enumerate}
+    \item \textbf{Remove damping.}
+    Set $\gamma=0$. Does the motion persist?
+    Compare Euler's method with \texttt{ode45}.
+
+    \item \textbf{Increase damping.}
+    Compare $\gamma=0.4$, $\gamma=4$, and $\gamma=6$.
+    Here, the small-angle natural frequency is
+    $\omega=2$, so critical damping occurs at
+    $\gamma=2\omega=4$.
+
+    \item \textbf{Give the bob a large initial kick.}
+    Set $\theta_0=0$ and $v_0=5$.
+    Compare the motion with and without damping.
+
+    \item \textbf{Test the numerical method.}
+    Increase the Euler step size.
+    Does the simulation still agree with your
+    mathematical expectations?
+\end{enumerate}
+
+Numerical simulation connects three descriptions
+of the same solution: the differential equation,
+the phase trajectory, and the physical motion.
+
+\end{document}
