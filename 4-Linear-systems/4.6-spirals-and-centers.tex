@@ -10,367 +10,274 @@
 \end{center}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Complex Eigenvalues}
+\section{Complex Linear Algebra}
+
+\subsection{Motivation}
+We want to solve the equation
+$$
+\textbf{x}'=A\textbf{x}, 
+$$
+for the case when $A$ has complex eigenvalues. The usual formula 
+$\textbf{x}=c_1 e^{\lambda_1 t}\textbf{v}_1+c_2e^{\lambda_2 t}\textbf{v}_2$ will not suffice. We must learn some theory about complex linear algebra.
+
+% --------------
+
+\subsection{Complex Vectors}
+
+A \textbf{complex vector} is a vector whose components are complex
+numbers. We can write it in \textbf{Cartesian form}
+\[
+    \boxed{\mathbf{v}=\mathbf{p}+i\mathbf{q},}
+\]
+where $\mathbf{p}$ is the \textbf{real part} and $\mathbf{q}$ is the
+\textbf{imaginary part}. Both $\mathbf{p}$ and $\mathbf{q}$ are real
+vectors. For example,
+\[
+    \mathbf{v}
+    =\begin{pmatrix}1\\-1-2i\end{pmatrix}
+    =
+    \underbrace{\begin{pmatrix}1\\-1\end{pmatrix}}_{\mathbf{p}}
+    +i\underbrace{\begin{pmatrix}0\\-2\end{pmatrix}}_{\mathbf{q}}.
+\]
+
+% --------------
 
 \subsection{Complex Eigenvalues and Eigenvectors}
 
-A real matrix can have complex eigenvalues and eigenvectors.
-We find them using the same procedure as before:
+Even when a matrix $A$ is entirely made of real elements, it can still have complex eigenvalues. In fact, complex eigenvalues always come in pairs 
+$$
+    \lambda_{1,2} = \alpha \pm i\beta,
+$$
+where $\alpha$ and $\beta$ are real numbers. Because they are so similar, we actually only need one eigenvalue $\lambda = \alpha +i\beta.$
+The approach to find $\lambda$ and $\textbf{v}$ is still the same:
 solve the characteristic equation, then solve
-$(A-\lambda I)\mathbf{v}=\mathbf{0}$.
+$(A-\lambda I)\mathbf{v}=\mathbf{0}$. Here is an example.
 
 \begin{example}[1]{
-Find the eigenvalues and eigenvectors of
+For the following matrix, find one eigenvalue $\lambda$ and a
+corresponding eigenvector $\mathbf{v}$:
 \[
-A=\begin{pmatrix}
--1&-1\\
-5&1
-\end{pmatrix}.
+    A=\begin{pmatrix}
+        -1&-5\\
+        1&3
+    \end{pmatrix}.
 \]
 }
 
 \paragraph{Step 1. Find the eigenvalues.}
 The characteristic equation is
+\begin{align*}
+    \det(A-\lambda I)
+    &=\begin{vmatrix}
+        1&3-\lambda
+      \end{vmatrix}\\
+    &=(\lambda+1)(\lambda-3)+5\\
+    &=\lambda^2-2\lambda+2 \\
+    &=(\lambda-1)^2+1=0 && \com{complete the square}.
+\end{align*}
+Thus, solving for $\lambda$ gives us two values $\lambda_{1,2}=1\pm i.$ However, we only need one, so choose $\lambda=1+i.$
+
+\paragraph{Step 2. Find a corresponding eigenvector.}
+Substitute $\lambda=1+i$ into $(A-\lambda I)\mathbf{v}=\mathbf{0}$:
 \[
-\det(\lambda I-A)
-=
-\begin{vmatrix}
-\lambda+1&1\\
--5&\lambda-1
-\end{vmatrix}
-=\lambda^2+4=0.
+    \begin{pmatrix}
+        -2-i&-5\\
+        1&2-i
+    \end{pmatrix}
+    \begin{pmatrix}u\\w\end{pmatrix}
+    =\begin{pmatrix}0\\0\end{pmatrix}.
 \]
-Therefore,
+The first row has awkward numbers. The second row gives
 \[
-\boxed{\lambda_1=2i,\qquad \lambda_2=-2i.}
+    u+(2-i)w=0
+    \qquad\Longrightarrow\qquad
+    u=(-2+i)w.
+\]
+We are free to choose $w=1$. Then $u=-2+i$, so a candidate eigenvector is
+\[
+    \mathbf{v}=\begin{pmatrix}
+        u\\w
+    \end{pmatrix}=\begin{pmatrix}-2+i\\1\end{pmatrix}=
+    \boxed{\begin{pmatrix}
+        -2\\1
+    \end{pmatrix}+i\begin{pmatrix}
+        1\\0
+    \end{pmatrix}.}
 \]
 
-\paragraph{Step 2. Find an eigenvector for $\lambda_1=2i$.}
-Solve
-\[
-\begin{pmatrix}
-1+2i&1\\
--5&-1+2i
-\end{pmatrix}
-\begin{pmatrix}v_1\\v_2\end{pmatrix}
-=
-\begin{pmatrix}0\\0\end{pmatrix}.
-\]
-The first equation gives
-\[
-(1+2i)v_1+v_2=0
-\implies v_2=(-1-2i)v_1.
-\]
-Choose $v_1=1$. Then
-\[
-\boxed{
-\mathbf{v}_1=
-\begin{pmatrix}1\\-1-2i\end{pmatrix}.
-}
-\]
-
-\paragraph{Step 3. Find the other eigenvector.}
-For $\lambda_2=-2i$, we may choose
-\[
-\boxed{
-\mathbf{v}_2=
-\begin{pmatrix}1\\-1+2i\end{pmatrix}.
-}
-\]
-Notice that the eigenvalues and eigenvectors occur
-in conjugate pairs.
 \end{example}
-
-%-------------------------------------------------------------
-\subsection{Conjugate Pairs}
-
-The \textbf{complex conjugate} of $\alpha+i\beta$ is
-$\alpha-i\beta$. For a vector, take the conjugate
-of each component.
-
-If $A$ is a real matrix and
-\[
-A\mathbf{v}=\lambda\mathbf{v},
-\]
-then taking conjugates gives
-\[
-A\overline{\mathbf{v}}
-=\overline{\lambda}\,\overline{\mathbf{v}}.
-\]
-Thus, nonreal eigenvalues occur in conjugate pairs,
-and their eigenvectors can be chosen as conjugate pairs.
-
-We only need to calculate one complex eigenvector.
-The other comes from taking its conjugate.
-
-%-------------------------------------------------------------
-\subsection{Real and Imaginary Parts}
-
-Write a complex eigenvector as
-\[
-\boxed{\mathbf{v}=\mathbf{p}+i\mathbf{q},}
-\]
-where $\mathbf{p}$ and $\mathbf{q}$ are real vectors.
-
-For the eigenvector in Example 1,
-\[
-\begin{pmatrix}1\\-1-2i\end{pmatrix}
-=
-\underbrace{\begin{pmatrix}1\\-1\end{pmatrix}}_{\mathbf{p}}
-+i\underbrace{\begin{pmatrix}0\\-2\end{pmatrix}}_{\mathbf{q}}.
-\]
-Separating these parts will help us construct real solutions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Real Solutions from Complex Eigenpairs}
 
-\subsection{Complex Exponential Solutions}
+\section{Solving Initial Value Problems}
 
-As before, an eigenpair gives a solution
-\[
-\mathbf{z}(t)=e^{\lambda t}\mathbf{v}.
-\]
-When $\lambda=\alpha+i\beta$, Euler's formula gives
-\[
-e^{\lambda t}
-=e^{\alpha t}\bigl(\cos\beta t+i\sin\beta t\bigr).
-\]
-
-Although this solution is complex, its real and imaginary
-parts give real solutions to the system.
-
-%-------------------------------------------------------------
-\subsection{Why the Real and Imaginary Parts Work}
-
-Suppose $A$ is real and a complex solution has the form
-\[
-\mathbf{z}(t)=\mathbf{f}(t)+i\mathbf{g}(t).
-\]
-Substituting into $\mathbf{z}'=A\mathbf{z}$ gives
-\[
-\mathbf{f}'+i\mathbf{g}'
-=A\mathbf{f}+iA\mathbf{g}.
-\]
-Matching real and imaginary parts,
-\[
-\mathbf{f}'=A\mathbf{f},
-\qquad
-\mathbf{g}'=A\mathbf{g}.
-\]
-Thus, both $\mathbf{f}$ and $\mathbf{g}$ are real solutions.
-
-When they come from a nonreal eigenpair of a real
-$2\times2$ matrix, these solutions are linearly independent.
-Therefore,
-\[
-\boxed{
-\mathbf{x}(t)=c_1\mathbf{f}(t)+c_2\mathbf{g}(t)
-}
-\]
-is the general real solution.
-
-\begin{example}[2]{
-Use the eigenpair from Example 1 to find the general
-real solution of
-\[
-\mathbf{x}'=
-\begin{pmatrix}
--1&-1\\
-5&1
-\end{pmatrix}\mathbf{x}.
-\]
-}
-
-\paragraph{Step 1. Write a complex solution.}
-Using $\lambda=2i$ and
-$\mathbf{v}=(1,-1-2i)^T$,
-\[
-\mathbf{z}(t)
-=e^{2it}\begin{pmatrix}1\\-1-2i\end{pmatrix}.
-\]
-
-\paragraph{Step 2. Separate the real and imaginary parts.}
-Euler's formula gives
-\begin{align*}
-\mathbf{z}(t)
-&=(\cos2t+i\sin2t)
-\begin{pmatrix}1\\-1-2i\end{pmatrix}\\
-&=
-\begin{pmatrix}
-\cos2t\\
--\cos2t+2\sin2t
-\end{pmatrix}
-+i
-\begin{pmatrix}
-\sin2t\\
--\sin2t-2\cos2t
-\end{pmatrix}.
-\end{align*}
-
-\paragraph{Step 3. Combine the two real solutions.}
-Therefore,
-\[
-\boxed{
-\mathbf{x}(t)=
-c_1\begin{pmatrix}
-\cos2t\\
--\cos2t+2\sin2t
-\end{pmatrix}
-+
-c_2\begin{pmatrix}
-\sin2t\\
--\sin2t-2\cos2t
-\end{pmatrix}.
-}
-\]
-\end{example}
-
-%-------------------------------------------------------------
 \subsection{General Solution Formula}
-
-More generally, suppose
-\[
-\lambda=\alpha+i\beta,
-\qquad
-\mathbf{v}=\mathbf{p}+i\mathbf{q},
-\qquad \beta>0.
-\]
-Multiplying and collecting real and imaginary parts gives
-\begin{align*}
-e^{\lambda t}\mathbf{v}
-&=e^{\alpha t}
-(\cos\beta t+i\sin\beta t)(\mathbf{p}+i\mathbf{q})\\
-&=e^{\alpha t}
-(\mathbf{p}\cos\beta t-\mathbf{q}\sin\beta t)\\
-&\qquad
-+i e^{\alpha t}
-(\mathbf{p}\sin\beta t+\mathbf{q}\cos\beta t).
-\end{align*}
-Therefore,
-\[
+You are now ready for the formula. Suppose the matrix $A$ has a complex eigenvalue $\lambda$ with a corresponding complex eigenvector $\textbf{v}$ which has the cartesian form $\textbf{v} = \textbf{p}+i \textbf{q}.$
+Then the general solution to $\textbf{x}'=A\textbf{x}$ is
+$$
 \boxed{
-\begin{aligned}
 \mathbf{x}(t)
-={}&c_1e^{\alpha t}
-(\mathbf{p}\cos\beta t-\mathbf{q}\sin\beta t)\\
-&+c_2e^{\alpha t}
-(\mathbf{p}\sin\beta t+\mathbf{q}\cos\beta t).
-\end{aligned}
-}
-\]
-You may use this formula or expand the complex solution
-directly using Euler's formula.
-
-\begin{example}[3]{
-Find the general real solution:
-\[
-\mathbf{x}'=
-\begin{pmatrix}
--1&1\\
--5&-3
-\end{pmatrix}\mathbf{x}.
-\]
-}
-
-\paragraph{Step 1. Find the eigenvalues.}
-The characteristic equation is
-\[
-\begin{vmatrix}
-\lambda+1&-1\\
-5&\lambda+3
-\end{vmatrix}
-=\lambda^2+4\lambda+8=0.
-\]
-Thus,
-\[
-\lambda=-2\pm2i.
-\]
-
-\paragraph{Step 2. Find one eigenvector.}
-For $\lambda=-2+2i$, solve
-\[
-\begin{pmatrix}
--1+2i&-1\\
-5&1+2i
-\end{pmatrix}
-\begin{pmatrix}v_1\\v_2\end{pmatrix}
-=\begin{pmatrix}0\\0\end{pmatrix}.
-\]
-The first equation gives
-\[
-v_2=(-1+2i)v_1.
-\]
-Choose $v_1=1$, so
-\[
-\mathbf{v}=
-\begin{pmatrix}1\\-1+2i\end{pmatrix}
-=
-\underbrace{\begin{pmatrix}1\\-1\end{pmatrix}}_{\mathbf{p}}
-+i\underbrace{\begin{pmatrix}0\\2\end{pmatrix}}_{\mathbf{q}}.
-\]
-
-\paragraph{Step 3. Construct the real solution.}
-Here, $\alpha=-2$ and $\beta=2$. Therefore,
-\[
-\boxed{
-\mathbf{x}(t)=e^{-2t}
-\left[
-c_1\begin{pmatrix}
-\cos2t\\
--\cos2t-2\sin2t
-\end{pmatrix}
-+
-c_2\begin{pmatrix}
-\sin2t\\
--\sin2t+2\cos2t
-\end{pmatrix}
+=e^{\alpha t}\left[c_1
+(\mathbf{p}\cos\beta t-\mathbf{q}\sin\beta t)+c_2
+(\mathbf{p}\sin\beta t+\mathbf{q}\cos\beta t)
 \right].
 }
+$$
+
+\subsection{Following Steps}
+Here are the steps to find the general solution to 
+$$
+\textbf{x}' = A\textbf{x}:
+$$
+\begin{enumerate}
+    \item Find one complex eigenvalue $\lambda=\alpha+i\beta$.
+    \item Find the complex eigenvector $\textbf{v}$ and express it as  $\textbf{v}=\textbf{p}+i\textbf{q}$.
+    \item Substitute $\alpha,\beta,\textbf{p},\textbf{q}$ into the formula
+    $$
+    \textbf{x}=e^{\alpha t}\left[c_1
+(\mathbf{p}\cos\beta t-\mathbf{q}\sin\beta t)+c_2
+(\mathbf{p}\sin\beta t+\mathbf{q}\cos\beta t)
+\right].
+    $$
+\end{enumerate}
+Now we are ready to solve an initial value problem.
+
+% --------------------
+
+\begin{example}[2]{
+Solve the initial value problem
+\[
+    \mathbf{x}'=
+    \begin{pmatrix}-1&-5\\1&3\end{pmatrix}\mathbf{x},
+    \qquad
+    \mathbf{x}(0)=\begin{pmatrix}1\\2\end{pmatrix}.
 \]
-The factor $e^{-2t}$ makes every solution approach
-the origin as $t\to\infty$.
+}
+
+\paragraph{Steps 1--3. Use the eigenpair from Example 1.}
+Since $\lambda=1+i$, we have $\alpha=1$ and $\beta=1$.
+The real and imaginary parts of the eigenvector are
+\[
+    \mathbf{p}=\begin{pmatrix}-2\\1\end{pmatrix},
+    \qquad
+    \mathbf{q}=\begin{pmatrix}1\\0\end{pmatrix}.
+\]
+
+\paragraph{Step 4. Write the general solution.}
+Substituting into the formula gives
+\begin{align*}
+    \mathbf{x}
+    &
+      =e^t\begin{pmatrix}-2\cos t-\sin t\\ \cos t\end{pmatrix}
+      +e^t\begin{pmatrix}-2\sin t+\cos t\\ \sin t\end{pmatrix}.
+\end{align*}
+
+\paragraph{Step 5. Apply the initial condition.}
+At $t=0$, the two solution vectors reduce to $\mathbf{p}$ and
+$\mathbf{q}$, so
+\[
+    c_1\begin{pmatrix}-2\\1\end{pmatrix}
+    +c_2\begin{pmatrix}1\\0\end{pmatrix}
+    =\begin{pmatrix}1\\2\end{pmatrix}.
+\]
+The second row gives $c_1=2$. The first row then gives
+$-2(2)+c_2=1$, so $c_2=5$. Combining the two solution vectors,
+we obtain
+\[
+    \boxed{
+    \mathbf{x}(t)
+    =e^t\begin{pmatrix}
+        \cos t-12\sin t\\
+        2\cos t+5\sin t
+    \end{pmatrix}.}
+\]
 \end{example}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Centers}
-
-\subsection{The Equilibrium Point}
-
-For eigenvalues $\alpha\pm i\beta$ with $\beta\ne0$,
+%-------------------------------------------------------------
+\subsection{Derivation of the General Solution}
+To understand how the general solution formula is derived, we compare the 1D and 2D cases.
+\cols{
+\begin{center}
+    \textbf{1D Case}
+\end{center}
+Suppose $\lambda=\alpha +i\beta$ is a complex number.  Then the problem
 \[
-\det(A)=(\alpha+i\beta)(\alpha-i\beta)
-=\alpha^2+\beta^2>0.
+x'=\lambda x
 \]
-Thus, $A$ is invertible, and
-\[
-A\mathbf{x}=\mathbf{0}
-\]
-has only the solution $\mathbf{x}=\mathbf{0}$.
+has the solution $x(t)=e^{\lambda t}$.
 
-The origin is the only equilibrium. Its classification
-depends on the real part $\alpha$:
+Using Euler's formula:
+\begin{align*}
+x'&=e^{(\alpha+i\beta) t},\\
+&= e^{\alpha t}(\cos \beta t+i\sin \beta t)
+\end{align*}
+Extracting the real and imaginary parts gives
+$$
+x = e^{\alpha t}(c_1\cos \beta t+ c_2\sin \beta t)
+$$
+% --------
+}{
+% --------
+\begin{center}
+    \textbf{2D Case}
+\end{center}
+Suppose $(\lambda,\textbf{v})$ is a complex eigenpair for $A$. Then the problem
 \[
-\alpha=0:\ \text{center},
-\qquad
-\alpha\ne0:\ \text{spiral}.
+\mathbf{x}'=A\mathbf{x}
 \]
+has the solution $\mathbf{x}(t)=e^{\lambda t}\mathbf{v}$.
+
+Using Euler's formula:
+\begin{align*}
+\mathbf{x}(t)&=e^{(\alpha+i\beta) t}(\textbf{p}+i\textbf{q})\\
+&=e^{\alpha t}(\cos \beta t+i\sin \beta t)(\textbf{p}+i\textbf{q})\\
+&=e^{\alpha t}[(\textbf{p}\cos\beta t-\textbf{q}\sin\beta t)+\\
+&\phantom{=e{gt}]}i(\textbf{p}\sin \beta t+\textbf{q}\cos \beta t)]
+\end{align*}
+Extracting the real and imaginary parts gives the formula.
+}
 
 %-------------------------------------------------------------
-\subsection{Purely Imaginary Eigenvalues}
+\subsection{Why Don't We Need $\lambda_2$?}
 
-If $\lambda=\pm i\beta$, the solution contains sines
-and cosines without exponential growth or decay.
-Every nonzero trajectory is a closed ellipse with period
+Since $A$ is real, taking the complex conjugate of
+$A\mathbf{v}_1=\lambda_1\mathbf{v}_1$ gives the second eigenpair
+$\lambda_2=\overline{\lambda_1}$ and $\mathbf{v}_2=\overline{\mathbf{v}_1}$.
+The corresponding solutions are conjugates as well:
 \[
-T=\frac{2\pi}{|\beta|}.
+    e^{\lambda_1 t}\mathbf{v}_1=\mathbf{x}_1+i\mathbf{x}_2,
+    \qquad
+    e^{\lambda_2 t}\mathbf{v}_2=\mathbf{x}_1-i\mathbf{x}_2.
 \]
-The ellipses may be circular, aligned with the coordinate
-axes, or tilted.
+Only the sign of the imaginary part changes. Since $c_2$ is arbitrary,
+either eigenpair gives the same family of real solutions. In short, the second eigenvalue and eigenvector do not contain any new information that the first eigenpair does not already provide.
 
-The origin is called a \textbf{center}. A center is
-\textbf{stable}, but \textbf{not asymptotically stable}:
-nearby trajectories remain nearby but do not approach
-the origin.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Case when $\alpha=0$}
+
+\subsection{Purely Imaginary Eigenvalues}
+Next, our goal is to sketch the phase portrait for solutions of the form 
+$$
+\mathbf{x}(t)
+=e^{\alpha t}\left[c_1
+(\mathbf{p}\cos\beta t-\mathbf{q}\sin\beta t)+c_2
+(\mathbf{p}\sin\beta t+\mathbf{q}\cos\beta t)
+\right].
+$$
+First, let's consider the simpler case where $\alpha=0$. If the eigenvalues of $A$ have the form $\lambda=\pm i\beta$, we say that $\lambda$ is \textbf{purely imaginary} because the real part is zero.
+
+When the eigenvalues are purely imaginary, the solution contains only sines and cosines without exponential growth or decay. Every trajectory traced out by $\textbf{x}(t)$ is a closed loop with a period $T=\frac{2\pi}{|\beta|}$.
+
+If the eigenvalues of $A$ are purely imaginary, the trajectories endlessly trace out the same path. Here is the main takeaway: 
+$$
+\boxed{\text{when }\alpha =0\implies\text{solutions are closed loops.}}
+$$
+
+
+%-------------------------------------------------------------
+\subsection{Types of Loops and Classification}
+
+If $\lambda=\pm i\beta$, there can only be three types of loops: circle, ellipses, and tilted ellipses. Examples are plotted in the figure below. Notice that all solutions curves form concentric loops around the origin. 
 
 \begin{figure}[H]
 \centering
@@ -420,21 +327,16 @@ the origin.
 \caption{Possible shapes of trajectories around a center.}
 \end{figure}
 
-%-------------------------------------------------------------
-\subsection{Determining the Direction}
+The origin $\textbf{x}^*=(0,0)$ is the only equilibrium point since $\det(A)\ne0$. When $\alpha=0$, the equilibrium type is called a \textbf{center}. Centers are technically always stable since they never push nearby solutions away. You do not have to state the stability, but you do have to to specify the \textit{orientation}. Centers can be oriented clockwise (CW) or counterclockwise (CCW). When asked to classify the equilibrium, state the type and orientation.
+$$
+\boxed{\text{classification} \implies\text{orientation }+\text{ type}}
+$$
 
-The eigenvalues identify a center, but we still need
-to determine whether trajectories move clockwise or
-counterclockwise.
-
-Choose a convenient point and evaluate
+To determine the orientation, it helps to plot at least one sample velocity vector. Choose a convenient point $\textbf{x}=(x,y)$ and evaluate
 \[
 \mathbf{x}'=A\mathbf{x}.
 \]
-This vector is tangent to the trajectory and points
-in the direction of motion. At $(1,0)$, an upward
-velocity indicates counterclockwise motion; a downward
-velocity indicates clockwise motion.
+This vector is tangent to the trajectory and points in the direction of motion. My favorite is to choose $\textbf{x}=(1,0)$. Plot the velocity vector $\textbf{x}'$ with the tail positioned at $(1,0)$. Let's do an example.
 
 \begin{example}[4]{
 Classify the equilibrium and sketch the phase portrait:
@@ -447,14 +349,11 @@ Classify the equilibrium and sketch the phase portrait:
 \]
 }
 
-\paragraph{Step 1. Find the eigenvalues.}
 The characteristic equation is
 \[
-\lambda^2+4=0,
+\det(A-\lambda I)=\lambda^2+4=0,
 \]
-so $\lambda=\pm2i$. Therefore, the origin is a center.
-
-\paragraph{Step 2. Identify the trajectories.}
+so $\lambda=\pm2i$. Since $\lambda$ is purely imaginary, the origin is a center.
 The system is
 \[
 x'=-2y,\qquad y'=2x.
@@ -469,10 +368,9 @@ Thus,
 \[
 x^2+y^2=C,
 \]
-so the trajectories are circles.
+so the trajectories are all circles centered at the origin. Draw a few circles of various radii. 
 
-\paragraph{Step 3. Determine the direction.}
-At $(1,0)$,
+Finally, we need to determnine the orientation. Pick a sample point such as $(1,0)$, and calculate the velocity vector
 \[
 \mathbf{x}'=
 \begin{pmatrix}
@@ -483,7 +381,7 @@ At $(1,0)$,
 =
 \begin{pmatrix}0\\2\end{pmatrix}.
 \]
-The velocity points upward. Hence, the origin is a
+The velocity vector $\textbf{x}'=\cvec{0,2}$ points straight up. The full classification is 
 \[
 \boxed{\text{counterclockwise center}.}
 \]
@@ -504,12 +402,40 @@ The velocity points upward. Hence, the origin is a
     \draw[red,thick,->] (1,0)--(1,0.7);
 \end{tikzpicture}
 \end{center}
-The red arrow shows the velocity direction at $(1,0)$.
 \end{example}
 
+% --------------------- 
+
+\subsection{Rules for sketching Centers}
+Here are three rules to help you sketch the phase portraits for centers.
+\begin{itemize} 
+\item \textbf{Rule 1.} If the matrix has the form 
+    $$ A = \begin{pmatrix}
+    0 & a\\
+    -a & 0
+    \end{pmatrix},$$
+    where $a\ne0$ then sketch circles. 
+
+\item \textbf{Rule 2.} If the matrix has the form
+$$A = \begin{pmatrix}
+    0 & a\\
+    b & 0
+\end{pmatrix},$$
+for $a\ne b$ and $a,b$ have opposite signs, then sketch ellipses.  
+
+\item \textbf{Rule 3.} If the matrix has the form
+$$
+A = \begin{pmatrix}
+    a & b\\
+    c & -a
+\end{pmatrix},$$ 
+where $a^2 > bc$, then sketch slanted ellipses. 
+\end{itemize}
+For each case, pick an easy sample velocity vector to determine the orientation and details about the shape of the ellipse. Let's do an example of Rule 3.
+
+
 \begin{example}[5]{
-Classify the equilibrium and determine the direction
-of motion:
+Sketch the phase portrait and classify the equilibrium:
 \[
 \mathbf{x}'=
 \begin{pmatrix}
@@ -519,8 +445,8 @@ of motion:
 \]
 }
 
-\paragraph{Step 1. Find the eigenvalues.}
-The characteristic equation is
+\paragraph{Step 1. Check Eigenvalues.}
+First, make sure that this is a center. The characteristic equation is
 \[
 \begin{vmatrix}
 \lambda-3&-2\\
@@ -528,10 +454,10 @@ The characteristic equation is
 \end{vmatrix}
 =\lambda^2+1=0.
 \]
-Thus, $\lambda=\pm i$, so the origin is a center.
+Since the eigenvalues, $\lambda=\pm i$, are purely imaginary, the origin must be a center.
 
-\paragraph{Step 2. Determine the direction.}
-At $(1,0)$,
+\paragraph{Step 2. Determine orientation.}
+Pick any simple point, like $\textbf{x}=(1,0)$. At $(1,0)$,
 \[
 \mathbf{x}'=
 \begin{pmatrix}
@@ -576,45 +502,44 @@ The red arrow is parallel to the velocity $(3,-5)$.
 \end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Spirals}
+\section{Case when $\alpha \ne 0$}
 
-\subsection{The Effect of the Real Part}
+\subsection{The Spiral}
 
-For eigenvalues
+When the eigenvalues of the $A$ matrix are complex and 
 \[
 \lambda=\alpha\pm i\beta,
-\qquad \alpha\ne0,\quad \beta\ne0,
+\qquad \alpha\ne0,\quad 
 \]
 the solution contains oscillations multiplied by
-$e^{\alpha t}$. The trajectories spiral around the origin.
+$e^{\alpha t}$. The trajectories no longer trace closed loops; they trace spirals. When $\alpha\ne0$, we name for the equilibrium type is the \textbf{spiral}. 
 
-\begin{itemize}
-    \item If $\alpha<0$, the exponential factor decays.
-    Trajectories spiral inward toward the origin.
-    This is an \textbf{asymptotically stable spiral}.
+\subsection{Classification}
 
-    \item If $\alpha>0$, the exponential factor grows.
-    Nonzero trajectories spiral outward.
-    This is an \textbf{unstable spiral}.
-\end{itemize}
+
+The origin is always at the center of the spiral, but it can be attracting or repelling. In other words, the trajectories can be spiraling in towards the origin, or spiraling out of the origin. The sign of $\alpha$ ultimately controls the two cases. If $\alpha<0$ then $x^*$ is \textbf{stable}. If $\alpha>0$ then $x^*$ is \textbf{unstable}.
 
 Either type may rotate clockwise or counterclockwise.
 As with centers, evaluate $A\mathbf{x}$ at a convenient
-point to determine the direction.
+point to determine the direction. 
+
+When the eigenvalues are complex and $\alpha$ is not zero, then you need three things to fully classify the equilibrium: the stability, orientation, and type. Please remember for the case when $\alpha \ne 0$:
+$$
+\boxed{\text{classification} \implies\text{stability }+\text{ orientation }+\text{ type}}
+$$
+
 
 %-------------------------------------------------------------
-\subsection{Sketching a Spiral}
+\subsection{Rules for Sketching a Spiral}
 
 To sketch the phase portrait:
 \begin{enumerate}
-    \item Find the eigenvalues $\alpha\pm i\beta$.
-    \item Use the sign of $\alpha$ to determine whether
-    the motion is inward or outward.
-    \item Evaluate $A\mathbf{x}$ at a convenient point
-    to determine the direction of rotation.
-    \item Draw representative spirals with arrows.
+    \item Confirm that eigenvalues are $\alpha\pm i\beta$, $\alpha\ne0$.
+    \item Evaluate $A\mathbf{x}$ at a convenient point to determine the orientation and shape.
+    \item Use the sign of $\alpha$ to determine whether the motion is inward or outward.
+    \item Draw one or two representative spirals with arrows.
 \end{enumerate}
-The spirals need not be circular in shape. Their
+The spirals need not be circular in shape. They can be oblique. Their
 precise shape depends on the matrix.
 
 \begin{example}[6]{

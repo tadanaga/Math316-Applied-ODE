@@ -51,116 +51,213 @@
 
 \section{Review Sketching Saddles}
 
-Last time, we sketched linear orbits and used them to sketch saddles,
-including saddles with tilted eigenvector lines. We considered a general solution of the form
+\subsection{Review: Sketch a Saddle in Three Steps}
+
+% SIDE NOTE: 9:00 | Rebuild the tilted saddle
+% a) Plot each eigenvector and extend its line through the origin.
+% b) Read the sign of λ and orient both rays on that line.
+% c) Sketch one curve in each region, from the attracting side to the repelling side.
+
+Last time, we sketched the phase portrait of
 \[
-\mathbf{x}(t)=c_1e^{2t}\begin{pmatrix}1\\3\end{pmatrix}
+\mathbf{x}(t)
+=c_1e^{2t}\begin{pmatrix}1\\3\end{pmatrix}
 +c_2e^{-t}\begin{pmatrix}2\\-1\end{pmatrix}.
 \]
-Let's review how to draw its phase portrait.
+We can build the sketch directly from the two terms.
 
-\paragraph{Step 1. Draw and orient the linear orbits.} The eigenvectors determine the direction, and the eigenvalue determines the orientation. Begin by sketching the two eigenvectors $\textbf{v}_1=\cvec{1,3}$ and
-$\textbf{v}_2=\cvec{2,-1}$ at the origin. The linear orbits that extend infinitely across the origin are parallel to these vectors. Then you orient the rays inward or outward depending on the sign of $\lambda$. 
-\[
-\begin{array}{c|c|c}
-\text{Eigenvector}&\text{Line}&\text{Orientation}\\\hline
-(1,3)^T&y=3x&\lambda_1=2:\ \text{outward (repelling)}\\
-(2,-1)^T&y=-x/2&\lambda_2=-1:\ \text{inward (attracting)} 
-\end{array}
-\]
-\paragraph{Step 2. Add curves in each region.}
-Draw curves coming in towards the origin along the attracting ray, and bending away along the neighboring repelling ray. Keep each curve in its region. Do not intersect trajectories. The exponentials explain the motion: as $t$ increases, $e^{-t}$ decays and $e^{2t}$ grows. Eventually, the trajectory heads outward in the direction determined by the $\mathbf v_1$ term.
+\paragraph{Step 1. Draw the eigenvector lines.}
+From the origin, draw $\mathbf{v}_1=\cvec{1,3}$ and
+$\mathbf{v}_2=\cvec{2,-1}$. Extend a straight line through each vector
+in both directions. The first line is $y=3x$, and the second is $y=-x/2$.
+Mark the origin as an equilibrium. Each line contains two rays, one on
+each side of the origin.
 
+\paragraph{Step 2. Put an arrow on each ray.}
+Read the eigenvalue from the exponential paired with each vector.
+Along $\mathbf{v}_1$, the factor $e^{2t}$ grows, so both rays point
+\textbf{away from the origin}. Along $\mathbf{v}_2$, the factor $e^{-t}$
+decays, so both rays point \textbf{toward the origin}.
+
+\paragraph{Step 3. Fill the four regions.}
+Pick one region. Start a curve near its attracting ray and follow that
+ray inward. Bend the curve before it reaches the origin, then head
+outward in the direction of the neighboring repelling ray. Add an arrow
+showing this motion. Repeat in the other three regions, keeping each
+curve inside its own region.
 
 \begin{center}
-\begin{tikzpicture}[scale=.8,>=Stealth]
-\phaseaxes
-\begin{scope}\clip(-3.1,-3.1)rectangle(3.1,3.1);
-\foreach \ca in {-.6,-.23,.23,.6}{\foreach \cb in {-.6,.6}{
-\draw[orbit]plot[domain=-2:1.5,samples=180,variable=\t]
-({\ca*exp(2*\t)+2*\cb*exp(-\t)},
- {3*\ca*exp(2*\t)-\cb*exp(-\t)});
-% Arrow is a segment of the exact trajectory, in increasing time.
-\draw[->,orbit]plot[domain=-.06:.10,samples=20,variable=\t]
-({\ca*exp(2*\t)+2*\cb*exp(-\t)},
- {3*\ca*exp(2*\t)-\cb*exp(-\t)});
-}}
-\draw[outward](-1.1,-3.3)--(1.1,3.3);
-\draw[inward](-3.3,1.65)--(3.3,-1.65);
-\foreach \s in {-1,1}{
-\draw[->,outward](.4*\s,1.2*\s)--(.65*\s,1.95*\s);
-\draw[->,inward](2.4*\s,-1.2*\s)--(1.4*\s,-.7*\s);
+\begingroup
+% Use the same axes and scale in all three panels.
+\newcommand{\reviewaxes}{%
+    \draw[->,gray!65] (-3.25,0) -- (3.4,0) node[right] {$x$};
+    \draw[->,gray!65] (0,-3.25) -- (0,3.4) node[above] {$y$};
 }
-\end{scope}
-\node[red,above]at(.9,3){$\lambda_1=2$};
-\node[blue,below right]at(3,-1.3){$\lambda_2=-1$};
+\newcommand{\reviewrays}{%
+    \draw[outward] (-1,-3) -- (1,3);
+    \draw[inward]  (-3,1.5) -- (3,-1.5);
+    \foreach \s in {-1,1}{
+        \draw[->,outward] ({0.42*\s},{1.26*\s})
+                       -- ({0.73*\s},{2.19*\s});
+        \draw[->,inward]  ({2.45*\s},{-1.225*\s})
+                       -- ({1.40*\s},{-0.70*\s});
+    }
+    \fill (0,0) circle (2pt);
+}
+
+% Panel 1: purple arrows locate the eigenvectors.
+\begin{minipage}[t]{.32\linewidth}
+\centering
+\textbf{1. Draw the lines}\par\smallskip
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \reviewaxes
+    \draw[gray,dashed] (-1,-3) -- (1,3);
+    \draw[gray,dashed] (-3,1.5) -- (3,-1.5);
+    \draw[->,purple,very thick] (0,0) -- (1,3)
+        node[left] {$\mathbf{v}_1$};
+    \draw[->,purple,very thick] (0,0) -- (2,-1)
+        node[below] {$\mathbf{v}_2$};
+    
+    \fill (0,0) circle (2pt);
+\end{tikzpicture}}
+\end{minipage}\hfill
+% Panel 2: arrows on the rays show increasing time.
+\begin{minipage}[t]{.32\linewidth}
+\centering
+\textbf{2. Orient the rays}\par\smallskip
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \reviewaxes
+    \reviewrays
+    \node[red,anchor=east,align=center] at (0.55,2.55)
+        {$\lambda_1=2$\\repelling};
+    \node[blue,anchor=east,align=center] at (2.85,-2.25)
+        {$\lambda_2=-1$\\attracting};
+\end{tikzpicture}}
+\end{minipage}\hfill
+% Panel 3: one representative trajectory per region.
+\begin{minipage}[t]{.32\linewidth}
+\centering
+\textbf{3. Add the curves}\par\smallskip
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \reviewaxes
+    \begin{scope}
+        \clip (-3.1,-3.1) rectangle (3.1,3.1);
+    
+        \foreach \ca in {-0.45,0.45}{
+            \foreach \cb in {-0.65,0.65}{
+                % Draw one trajectory in this region.
+                \draw[thick]
+                    plot[domain=-1.8:1,samples=100,variable=\t]
+                    ({\ca*exp(2*\t)+2*\cb*exp(-\t)},
+                     {3*\ca*exp(2*\t)-\cb*exp(-\t)});
+    
+                % Trace a short segment in the direction of increasing time.
+                \draw[->,thick]
+                    plot[domain=-0.1:0.12,samples=12,variable=\t]
+                    ({\ca*exp(2*\t)+2*\cb*exp(-\t)},
+                     {3*\ca*exp(2*\t)-\cb*exp(-\t)});
+            }
+        }
+    \end{scope}
+    \reviewrays
 \end{tikzpicture}
+}
+\end{minipage}
+\endgroup
 \end{center}
 
-% draw vector v1 = <1,3> in purple 
-% draw arrow pointing and labeling it 
-% draw vector v2 = <2,-1> in purple 
-% draw arrow pointing and labeling it 
-% draw arrow to l1 = 2, label it as repelling 
-% draw arrow to l1 = 2, label it as repelling 
+\subsection{Goal}
 
+For a saddle, the eigenvalues have opposite signs. In each region,
+one boundary ray carries motion inward and the other carries motion
+outward. That tells us how to bend the curve.
 
-A key feature of saddles is that the eigenvalues have \textit{opposite signs}. That means one pair of rays is attracting and the other pair is repelling. What would happen if both eigenvalues had the same sign? How would the curved trajectories change?
+Now suppose both eigenvalues are negative. We can already draw the
+linear orbits: all four rays point inward. But if a trajectory starts
+\emph{between} two inward rays, \textbf{which eigenvector line does it
+approach tangentially near the origin?} Our first node example will
+help us decide.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Sketching Nodes}
-Next, we'll discuss \textit{nodes}. Nodes are the second type of phase portraits.
 
-% SIDE NOTE: 9:03 | First node: four rays, then one curve
-% a) Use the diagonal eigenpairs directly; all four rays point inward.
-% b) Apply (1,1), eliminate time, and draw the right half of the parabola.
-% c) Skip deriving the general coefficient formula if needed; finish by 9:11.
+For a saddle, each region lies between an inward ray and an outward ray.
+Now suppose both eigenvalues are negative. We can still draw the four
+linear orbits, but all four arrows point inward. How should we sketch
+the trajectories between them?
+
 \subsection{Both Eigenvalues Negative}
-When two distinct real eigenvalues have the same sign, the origin is a
-\textbf{node}. We again begin with the linear orbits and then study the
-curves between them. 
+
+When $A$ has two distinct real eigenvalues of the same sign, the origin
+is a \textbf{node}. We begin with an example where both
+eigenvalues are negative. Let's draw the linear orbits and use one
+initial condition to find the shape of a curved trajectory.
 
 \begin{example}[1]{
-For the system
+The general solution to the system
 \[
-\mathbf{x}'=\begin{pmatrix}-1&0\\0&-2\end{pmatrix}\mathbf{x},
+    \mathbf{x}'=
+    \begin{pmatrix}-1&0\\0&-2\end{pmatrix}\mathbf{x},
 \]
-sketch the linear orbits, find the solution with $\mathbf{x}(0)=(1,1)^T$,
-and use its trajectory to complete the phase portrait.
+is given by 
+\[
+    \mathbf{x}(t)
+    = c_1e^{-t}\begin{pmatrix}1\\0\end{pmatrix}
+    + c_2e^{-2t}\begin{pmatrix}0\\1\end{pmatrix}.
+\]
+Sketch the linear orbits. Then sketch the trajectory through $(1,1)$
+and indicate its direction of motion.
 }
+
+\paragraph{Step 1. Draw and orient the linear orbits.}
+The eigenvector lines are the coordinate axes. Since $\lambda_1=-1$
+and $\lambda_2=-2$, all four rays point toward the origin.
+
+\paragraph{Step 2. Find the curve through $(1,1)$.}
 The general solution is
 \[
-\mathbf{x}(t)=c_1e^{-t}\begin{pmatrix}1\\0\end{pmatrix}
-+c_2e^{-2t}\begin{pmatrix}0\\1\end{pmatrix}.
+    x=c_1e^{-t},\qquad y=c_2e^{-2t}.
 \]
-\paragraph{Step 1. Draw the linear orbits.}
-The eigenvector lines are the coordinate axes. Both eigenvalues are negative,
-so all four rays point toward the origin.
-
-\paragraph{Step 2. Find one curved trajectory.}
-The initial condition gives $c_1=c_2=1$, so the solution is $x=e^{-t}$ and $y=e^{-2t} = (e^{-t})^2=x^2$. This means the trajectory through $(1,1)$ lies on the curve $y=x^2$. The orientation of the trajectory is heading southwest to the origin $(0,0)$ because, as $t\to\infty$, $\textbf{x}(t)\to(0,0)$.
+At $t=0$, the initial condition gives $c_1=c_2=1$. To sketch the
+trajectory in the $xy$-plane, eliminate $t$:
 \[
-\mathbf{x}(t)=\begin{pmatrix}e^{-t}\\e^{-2t}\end{pmatrix},
-\qquad \boxed{y=x^2,\quad x>0.}
+    x=e^{-t},\qquad y=e^{-2t}=(e^{-t})^2
+    \qquad\Longrightarrow\qquad
+    \boxed{y=x^2,\quad x>0.}
 \]
+Since $x=e^{-t}$ is always positive, draw only the right half of the
+parabola. Mark $(1,1)$. As $t$ increases, both coordinates decrease,
+so the arrow points down and left toward the origin.
+
 \begin{center}
-\begin{minipage}[t]{.47\linewidth}\centering
-\resizebox{.79\linewidth}{!}{\begin{tikzpicture}[>=Stealth]
-\phaseaxes\noderays{-1}
+\begin{minipage}[t]{.47\linewidth}
+\centering
+\resizebox{.85\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \phaseaxes
+    \noderays{-1}
 \end{tikzpicture}}
 
-\small First: four inward rays.
+\small Draw the four inward rays.
 \end{minipage}\hfill
-\begin{minipage}[t]{.47\linewidth}\centering
-\resizebox{.79\linewidth}{!}{\begin{tikzpicture}[>=Stealth]
-\phaseaxes\noderays{-1}
-\draw[purple,very thick]plot[domain=.02:1.76,samples=80](\x,{\x*\x});
-\draw[->,purple,very thick]plot[domain=1.3:.9,samples=20](\x,{\x*\x});
-\fill[purple](1,1)circle(2pt)node[right]{$(1,1)$};
+\begin{minipage}[t]{.47\linewidth}
+\centering
+\resizebox{.85\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \phaseaxes
+    \noderays{-1}
+    \draw[purple,very thick]
+        plot[domain=.02:1.75,samples=80] (\x,{\x*\x});
+    \draw[->,purple,very thick]
+        plot[domain=1.35:1.12,samples=16] (\x,{\x*\x});
+    \fill[purple] (1,1) circle (2pt) node[right] {$(1,1)$};
 \end{tikzpicture}}
 
-\small Then: one curved trajectory.
+\small Add the trajectory through $(1,1)$.
 \end{minipage}
 \end{center}
 \end{example}
@@ -168,272 +265,231 @@ The initial condition gives $c_1=c_2=1$, so the solution is $x=e^{-t}$ and $y=e^
 % -----------------------------
 
 \subsection{Curved Trajectories for Nodes}
-revisit the general solution. pick any IC,  the curve will have the form $y = Cx^2$ where C depends on c1 and c2. key idea: all curves are parabolas through the origin! 
+
+Was the parabolic shape special to the initial point $(1,1)$?
+Suppose we start at any point $(x_0,y_0)$ off the coordinate axes.
+The solution is
+\[
+    x=x_0e^{-t},\qquad y=y_0e^{-2t}.
+\]
+Since $e^{-t}=x/x_0$, we obtain
+\[
+    y=y_0\left(\frac{x}{x_0}\right)^2
+    \qquad\Longrightarrow\qquad
+    \boxed{y=Cx^2,\qquad C=\frac{y_0}{x_0^2}.}
+\]
+Thus, for this system,\textbf{ every curved trajectory follows one branch of a
+parabola}. The initial point tells us which branch to draw. For example,
+$(1,1)$ and $(-1,1)$ lie on the same parabola $y=x^2$, but they trace
+different trajectories: one stays in the first quadrant and the other
+stays in the second. Starting at $(1,-1)$ instead gives the right branch
+of $y=-x^2$ in the fourth quadrant. Each branch approaches the origin
+as $t\to\infty$.
 
 % -----------------------------
 
 \subsection{Checking the Shape with a Direction Field}
 
-For the system in Example 1,
+For the system in Example 1, the velocity at $(x,y)$ is
 \[
-    x'=-x,\qquad y'=-2y,
+    \mathbf{x}'=\begin{pmatrix}-x\\-2y\end{pmatrix}.
 \]
-the velocity at a point $(x,y)$ is
-\[
-    \mathbf{x}'=
-    \begin{pmatrix}-x\\-2y\end{pmatrix}.
-\]
-The direction field below helps us check the shapes
-of our trajectories. The parabolic curves follow
-the arrows and become tangent to the horizontal
-axis as they approach the origin.
+At $(1,1)$, for instance, the velocity is $(-1,-2)$. The trajectory
+must pass through that point heading down and left, with slope $2$.
+This agrees with our sketch of $y=x^2$. 
 
 \begin{center}
-%-------------------- Field alone --------------------
-\begin{minipage}[t]{0.48\linewidth}
-\centering
-\begin{tikzpicture}[scale=0.48,>=Stealth]
-    % Axes
-    \draw[->,gray] (-3.5,0) -- (3.5,0)
-        node[right,black] {$x$};
-    \draw[->,gray] (0,-3.5) -- (0,3.5)
-        node[above,black] {$y$};
-
-    % Direction field: (-x,-2y)
-    \foreach \xx in {-3,-2,-1,0,1,2,3}{
-        \foreach \yy in {-3,-2,-1,0,1,2,3}{
-            \pgfmathsetmacro{\fieldnorm}
-                {sqrt(\xx*\xx+4*\yy*\yy)}
+\begingroup
+\newcommand{\inwardnodefield}{%
+    \foreach \xx in {-3,-2,...,3}{
+        \foreach \yy in {-3,-2,...,3}{
+            \pgfmathsetmacro{\fieldnorm}{sqrt(\xx*\xx+4*\yy*\yy)}
             \ifdim\fieldnorm pt>0pt
-                \draw[->,gray!75,thick]
+                \draw[->,gray!65,thick]
                     (\xx,\yy) --
-                    ({\xx-0.45*\xx/\fieldnorm},
-                     {\yy-0.90*\yy/\fieldnorm});
+                    ({\xx-.45*\xx/\fieldnorm},
+                     {\yy-.90*\yy/\fieldnorm});
             \fi
         }
     }
-
+}
+\begin{minipage}[t]{.47\linewidth}
+\centering
+\resizebox{.9\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \phaseaxes
+    \inwardnodefield
     \fill (0,0) circle (2pt);
-\end{tikzpicture}
+\end{tikzpicture}}
 
 \small Direction field.
-\end{minipage}
-\hfill
-%-------------------- Field and trajectories --------------------
-\begin{minipage}[t]{0.48\linewidth}
+\end{minipage}\hfill
+\begin{minipage}[t]{.47\linewidth}
 \centering
-\begin{tikzpicture}[scale=0.48,>=Stealth]
-    % Axes
-    \draw[->,gray] (-3.5,0) -- (3.5,0)
-        node[right,black] {$x$};
-    \draw[->,gray] (0,-3.5) -- (0,3.5)
-        node[above,black] {$y$};
-    % Same direction field
-    \foreach \xx in {-3,-2,-1,0,1,2,3}{
-        \foreach \yy in {-3,-2,-1,0,1,2,3}{
-            \pgfmathsetmacro{\fieldnorm}
-                {sqrt(\xx*\xx+4*\yy*\yy)}
-            \ifdim\fieldnorm pt>0pt
-                \draw[->,gray!50,thick]
-                    (\xx,\yy) --
-                    ({\xx-0.45*\xx/\fieldnorm},
-                     {\yy-0.90*\yy/\fieldnorm});
-            \fi
-        }
-    }
-    % Parabolic trajectories and inward orientation
-    \begin{scope}
-        \clip (-3.1,-3.1) rectangle (3.1,3.1);
+\resizebox{.9\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth]
+    \phaseaxes
+    \inwardnodefield
+    \nodecurves{-1}
+    \noderays{-1}
+\end{tikzpicture}}
 
-        \foreach \sx in {-1,1}{
-            \foreach \C in {-1,-0.3,0.3,1}{
-                \draw[blue,thick,
-                      domain=0.02:3.1,samples=120]
-                    plot ({\sx*\x},{\C*\x*\x});
-
-                % Decreasing |x| corresponds to increasing time
-                \draw[->,blue,thick,
-                      domain=1.25:0.9,samples=25]
-                    plot ({\sx*\x},{\C*\x*\x});
-            }
-        }
-    \end{scope}
-    % Four linear orbits
-    \draw[blue,thick] (-3.1,0) -- (3.1,0);
-    \draw[blue,thick] (0,-3.1) -- (0,3.1);
-    \foreach \s in {-1,1}{
-        \draw[->,blue,thick] (2*\s,0) -- (1.2*\s,0);
-        \draw[->,blue,thick] (0,2*\s) -- (0,1.2*\s);
-    }
-    \fill (0,0) circle (2pt);
-\end{tikzpicture}
-
-\small Trajectories follow the field.
+\small The curves follow the field.
 \end{minipage}
+\endgroup
 \end{center}
-Here is an online tool to sketch direction fields: https://tadanagatakahashi.com/tools/linear-systems/
 
-% -----------------------
+Explore the direction field and trajectories for other matrices using
+the \textbf{Phase Plane Tool} at
+\texttt{https://tadanagatakahashi.com/tools/linear-systems/}.
 
-\subsection{Direction of Parabolas}
-There is an ambiguity in the way parabolas open. The parabolas may open along the $\lambda_1$ linear orbit or the $\lambda_2$ linear orbit. It always opens along the one with a larger absolute value. Here's why...
+% -----------------------------
 
-In Example 1, $e^{-2t}$ decays faster than $e^{-t}$. Along the
-trajectory through $(1,1)$,
+\subsection{Which Way Do the Parabolas Open?}
+
+In Example 1, the curved trajectories have a parabola-like shape that
+opens along the $y$-axis. Why do they open vertically? Both eigenvalues
+are negative, so the arrows on both axes point inward. To decide which
+way the curves open, we need to compare the two exponential terms.
+
+Recall the general solution
 \[
-\frac{y(t)}{x(t)}=e^{-t}\longrightarrow0.
+    \mathbf{x}(t)
+    = c_1e^{-t}\begin{pmatrix}1\\0\end{pmatrix}
+    + c_2e^{-2t}\begin{pmatrix}0\\1\end{pmatrix}.
 \]
-This explains the horizontal tangent near the origin.
-The \textbf{slow direction} is the eigenvector direction whose exponential
-changes more slowly; the other is the \textbf{fast direction}.
+Choose a curved trajectory, so both $c_1$ and $c_2$ are nonzero.
 
-Suppose
+\paragraph{What happens at $t\to\infty$?}
+Follow the particle forward in time. As $t\to\infty$, both terms
+decay, but $e^{-2t}$ decays faster than $e^{-t}$. For large positive
+$t$, the first term gives the direction of the solution:
 \[
-0>\lambda_1>\lambda_2.
+    \mathbf{x}(t)\approx
+    c_1e^{-t}\begin{pmatrix}1\\0\end{pmatrix}.
 \]
-Then $\lambda_1$ is closer to zero, so
-$e^{\lambda_1t}$ decays more slowly than
-$e^{\lambda_2t}$.
+The particle therefore enters the origin tangent to the direction $\textbf{v}_1=\cvec{1,0}$.
 
-For a trajectory containing both components,
+\paragraph{What happens at $t\to-\infty$?}
+Now trace the same curve backward, away from the origin. As
+$t\to-\infty$, the factor $e^{-2t}$ grows much faster than $e^{-t}$.
+For large negative $t$, the second term gives the direction:
 \[
-\mathbf{x}(t)
-=c_1e^{\lambda_1t}\mathbf{v}_1
-+c_2e^{\lambda_2t}\mathbf{v}_2,
-\qquad c_1c_2\ne0,
+    \mathbf{x}(t)\approx
+    c_2e^{-2t}\begin{pmatrix}0\\1\end{pmatrix}.
 \]
-we have:
-\begin{itemize}
-    \item As $t\to\infty$, the slower term
-    $c_1e^{\lambda_1t}\mathbf{v}_1$ dominates.
-    The trajectory approaches the origin tangent
-    to the $\mathbf{v}_1$ line.
+The particle therefore escapes to infinity tangent to the direction $\textbf{v}_2=\cvec{0,1}$.
 
-    \item As $t\to-\infty$, the faster term
-    $c_2e^{\lambda_2t}\mathbf{v}_2$ dominates.
-    Far from the origin, the trajectory's direction
-    approaches the $\mathbf{v}_2$ line.
-\end{itemize}
+\paragraph{Sketching rule.}
+For a node with two distinct negative eigenvalues, suppose $|\lambda_1|>|\lambda_2|$. 
+We will refer to $\lambda_1$ as the \textbf{dominant} eigenvalue. The curved trajectories have a
+\textbf{parabola-like shape that opens toward the eigenvector direction
+of the dominant eigenvalue}. Near the origin, draw each curve tangent
+to the other eigenvector line. Since both eigenvalues are negative,
+orient every curve toward the origin.
 
-This means that near the origin: tangent to the slow eigenvector line.
-The linear orbits themselves remain on their own eigenvector lines.
-Far away, approaching the fast direction does not mean that the
-fast eigenvector line is a straight-line asymptote.
+% -----------------------------
 
-
-
-%-------------------------------------------------------------
-
-% SIDE NOTE: 9:27 | One tilted node
-% a) Draw and orient the two lines quickly.
-% b) Identify λ = -1 as the slow direction, then add the curves.
-% c) Mark (3,-1) qualitatively; skip solving for constants. Start the zero eigenvalue by 9:34.
 \begin{example}[2]{
 Sketch the phase portrait for
 \[
-\mathbf{x}(t)
-=c_1e^{-3t}\begin{pmatrix}1\\-1\end{pmatrix}
-+c_2e^{-t}\begin{pmatrix}4\\1\end{pmatrix}.
+    \mathbf{x}(t)
+    =c_1e^{-3t}\begin{pmatrix}1\\-1\end{pmatrix}
+    +c_2e^{-t}\begin{pmatrix}4\\1\end{pmatrix}.
 \]
-Label the trajectory satisfying
-\[
-\mathbf{x}(0)=\begin{pmatrix}3\\-1\end{pmatrix}.
-\]
+Mark the trajectory through $(3,-1)$ and indicate its direction of motion.
 }
 
-\paragraph{Step 1. Draw the linear orbits.}
-The eigenvector lines are
-\[
-y=-x,\qquad y=\frac14x.
-\]
-Both eigenvalues are negative, so all four arrows
-point toward the origin.
+\paragraph{Step 1. Draw and orient the linear orbits.}
+The eigenvector $(1,-1)^T$ gives the line $y=-x$, and the eigenvector
+$(4,1)^T$ gives the line $y=x/4$. Draw both lines through the origin.
+Since both eigenvalues are negative, all four rays point inward.
 
-\paragraph{Step 2. Identify the slow direction.}
-The eigenvalue $-1$ is closer to zero than $-3$.
-Thus, curved trajectories approach the origin
-tangent to
-\[
-y=\frac14x.
-\]
-Farther away, they bend toward the direction
-of $y=-x$.
+\paragraph{Step 2. Decide which way the trajectories open.}
+Compare $|-3|=3$ with $|-1|=1$. The \textbf{dominant eigenvalue far
+from the origin} is $\lambda=-3$, paired with $(1,-1)^T$. Thus the
+curved trajectories have a \textbf{parabola-like shape that opens
+toward the $y=-x$ direction}. Near the origin, they are tangent to
+the other eigenvector line, $y=x/4$.
 
-\paragraph{Step 3. Mark the initial point.}
-Plot $(3,-1)$ and sketch the trajectory through it.
-A qualitative sketch does not require solving for the constants.
-For reference, the highlighted exact curve uses $c_1=7/5$ and $c_2=2/5$.
+\paragraph{Step 3. Draw the trajectory through $(3,-1)$.}
+Mark $(3,-1)$ between the two eigenvector lines. Starting near the
+origin, sketch a curve just below $y=x/4$. Bend it through $(3,-1)$
+so that it opens toward the lower-right ray of $y=-x$. Now place an
+arrow on the curve pointing back toward the origin. Use the same rule
+to sketch one representative curve in each of the other three regions.
 
 \begin{center}
-\begin{tikzpicture}[scale=0.75]
-    \draw[->] (-4.2,0) -- (4.4,0) node[right] {$x$};
-    \draw[->] (0,-4.2) -- (0,4.4) node[above] {$y$};
+\begin{tikzpicture}[scale=.88,>=Stealth]
+    \draw[->,gray] (-4.15,0) -- (4.35,0) node[right,black] {$x$};
+    \draw[->,gray] (0,-3.65) -- (0,3.85) node[above,black] {$y$};
 
     \begin{scope}
-        \clip (-4,-4) rectangle (4,4);
+        \clip (-4,-3.5) rectangle (4,3.5);
 
-        \foreach \ca in {-0.5,-0.25,0.25,0.5}{
-            \foreach \cb in {-0.5,0.5}{
-                \draw[thick,domain=-1.2:5,
-                      samples=250,variable=\t]
-                    plot
-                    ({\ca*exp(-3*\t)+4*\cb*exp(-\t)},
-                     {-\ca*exp(-3*\t)+\cb*exp(-\t)});
-
-                \draw[->,thick,domain=0:0.2,
-                      samples=20,variable=\t]
-                    plot
-                    ({\ca*exp(-3*\t)+4*\cb*exp(-\t)},
-                     {-\ca*exp(-3*\t)+\cb*exp(-\t)});
-            }
+        % Each curve uses u=e^{-t}. Increasing time means decreasing u.
+        % One trajectory per region keeps the bends visible.
+        % The purple trajectory is the representative in its region.
+        \foreach \a/\b in {-1.4/0.4, 1.4/-0.4, -1.4/-0.4}{
+            \draw[black,thick]
+                plot[domain=.02:2,samples=100,variable=\u]
+                ({\a*\u^3+4*\b*\u},{-\a*\u^3+\b*\u});
+            \draw[->,black,thick]
+                plot[domain=1.04:.93,samples=12,variable=\u]
+                ({\a*\u^3+4*\b*\u},{-\a*\u^3+\b*\u});
         }
 
-        \draw[blue,very thick] (-4,4) -- (4,-4);
-        \draw[blue,very thick] (-4,-1) -- (4,1);
-        \draw[->,blue,very thick] (2,-2) -- (1,-1);
-        \draw[->,blue,very thick] (-2,2) -- (-1,1);
-        \draw[->,blue,very thick] (2,0.5) -- (1,0.25);
-        \draw[->,blue,very thick] (-2,-0.5) -- (-1,-0.25);
+        % For (3,-1), c1=7/5 and c2=2/5. The point occurs at u=1.
+        \draw[purple,very thick]
+            plot[domain=.02:2,samples=100,variable=\u]
+            ({1.4*\u^3+1.6*\u},{-1.4*\u^3+.4*\u});
+        \draw[->,purple,very thick]
+            plot[domain=.97:.83,samples=12,variable=\u]
+            ({1.4*\u^3+1.6*\u},{-1.4*\u^3+.4*\u});
 
-        \draw[purple,very thick,domain=-1:5,
-              samples=250,variable=\t]
-            plot
-            ({(7/5)*exp(-3*\t)+(8/5)*exp(-\t)},
-             {-(7/5)*exp(-3*\t)+(2/5)*exp(-\t)});
-
-        \draw[->,purple,very thick,domain=0:0.15,
-              samples=20,variable=\t]
-            plot
-            ({(7/5)*exp(-3*\t)+(8/5)*exp(-\t)},
-             {-(7/5)*exp(-3*\t)+(2/5)*exp(-\t)});
+        % Linear orbits, with arrows pointing inward on all four rays.
+        \draw[blue,thick] (-3.5,3.5) -- (3.5,-3.5);
+        \draw[blue,thick] (-4,-1) -- (4,1);
+        \foreach \s in {-1,1}{
+            \draw[->,blue,thick]
+                ({2.8*\s},{-2.8*\s}) -- ({1.9*\s},{-1.9*\s});
+            \draw[->,blue,thick]
+                ({3.3*\s},{.825*\s}) -- ({2.4*\s},{.6*\s});
+        }
     \end{scope}
 
-    \fill[purple] (3,-1) circle (2.5pt);
-    \node[purple,below] at (3,-1.1) {$(3,-1)$};
-    \node[blue,above] at (2.7,0.9) {$\lambda=-1$};
-    \node[blue,left] at (2.8,-3.2) {$\lambda=-3$};
-    \fill (0,0) circle (2pt);
+    % Label the eigenvector lines near their ends, away from the bends.
+    \node[blue,above right] at (-3.5,3.5) {$\lambda=-3$};
+    \node[blue,above left] at (4,1) {$\lambda=-1$};
+    \fill (0,0) circle (1.8pt);
+    \fill[purple] (3,-1) circle (2.3pt)
+        node[above right,inner sep=2pt] {$(3,-1)$};
 \end{tikzpicture}
 \end{center}
 \end{example}
 
-% -----------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Equilibrium Points and Stability}
+\section{Stability}
 
 \subsection{Both Eigenvalues Positive}
 
-% SIDE NOTE: 9:14 | Reverse the arrows
-% a) Replace A by -A: same paths, opposite motion.
-% b) Define inward and outward nodes visually before stability.
-% c) Use the paired figures; do not solve a second IVP.
-Replacing the entire matrix by its negative gives
+What would change about the phase portrait if both eigenvalues are positive? Consider the system
 \[
 \mathbf{x}'=\begin{pmatrix}1&0\\0&2\end{pmatrix}\mathbf{x}.
 \]
-Now $x=c_1e^t$ and $y=c_2e^{2t}$. Eliminating $t$ gives the same
-parabolic paths, but every motion arrow reverses. Both eigenvalues
-are positive, so all nonconstant solutions move away from the origin.
+For this diagonal system, the general solution has the form
+\[
+    \mathbf{x}(t)
+    =c_1e^{t}\begin{pmatrix}1\\0\end{pmatrix}
+    +c_2e^{2t}\begin{pmatrix}0\\1\end{pmatrix}.
+\]
+This matrix is the negative of the matrix in Example 1. Replacing $t$
+with $-t$ in that solution gives the solution above, so the particle
+traces the same path in reverse. In the left portrait, a particle
+starting near the origin approaches it. In the right portrait, a
+particle starting just as close moves away. We use \textbf{stability}
+to describe this difference.
 
 \begin{center}
 \begin{minipage}[t]{.40\linewidth}\centering
@@ -452,297 +508,209 @@ are positive, so all nonconstant solutions move away from the origin.
 \end{minipage}
 \end{center}
 
-% -----------------------
-
-\subsection{Equilibrium Points}
-
-Consider the system
-\[
-\mathbf{x}'=A\mathbf{x}.
-\]
-Think of $\mathbf{x}(t)$ as the position of a particle.
-An \textbf{equilibrium point} is a position
-$\mathbf{x}_*$ where the particle remains at rest:
-\[
-\boxed{A\mathbf{x}^*=\mathbf{0}.}
-\]
-Starting at this point gives the constant solution
-$\mathbf{x}(t)=\mathbf{x}^*$.
-
-The origin is always an equilibrium. If $A$ is nonsingular, it is the only equilibrium because $A\mathbf{x}_*=\mathbf{0}$ has only the trivial solution.
-
 %-------------------------------------------------------------
 \subsection{Stability and Classification}
 
-A \textit{perturbation} is a small change in the
-initial position. We classify an equilibrium by
-what happens to nearby solutions:
-\begin{itemize}
-    \item \textbf{Stable}: solutions starting sufficiently
-    close remain close for all future time.
+Recall that an \textbf{equilibrium point} is a position $\mathbf{x}^*$
+where a particle placed at rest remains. For $\mathbf{x}'=A\mathbf{x}$,
+the equilibrium points satisfy
+\[
+    A\mathbf{x}^*=\mathbf{0}.
+\]
+A \textbf{perturbation} is a small change in the initial position.
+To classify an equilibrium, we ask what happens to a particle that
+starts near $\mathbf{x}^*$.
 
-    \item \textbf{Unstable}: some solutions starting
-    arbitrarily close eventually move away.
+\begin{itemize}
+    \item $\textbf{x}^*$\textbf{ is stable} if: a particle that starts sufficiently close
+    to $\mathbf{x}^*$ stays close for all future time.
+    \item $\textbf{x}^*$\textbf{ is unstable} if: a particle can start arbitrarily close
+    to $\mathbf{x}^*$ and eventually leave a fixed neighborhood of it.
 \end{itemize}
 
-%-----------------------------------------------------------
+Imagine resting a marble either at the bottom of a bowl or at the top of a mound. These two points are equilibria because the marble is stationary. 
+If you nudge the marble at the bottom of the bowl, it  may roll back and forth, but it stays near
+the bottom. This illustrates stability. Now nudge the ball at the top of a mound. Even a tiny displacement can send it rolling down the side. This illustrates instability.
 
-As a graphical analogy, think of equilibriums as points on a surface $z=\phi(x,y)$ where if you placed a marble on $(x^*,y^*)$ it would not roll away. A perturbation would be a small nudge to the marble, in any direction. If that marble resting atop the surface always rolls back to $(x^*,y^*)$, then its a stable equilibrium. If there are any cases where it rolls away, that equilibrium is unstable.
+In the left portrait, both eigenvalues are negative. A particle that
+starts near the origin stays close as it moves inward, so the origin
+is a \textbf{stable node}. In the right portrait, both eigenvalues are
+positive. The arrows point outward, so the origin is an
+\textbf{unstable node}.
 
-%-----------------------------------------------------------
-
-Remember that the origin $\textbf{x}^*=(0,0)$ is a solution. We can classify it based on its stability. 
-If $x^*$ is a node and both of its eigenvalues are negative, then we classify $\textbf{x}^*$ as a 
-\textbf{stable node}. If its eigenvalues are both positive then we classify the origin as an \textbf{unstable node}. By default, saddles are \textbf{unstable}. There is no need to say that a saddle is unstable because it always is.  
-
+A \textbf{saddle point} is also unstable. Place the particle on either
+outward ray, as close to the origin as you like. As time increases,
+it moves away. One outward ray is enough to establish instability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lines}
+In this section, we discuss a third type of phase portrait called the line of equilibria.
 
-% SIDE NOTE: 9:34 | What changes when λ = 0?
-% a) The zero-eigenvalue term is constant: a whole line of resting points.
-% b) Other trajectories are shifted parallel rays, not curves between four rays.
-% c) No motion arrows on the equilibrium line.
-\section{A Line of Equilibria}
-Finally, we'll discuss the third type of phase portrait called the \textit{line of equilibria}.
-
-\subsection{A Zero Eigenvalue}
-
-Suppose one eigenvalue is zero and the other is nonzero.
-Then $A$ is singular, and
-\[
-A\mathbf{x}_*=\mathbf{0}
-\]
-has infinitely many solutions forming a line through
-the origin. This is the \textbf{line of equilibria}.
-
-If $\mathbf{v}_1$ is an eigenvector for $\lambda_1=0$,
-then
-\[
-A\mathbf{v}_1=\mathbf{0}.
-\]
-Consequently, every point $c_1\mathbf{v}_1$ is an
-equilibrium. The zero-eigenvalue eigenvector gives
-the direction of the equilibrium line. Let's dive into an example. 
+\subsection{Zero Eigenvalue}
+For a matrix $A$, we can have one zero and one non-zero eigenvalue $\lambda_1=0$, $\lambda_2\ne0$. The general solution formula still holds. Let's take a look at an example.
 
 \begin{example}[3]{
 Find the general solution to
 \[
-\mathbf{x}'=
-\begin{pmatrix}
--2&-2\\
-1&1
-\end{pmatrix}\mathbf{x}.
+    \mathbf{x}'=
+    \begin{pmatrix}-2&-2\\1&1\end{pmatrix}\mathbf{x}.
 \]
 }
-
-\paragraph{Step 1. Use the eigenpairs.}
-The eigenpairs are
+I'll leave it as an exercise for you to confirm that the eigenpairs are
 \[
-\lambda_1=0,\quad \mathbf{v}_1=\begin{pmatrix}1\\-1\end{pmatrix},
-\qquad
-\lambda_2=-1,\quad \mathbf{v}_2=\begin{pmatrix}2\\-1\end{pmatrix}.
+    \lambda_1=0,\quad \mathbf{v}_1=\begin{pmatrix}1\\-1\end{pmatrix},
+    \quad \text{and}\quad 
+    \lambda_2=-1,\quad \mathbf{v}_2=\begin{pmatrix}2\\-1\end{pmatrix}.
 \]
-Check them by multiplying $A\mathbf{v}_1=\mathbf{0}$ and
-$A\mathbf{v}_2=-\mathbf{v}_2$. This leaves our attention on the sketch.
-
-\paragraph{Step 2. Write the general solution.}
-Since $e^{0t}=1$,
+Substituting the eigenpairs into the general solution gives
 \[
-\boxed{
-\mathbf{x}(t)
-=c_1\begin{pmatrix}1\\-1\end{pmatrix}
-+c_2e^{-t}\begin{pmatrix}2\\-1\end{pmatrix}.
-}
+    \mathbf{x}(t)
+    =c_1e^{0t}\begin{pmatrix}1\\-1\end{pmatrix}
+     +c_2e^{-t}\begin{pmatrix}2\\-1\end{pmatrix}.
 \]
+Since $e^{0t}=1$, the first term stays fixed:
+\[
+    \boxed{\mathbf{x}(t)
+    =c_1\begin{pmatrix}1\\-1\end{pmatrix}
+     +c_2e^{-t}\begin{pmatrix}2\\-1\end{pmatrix}.}
+\]
+For saddles and nodes, we used the sign of each eigenvalue to orient
+the rays on its eigenvector line. Here one eigenvalue is zero.
+How do we sketch the phase portrait?
 \end{example}
 
-%-------------------------------------------------------------
-\subsection{Solution Curves}
 
-With eigenvalues $0$ and $\lambda\ne0$, the general
-solution is
-\[
-\boxed{
+%-------------------------------------------------------------
+\subsection{How to Sketch the Phase Portrait}
+
+\paragraph{Rule}
+To sketch the phase portrait for
+$$
 \mathbf{x}(t)
-=c_1\mathbf{v}_1+c_2e^{\lambda t}\mathbf{v}_2.
-}
-\]
-The first term is constant. It selects a point
-$c_1\mathbf{v}_1$ on the line of equilibria. What do the solution curves look like?
-
-
-The second term describes motion along a ray in
-the $\mathbf{v}_2$ direction, shifted to that point.
-Thus, the nonconstant trajectories are
-\textbf{parallel rays}, each ending at or extending
-away from a point on the equilibrium line.
-
-%-------------------------------------------------------------
-\subsection{Sketching and Classification}
-
-To sketch the phase portrait:
+    =c_1\textbf{v}_1
+     +c_2e^{\lambda_2 t}\textbf{v}_2
+$$
 \begin{enumerate}
-    \item Draw the line of equilibria in the
-    $\mathbf{v}_1$ direction.
-    \item Through several points on that line,
-    draw lines parallel to $\mathbf{v}_2$.
-    \item Treat the two sides of each equilibrium
-    as separate trajectories.
-    \item Add arrows using the nonzero eigenvalue:
-    \[
-    \lambda<0:\ \text{toward the equilibrium line},
-    \qquad
-    \lambda>0:\ \text{away from the equilibrium line}.
-    \]
+    \item Draw the line through the origin in the $\mathbf{v}_1$
+    direction. Leave this line without arrows.
+    \item Mark several points on that line. Through each marked point,
+    draw a line parallel to $\mathbf{v}_2$. Its two sides give two
+    separate rays.
+    \item If $\lambda_2<0$, point both arrows \textbf{toward} the marked
+    point. If $\lambda_2>0$, point both arrows \textbf{away from} it.
 \end{enumerate}
 
-The classification is
+\paragraph{Why it works}
+Read the general solution as the sum of two vectors:
 \[
-\boxed{
-\begin{array}{ll}
-\lambda<0: & \text{stable line of equilibria},\\
-\lambda>0: & \text{unstable line of equilibria}.
-\end{array}
-}
+    \mathbf{x}(t)
+    =\underbrace{c_1\mathbf{v}_1}_{\text{fixed point}}
+     +\underbrace{c_2e^{\lambda_2t}\mathbf{v}_2}_{\text{ray}}.
 \]
-
-For an attracting line, each equilibrium is stable but not asymptotically
-stable. We will explain this distinction after the example.
+Fix $c_1$. The first term picks a point on the $\mathbf{v}_1$ line.
+The second term tells us where the particle is relative to that point.
+If $c_2>0$, the particle lies on the ray in the $+\mathbf{v}_2$
+direction. If $c_2<0$, it lies on the opposite ray. Changing $c_1$
+shifts this pair of rays to another point on the line.
 
 %-------------------------------------------------------------
+\subsection{Return to the Example}
+
+
 
 \begin{example}[4]{
-Sketch the phase portrait and classify the equilibrium (or equilibria).
-$$
-\mathbf{x}(t)
-=c_1\begin{pmatrix}1\\-1\end{pmatrix}
-+c_2e^{-t}\begin{pmatrix}2\\-1\end{pmatrix}.
-$$
+Sketch the phase portrait for the general solution from Example 3:
+\[
+    \mathbf{x}(t)
+    =c_1\begin{pmatrix}1\\-1\end{pmatrix}
+     +c_2e^{-t}\begin{pmatrix}2\\-1\end{pmatrix}.
+\]
 }
 
-\paragraph{Step 3. Sketch the phase portrait.}
-The line of equilibria is
-\[
-y=-x.
-\]
-Other trajectories are parallel to
-$\mathbf{v}_2=\begin{pmatrix}2\\-1\end{pmatrix}$,
-so they lie on lines of slope $-1/2$.
+\paragraph{Step 1. Draw the line for $\lambda_1=0$.}
+The eigenvector $\textbf{v}_1=\cvec{1,-1}$ gives the line $y=-x$.
 
-Indeed,
-\[
-x=c_1+2c_2e^{-t},
-\qquad
-y=-c_1-c_2e^{-t},
-\]
-which gives
-\[
-y=-\frac12x-\frac12c_1.
-\]
-Each such line meets the equilibrium line at
-$(c_1,-c_1)$. Since $\lambda_2=-1<0$, arrows point
-toward that equilibrium from both sides.
-
-\paragraph{Step 4. Classify the equilibria.}
-\[
-\boxed{y=-x\text{ is a stable line of equilibria.}}
-\]
+\paragraph{Step 2. Draw some lines $\lambda_2=-1$}
+Pick a few points that line, e.g. $(-1,1)$, $(-3,3)$ and draw lines parallel to $\textbf{v}_2=\cvec{2,-1}$. Since $\lambda_2<0$, orient the rays heading toward the points on the line $y=-x$.
 
 \begin{center}
-\begin{tikzpicture}[scale=0.57]
-    \draw[->] (-5.2,0) -- (5.4,0) node[right] {$x$};
-    \draw[->] (0,-5.2) -- (0,5.4) node[above] {$y$};
+\begin{tikzpicture}[scale=.72,>=Stealth]
+    \draw[->,gray] (-5.2,0) -- (5.4,0) node[right] {$x$};
+    \draw[->,gray] (0,-4.2) -- (0,4.4) node[above] {$y$};
 
     \begin{scope}
-        \clip (-5,-5) rectangle (5,5);
-
-        % Each equilibrium is (b,-b).
-        % Trajectories are parallel to (2,-1).
-        \foreach \bb in {-3,-1.5,0,1.5,3}{
+        \clip (-5,-4) rectangle (5,4);
+        \foreach \b in {-3,-1,1,3}{
+            % The two rays share the endpoint (b,-b).
             \draw[blue,thick]
-                ({\bb-12},{-\bb+6})
-                --
-                ({\bb+12},{-\bb-6});
-
-            % Arrows toward the equilibrium from both sides.
-            \draw[->,blue,very thick]
-                ({\bb+2},{-\bb-1})
-                --
-                ({\bb+0.8},{-\bb-0.4});
-
-            \draw[->,blue,very thick]
-                ({\bb-2},{-\bb+1})
-                --
-                ({\bb-0.8},{-\bb+0.4});
+                ({\b-10},{-\b+5}) -- ({\b+10},{-\b-5});
+            \foreach \s in {-1,1}{
+                \draw[->,blue,thick]
+                    ({\b+1.8*\s},{-\b-.9*\s}) --
+                    ({\b+.8*\s},{-\b-.4*\s});
+            }
         }
-
-        \draw[black,very thick] (-5,5) -- (5,-5);
+        \draw[black,very thick] (-4,4) -- (4,-4);
+        \foreach \b in {-3,-1,1,3}
+            \fill (\b,{-\b}) circle (2pt);
     \end{scope}
 
-    \foreach \bb in {-3,-1.5,0,1.5,3}
-        \fill[black] (\bb,{-\bb}) circle (2.5pt);
-
-    \node[black,above right,fill=white,inner sep=2pt]
-        at (-3.3,3.3) {$y=-x$};
-
-    \node[blue,above,fill=white,inner sep=2pt]
-        at (3.2,-1.6) {slope $-1/2$};
+    \node[above right] at (-3.4,3.4) {$y=-x$};
+    \node[below left,fill=white,inner sep=1pt] at (1,-1) {$(1,-1)$};
 \end{tikzpicture}
-
-\small
-Each black point is an equilibrium. Blue trajectories
-approach the equilibrium line without crossing it.
 \end{center}
 \end{example}
 
+%-------------------------------------------------------------
+\subsection{Equilibria}
 
-% SIDE NOTE: 9:46 | Stability of individual points on the line
-% a) Nearby solutions approach some equilibrium, not necessarily the starting one.
-% b) A point on an attracting line is stable but not asymptotically stable.
-% c) Reverse the nonzero eigenvalue sign verbally to get a repelling line.
-
-\clearpage
-\subsection{Why Not Asymptotically Stable?}
-In Example 3,
+For every saddle and node we have drawn, the origin is the only equilibrium. Look at the sketch above. What happens if we place the particle exactly at $(1,-1)$? Setting $c_1=1$ and $c_2=0$ gives $\mathbf{x}(t)=(1,-1)^T$ for all
+$t$. The particle stays there. The same argument works for any $c_1$:
 \[
-\mathbf{x}(t)\longrightarrow c_1\begin{pmatrix}1\\-1\end{pmatrix}.
+    c_2=0
+    \quad\Longrightarrow\quad
+    \mathbf{x}(t)=c_1\begin{pmatrix}1\\-1\end{pmatrix}.
 \]
-The limiting equilibrium depends on the initial condition. A small
-shift along $y=-x$ gives a different equilibrium that stays at rest.
-Thus each point on this line is \textbf{stable but not asymptotically stable}.
-Changing $A$ to $-A$ reverses the motion on the same rays: the line
-then consists of unstable equilibria.
+Thus, \emph{every} point on $y=-x$ is an equilibrium, including the
+points between the marked dots. We call this a \textbf{line of
+equilibria}. In general, when $\lambda_1=0$ and $\lambda_2\ne0$,
+the equilibria are precisely the points
+$\mathbf{x}^*=c_1\mathbf{v}_1$.
 
+\paragraph{Is the line stable or unstable?}
+In Example 4, displacing a particle slightly along $y=-x$ places it
+at another equilibrium. Displacing it slightly off the line places it
+on a ray pointing back toward the line. In either case, a particle
+that starts sufficiently close to the original equilibrium stays close.
+Thus $y=-x$ is a \textbf{stable line of equilibria}.
 
-% SIDE NOTE: 9:49 | Exit check
-% a) Opposite signs: saddle. Same nonzero sign: node. One zero: line of equilibria.
-% b) Ask which eigenvector controls the node tangent near the origin.
-% c) Finish at 9:50. If behind, omit the comparison pictures and exact-curve algebra, not the line example.
+% SIDE NOTE: 9:48 | Classify the line
+% a) Point to the arrows in Example 4. They point toward the line.
+% b) Ask students to reverse those arrows for a positive eigenvalue.
+% c) Finish by 9:50 with the sign rule.
 
-\begin{samepage}
+If the nonzero eigenvalue were positive, the displacement along each
+ray would grow. A particle starting arbitrarily close to the line
+could then move far away. The sign of the nonzero eigenvalue gives
+the classification:
+\[
+    \boxed{
+    \begin{array}{c|c}
+        \text{Nonzero eigenvalue} & \text{Classification}\\ \hline
+        \lambda_2<0 & \text{Stable line of equilibria}\\
+        \lambda_2>0 & \text{Unstable line of equilibria}
+    \end{array}}
+\]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Summary}
-For two distinct real eigenvalues:
-\begin{center}
-\begin{tabular}{c|l|l}
-Eigenvalues & Portrait & Stability\\\hline
-Opposite signs & Saddle & Unstable\\
-Both negative & Inward node & Asymptotically stable\\
-Both positive & Outward node & Unstable\\
-Zero and negative & Line of equilibria & Stable, not asymptotically stable\\
-Zero and positive & Line of equilibria & Unstable
-\end{tabular}
-\end{center}
-In the last two rows, stability describes each individual equilibrium.
-\end{samepage}
-
-
 
 \subsection{Saddles versus Nodes}
 The pictures below compare representative saddle and node shapes,
 without orientations. The saddle illustration uses $y=C/x$ and the
 node illustration uses $y=Cx^2$; these are examples, not universal
 formulas. Our earlier saddle instead had $y=C/\sqrt{|x|}$.
-For other eigenvalues or tilted eigenvectors, the exact curves differ. 
+For other eigenvalues or tilted eigenvectors, the exact curves differ. The only equilibrium point is the origin $(0,0)$.
 \begin{center}
 \begin{minipage}[t]{0.48\linewidth}
 \centering
@@ -807,9 +775,8 @@ Curved paths are tangent to one eigenvector line at the origin in the limit.
 % -----------------
 
 \subsection{Line of Equilibria}
-The general solution is ... 
-Draw the line of equilibria given by the constant vector. Draw the parallel rays given by the angle specified in the linear orbit. The rays can point towards the line or away depending on the sign of lambda. The classification is stable line or unstable line.
+When one eigenvalue is zero, then you have an infinite number of equilibria all along a line. This line can be either stable or unstable depending on the sign of the non-zero eigenvalue.
 
-
+We have covered 3 out of the 7 phase portraits. Two of them involve complex eigenvalues. The last two involve repeated eigenvalues.
 \end{document}
 
