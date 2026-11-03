@@ -17,8 +17,8 @@ We want to solve the equation
 $$
 \textbf{x}'=A\textbf{x}, 
 $$
-for the case when $A$ has complex eigenvalues. The usual formula 
-$\textbf{x}=c_1 e^{\lambda_1 t}\textbf{v}_1+c_2e^{\lambda_2 t}\textbf{v}_2$ will not suffice. We must learn some theory about complex linear algebra.
+when $A$ is real and has nonreal eigenvalues.
+Each eigenpair still gives a solution $e^{\lambda t}\mathbf{v}$. How can we use this complex solution to construct two real solutions?
 
 % --------------
 
@@ -44,11 +44,11 @@ vectors. For example,
 
 \subsection{Complex Eigenvalues and Eigenvectors}
 
-Even when a matrix $A$ is entirely made of real elements, it can still have complex eigenvalues. In fact, complex eigenvalues always come in pairs 
+For a real matrix $A$, nonreal eigenvalues occur in \textbf{complex conjugate pairs}
 $$
     \lambda_{1,2} = \alpha \pm i\beta,
 $$
-where $\alpha$ and $\beta$ are real numbers. Because they are so similar, we actually only need one eigenvalue $\lambda = \alpha +i\beta.$
+where $\alpha,\beta$ are real and $\beta\ne0$. We will use one eigenpair to construct the general real solution.
 The approach to find $\lambda$ and $\textbf{v}$ is still the same:
 solve the characteristic equation, then solve
 $(A-\lambda I)\mathbf{v}=\mathbf{0}$. Here is an example.
@@ -69,6 +69,7 @@ The characteristic equation is
 \begin{align*}
     \det(A-\lambda I)
     &=\begin{vmatrix}
+        -1-\lambda&-5\\
         1&3-\lambda
       \end{vmatrix}\\
     &=(\lambda+1)(\lambda-3)+5\\
@@ -168,8 +169,8 @@ Substituting into the formula gives
 \begin{align*}
     \mathbf{x}
     &
-      =e^t\begin{pmatrix}-2\cos t-\sin t\\ \cos t\end{pmatrix}
-      +e^t\begin{pmatrix}-2\sin t+\cos t\\ \sin t\end{pmatrix}.
+      =c_1e^t\begin{pmatrix}-2\cos t-\sin t\\ \cos t\end{pmatrix}
+      +c_2e^t\begin{pmatrix}-2\sin t+\cos t\\ \sin t\end{pmatrix}.
 \end{align*}
 
 \paragraph{Step 5. Apply the initial condition.}
@@ -198,23 +199,15 @@ we obtain
 To understand how the general solution formula is derived, we compare the 1D and 2D cases.
 \cols{
 \begin{center}
-    \textbf{1D Case}
+    \textbf{Scalar Second-Order ODE}
 \end{center}
-Suppose $\lambda=\alpha +i\beta$ is a complex number.  Then the problem
-\[
-x'=\lambda x
-\]
-has the solution $x(t)=e^{\lambda t}$.
-
-Using Euler's formula:
+Suppose $y''+ay'+by=0$ has real coefficients and characteristic roots $\alpha\pm i\beta$, with $\beta\ne0$. Euler's formula gives a complex solution
 \begin{align*}
-x'&=e^{(\alpha+i\beta) t},\\
-&= e^{\alpha t}(\cos \beta t+i\sin \beta t)
+z(t)&=e^{(\alpha+i\beta)t}\\
+&=e^{\alpha t}\cos(\beta t)\\
+&\quad+i e^{\alpha t}\sin(\beta t).
 \end{align*}
-Extracting the real and imaginary parts gives
-$$
-x = e^{\alpha t}(c_1\cos \beta t+ c_2\sin \beta t)
-$$
+The real and imaginary parts each solve the same real equation. Their linear combinations give the general real solution.
 % --------
 }{
 % --------
@@ -266,18 +259,18 @@ $$
 $$
 First, let's consider the simpler case where $\alpha=0$. If the eigenvalues of $A$ have the form $\lambda=\pm i\beta$, we say that $\lambda$ is \textbf{purely imaginary} because the real part is zero.
 
-When the eigenvalues are purely imaginary, the solution contains only sines and cosines without exponential growth or decay. Every trajectory traced out by $\textbf{x}(t)$ is a closed loop with a period $T=\frac{2\pi}{|\beta|}$.
+When the eigenvalues are purely imaginary, the solution contains only sines and cosines without exponential growth or decay. Every nonconstant trajectory traced out by $\textbf{x}(t)$ is a closed loop with a period $T=\frac{2\pi}{|\beta|}$.
 
 If the eigenvalues of $A$ are purely imaginary, the trajectories endlessly trace out the same path. Here is the main takeaway: 
 $$
-\boxed{\text{when }\alpha =0\implies\text{solutions are closed loops.}}
+\boxed{\text{when }\alpha =0\implies\text{nonconstant trajectories are closed loops.}}
 $$
 
 
 %-------------------------------------------------------------
 \subsection{Types of Loops and Classification}
 
-If $\lambda=\pm i\beta$, there can only be three types of loops: circle, ellipses, and tilted ellipses. Examples are plotted in the figure below. Notice that all solutions curves form concentric loops around the origin. 
+If $\lambda=\pm i\beta$, there can only be three types of loops: circle, ellipses, and tilted ellipses. Examples are plotted in the figure below. Notice that all nonconstant trajectories form concentric loops around the origin. 
 
 \begin{figure}[H]
 \centering
@@ -421,7 +414,7 @@ $$A = \begin{pmatrix}
     0 & a\\
     b & 0
 \end{pmatrix},$$
-for $a\ne b$ and $a,b$ have opposite signs, then sketch ellipses.  
+where $ab<0$ and $|a|\ne|b|$, then sketch axis-aligned ellipses.
 
 \item \textbf{Rule 3.} If the matrix has the form
 $$
@@ -429,9 +422,9 @@ A = \begin{pmatrix}
     a & b\\
     c & -a
 \end{pmatrix},$$ 
-where $a^2 > bc$, then sketch slanted ellipses. 
+where $a\ne0$ and $a^2+bc<0$, then sketch tilted ellipses.
 \end{itemize}
-For each case, pick an easy sample velocity vector to determine the orientation and details about the shape of the ellipse. Let's do an example of Rule 3.
+For each case, pick an easy sample velocity vector to determine the orientation. Let's do an example of Rule 3.
 
 
 \begin{example}[5]{
@@ -535,7 +528,7 @@ $$
 To sketch the phase portrait:
 \begin{enumerate}
     \item Confirm that eigenvalues are $\alpha\pm i\beta$, $\alpha\ne0$.
-    \item Evaluate $A\mathbf{x}$ at a convenient point to determine the orientation and shape.
+    \item Evaluate $A(1,0)^T$. An upward velocity component gives counterclockwise rotation and a downward component gives clockwise rotation.
     \item Use the sign of $\alpha$ to determine whether the motion is inward or outward.
     \item Draw one or two representative spirals with arrows.
 \end{enumerate}
