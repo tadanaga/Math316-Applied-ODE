@@ -400,7 +400,7 @@ The velocity vector $\textbf{x}'=\cvec{0,2}$ points straight up. The full classi
 % --------------------- 
 
 \subsection{Rules for sketching Centers}
-Here are three rules to help you sketch the phase portraits for centers.
+To sketch the phase portrait, you should first verify that the eigenvalues are purely imaginary. Then follow the three rules for sketching.
 \begin{itemize} 
 \item \textbf{Rule 1.} If the matrix has the form 
     $$ A = \begin{pmatrix}
@@ -449,8 +449,7 @@ First, make sure that this is a center. The characteristic equation is
 \]
 Since the eigenvalues, $\lambda=\pm i$, are purely imaginary, the origin must be a center.
 
-\paragraph{Step 2. Determine orientation.}
-Pick any simple point, like $\textbf{x}=(1,0)$. At $(1,0)$,
+\paragraph{Step 2. Follow the sketching rule.} According to the rule, we sketch tilted ellipses. Pick any simple point, like $\textbf{x}=(1,0)$. At $(1,0)$,
 \[
 \mathbf{x}'=
 \begin{pmatrix}
@@ -466,7 +465,7 @@ Therefore, the origin is a
 \[
 \boxed{\text{clockwise center}.}
 \]
-The trajectories are tilted ellipses, as shown below.
+The trajectories are tilted ellipses, as shown below. 
 
 \begin{center}
 \begin{tikzpicture}[scale=0.48]
@@ -527,9 +526,8 @@ $$
 
 To sketch the phase portrait:
 \begin{enumerate}
-    \item Confirm that eigenvalues are $\alpha\pm i\beta$, $\alpha\ne0$.
+    \item Find eigenvalues $\lambda=\alpha\pm i\beta$ for stability. If $\alpha<0$, it's stable; unstable otherwise.
     \item Evaluate $A(1,0)^T$. An upward velocity component gives counterclockwise rotation and a downward component gives clockwise rotation.
-    \item Use the sign of $\alpha$ to determine whether the motion is inward or outward.
     \item Draw one or two representative spirals with arrows.
 \end{enumerate}
 The spirals need not be circular in shape. They can be oblique. Their
@@ -546,7 +544,7 @@ Classify the equilibrium and sketch the phase portrait:
 \]
 }
 
-\paragraph{Step 1. Find the eigenvalues.}
+\paragraph{Step 1. Find eigenvalues.}
 The characteristic equation is
 \[
 \begin{vmatrix}
@@ -559,12 +557,9 @@ Therefore,
 \[
 \lambda=-1\pm2i.
 \]
+Since $\alpha=-1< 0$, this is a stable spiral.
 
-\paragraph{Step 2. Determine stability.}
-The real part is $\alpha=-1<0$, so trajectories
-spiral inward. The origin is asymptotically stable.
-
-\paragraph{Step 3. Determine the direction.}
+\paragraph{Step 2. Sketch a velocity vector.}
 At $(1,0)$,
 \[
 \mathbf{x}'=
@@ -576,13 +571,14 @@ At $(1,0)$,
 =
 \begin{pmatrix}-1\\1\end{pmatrix}.
 \]
+With the tail at $(1,0)$, plot the vector $\textbf{x}'=\cvec{-1,1}$.
 The velocity points upward and to the left.
 Therefore, the origin is a
 \[
-\boxed{\text{counterclockwise stable spiral}.}
+\boxed{\text{stable counterclockwise spiral}.}
 \]
 
-\paragraph{Step 4. Sketch the trajectories.}
+\paragraph{Step 3. Sketch the spiral.}
 Draw counterclockwise spirals approaching the origin.
 
 \begin{center}
@@ -612,7 +608,28 @@ Draw counterclockwise spirals approaching the origin.
     \draw[red,thick,->] (1,0)--(0.7,0.3);
 \end{tikzpicture}
 \end{center}
-The red arrow shows the velocity direction at $(1,0)$.
+The red arrow shows the velocity direction at $(1,0)$. One or two spirals are sufficient.
 \end{example}
+
+\section{Summary}
+
+We have learned how to sketch five different phase portraits for 
+$$
+    \textbf{x}' = A\textbf{x}.
+$$
+The five types are 
+\begin{enumerate}
+    \item Saddle Points
+    \item Nodes 
+    \item Line of Equilibria
+    \item Centers
+    \item Spirals
+\end{enumerate}
+We distinguish between the types entirely based on the eigenvalues of $A$. The last remaining case is when the eigenvalues are real and repeated. The last two types of equilibria are
+\begin{enumerate}
+    \item[7.] Stars
+    \item[8.] Degenerate nodes
+\end{enumerate}
+We will learn how to find the general solution and sketch the phase portraits for repeated eigenvalues in the next lecture.
 
 \end{document}

@@ -12,35 +12,81 @@
 %-------------------------------------------------------------
 \section{Repeated Eigenvalues}
 
-\subsection*{Goal}
+\subsection{The Last Case}
+In the past few lectures, we have been studying different cases for solutions to the system
+$$
+    \textbf{x}' = A \textbf{x}.
+$$
+We have the general solution when the eigenvalues are 
+\begin{enumerate}
+    \item[a)] real and distinct $\lambda_1\ne \lambda_2$, and
+    \item[b)] complex $\lambda_{1,2}=\alpha \pm i\beta$.
+\end{enumerate}
+Today, we will study the last case: when eigenvalues are repeated: $\lambda_1=\lambda_2$. This last case separates into two subcases. To illustrate this point, we will examine two similar matrices.
 
-We have learned that if $A$ has two eigenvalues $\lambda_1$ and $\lambda_2$ then the general solution to the system $\textbf{x}' = A \textbf{x} $ will be 
-$$ \textbf{x}(t) = c_1 \textbf{v}_1 e^{\lambda_1 t} + c_2 \textbf{v}_2 e^{\lambda_2 t}.$$
-This formula works when $\lambda_1 \ne \lambda_2$. Today's goals are to learn 
+\subsection{Compare the Matrices}
+Consider the two matrices
+$$
+A = \begin{pmatrix}
+    2 & 0\\
+    0 & 2
+\end{pmatrix} \qquad\text{and}\qquad B = \begin{pmatrix}
+    3 &1\\
+    -1 & 1
+\end{pmatrix}.
+$$
+Let's find the eigenvalues of both matrices:
+\begin{align*}
+    \det(A-\lambda I)&=0 & \det(B-\lambda I)&=0\\
+    \begin{vmatrix}2-\lambda & 0\\ 0&2-\lambda \end{vmatrix} &=0 & \begin{vmatrix} 3-\lambda& 1\\ -1&1-\lambda\end{vmatrix}&=0\\
+    (\lambda-2)^2&=0 & \lambda^2-4\lambda+2&=0\\
+    & & (\lambda-2)^2&=0
+\end{align*}
+Both of these matrices have the repeated eigenvalues $\lambda=2$. Since they both only have one eigenvalue, you may think they both have one eigenvector each. However, this is not the case. Let's calculate the systems for their eigenvectors:
+\begin{align*}
+    (A-\lambda I)\textbf{v} &= \textbf{0}   & (B-\lambda I)\textbf{w} &= \textbf{0} \\
+    \begin{pmatrix}0 & 0\\ 0&0 \end{pmatrix}\begin{pmatrix}
+        v_1\\v_2
+    \end{pmatrix} &=\begin{pmatrix}
+        0\\0
+    \end{pmatrix} & \begin{pmatrix} 1& 1\\ -1&-1\end{pmatrix}\begin{pmatrix}
+        w_1\\w_2
+    \end{pmatrix}&=\begin{pmatrix}
+        0\\0
+    \end{pmatrix}
+\end{align*}
+For the $A$ matrix, $v_1$ and $v_2$ are both completely arbitrary because they have no influence on each other. For instance, we can let $v_1=1$ and we can let $v_2=0$. We can also choose $v_1=0$ and $v_2=1$. Any combination is fine. But for the $B$ matrix, $w_1=-w_2$ so only one is free. For instance, if we let $w_1=1$ then the other must be $w_2=-1$. The two matrices have the eigenvectors
+\begin{align*}
+    \textbf{v}_1 &= \begin{pmatrix}
+        1\\0
+    \end{pmatrix}, \textbf{v}_2=\begin{pmatrix}
+        0\\1
+    \end{pmatrix}, &
+    \textbf{w}&= \begin{pmatrix}
+        1\\-1
+    \end{pmatrix}.
+\end{align*}
+When a matrix has repeated eigenvalues, there are two subcases: 
 \begin{itemize}
-    \item solutions to  $\textbf{x}' = A \textbf{x}$ when $\lambda_1 = \lambda_2$
-    \item and how to sketch their phase portraits for stars and degenerate nodes
+    \item[a)] the matrix has two independent eigenvectors, or
+    \item[b)] the matrix only has one eigenvector.
 \end{itemize}
 
-\subsection*{The Two Subcases}
-If the eigenvalues are repeated, i.e., $\lambda_1 = \lambda_2 = \lambda$, then the general solution becomes 
-$$ \textbf{x}(t) = c_1 \textbf{v}_1 e^{\lambda t} + c_2 \textbf{v}_2 e^{\lambda t}.$$
-This can split into two subcases:
+\subsection{Goal}
+We will study the two subcases of when $A$ has repeated eigenvalues.
 \begin{enumerate}
-    \item \textbf{Case 1}: Eigenvectors are independent $\textbf{v}_1\ne c\textbf{v}_2$.\\
-    In this case, the formula 
-     $$\textbf{x}(t) = c_1 \textbf{v}_1 e^{\lambda t} + c_2 \textbf{v}_2 e^{\lambda t}$$
-     is still applicable. There is only one $\lambda$ and yet there are two eigenvectors. In this case, the equilibrium is a star. 
+    \item \textbf{Case 1}: $A$ has two eigenvectors that are not constant multiples of each other $\textbf{v}_1\ne c\textbf{v}_2$. In this case, the general solution is as usual:
+     $$\textbf{x}(t) = c_1 \textbf{v}_1 e^{\lambda t} + c_2 \textbf{v}_2 e^{\lambda t}.$$ 
      
-    \item \textbf{Case 2}: Eigenvectors are the same $\textbf{v}_1 = \textbf{v}_2 = \textbf{v}$.\\
-    In this case, the two fundamental solutions become exactly the same. The usual formula for the general solution no longer applies.  We must find a way to obtain a second solution. In this case, the equilibrium is called a degenerate node. 
+    \item \textbf{Case 2}: $A$ has only one eigenvector $\textbf{v}$. In this case, the general solution needs a slight modification.
 \end{enumerate}
 
 
 %-------------------------------------------------------------
+
 \section{Case 1: Independent Eigenvectors}
 
-\subsection*{Same $\lambda$ but Different Eigenvectors}
+\subsection{Same $\lambda$ but Different Eigenvectors}
 If $\lambda$ is an eigenvalue of $A$ then its eigenvector $\textbf{v}$ satisfies 
 $$
 (A-\lambda I)\textbf{v} = \textbf{0}.
