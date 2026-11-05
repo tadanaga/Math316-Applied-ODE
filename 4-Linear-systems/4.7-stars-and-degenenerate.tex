@@ -352,19 +352,13 @@ $$
 
 \section{Subcase 2: One Eigenvector}
 
-\subsection{Deficient Matrices}
-Consider the matrix 
+\subsection{Facts about Deficient Matrices}
+
+Matrices such as 
 \[
-A=\begin{pmatrix}4&2\\[2pt]0&4\end{pmatrix}.
+A=\begin{pmatrix}3&1\\-1&1\end{pmatrix}
 \]
-The eigenvalues are $\lambda_1=\lambda_2=4$. We can calculate its eigenvector
-\begin{align*}
-    (A-\lambda I)\mathbf{v}&=\mathbf{0}\\
-     \begin{pmatrix}
-        0 & 2\\ 0 &0
-    \end{pmatrix}\mathbf{v}&=\mathbf{0}
-\end{align*}
-The only restriction is $v_2=0$. Choose $v_1=1$ to obtain $\mathbf{v}=(1,0)^T$. Every eigenvector is a nonzero multiple of $\mathbf{v}$, so we have only one eigenvector direction. A $2\times2$ matrix with a repeated eigenvalue and only one independent eigenvector is called \textbf{deficient} (or \textbf{defective}).
+that have a repeated eigenvalue $(\lambda=2)$ and only one independent eigenvector $(\textbf{v}=\cvec{1,-1})$ are called \textbf{deficient} (or \textbf{defective} or \textbf{non-diagonalizable}).
 \subsection{Generalized Eigenvector}
 When $A$ is deficient, there exists a second independent vector called the \textit{generalized eigenvector}. The \textbf{generalized eigenvector} is a vector $\mathbf{w}$ satisfying
 \[
