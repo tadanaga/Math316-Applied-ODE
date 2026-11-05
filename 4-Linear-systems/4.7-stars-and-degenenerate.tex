@@ -350,27 +350,30 @@ $$
 
 %============================================
 
-\section{Subcase 2: One Eigenvector}
+\section{Subcase 2: One Independent Eigenvector}
 
-\subsection{Deficient Matrices}
-Consider the matrix 
+% --------------
+
+\subsection{Some Facts about $A$}
+Let's assume that $A$ has the repeated eigenvalue $\lambda$, but only one independent eigenvector $\mathbf{v}$. Here are three facts we can deduce about the matrix:
+\begin{enumerate}
+    \item \textbf{Fact 1:} The matrix $A-\lambda I$ has one independent equation. Solving $(A-\lambda I)\mathbf{v}=\mathbf{0}$ leaves one free variable.
+    \item \textbf{Fact 2:} Every eigenvector is a nonzero constant multiple of $\mathbf{v}$. A $2\times2$ matrix with a repeated eigenvalue and only one independent eigenvector is called \textbf{deficient}.
+    \item \textbf{Fact 3:} We can find a second vector $\mathbf{w}$ by solving
+    \[
+    \boxed{(A-\lambda I)\mathbf{w}=\mathbf{v}.}
+    \]
+    This vector is called a \textbf{generalized eigenvector}. The vectors $\mathbf{v}$ and $\mathbf{w}$ are independent.
+\end{enumerate}
+To see why the last fact is true, suppose $\mathbf{w}=c\mathbf{v}$. Then $(A-\lambda I)\mathbf{w}=c(A-\lambda I)\mathbf{v}=\mathbf{0}$, which contradicts $(A-\lambda I)\mathbf{w}=\mathbf{v}$.
+
+For instance, consider
 \[
-A=\begin{pmatrix}4&2\\[2pt]0&4\end{pmatrix}.
+A=\begin{pmatrix}4&2\\0&4\end{pmatrix}.
 \]
-The eigenvalues are $\lambda_1=\lambda_2=4$. We can calculate its eigenvector
-\begin{align*}
-    (A-\lambda I)\mathbf{v}&=\mathbf{0}\\
-     \begin{pmatrix}
-        0 & 2\\ 0 &0
-    \end{pmatrix}\mathbf{v}&=\mathbf{0}
-\end{align*}
-The only restriction is $v_2=0$. Choose $v_1=1$ to obtain $\mathbf{v}=(1,0)^T$. Every eigenvector is a nonzero multiple of $\mathbf{v}$, so we have only one eigenvector direction. A $2\times2$ matrix with a repeated eigenvalue and only one independent eigenvector is called \textbf{deficient} (or \textbf{defective}).
-\subsection{Generalized Eigenvector}
-When $A$ is deficient, there exists a second independent vector called the \textit{generalized eigenvector}. The \textbf{generalized eigenvector} is a vector $\mathbf{w}$ satisfying
-\[
-(A-\lambda I)\mathbf{w}=\mathbf{v},
-\]
-where $(\lambda,\mathbf{v})$ is a known eigenpair for $A$. Just like $\mathbf{v}$, the generalized eigenvector is \textit{not} unique. In other words, there are infinitely many solutions to $(A-\lambda I)\mathbf{w}=\mathbf{v}$. On the other hand, if $A$ isn't deficient, then $(A-\lambda I)\mathbf{w}=\mathbf{v}$ won't have any solutions at all.
+The repeated eigenvalue is $\lambda=4$, and the eigenvector equation gives $2v_2=0$. We can choose $\mathbf{v}=(1,0)^T$. Let's find a generalized eigenvector for this matrix.
+
+% --------------
 
 \begin{example}[3]{
 Let's return to the previous example. Find a generalized eigenvector for the matrix  
@@ -394,54 +397,40 @@ $$
 Choose a convenient value for the free variable, then use the equation to determine the other component.
 \end{example}
 
-\subsection{The Theorem}
 
-\begin{theorem} If $\mathbf{w}$ is a generalized eigenvector of $A$ for the eigenpair $(\lambda,\mathbf{v})$ then 
-$$
-\mathbf{x}_2(t)=e^{\lambda t}(\mathbf{v}t+\mathbf{w})
-$$
-is a solution to the system $\mathbf{x}'=A\mathbf{x}$. 
-\end{theorem}
-\begin{proof}
-By assumption, we have $(A-\lambda I)\mathbf{w}=\mathbf{v}$, which can be written as
-$$
-A\mathbf{w}=\lambda\mathbf{w}+\mathbf{v}.
-$$
-Let $\mathbf{x}_2(t)=e^{\lambda t}(\mathbf{v}t+\mathbf{w})$. Calculate the LHS 
-\[
-\text{LHS} = \mathbf{x}_2'(t)
-= \lambda e^{\lambda t}(\mathbf{v}t+\mathbf{w}) + e^{\lambda t}\mathbf{v}
-= e^{\lambda t}\big(\lambda\mathbf{v}t+\lambda\mathbf{w}+\mathbf{v}\big).
-\]
-Now compute the RHS:
-\begin{align*}
-\text{RHS} &= 
-A\mathbf{x}_2(t)\\
-&= A\!\left(e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right)\\
-&= e^{\lambda t}\big(A(\mathbf{v}t)+A\mathbf{w}\big)\\
-&= e^{\lambda t}\big(\lambda\mathbf{v}t + (\lambda\mathbf{w}+\mathbf{v})\big)\\
-&=\text{LHS}
-\end{align*}
-\end{proof}
-
+% --------------
 
 \subsection{General Solution}
-
-This theorem gives us a solution to $\mathbf{x}'=A\mathbf{x}$ given by the formula $\mathbf{x}_2(t)=e^{\lambda t}(\mathbf{v}t+\mathbf{w})$. This is independent from the first solution $\mathbf{x}_1(t)=\mathbf{v}e^{\lambda t}$. That means we may finally write the general solution to the system $\mathbf{x}' = A \mathbf{x}$ when $A$ is deficient:
+The eigenpair $(\lambda,\mathbf{v})$ gives us one solution $\mathbf{v}e^{\lambda t}$. Using the generalized eigenvector $\mathbf{w}$ gives a second independent solution $e^{\lambda t}(\mathbf{v}t+\mathbf{w})$. Thus, the general solution to $\mathbf{x}'=A\mathbf{x}$ for subcase 2 is
 \[
 \boxed{
-\mathbf{x}(t)=
-c_1\mathbf{v}e^{\lambda t}
+\mathbf{x}(t)=c_1\mathbf{v}e^{\lambda t}
 +c_2e^{\lambda t}(\mathbf{v}t+\mathbf{w}).
 }
 \]
+To use this formula, find $\lambda$ and $\mathbf{v}$, solve $(A-\lambda I)\mathbf{w}=\mathbf{v}$, and substitute. Choose a convenient value for the free variable when finding $\mathbf{w}$.
 
-\subsection{A Sign to Watch}
-Either determinant convention gives the same eigenvalues. When using the formula above, always solve $(A-\lambda I)\mathbf{w}=\mathbf{v}$. Reversing the subtraction changes the sign of the right-hand side: $(\lambda I-A)\mathbf{w}=-\mathbf{v}$.
+\paragraph{Why it works}
+The equations for $\mathbf{v}$ and $\mathbf{w}$ give $A\mathbf{v}=\lambda\mathbf{v}$ and $A\mathbf{w}=\lambda\mathbf{w}+\mathbf{v}$. Therefore,
+\begin{align*}
+\frac{d}{dt}\left[e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right]
+&=e^{\lambda t}(\lambda\mathbf{v}t+\lambda\mathbf{w}+\mathbf{v}),\\
+A\left[e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right]
+&=e^{\lambda t}(\lambda\mathbf{v}t+\lambda\mathbf{w}+\mathbf{v}).
+\end{align*}
+The two expressions agree. At $t=0$, the two solutions give the independent vectors $\mathbf{v}$ and $\mathbf{w}$, so their linear combination gives the general solution.
+
+Either determinant convention gives the same eigenvalues. For the formula above, use $(A-\lambda I)\mathbf{w}=\mathbf{v}$ when finding the generalized eigenvector.
+
+Let's do an IVP example.
+
+% --------------
+
 \begin{example}[4]{
-Find the general solution to the \textit{deficient system}
+Find the solution to
 \[
-\mathbf{x}' = \begin{pmatrix}3&1\\-1&1\end{pmatrix}\mathbf{x}.
+\mathbf{x}' = \begin{pmatrix}3&1\\-1&1\end{pmatrix}\mathbf{x},\qquad
+\mathbf{x}(0)=\begin{pmatrix}1\\0\end{pmatrix}.
 \]
 }
 \paragraph{Step 1. Find the eigenvalue.}
@@ -476,43 +465,59 @@ $$0=\det(A-\lambda I)=\begin{vmatrix}
         0\\1
     \end{pmatrix}\right).
 \end{align*}
+\paragraph{Step 5. Solve for $c_1$ and $c_2$.}
+Applying the initial condition gives
+\[
+\begin{pmatrix}1\\0\end{pmatrix}
+=c_1\begin{pmatrix}1\\-1\end{pmatrix}
++c_2\begin{pmatrix}0\\1\end{pmatrix}
+=\begin{pmatrix}c_1\\-c_1+c_2\end{pmatrix}.
+\]
+Thus $c_1=1$ and $c_2=1$. The solution is
+\[
+\boxed{\mathbf{x}(t)=e^{2t}\begin{pmatrix}1+t\\-t\end{pmatrix}.}
+\]
 \end{example}
 
-\subsection{Solution Curves for Deficient Systems}
-Now let us analyze the solution
-\[
-\mathbf{x}(t)
-=
-c_1\mathbf{v}e^{\lambda t}
-+
-c_2 e^{\lambda t}\bigl(\mathbf{v}t+\mathbf{w}\bigr),
-\]
-where
-\[
-\mathbf{v}=\begin{pmatrix}1\\-1\end{pmatrix},
-\qquad
-\mathbf{w}=\begin{pmatrix}0\\1\end{pmatrix},
-\qquad
-\lambda=2.
-\]
-Factor the solution as
-\[
-\mathbf{x}(t)=e^{2t}\big[(c_1+c_2t)\mathbf{v}+c_2\mathbf{w}\big].
-\]
-If $c_2=0$, we get the two linear orbits on $y=-x$ and the equilibrium at the origin. Draw an outward arrow on each ray because $\lambda=2$.
 
-If $c_2\ne0$, the coefficient of $\mathbf{v}$ grows in magnitude as $t\to\pm\infty$, while the coefficient of $\mathbf{w}$ stays constant inside the brackets. Near the origin ($t\to-\infty$), the trajectory is tangent to the eigenvector line. Far away ($t\to\infty$), its direction becomes parallel to the same line, along the opposite ray. For $c_2>0$, the trajectory starts near the $-\mathbf{v}$ ray and heads out in the $+\mathbf{v}$ direction. For $c_2<0$, the rays are reversed.
+% -----------------
 
-For this example, $x+y=c_2e^{2t}$ keeps its sign. Each curved trajectory therefore stays on its own side of the eigenvector line.
-\subsection{Classification}
-When the repeated eigenvalue satisfies $\lambda\ne0$ and $A$ is deficient, then the equilibrium is called a \textbf{degenerate node}. It is stable if $\lambda <0$ and unstable if $\lambda>0$. 
+\subsection{Stability and Classification}
+Assume $\lambda\ne0$. Then the only equilibrium point is the origin $\mathbf{x}^*=(0,0)$. The general solution contains the factors $e^{\lambda t}$ and $te^{\lambda t}$.
+\begin{enumerate}
+    \item If $\lambda<0$, both factors approach zero as $t\to\infty$. Every solution approaches the origin, and the origin is \textbf{stable}.
+    \item If $\lambda>0$, every nonconstant solution grows without bound as $t\to\infty$. The origin is \textbf{unstable}.
+\end{enumerate}
+For this subcase, the type of equilibrium is called a \textbf{degenerate node}. For the classification, you would say the origin is a \textit{stable degenerate node} or an \textit{unstable degenerate node} depending on the sign of $\lambda$.
+
+% -----------------
 
 \subsection{Sketching the Phase Portrait}
-a) Draw the eigenvector line and orient its two rays using the sign of $\lambda$.
 
-b) Draw the velocity vector at a point off the line. In Example 4, $A(1,0)^T=(3,-1)^T$. At the positive $x$-axis the velocity points down, so the trajectories bend clockwise.
+\paragraph{Rule} To sketch a degenerate node:
+\begin{enumerate}
+    \item Draw the eigenvector line through the origin. Orient its two rays toward $(0,0)$ if $\lambda<0$, or away from $(0,0)$ if $\lambda>0$.
+    \item Choose a point off the eigenvector line and calculate its velocity vector $A\mathbf{x}$. Use this vector to determine whether the curves bend clockwise or counterclockwise.
+    \item Draw curves on both sides of the eigenvector line. Near the origin, each curve is tangent to the line. Far away, its direction becomes parallel to the opposite ray. Keep each curve on its own side of the line.
+    \item Add arrows to the curves toward the origin if $\lambda<0$, or away from the origin if $\lambda>0$. The arrows should agree with the velocity vector.
+\end{enumerate}
 
-c) Sketch curves on both sides. Near the origin they are tangent to the eigenvector line. Far away they become parallel in direction to the opposite ray. Orient them to agree with the test vector.
+\paragraph{Why it works}
+Factor the general solution as
+\[
+\mathbf{x}(t)=e^{\lambda t}\big[(c_1+c_2t)\mathbf{v}+c_2\mathbf{w}\big].
+\]
+If $c_2=0$, the solution lies on the eigenvector line. These give the two linear orbits and the equilibrium at the origin.
+
+If $c_2\ne0$, the term $c_2t\mathbf{v}$ dominates the constant vectors inside the brackets as $t\to\pm\infty$. Thus, the curve becomes tangent to the eigenvector line near the origin and parallel in direction to the same line far away. The sign of $t$ changes between the two limits, which explains the opposite rays.
+
+Also, the coefficient $c_2e^{\lambda t}$ of $\mathbf{w}$ keeps its sign. This keeps the trajectory on one side of the eigenvector line.
+
+In Example 4, the eigenvector line is $y=-x$. At $(1,0)$, the velocity is
+\[
+A\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}3\\-1\end{pmatrix}.
+\]
+The velocity points down at the positive $x$-axis, so the curves bend clockwise. The pictures below show the two possible directions of bending.
 
 \begin{center}
 % The two systems are 2I +/- N, with N = B - 2I from Example 4.
@@ -543,6 +548,9 @@ c) Sketch curves on both sides. Near the origin they are tangent to the eigenvec
 
 \small Left: Example 4. Right: the opposite shear with the same eigenvector line.
 \end{center}
+
+% --------------
+
 \begin{example}[5]{
 Classify the equilibrium at the origin and sketch the phase portrait for
 \[
@@ -664,6 +672,7 @@ At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the
 \caption{Phase portrait of a stable degenerate node. The two linear orbits lie on the \(x\)-axis. The other solutions shear inward to $(0,0)$ in a clockwise orientation.}
 \end{figure}
 \end{example}
+
 
 %============================================
 
