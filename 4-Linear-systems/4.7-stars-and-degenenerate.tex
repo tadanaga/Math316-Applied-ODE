@@ -626,71 +626,298 @@ $$\boxed{\textbf{stable degenerate node.}}$$
 \end{example}
 
 %============================================
-\newcommand{\minigrid}{
-\begin{tikzpicture}[scale=0.2, baseline=-0.6ex]
-% grid
-\draw[step=1cm, lightgray, very thin] (-4,-4) grid (4,4);
-
-% axes
-\draw[->, thick] (-4.5,0) -- (4.5,0);
-\draw[->, thick] (0,-4.5) -- (0,4.5);
-
-% tick marks
-\foreach \x in {-4,-3,...,4}
-    \draw (\x,0.08) -- (\x,-0.08);
-\foreach \y in {-4,-3,...,4}
-    \draw (0.08,\y) -- (-0.08,\y);
-\end{tikzpicture}
-
-}
-
-%============================================
 \pagebreak
 \section{Summary of All Cases}
 
-\subsection{The Table}
-Use the eigenvalues to identify the case. For a repeated nonzero eigenvalue, count the independent eigenvectors to distinguish a star from a degenerate node. Sketch each example on its grid.
-\begin{center}
+% Requires TikZ and \usetikzlibrary{arrows.meta}.
 
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{c c c c c}
+% Shared axes and plotting window.
+\newenvironment{tablephase}
+{%
+    \begin{tikzpicture}[
+        scale=.51,
+        baseline=(current bounding box.center),
+        >=Stealth,
+        trajectory/.style={blue!75!black,thick},
+        motion/.style={trajectory,->}
+    ]
+    \draw[->,gray!65] (-2.6,0)--(2.6,0);
+    \draw[->,gray!65] (0,-2.6)--(0,2.6);
+    \begin{scope}
+        \clip (-2.4,-2.4) rectangle (2.4,2.4);
+}
+{%
+        \fill (0,0) circle (1.6pt);
+    \end{scope}
+    \end{tikzpicture}%
+}
+
+% A = diag(2,1): unstable node.
+% Exact curves parameterized by s=e^t>0.
+\newcommand{\portraitnode}{%
+\begin{tablephase}
+    \foreach \sx in {-1,1}{
+        \foreach \sy in {-1,1}{
+            \foreach \a in {.45,1.5}{
+                \draw[trajectory]
+                    plot[domain=.015:2.5,samples=65,variable=\s]
+                    ({\sx*\a*\s*\s},{\sy*\s});
+                \draw[motion]
+                    plot[domain=.65:.9,samples=12,variable=\s]
+                    ({\sx*\a*\s*\s},{\sy*\s});
+            }
+        }
+        \draw[trajectory] (0,0)--({2.4*\sx},0);
+        \draw[trajectory] (0,0)--(0,{2.4*\sx});
+        \draw[motion] ({.8*\sx},0)--({1.45*\sx},0);
+        \draw[motion] (0,{.8*\sx})--(0,{1.45*\sx});
+    }
+\end{tablephase}%
+}
+
+% A = diag(2,-3): saddle.
+\newcommand{\portraitsaddle}{%
+\begin{tablephase}
+    \foreach \sx in {-1,1}{
+        \foreach \sy in {-1,1}{
+            \foreach \a in {.35,.85}{
+                \draw[trajectory]
+                    plot[domain=-.8:1,samples=85,variable=\t]
+                    ({\sx*\a*exp(2*\t)},
+                     {\sy*\a*exp(-3*\t)});
+                \draw[motion]
+                    plot[domain=-.06:.12,samples=12,variable=\t]
+                    ({\sx*\a*exp(2*\t)},
+                     {\sy*\a*exp(-3*\t)});
+            }
+        }
+        \draw[trajectory] (0,0)--({2.4*\sx},0);
+        \draw[trajectory] (0,0)--(0,{2.4*\sx});
+        \draw[motion] ({.8*\sx},0)--({1.45*\sx},0);
+        \draw[motion] (0,{1.45*\sx})--(0,{.8*\sx});
+    }
+\end{tablephase}%
+}
+
+% A = [2 1; 4 2].
+% Equilibrium line y=-2x; outgoing rays parallel to (1,2).
+\newcommand{\portraitline}{%
+\begin{tablephase}
+    \foreach \b in {-.8,-.4,0,.4,.8}{
+        \foreach \s in {-1,1}{
+            \draw[trajectory]
+                (\b,{-2*\b})--
+                ({\b+3*\s},{-2*\b+6*\s});
+            \draw[motion]
+                ({\b+.18*\s},{-2*\b+.36*\s})--
+                ({\b+.43*\s},{-2*\b+.86*\s});
+        }
+    }
+    \draw[black,very thick] (-1.2,2.4)--(1.2,-2.4);
+    \foreach \b in {-.8,-.4,0,.4,.8}{
+        \fill (\b,{-2*\b}) circle (1.6pt);
+    }
+\end{tablephase}%
+}
+
+% A = [0 -1; 1 0]: counterclockwise center.
+\newcommand{\portraitcenter}{%
+\begin{tablephase}
+    \foreach \r in {.65,1.35,2.1}{
+        \draw[trajectory] (0,0) circle (\r);
+        \draw[motion]
+            plot[domain=15:50,samples=16,variable=\a]
+            ({\r*cos(\a)},{\r*sin(\a)});
+        \draw[motion]
+            plot[domain=195:230,samples=16,variable=\a]
+            ({\r*cos(\a)},{\r*sin(\a)});
+    }
+\end{tablephase}%
+}
+
+% A = [1 3; -3 1]: unstable clockwise spiral.
+% TikZ trig functions take angles in degrees.
+\newcommand{\portraitspiral}{%
+\begin{tablephase}
+    \foreach \a in {0,120,240}{
+        \draw[trajectory]
+            plot[domain=-2.7:1.15,samples=180,variable=\t]
+            ({exp(\t)*cos(\a-deg(3*\t))},
+             {exp(\t)*sin(\a-deg(3*\t))});
+        \foreach \u in {-.65,.45}{
+            \draw[motion]
+                plot[domain=\u:\u+.14,samples=12,variable=\t]
+                ({exp(\t)*cos(\a-deg(3*\t))},
+                 {exp(\t)*sin(\a-deg(3*\t))});
+        }
+    }
+\end{tablephase}%
+}
+
+% A = 6I: unstable star.
+\newcommand{\portraitstar}{%
+\begin{tablephase}
+    \foreach \a in {0,30,...,330}{
+        \draw[trajectory]
+            (0,0)--({2.35*cos(\a)},{2.35*sin(\a)});
+        \draw[motion]
+            ({.8*cos(\a)},{.8*sin(\a)})--
+            ({1.45*cos(\a)},{1.45*sin(\a)});
+    }
+\end{tablephase}%
+}
+
+% A = [2 -1; 0 2]: unstable degenerate node.
+% Exact solutions: x=e^(2t)(a-bt), y=b e^(2t).
+\newcommand{\portraitdegenerate}{%
+\begin{tablephase}
+    \foreach \a/\b in {0/.65,0/-.65,0/1.6,0/-1.6,
+                       1/.65,-1/-.65}{
+        \draw[trajectory]
+            plot[domain=-3:1.25,samples=120,variable=\t]
+            ({exp(2*\t)*(\a-\b*\t)},
+             {\b*exp(2*\t)});
+        \draw[motion]
+            plot[domain=-.12:.06,samples=12,variable=\t]
+            ({exp(2*\t)*(\a-\b*\t)},
+             {\b*exp(2*\t)});
+    }
+    \draw[trajectory] (-2.4,0)--(2.4,0);
+    \foreach \s in {-1,1}{
+        \draw[motion] ({.8*\s},0)--({1.45*\s},0);
+    }
+\end{tablephase}%
+}
+
+
+% -------------------------------------------------------------
+
+\subsection{The Table}
+We have covered all seven types of phase portraits for linear systems. They are listed in the table below with an example. You should be able to classify the equilibrium based on the eigenvalue and the structure of the $A$ matrix. You should also be able to sketch each phase portrait.
+
+\begin{center}
+\begingroup
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.05}
+
+\begin{tabular}{@{}
+    >{\centering\arraybackslash}m{.12\linewidth}
+    >{\centering\arraybackslash}m{.20\linewidth}
+    >{\centering\arraybackslash}m{.18\linewidth}
+    >{\centering\arraybackslash}m{.12\linewidth}
+    >{\centering\arraybackslash}m{.30\linewidth}
+@{}}
 \hline
-\textbf{Type} & \textbf{Major Cases} & \textbf{Sub-cases} & \textbf{Example} & Phase Portrait \\
-\hline\\[1mm]
-Distinct real & $\lambda_1\neq\lambda_2\in\mathbb{R}$ & \textbf{Node} $\lambda_1 \lambda_2 > 0$ & $\begin{pmatrix}2&0\\0&1\end{pmatrix}$& \minigrid\\[10mm]
- & & \textbf{Saddle}  $\lambda_1 \lambda_2 < 0$& $\begin{pmatrix}2&0\\0&-3\end{pmatrix}$&\minigrid\\[10mm]
- & & \textbf{Line of Equilibria}  $\lambda_1\lambda_2=0$& $\begin{pmatrix}2&1\\4&2\end{pmatrix}$ &\minigrid\\[10mm]
- \hline\\[1mm]
-Complex & $\alpha\pm i\beta$ & \textbf{Center} $\alpha =0$ & $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$&\minigrid\\[10mm]
- & & \textbf{Spiral} $\alpha \ne 0$ & $\begin{pmatrix}1&3\\-3&1\end{pmatrix}$&\minigrid\\[10mm]
-\hline\\[1mm]
-Repeated real & $\lambda_1=\lambda_2\ne0$ & \textbf{Star} & $\begin{pmatrix}6&0\\0&6\end{pmatrix}$&\minigrid\\[10mm]
- & & \textbf{Degenerate} & $\begin{pmatrix}2&-1\\0&2\end{pmatrix}$&\minigrid\\[10mm]
+\textbf{Type}
+& \textbf{Major Cases}
+& \textbf{Sub-cases}
+& \textbf{Example}
+& \textbf{Phase Portrait}\\
 \hline
-\end{tabular}}
+
+Distinct real
+& \shortstack{$\lambda_1,\lambda_2\in\mathbb{R}$\\
+             $\lambda_1\ne\lambda_2$}
+& \shortstack{\textbf{Node}\\$\lambda_1\lambda_2>0$}
+& $\begin{pmatrix}2&0\\0&1\end{pmatrix}$
+& \portraitnode\\[2mm]
+
+&
+& \shortstack{\textbf{Saddle}\\$\lambda_1\lambda_2<0$}
+& $\begin{pmatrix}2&0\\0&-3\end{pmatrix}$
+& \portraitsaddle\\[2mm]
+
+&
+& \shortstack{\textbf{Line of}\\
+             \textbf{Equilibria}\\
+             $\lambda_1\lambda_2=0$}
+& $\begin{pmatrix}2&1\\4&2\end{pmatrix}$
+& \portraitline\\[2mm]
+\hline
+
+Complex
+& \shortstack{$\alpha\pm i\beta$\\$\beta\ne0$}
+& \shortstack{\textbf{Center}\\$\alpha=0$}
+& $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$
+& \portraitcenter\\[2mm]
+
+&
+& \shortstack{\textbf{Spiral}\\$\alpha\ne0$}
+& $\begin{pmatrix}1&3\\-3&1\end{pmatrix}$
+& \portraitspiral\\[2mm]
+\hline
+
+Repeated real
+& $\lambda_1=\lambda_2\ne0$
+& \textbf{Star}
+& $\begin{pmatrix}6&0\\0&6\end{pmatrix}$
+& \portraitstar\\[2mm]
+
+&
+& \textbf{Degenerate}
+& $\begin{pmatrix}2&-1\\0&2\end{pmatrix}$
+& \portraitdegenerate\\[2mm]
+\hline
+\end{tabular}
+
+\endgroup
 \end{center}
 
 
 \subsection{Parameterized Matrices}
+Suppose the $A$ matrix contains a parameter $\alpha$ that is free to vary. Here are a few examples: 
+$$
+\begin{pmatrix}
+    \alpha & 2\\
+    -2 & \alpha
+\end{pmatrix}, \quad 
+\begin{pmatrix}
+    0 & 1\\
+    -1 & \alpha 
+\end{pmatrix},\quad 
+\begin{pmatrix}
+    2 &\alpha \\
+    0 & -2
+\end{pmatrix}
+$$
+When you slightly modify the value of $\alpha$ you would obviously expect the solution to $\textbf{x}'=A\textbf{x}$ to change as well. The change in the solution may be small. Changing the value $\alpha$ can have more drastic changes such as \textit{changing the classification of the equilibrium}. We refer to this as \textit{bifurcation}.
+
+The key to spotting bifurcation is to calculate the \textbf{discriminant} of the characteristic polynomial. Suppose 
+$$
+\det(A-\lambda I) = a\lambda^2 + b \lambda + c = 0
+$$
+is the characteristic polynomial. Then the discriminant is 
+$
+    D = b^2-4ac.
+$
+The value of $D$ will depend on the parameter $\alpha$. If the sign of $D$ changes, that means a bifurcation in the linear system has occurred. You may also need the eigenvalues of $A$. You can use the quadratic formula to find $\lambda$ in terms of $\alpha$.
+
+\subsection{Node to Spiral}
+I have mentioned that degenerate nodes have the features of both a \textbf{node} and a \textbf{spiral}. This example explains why.
+
 \begin{example}[6]{
-For the matrix
+For the parameterized matrix
 \[
 A=\begin{pmatrix}3&1\\\alpha&1\end{pmatrix},
 \]
-how does the phase portrait change as $\alpha$ decreases from $0$ to $-2$?
+how does the classification of the phase portrait change as $\alpha$ is varied?
+
 }
-The characteristic equation is
+First, calculate the characteristic equation 
 \[
 0=\det(\lambda I-A)=
 \begin{vmatrix}\lambda-3&-1\\-\alpha&\lambda-1\end{vmatrix}
 =\lambda^2-4\lambda+3-\alpha.
 \]
-Its \textbf{discriminant} is $D=16-4(3-\alpha)=4(1+\alpha)$, so the eigenvalues are $\lambda=2\pm\sqrt{1+\alpha}$.
+Next, calculate the discriminant $D=16-4(3-\alpha)=4(1+\alpha).$
+We also need the eigenvalues $\lambda = \frac{-b\pm\sqrt{D}}{2a} = 2\pm\sqrt{1+\alpha}$.
 \begin{itemize}
-\item At $\alpha=0$, the eigenvalues are $1$ and $3$. Throughout $-1<\alpha\le0$, both are positive and distinct, so the origin is an \textbf{unstable node}.
-\item At $\alpha=-1$, the repeated eigenvalue is $2$. This is the matrix from Example 4, with one eigenvector direction, so the origin is an \textbf{unstable degenerate node}.
-\item For $-2\le\alpha<-1$, the eigenvalues are nonreal with real part $2$, so the origin is an \textbf{unstable spiral}.
+\item For the critical value $\alpha=-1$, the eigenvalue is $2$ repeated. Thus $\textbf{x}^*$ is an unstable degenerate node.
+\item The discriminant is positive for $\alpha>-1$. That means for the range $\alpha>-1$, $\textbf{x}^*$ is a node.
+\item The discriminant is negative for $\alpha<-1$. That means for the range $\alpha <-1$, $\textbf{x}^*$ is a spiral.
 \end{itemize}
-The shape changes at $\alpha=-1$ even though the origin stays unstable throughout this interval.
+The degenerate node is a special phase portrait that lies at the boundary between a spiral and a node. That is why degenerates nodes have features of both.
+
 \end{example}
 \end{document}
