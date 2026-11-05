@@ -88,7 +88,7 @@ We will study the two subcases of when $A$ has repeated eigenvalues.
 % --------------
 
 \subsection{Some Facts about $A$}
-Let's assume that the $A$ has the repeated eigenvalue $\lambda$, yet two different eigenvectors $\textbf{v}_1$ and $\textbf{v}_2$. Here are three facts we can deduce about the matrix: 
+Let's assume that $A$ has the repeated eigenvalue $\lambda$, yet two independent eigenvectors $\textbf{v}_1$ and $\textbf{v}_2$. Here are three facts we can deduce about the matrix: 
 \begin{enumerate}
     \item \textbf{Fact 1:} The matrix $A$ must have the form
     $$
@@ -184,26 +184,18 @@ $$
 
 % -----------------
 \subsection{Stability and Classification}
-For the system 
+Assume $\lambda\ne0$. For the system 
 $$
     \textbf{x}' = \begin{pmatrix}
         \lambda & 0\\
         0 & \lambda 
     \end{pmatrix}\textbf{x}
 $$
-the only equilibrium point is the origin $\textbf{x}^*=(0,0)$. If we take the limit at $t\to \infty$ for the general solution, we get:
-$$
-\lim_{t\to\infty}
-     c_1 \begin{pmatrix}
-        1\\0
-    \end{pmatrix} e^{\lambda t} + c_2 \begin{pmatrix}
-        0\\1
-    \end{pmatrix} e^{\lambda t} = \begin{dcases}
-        (0,0) & \text{if } \lambda<0\\
-        D.N.E. & \text{if } \lambda>0\\
-    \end{dcases}
-$$
-Therefore, the origin if \textbf{stable} if $\lambda<0$ and \textbf{unstable} otherwise. For this subcase, the type of equilibrium is called a \textbf{star}. For the classification, you would either say the origin is a \textit{stable star} or an \textit{unstable star} depending on the sign of $\lambda$. 
+the only equilibrium point is the origin $\textbf{x}^*=(0,0)$. The general solution is
+\[
+\mathbf{x}(t)=e^{\lambda t}\begin{pmatrix}c_1\\c_2\end{pmatrix}.
+\]
+If $\lambda<0$, every solution approaches $(0,0)$ as $t\to\infty$, and the origin is \textbf{stable}. If $\lambda>0$, every nonconstant solution grows without bound, and the origin is \textbf{unstable}. For this subcase, the type of equilibrium is called a \textbf{star}. For the classification, you would either say the origin is a \textit{stable star} or an \textit{unstable star} depending on the sign of $\lambda$.
 
 % -----------------
 
@@ -211,7 +203,7 @@ Therefore, the origin if \textbf{stable} if $\lambda<0$ and \textbf{unstable} ot
 
 \paragraph{Rule} To sketch a star:
 \begin{enumerate}
-    \item Draw a few linear orbits through the origin of the form $y=Cx$. 
+    \item Draw a few lines through the origin of the form $y=Cx$, together with the $y$-axis. Each line contains two linear orbits, one on each side of the origin. 
     \item Draw arrows on the orbits going towards $(0,0)$ if $\lambda<0$, or away from $(0,0)$ if $\lambda>0$.
 \end{enumerate}
 This creates a star pattern, hence the name.
@@ -229,11 +221,11 @@ that means the $x$ and $y$ components have the form
 \[
 x(t)=c_1e^{\lambda    t},\qquad y(t)=c_2e^{\lambda t}.
 \]
-We can do parameter elimination by dividing $y$ over $x$ which gives
+If $c_1\ne0$, we can do parameter elimination by dividing $y$ by $x$, which gives
 $$
 \frac{y}{x}=\frac{c_2 e^{\lambda t}}{c_1 e^{\lambda t}} = C \implies y=Cx.
 $$
-Thus, all trajectories are lines through the origin.
+If $c_1=0$ and $c_2\ne0$, the trajectory lies on the $y$-axis. Since $e^{\lambda t}>0$, every nonconstant trajectory follows one ray on a line through the origin. The origin itself is an equilibrium.
 
 % \begin{figure}[H]
 % \centering
@@ -438,7 +430,7 @@ $$0=\det(A-\lambda I)=\begin{vmatrix}
 \mathbf{v}=
 \begin{pmatrix}1\\-1\end{pmatrix}.
 \]
-\paragraph{Step 3. Generalized eigenvector.} Set up the system $A\textbf{w}=\textbf{v}$ and find any \textbf{w}. There are infinitely many choices for \textbf{w}, so pick the simplest non-zero vector. For example:
+\paragraph{Step 3. Generalized eigenvector.} Set up the system $(A-\lambda I)\textbf{w}=\textbf{v}$ and find any \textbf{w}. There are infinitely many choices for \textbf{w}, so pick the simplest non-zero vector. For example:
 \[
 \begin{pmatrix}1&1\\-1&-1\end{pmatrix}\mathbf{w}=\begin{pmatrix}1\\-1\end{pmatrix}
 \quad\implies\quad
@@ -503,13 +495,13 @@ For this subcase, the type of equilibrium is called a \textbf{degenerate node}. 
 
 \small Possible phase portrait of an unstable degenerate node ($\lambda>0$).
 \end{center}
-\paragraph{Rule} Degenerate nodes have the features of both a spiral and a node. They may look one of the two pictured figures above.
+\paragraph{Rule} Degenerate nodes have curved trajectories that bend clockwise or counterclockwise and align with the eigenvector line near the origin. The two figures above illustrate the unstable case.
 Follow these steps to sketch the phase portrait for a degenerate node:
 
 \begin{enumerate}
     \item Draw the eigenvector line through the origin. Orient its two rays toward $(0,0)$ if $\lambda<0$, or away from $(0,0)$ if $\lambda>0$.
     \item Choose any sample point $\textbf{x}$ off the eigenvector line and calculate its velocity vector $A\mathbf{x}$. Use this vector to determine whether the curves bend clockwise or counterclockwise.
-    \item Draw curves on both sides of the eigenvector line that swirl into the origin either CW or CCW. The closer the curve gets to the origin, the more it aligns with the linear orbits. Draw orientations on the curves that match that the stability of the origin.
+    \item Draw curves on both sides of the eigenvector line, bending clockwise or counterclockwise as indicated by the sample velocity. Near the origin, the curves become tangent to the eigenvector line. Keep each curve on its own side of the line. Add arrows toward the origin if $\lambda<0$, or away from it if $\lambda>0$.
     
 \end{enumerate}
 
@@ -614,7 +606,18 @@ At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the
 \addplot[blue, very thick, variable=\t, domain=-1.8:4]
 ({exp(-2*\t)*(0 + 1*\t)}, {(1)*exp(-2*\t)});
 
-\addplot[blue,->, thick] coordinates {(0,1) (0.4,0.2)};
+% Motion arrows follow the exact trajectories in increasing time.
+\foreach \ca/\cb in {1/2,-1/-2,2/4,-2/-4,-1/1,1/-1,0/-1}{
+    \addplot[black,->,thick,variable=\t,domain=-.12:.12,samples=16]
+        ({exp(-2*\t)*(\ca+\cb*\t)},{\cb*exp(-2*\t)});
+}
+\addplot[blue,->,thick,variable=\t,domain=.25:.55,samples=16]
+    ({\t*exp(-2*\t)},{exp(-2*\t)});
+
+% A scaled velocity vector based at (0,1).
+\addplot[blue,->,thick] coordinates {(0,1) (0.4,0.2)};
+\node[blue,anchor=west,font=\small] at (axis cs:1,1.5)
+    {velocity direction};
 
 \end{axis}
 \end{tikzpicture}
@@ -881,20 +884,18 @@ $$
     0 & -2
 \end{pmatrix}
 $$
-When you slightly modify the value of $\alpha$ you would obviously expect the solution to $\textbf{x}'=A\textbf{x}$ to change as well. The change in the solution may be small. Changing the value $\alpha$ can have more drastic changes such as \textit{changing the classification of the equilibrium}. We refer to this as \textit{bifurcation}.
+Changing $\alpha$ changes the solutions to $\textbf{x}'=A\textbf{x}$. It can also change the classification of the equilibrium.
 
-The key to spotting bifurcation is to calculate the \textbf{discriminant} of the characteristic polynomial. Suppose 
-$$
-\det(A-\lambda I) = a\lambda^2 + b \lambda + c = 0
-$$
-is the characteristic polynomial. Then the discriminant is 
-$
-    D = b^2-4ac.
-$
-The value of $D$ will depend on the parameter $\alpha$. If the sign of $D$ changes, that means a bifurcation in the linear system has occurred. You may also need the eigenvalues of $A$. You can use the quadratic formula to find $\lambda$ in terms of $\alpha$.
+To identify the eigenvalue case, calculate the \textbf{discriminant} of the characteristic polynomial. Suppose the characteristic equation is
+\[
+\det(A-\lambda I)=a\lambda^2+b\lambda+c=0.
+\]
+Then $D=b^2-4ac$ determines whether the eigenvalues are real and distinct ($D>0$), repeated ($D=0$), or nonreal ($D<0$). Use the quadratic formula to find the eigenvalues in terms of $\alpha$, and check their signs or real parts to determine stability. Also check when an eigenvalue becomes zero.
+
+For instance, the first matrix above has eigenvalues $\alpha\pm2i$. Its discriminant stays at $-16$, while the phase portrait changes from a stable spiral for $\alpha<0$, to a center for $\alpha=0$, to an unstable spiral for $\alpha>0$.
 
 \subsection{Node to Spiral}
-I have mentioned that degenerate nodes have the features of both a \textbf{node} and a \textbf{spiral}. This example explains why.
+A degenerate node can occur at the boundary between a \textbf{node} and a \textbf{spiral} as a parameter varies. This example shows how that happens.
 
 \begin{example}[6]{
 For the parameterized matrix
@@ -913,11 +914,13 @@ First, calculate the characteristic equation
 Next, calculate the discriminant $D=16-4(3-\alpha)=4(1+\alpha).$
 We also need the eigenvalues $\lambda = \frac{-b\pm\sqrt{D}}{2a} = 2\pm\sqrt{1+\alpha}$.
 \begin{itemize}
-\item For the critical value $\alpha=-1$, the eigenvalue is $2$ repeated. Thus $\textbf{x}^*$ is an unstable degenerate node.
-\item The discriminant is positive for $\alpha>-1$. That means for the range $\alpha>-1$, $\textbf{x}^*$ is a node.
-\item The discriminant is negative for $\alpha<-1$. That means for the range $\alpha <-1$, $\textbf{x}^*$ is a spiral.
+\item If $\alpha<-1$, the eigenvalues are nonreal with real part $2$. The origin is an \textbf{unstable spiral}.
+\item At $\alpha=-1$, the repeated eigenvalue is $2$. The matrix has one independent eigenvector, so the origin is an \textbf{unstable degenerate node}.
+\item If $-1<\alpha<3$, the eigenvalues are real, distinct, and positive. The origin is an \textbf{unstable node}.
+\item At $\alpha=3$, the eigenvalues are $0$ and $4$. Solving $A\mathbf{x}^*=\mathbf{0}$ gives $y=-3x$, an \textbf{unstable line of equilibria}.
+\item If $\alpha>3$, the eigenvalues have opposite signs. The origin is a \textbf{saddle}.
 \end{itemize}
-The degenerate node is a special phase portrait that lies at the boundary between a spiral and a node. That is why degenerates nodes have features of both.
+At $\alpha=-1$, the degenerate node lies at the boundary between the spiral and node cases. At $\alpha=3$, the zero eigenvalue marks another change in the phase portrait.
 
 \end{example}
 \end{document}
