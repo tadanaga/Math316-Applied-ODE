@@ -207,7 +207,7 @@ Therefore, the origin if \textbf{stable} if $\lambda<0$ and \textbf{unstable} ot
 
 % -----------------
 
-\subsection{Sketching the Phase Portrait}
+\subsection{Sketching a Star}
 
 \paragraph{Rule} To sketch a star:
 \begin{enumerate}
@@ -302,8 +302,8 @@ $$
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    width=7cm,
-    height=7cm,
+    width=9cm,
+    height=9cm,
     axis lines=middle,
     xmin=-4, xmax=4,
     ymin=-4, ymax=4,
@@ -349,88 +349,80 @@ $$
 \end{example}
 
 %============================================
-
+\pagebreak
 \section{Subcase 2: One Independent Eigenvector}
 
 % --------------
 
-\subsection{Some Facts about $A$}
-Let's assume that $A$ has the repeated eigenvalue $\lambda$, but only one independent eigenvector $\mathbf{v}$. Here are three facts we can deduce about the matrix:
-\begin{enumerate}
-    \item \textbf{Fact 1:} The matrix $A-\lambda I$ has one independent equation. Solving $(A-\lambda I)\mathbf{v}=\mathbf{0}$ leaves one free variable.
-    \item \textbf{Fact 2:} Every eigenvector is a nonzero constant multiple of $\mathbf{v}$. A $2\times2$ matrix with a repeated eigenvalue and only one independent eigenvector is called \textbf{deficient}.
-    \item \textbf{Fact 3:} We can find a second vector $\mathbf{w}$ by solving
+\subsection{Generalized Eigenvector}
+
+Let's assume that $A$ has the repeated eigenvalue $\lambda$, but only one independent eigenvector $\mathbf{v}$. In this case, we say that the matrix is \textbf{deficient} (or \textbf{non-diagonalizable}) because it is missing an eigenvector. The issue with a missing eigenvector is that usual general solution does not work:
+\begin{align*}    
+\mathbf{x}(t) &= c_1 \mathbf{v}_1 e^{\lambda_1 t} + c_2 \mathbf{v}_2 e^{\lambda_1 t}\\
+     &= c_1 \mathbf{v} e^{\lambda t} + c_2 \mathbf{v} e^{\lambda t}\\
+    &=C\textbf{v}e^{\lambda t}.
+\end{align*}
+
+Deficient matrices have a second non-zero vector \textbf{w}, called the \textbf{generalized eigenvector}, which satisfies 
     \[
     \boxed{(A-\lambda I)\mathbf{w}=\mathbf{v}.}
     \]
-    This vector is called a \textbf{generalized eigenvector}. The vectors $\mathbf{v}$ and $\mathbf{w}$ are independent.
-\end{enumerate}
-To see why the last fact is true, suppose $\mathbf{w}=c\mathbf{v}$. Then $(A-\lambda I)\mathbf{w}=c(A-\lambda I)\mathbf{v}=\mathbf{0}$, which contradicts $(A-\lambda I)\mathbf{w}=\mathbf{v}$.
-
-For instance, consider
-\[
-A=\begin{pmatrix}4&2\\0&4\end{pmatrix}.
-\]
-The repeated eigenvalue is $\lambda=4$, and the eigenvector equation gives $2v_2=0$. We can choose $\mathbf{v}=(1,0)^T$. Let's find a generalized eigenvector for this matrix.
+The vectors $\textbf{v}$ and $\textbf{w}$ are independent, meaning they are not scalar multiples of each other. This second vector \textbf{w} is needed for the general solution.
 
 % --------------
 
-\begin{example}[3]{
-Let's return to the previous example. Find a generalized eigenvector for the matrix  
-\[
-A=\begin{pmatrix}4&2\\[2pt]0&4\end{pmatrix}, \quad \lambda=4, \quad \mathbf{v}=\begin{pmatrix}
-    1\\0
-\end{pmatrix}
-\]
-}
-To find the generalized eigenvector, we write out the system 
-\begin{align*}    
-(A-\lambda I)\mathbf{w}&=\mathbf{v},\\
-\begin{pmatrix}0&2\\0&0\end{pmatrix}\mathbf{w}&=\begin{pmatrix}1\\[2pt]0\end{pmatrix}
-\end{align*}
-This system states that $w_2 = 1/2$ and $w_1$ is free. For simplicity, we can let $w_1=0$. Therefore, a generalized eigenvector of $A$ is 
-$$
-\mathbf{w} = \begin{pmatrix}
-    0\\1/2
-\end{pmatrix}.
-$$
-Choose a convenient value for the free variable, then use the equation to determine the other component.
-\end{example}
+% \begin{example}[3]{
+% Let's return to the previous example. Find a generalized eigenvector for the matrix  
+% \[
+% A=\begin{pmatrix}4&2\\[2pt]0&4\end{pmatrix}, \quad \lambda=4, \quad \mathbf{v}=\begin{pmatrix}
+%     1\\0
+% \end{pmatrix}
+% \]
+% }
+% To find the generalized eigenvector, we write out the system 
+% \begin{align*}    
+% (A-\lambda I)\mathbf{w}&=\mathbf{v},\\
+% \begin{pmatrix}0&2\\0&0\end{pmatrix}\mathbf{w}&=\begin{pmatrix}1\\[2pt]0\end{pmatrix}
+% \end{align*}
+% This system states that $w_2 = 1/2$ and $w_1$ is free. For simplicity, we can let $w_1=0$. Therefore, a generalized eigenvector of $A$ is 
+% $$
+% \mathbf{w} = \begin{pmatrix}
+%     0\\1/2
+% \end{pmatrix}.
+% $$
+% Choose a convenient value for the free variable, then use the equation to determine the other component.
+% \end{example}
 
 
 % --------------
 
 \subsection{General Solution}
-The eigenpair $(\lambda,\mathbf{v})$ gives us one solution $\mathbf{v}e^{\lambda t}$. Using the generalized eigenvector $\mathbf{w}$ gives a second independent solution $e^{\lambda t}(\mathbf{v}t+\mathbf{w})$. Thus, the general solution to $\mathbf{x}'=A\mathbf{x}$ for subcase 2 is
-\[
+For subcase 2, the matrix $A$ has one eigenpair $(\lambda,\mathbf{v})$ and a generalized eigenvector $\textbf{w}$. Then the general solution to $\textbf{x}'=A\textbf{x}$ is given by the formula
+\begin{equation} \label{1}    
 \boxed{
 \mathbf{x}(t)=c_1\mathbf{v}e^{\lambda t}
 +c_2e^{\lambda t}(\mathbf{v}t+\mathbf{w}).
 }
-\]
-To use this formula, find $\lambda$ and $\mathbf{v}$, solve $(A-\lambda I)\mathbf{w}=\mathbf{v}$, and substitute. Choose a convenient value for the free variable when finding $\mathbf{w}$.
+\end{equation}
+
 
 \paragraph{Why it works}
-The equations for $\mathbf{v}$ and $\mathbf{w}$ give $A\mathbf{v}=\lambda\mathbf{v}$ and $A\mathbf{w}=\lambda\mathbf{w}+\mathbf{v}$. Therefore,
+The eigenpair $(\lambda,\mathbf{v})$ gives us one solution $\textbf{x}_1=\mathbf{v}e^{\lambda t}$. The second solution is $\textbf{x}_2=e^{\lambda t}(\mathbf{v}t+\mathbf{w})$. Here is the proof:
 \begin{align*}
-\frac{d}{dt}\left[e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right]
+\text{LHS}=\frac{d}{dt}\left[e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right]
 &=e^{\lambda t}(\lambda\mathbf{v}t+\lambda\mathbf{w}+\mathbf{v}),\\
-A\left[e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right]
+\text{RHS}=A\left[e^{\lambda t}(\mathbf{v}t+\mathbf{w})\right]
 &=e^{\lambda t}(\lambda\mathbf{v}t+\lambda\mathbf{w}+\mathbf{v}).
 \end{align*}
-The two expressions agree. At $t=0$, the two solutions give the independent vectors $\mathbf{v}$ and $\mathbf{w}$, so their linear combination gives the general solution.
-
-Either determinant convention gives the same eigenvalues. For the formula above, use $(A-\lambda I)\mathbf{w}=\mathbf{v}$ when finding the generalized eigenvector.
-
-Let's do an IVP example.
+Notice that $\text{LHS}=\text{RHS}$. 
+The formula \eqref{1} is simply a linear combination of $\textbf{x}_1$ and $\textbf{x}_2$. With this formula, we can now solve the last linear system.
 
 % --------------
 
 \begin{example}[4]{
-Find the solution to
+Find the general solution to 
 \[
-\mathbf{x}' = \begin{pmatrix}3&1\\-1&1\end{pmatrix}\mathbf{x},\qquad
-\mathbf{x}(0)=\begin{pmatrix}1\\0\end{pmatrix}.
+\mathbf{x}' = \begin{pmatrix}3&1\\-1&1\end{pmatrix}\mathbf{x}.
 \]
 }
 \paragraph{Step 1. Find the eigenvalue.}
@@ -446,7 +438,7 @@ $$0=\det(A-\lambda I)=\begin{vmatrix}
 \mathbf{v}=
 \begin{pmatrix}1\\-1\end{pmatrix}.
 \]
-\paragraph{Step 3. Generalized eigenvector.}
+\paragraph{Step 3. Generalized eigenvector.} Set up the system $A\textbf{w}=\textbf{v}$ and find any \textbf{w}. There are infinitely many choices for \textbf{w}, so pick the simplest non-zero vector. For example:
 \[
 \begin{pmatrix}1&1\\-1&-1\end{pmatrix}\mathbf{w}=\begin{pmatrix}1\\-1\end{pmatrix}
 \quad\implies\quad
@@ -454,29 +446,17 @@ $$0=\det(A-\lambda I)=\begin{vmatrix}
 \quad\implies 
 \mathbf{w}=\begin{pmatrix}0\\1\end{pmatrix}.
 \]
-\paragraph{Step 4. Apply the formula.}
+\paragraph{Step 4. Apply the formula.} Write down the formula for the general solution and substitute $\lambda$, $\textbf{v}$, and $\textbf{w}$:
 \begin{align*}
     \mathbf{x}(t)&=c_1\mathbf{v}e^{\lambda t}+c_2e^{\lambda t}(\mathbf{v}t+\mathbf{w})\\
-    &=c_1\begin{pmatrix}
+    &=\boxed{c_1\begin{pmatrix}
         1\\-1
     \end{pmatrix}e^{2 t}+c_2e^{2 t}\left(\begin{pmatrix}
         1\\-1
     \end{pmatrix}t+\begin{pmatrix}
         0\\1
-    \end{pmatrix}\right).
+    \end{pmatrix}\right).}
 \end{align*}
-\paragraph{Step 5. Solve for $c_1$ and $c_2$.}
-Applying the initial condition gives
-\[
-\begin{pmatrix}1\\0\end{pmatrix}
-=c_1\begin{pmatrix}1\\-1\end{pmatrix}
-+c_2\begin{pmatrix}0\\1\end{pmatrix}
-=\begin{pmatrix}c_1\\-c_1+c_2\end{pmatrix}.
-\]
-Thus $c_1=1$ and $c_2=1$. The solution is
-\[
-\boxed{\mathbf{x}(t)=e^{2t}\begin{pmatrix}1+t\\-t\end{pmatrix}.}
-\]
 \end{example}
 
 
@@ -488,36 +468,11 @@ Assume $\lambda\ne0$. Then the only equilibrium point is the origin $\mathbf{x}^
     \item If $\lambda<0$, both factors approach zero as $t\to\infty$. Every solution approaches the origin, and the origin is \textbf{stable}.
     \item If $\lambda>0$, every nonconstant solution grows without bound as $t\to\infty$. The origin is \textbf{unstable}.
 \end{enumerate}
-For this subcase, the type of equilibrium is called a \textbf{degenerate node}. For the classification, you would say the origin is a \textit{stable degenerate node} or an \textit{unstable degenerate node} depending on the sign of $\lambda$.
+For this subcase, the type of equilibrium is called a \textbf{degenerate node}. For the classification, you would say the origin is a \textit{stable degenerate node} or an \textit{unstable degenerate node}, depending on the sign of $\lambda$.
 
 % -----------------
 
-\subsection{Sketching the Phase Portrait}
-
-\paragraph{Rule} To sketch a degenerate node:
-\begin{enumerate}
-    \item Draw the eigenvector line through the origin. Orient its two rays toward $(0,0)$ if $\lambda<0$, or away from $(0,0)$ if $\lambda>0$.
-    \item Choose a point off the eigenvector line and calculate its velocity vector $A\mathbf{x}$. Use this vector to determine whether the curves bend clockwise or counterclockwise.
-    \item Draw curves on both sides of the eigenvector line. Near the origin, each curve is tangent to the line. Far away, its direction becomes parallel to the opposite ray. Keep each curve on its own side of the line.
-    \item Add arrows to the curves toward the origin if $\lambda<0$, or away from the origin if $\lambda>0$. The arrows should agree with the velocity vector.
-\end{enumerate}
-
-\paragraph{Why it works}
-Factor the general solution as
-\[
-\mathbf{x}(t)=e^{\lambda t}\big[(c_1+c_2t)\mathbf{v}+c_2\mathbf{w}\big].
-\]
-If $c_2=0$, the solution lies on the eigenvector line. These give the two linear orbits and the equilibrium at the origin.
-
-If $c_2\ne0$, the term $c_2t\mathbf{v}$ dominates the constant vectors inside the brackets as $t\to\pm\infty$. Thus, the curve becomes tangent to the eigenvector line near the origin and parallel in direction to the same line far away. The sign of $t$ changes between the two limits, which explains the opposite rays.
-
-Also, the coefficient $c_2e^{\lambda t}$ of $\mathbf{w}$ keeps its sign. This keeps the trajectory on one side of the eigenvector line.
-
-In Example 4, the eigenvector line is $y=-x$. At $(1,0)$, the velocity is
-\[
-A\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}3\\-1\end{pmatrix}.
-\]
-The velocity points down at the positive $x$-axis, so the curves bend clockwise. The pictures below show the two possible directions of bending.
+\subsection{Sketching a Degenerate Node}
 
 \begin{center}
 % The two systems are 2I +/- N, with N = B - 2I from Example 4.
@@ -546,8 +501,26 @@ The velocity points down at the positive $x$-axis, so the curves bend clockwise.
 \end{tikzpicture}\hspace{.4em}
 }
 
-\small Left: Example 4. Right: the opposite shear with the same eigenvector line.
+\small Possible phase portrait of an unstable degenerate node ($\lambda>0$).
 \end{center}
+\paragraph{Rule} Degenerate nodes have the features of both a spiral and a node. They may look one of the two pictured figures above.
+Follow these steps to sketch the phase portrait for a degenerate node:
+
+\begin{enumerate}
+    \item Draw the eigenvector line through the origin. Orient its two rays toward $(0,0)$ if $\lambda<0$, or away from $(0,0)$ if $\lambda>0$.
+    \item Choose any sample point $\textbf{x}$ off the eigenvector line and calculate its velocity vector $A\mathbf{x}$. Use this vector to determine whether the curves bend clockwise or counterclockwise.
+    \item Draw curves on both sides of the eigenvector line that swirl into the origin either CW or CCW. The closer the curve gets to the origin, the more it aligns with the linear orbits. Draw orientations on the curves that match that the stability of the origin.
+    
+\end{enumerate}
+
+\paragraph{Why it works}
+Factor the general solution as
+\[
+\mathbf{x}(t)=e^{\lambda t}\big[(c_1+c_2t)\mathbf{v}+c_2\mathbf{w}\big].
+\]
+If $c_2=0$, the solution lies on the eigenvector line. These give the two linear orbits and the equilibrium at the origin, which is not very interesting.
+
+But if $c_2\ne0$, the term $c_2t\mathbf{v}$ dominates the constant vectors inside the brackets as $t\to\pm\infty$. Thus, the curve becomes tangent to the eigenvector line near the origin and parallel in direction to the same line far away. The sign of $t$ changes between the two limits, which explains the opposite rays. Also, the coefficient $c_2e^{\lambda t}$ of $\mathbf{w}$ keeps its sign. This keeps the trajectory on one side of the eigenvector line.
 
 % --------------
 
@@ -560,51 +533,24 @@ Classify the equilibrium at the origin and sketch the phase portrait for
 0 & -2
 \end{pmatrix}\mathbf{x}.
 \]
-}
-\paragraph{Step 1. Find the eigenvalue.}
-\[
-0=\det(\lambda I-A)
-=
-\begin{vmatrix}
-\lambda+2 & -1\\
-0 & \lambda+2
-\end{vmatrix}
-=(\lambda+2)^2\implies \lambda=-2.
-\]
-\paragraph{Step 2. Find the eigenvector.}
-\[
-(-2I-A)\mathbf{v}=\mathbf{0}
-\implies
-\begin{pmatrix}
-0 & -1\\
-0 & 0
-\end{pmatrix}
-\begin{pmatrix}
-v_1\\v_2
-\end{pmatrix}
-=
-\begin{pmatrix}
-0\\0
-\end{pmatrix}\implies 
-\mathbf{v}=
+The eigenpair of this matrix is 
+$
+    \lambda=-2,\quad \mathbf{v}=
 \begin{pmatrix}
 1\\0
 \end{pmatrix}.
-\]
-\paragraph{Step 3. Write the general solution.}
-Solve $(A+2I)\mathbf{w}=\mathbf{v}$. The first row gives $w_2=1$, so we can take $\mathbf{w}=(0,1)^T$. Thus
-\[
-\mathbf{x}(t)=e^{-2t}
-\begin{pmatrix}c_1+c_2t\\c_2\end{pmatrix}.
-\]
-\paragraph{Step 4. Classify the equilibrium.}
-Both $e^{-2t}$ and $te^{-2t}$ tend to zero as $t\to\infty$. Since there is one eigenvector direction, $\mathbf{x}^*=(0,0)^T$ is a \textbf{stable degenerate node}.
-\paragraph{Step 5. Sketch the phase portrait.}
+$
+}
+
+
+\paragraph{Step 1. Draw the linear orbit.}
 Draw inward arrows on both rays in the direction
 \[
 \mathbf{v}=\begin{pmatrix}1\\0\end{pmatrix}.
 \]
-Choose a test point near $(0,0)$ but not on the linear orbit: $(0,1)$. Calculate the tangent vector
+
+\paragraph{Step 2. Choose a sample point.}
+We can $\textbf{x}=(0,1)$ as the sample point. Calculate the tangent vector
 $$
 \mathbf{x}'= \begin{pmatrix}
     -2&1\\0&-2
@@ -615,12 +561,15 @@ $$
 \end{pmatrix}.
 $$
 At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the shear is clockwise.
+
+\paragraph{Step 3. Draw the swirls.} Above the linear orbit, draw a curve that sweeps from left to right, and then bends back left towards the origin. Below the linear orbit, draw a curve that starts at the 4th quadrant, sweeps across to the 3rd quadrant, and then bends towards the origin tangentially to the linear orbit.
+
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    width=11cm,
-    height=11cm,
+    width=10cm,
+    height=10cm,
     axis lines=middle,
     xmin=-8, xmax=8,
     ymin=-8, ymax=8,
@@ -671,77 +620,304 @@ At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the
 \end{tikzpicture}
 \caption{Phase portrait of a stable degenerate node. The two linear orbits lie on the \(x\)-axis. The other solutions shear inward to $(0,0)$ in a clockwise orientation.}
 \end{figure}
+
+\paragraph{Classification.} Since there is only one eigenvector, $x^*$ is degenerate. Since the eigenvalue $\lambda=-2$ is negative the classification is 
+$$\boxed{\textbf{stable degenerate node.}}$$
 \end{example}
 
-
 %============================================
-
-\newcommand{\minigrid}{
-\begin{tikzpicture}[scale=0.2, baseline=-0.6ex]
-% grid
-\draw[step=1cm, lightgray, very thin] (-4,-4) grid (4,4);
-
-% axes
-\draw[->, thick] (-4.5,0) -- (4.5,0);
-\draw[->, thick] (0,-4.5) -- (0,4.5);
-
-% tick marks
-\foreach \x in {-4,-3,...,4}
-    \draw (\x,0.08) -- (\x,-0.08);
-\foreach \y in {-4,-3,...,4}
-    \draw (0.08,\y) -- (-0.08,\y);
-\end{tikzpicture}
-
-}
-
-\pagebreak 
-
+\pagebreak
 \section{Summary of All Cases}
 
-\subsection{The Table}
-Use the eigenvalues to identify the case. For a repeated nonzero eigenvalue, count the independent eigenvectors to distinguish a star from a degenerate node. Sketch each example on its grid.
-\begin{center}
+% Requires TikZ and \usetikzlibrary{arrows.meta}.
 
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{c c c c c}
+% Shared axes and plotting window.
+\newenvironment{tablephase}
+{%
+    \begin{tikzpicture}[
+        scale=.51,
+        baseline=(current bounding box.center),
+        >=Stealth,
+        trajectory/.style={blue!75!black,thick},
+        motion/.style={trajectory,->}
+    ]
+    \draw[->,gray!65] (-2.6,0)--(2.6,0);
+    \draw[->,gray!65] (0,-2.6)--(0,2.6);
+    \begin{scope}
+        \clip (-2.4,-2.4) rectangle (2.4,2.4);
+}
+{%
+        \fill (0,0) circle (1.6pt);
+    \end{scope}
+    \end{tikzpicture}%
+}
+
+% A = diag(2,1): unstable node.
+% Exact curves parameterized by s=e^t>0.
+\newcommand{\portraitnode}{%
+\begin{tablephase}
+    \foreach \sx in {-1,1}{
+        \foreach \sy in {-1,1}{
+            \foreach \a in {.45,1.5}{
+                \draw[trajectory]
+                    plot[domain=.015:2.5,samples=65,variable=\s]
+                    ({\sx*\a*\s*\s},{\sy*\s});
+                \draw[motion]
+                    plot[domain=.65:.9,samples=12,variable=\s]
+                    ({\sx*\a*\s*\s},{\sy*\s});
+            }
+        }
+        \draw[trajectory] (0,0)--({2.4*\sx},0);
+        \draw[trajectory] (0,0)--(0,{2.4*\sx});
+        \draw[motion] ({.8*\sx},0)--({1.45*\sx},0);
+        \draw[motion] (0,{.8*\sx})--(0,{1.45*\sx});
+    }
+\end{tablephase}%
+}
+
+% A = diag(2,-3): saddle.
+\newcommand{\portraitsaddle}{%
+\begin{tablephase}
+    \foreach \sx in {-1,1}{
+        \foreach \sy in {-1,1}{
+            \foreach \a in {.35,.85}{
+                \draw[trajectory]
+                    plot[domain=-.8:1,samples=85,variable=\t]
+                    ({\sx*\a*exp(2*\t)},
+                     {\sy*\a*exp(-3*\t)});
+                \draw[motion]
+                    plot[domain=-.06:.12,samples=12,variable=\t]
+                    ({\sx*\a*exp(2*\t)},
+                     {\sy*\a*exp(-3*\t)});
+            }
+        }
+        \draw[trajectory] (0,0)--({2.4*\sx},0);
+        \draw[trajectory] (0,0)--(0,{2.4*\sx});
+        \draw[motion] ({.8*\sx},0)--({1.45*\sx},0);
+        \draw[motion] (0,{1.45*\sx})--(0,{.8*\sx});
+    }
+\end{tablephase}%
+}
+
+% A = [2 1; 4 2].
+% Equilibrium line y=-2x; outgoing rays parallel to (1,2).
+\newcommand{\portraitline}{%
+\begin{tablephase}
+    \foreach \b in {-.8,-.4,0,.4,.8}{
+        \foreach \s in {-1,1}{
+            \draw[trajectory]
+                (\b,{-2*\b})--
+                ({\b+3*\s},{-2*\b+6*\s});
+            \draw[motion]
+                ({\b+.18*\s},{-2*\b+.36*\s})--
+                ({\b+.43*\s},{-2*\b+.86*\s});
+        }
+    }
+    \draw[black,very thick] (-1.2,2.4)--(1.2,-2.4);
+    \foreach \b in {-.8,-.4,0,.4,.8}{
+        \fill (\b,{-2*\b}) circle (1.6pt);
+    }
+\end{tablephase}%
+}
+
+% A = [0 -1; 1 0]: counterclockwise center.
+\newcommand{\portraitcenter}{%
+\begin{tablephase}
+    \foreach \r in {.65,1.35,2.1}{
+        \draw[trajectory] (0,0) circle (\r);
+        \draw[motion]
+            plot[domain=15:50,samples=16,variable=\a]
+            ({\r*cos(\a)},{\r*sin(\a)});
+        \draw[motion]
+            plot[domain=195:230,samples=16,variable=\a]
+            ({\r*cos(\a)},{\r*sin(\a)});
+    }
+\end{tablephase}%
+}
+
+% A = [1 3; -3 1]: unstable clockwise spiral.
+% TikZ trig functions take angles in degrees.
+\newcommand{\portraitspiral}{%
+\begin{tablephase}
+    \foreach \a in {0,120,240}{
+        \draw[trajectory]
+            plot[domain=-2.7:1.15,samples=180,variable=\t]
+            ({exp(\t)*cos(\a-deg(3*\t))},
+             {exp(\t)*sin(\a-deg(3*\t))});
+        \foreach \u in {-.65,.45}{
+            \draw[motion]
+                plot[domain=\u:\u+.14,samples=12,variable=\t]
+                ({exp(\t)*cos(\a-deg(3*\t))},
+                 {exp(\t)*sin(\a-deg(3*\t))});
+        }
+    }
+\end{tablephase}%
+}
+
+% A = 6I: unstable star.
+\newcommand{\portraitstar}{%
+\begin{tablephase}
+    \foreach \a in {0,30,...,330}{
+        \draw[trajectory]
+            (0,0)--({2.35*cos(\a)},{2.35*sin(\a)});
+        \draw[motion]
+            ({.8*cos(\a)},{.8*sin(\a)})--
+            ({1.45*cos(\a)},{1.45*sin(\a)});
+    }
+\end{tablephase}%
+}
+
+% A = [2 -1; 0 2]: unstable degenerate node.
+% Exact solutions: x=e^(2t)(a-bt), y=b e^(2t).
+\newcommand{\portraitdegenerate}{%
+\begin{tablephase}
+    \foreach \a/\b in {0/.65,0/-.65,0/1.6,0/-1.6,
+                       1/.65,-1/-.65}{
+        \draw[trajectory]
+            plot[domain=-3:1.25,samples=120,variable=\t]
+            ({exp(2*\t)*(\a-\b*\t)},
+             {\b*exp(2*\t)});
+        \draw[motion]
+            plot[domain=-.12:.06,samples=12,variable=\t]
+            ({exp(2*\t)*(\a-\b*\t)},
+             {\b*exp(2*\t)});
+    }
+    \draw[trajectory] (-2.4,0)--(2.4,0);
+    \foreach \s in {-1,1}{
+        \draw[motion] ({.8*\s},0)--({1.45*\s},0);
+    }
+\end{tablephase}%
+}
+
+
+% -------------------------------------------------------------
+
+\subsection{The Table}
+We have covered all seven types of phase portraits for linear systems. They are listed in the table below with an example. You should be able to classify the equilibrium based on the eigenvalue and the structure of the $A$ matrix. You should also be able to sketch each phase portrait.
+
+\begin{center}
+\begingroup
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.05}
+
+\begin{tabular}{@{}
+    >{\centering\arraybackslash}m{.12\linewidth}
+    >{\centering\arraybackslash}m{.20\linewidth}
+    >{\centering\arraybackslash}m{.18\linewidth}
+    >{\centering\arraybackslash}m{.12\linewidth}
+    >{\centering\arraybackslash}m{.30\linewidth}
+@{}}
 \hline
-\textbf{Type} & \textbf{Major Cases} & \textbf{Sub-cases} & \textbf{Example} & Phase Portrait \\
-\hline\\[1mm]
-Distinct real & $\lambda_1\neq\lambda_2\in\mathbb{R}$ & \textbf{Node} $\lambda_1 \lambda_2 > 0$ & $\begin{pmatrix}2&0\\0&1\end{pmatrix}$& \minigrid\\[10mm]
- & & \textbf{Saddle}  $\lambda_1 \lambda_2 < 0$& $\begin{pmatrix}2&0\\0&-3\end{pmatrix}$&\minigrid\\[10mm]
- & & \textbf{Line of Equilibria}  $\lambda_1\lambda_2=0$& $\begin{pmatrix}2&1\\4&2\end{pmatrix}$ &\minigrid\\[10mm]
- \hline\\[1mm]
-Complex & $\alpha\pm i\beta$ & \textbf{Center} $\alpha =0$ & $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$&\minigrid\\[10mm]
- & & \textbf{Spiral} $\alpha \ne 0$ & $\begin{pmatrix}1&3\\-3&1\end{pmatrix}$&\minigrid\\[10mm]
-\hline\\[1mm]
-Repeated real & $\lambda_1=\lambda_2\ne0$ & \textbf{Star} & $\begin{pmatrix}6&0\\0&6\end{pmatrix}$&\minigrid\\[10mm]
- & & \textbf{Degenerate} & $\begin{pmatrix}2&-1\\0&2\end{pmatrix}$&\minigrid\\[10mm]
+\textbf{Type}
+& \textbf{Major Cases}
+& \textbf{Sub-cases}
+& \textbf{Example}
+& \textbf{Phase Portrait}\\
 \hline
-\end{tabular}}
+
+Distinct real
+& \shortstack{$\lambda_1,\lambda_2\in\mathbb{R}$\\
+             $\lambda_1\ne\lambda_2$}
+& \shortstack{\textbf{Node}\\$\lambda_1\lambda_2>0$}
+& $\begin{pmatrix}2&0\\0&1\end{pmatrix}$
+& \portraitnode\\[2mm]
+
+&
+& \shortstack{\textbf{Saddle}\\$\lambda_1\lambda_2<0$}
+& $\begin{pmatrix}2&0\\0&-3\end{pmatrix}$
+& \portraitsaddle\\[2mm]
+
+&
+& \shortstack{\textbf{Line of}\\
+             \textbf{Equilibria}\\
+             $\lambda_1\lambda_2=0$}
+& $\begin{pmatrix}2&1\\4&2\end{pmatrix}$
+& \portraitline\\[2mm]
+\hline
+
+Complex
+& \shortstack{$\alpha\pm i\beta$\\$\beta\ne0$}
+& \shortstack{\textbf{Center}\\$\alpha=0$}
+& $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$
+& \portraitcenter\\[2mm]
+
+&
+& \shortstack{\textbf{Spiral}\\$\alpha\ne0$}
+& $\begin{pmatrix}1&3\\-3&1\end{pmatrix}$
+& \portraitspiral\\[2mm]
+\hline
+
+Repeated real
+& $\lambda_1=\lambda_2\ne0$
+& \textbf{Star}
+& $\begin{pmatrix}6&0\\0&6\end{pmatrix}$
+& \portraitstar\\[2mm]
+
+&
+& \textbf{Degenerate}
+& $\begin{pmatrix}2&-1\\0&2\end{pmatrix}$
+& \portraitdegenerate\\[2mm]
+\hline
+\end{tabular}
+
+\endgroup
 \end{center}
 
-If both eigenvalues are zero, $A=0$ gives a plane of equilibria. For $A\ne0$, the general solution reduces to $c_1\mathbf{v}+c_2(t\mathbf{v}+\mathbf{w})$. The equilibrium line is spanned by $\mathbf{v}$, and the moving trajectories are straight lines parallel to it.
 
 \subsection{Parameterized Matrices}
+Suppose the $A$ matrix contains a parameter $\alpha$ that is free to vary. Here are a few examples: 
+$$
+\begin{pmatrix}
+    \alpha & 2\\
+    -2 & \alpha
+\end{pmatrix}, \quad 
+\begin{pmatrix}
+    0 & 1\\
+    -1 & \alpha 
+\end{pmatrix},\quad 
+\begin{pmatrix}
+    2 &\alpha \\
+    0 & -2
+\end{pmatrix}
+$$
+When you slightly modify the value of $\alpha$ you would obviously expect the solution to $\textbf{x}'=A\textbf{x}$ to change as well. The change in the solution may be small. Changing the value $\alpha$ can have more drastic changes such as \textit{changing the classification of the equilibrium}. We refer to this as \textit{bifurcation}.
+
+The key to spotting bifurcation is to calculate the \textbf{discriminant} of the characteristic polynomial. Suppose 
+$$
+\det(A-\lambda I) = a\lambda^2 + b \lambda + c = 0
+$$
+is the characteristic polynomial. Then the discriminant is 
+$
+    D = b^2-4ac.
+$
+The value of $D$ will depend on the parameter $\alpha$. If the sign of $D$ changes, that means a bifurcation in the linear system has occurred. You may also need the eigenvalues of $A$. You can use the quadratic formula to find $\lambda$ in terms of $\alpha$.
+
+\subsection{Node to Spiral}
+I have mentioned that degenerate nodes have the features of both a \textbf{node} and a \textbf{spiral}. This example explains why.
+
 \begin{example}[6]{
-For the matrix
+For the parameterized matrix
 \[
 A=\begin{pmatrix}3&1\\\alpha&1\end{pmatrix},
 \]
-how does the phase portrait change as $\alpha$ decreases from $0$ to $-2$?
+how does the classification of the phase portrait change as $\alpha$ is varied?
+
 }
-The characteristic equation is
+First, calculate the characteristic equation 
 \[
 0=\det(\lambda I-A)=
 \begin{vmatrix}\lambda-3&-1\\-\alpha&\lambda-1\end{vmatrix}
 =\lambda^2-4\lambda+3-\alpha.
 \]
-Its \textbf{discriminant} is $D=16-4(3-\alpha)=4(1+\alpha)$, so the eigenvalues are $\lambda=2\pm\sqrt{1+\alpha}$.
+Next, calculate the discriminant $D=16-4(3-\alpha)=4(1+\alpha).$
+We also need the eigenvalues $\lambda = \frac{-b\pm\sqrt{D}}{2a} = 2\pm\sqrt{1+\alpha}$.
 \begin{itemize}
-\item At $\alpha=0$, the eigenvalues are $1$ and $3$. Throughout $-1<\alpha\le0$, both are positive and distinct, so the origin is an \textbf{unstable node}.
-\item At $\alpha=-1$, the repeated eigenvalue is $2$. This is the matrix from Example 4, with one eigenvector direction, so the origin is an \textbf{unstable degenerate node}.
-\item For $-2\le\alpha<-1$, the eigenvalues are nonreal with real part $2$, so the origin is an \textbf{unstable spiral}.
+\item For the critical value $\alpha=-1$, the eigenvalue is $2$ repeated. Thus $\textbf{x}^*$ is an unstable degenerate node.
+\item The discriminant is positive for $\alpha>-1$. That means for the range $\alpha>-1$, $\textbf{x}^*$ is a node.
+\item The discriminant is negative for $\alpha<-1$. That means for the range $\alpha <-1$, $\textbf{x}^*$ is a spiral.
 \end{itemize}
-The shape changes at $\alpha=-1$ even though the origin stays unstable throughout this interval.
+The degenerate node is a special phase portrait that lies at the boundary between a spiral and a node. That is why degenerates nodes have features of both.
+
 \end{example}
 \end{document}
