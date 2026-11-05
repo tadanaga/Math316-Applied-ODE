@@ -9,7 +9,7 @@
 \end{center}
 
 
-%-------------------------------------------------------------
+%============================================
 \section{Repeated Eigenvalues}
 
 \subsection{The Last Case}
@@ -22,7 +22,7 @@ We have the general solution when the eigenvalues are
     \item[a)] real and distinct $\lambda_1\ne \lambda_2$, and
     \item[b)] nonreal $\lambda_{1,2}=\alpha \pm i\beta$ with $\beta\ne0$.
 \end{enumerate}
-Today, we will study the last case: when the eigenvalue is repeated, $\lambda_1=\lambda_2$. This last case separates into two subcases. To illustrate this point, we will examine two matrices with the same characteristic polynomial.
+Today, we will study the \textbf{last case}: when the eigenvalue is repeated, $\lambda_1=\lambda_2$. This  separates into two subcases. To illustrate this point, we will examine two matrices with the same characteristic polynomial.
 
 \subsection{Compare the Matrices}
 Consider the two matrices
@@ -75,154 +75,223 @@ When a matrix has repeated eigenvalues, there are two subcases:
 \subsection{Goal}
 We will study the two subcases of when $A$ has repeated eigenvalues.
 \begin{enumerate}
-    \item \textbf{Case 1}: $A$ has two eigenvectors that are not constant multiples of each other $\mathbf{v}_1\ne c\mathbf{v}_2$. In this case, the general solution is as usual:
+    \item \textbf{Subcase 1}: $A$ has two eigenvectors that are not constant multiples of each other $\mathbf{v}_1\ne c\mathbf{v}_2$. In this case, the general solution is as usual:
      $$\mathbf{x}(t) = c_1 \mathbf{v}_1 e^{\lambda t} + c_2 \mathbf{v}_2 e^{\lambda t}.$$ 
      
-    \item \textbf{Case 2}: $A$ has only one independent eigenvector $\mathbf{v}$. In this case, the general solution needs a slight modification.
+    \item \textbf{Subcase 2}: $A$ has only one independent eigenvector $\mathbf{v}$. In this case, the general solution needs a slight modification.
 \end{enumerate}
 
+%============================================
 
-%-------------------------------------------------------------
+\section{Subcase 1: Independent Eigenvectors}
 
-\section{Case 1: Independent Eigenvectors}
+% --------------
 
-\subsection{Same $\lambda$ but Different Eigenvectors}
-If $\lambda$ is an eigenvalue of $A$ then its eigenvector $\mathbf{v}$ satisfies 
+\subsection{Some Facts about $A$}
+Let's assume that the $A$ has the repeated eigenvalue $\lambda$, yet two different eigenvectors $\textbf{v}_1$ and $\textbf{v}_2$. Here are three facts we can deduce about the matrix: 
+\begin{enumerate}
+    \item \textbf{Fact 1:} The matrix $A$ must have the form
+    $$
+        A=\begin{pmatrix}\lambda&0\\0&\lambda\end{pmatrix}.
+    $$
+    This is true because the only possibility for 
+    $
+    (A-\lambda I)\mathbf{v} = \mathbf{0}
+    $
+    to have two independent solutions $\textbf{v}_1$ and $\textbf{v}_2$ is for the matrix $A-\lambda I$ to be identically zero. 
+    \item \textbf{Fact 2:} The eigenvalues are the diagonal elements of $A$.
+    \item \textbf{Fact 3:} The eigenvectors can be chosen to be 
+    $$
+        \textbf{v}_1=\begin{pmatrix}
+            1\\0
+        \end{pmatrix}, \quad   \textbf{v}_2=\begin{pmatrix}
+            0\\1
+        \end{pmatrix}.
+    $$
+    You can choose any pair of vectors as long as they are not constant multiples of each other. The simplest pair of independent vectors is $\cvec{1,0}$ and $\cvec{0,1}$.
+    
+\end{enumerate}
+
+% --------------
+
+\subsection{General Solution}
+Recall that the general solution to $\textbf{x}'=A\textbf{x}$ for distinct eigenvalues is 
 $$
-(A-\lambda I)\mathbf{v} = \mathbf{0}.
+    \textbf{x}(t) = c_1 \textbf{v}_1 e^{\lambda_1 t} + c_2 \textbf{v}_2 e^{\lambda_2 t}.
 $$
-Suppose the repeated eigenvalue $\lambda$ has two independent eigenvectors. Every vector in the plane is a linear combination of those two vectors, so $A$ multiplies every vector by $\lambda$. Thus
-\[
-A=\lambda I=\begin{bmatrix}\lambda&0\\0&\lambda\end{bmatrix}.
-\]
-For $\lambda\ne0$, this gives a star node. If $\lambda=0$, then $A=0$ and every point is an equilibrium.
+This formula also works for subcase 1. Assume that $\lambda_1=\lambda_2=\lambda$ and use the two simplest eigenvectors. Then the general solution to 
+$$
+    \textbf{x}' = \begin{pmatrix}
+        \lambda & 0\\
+        0 & \lambda 
+    \end{pmatrix}\textbf{x}
+$$
+is given by the formula 
+$$
+    \textbf{x}(t) = c_1 \begin{pmatrix}
+        1\\0
+    \end{pmatrix} e^{\lambda t} + c_2 \begin{pmatrix}
+        0\\1
+    \end{pmatrix} e^{\lambda t}.
+$$
+Let's do an IVP example.
+
+% --------------
+
 \begin{example}[1]{
-Find the general solution to 
+Find the solution to 
 \[
-\mathbf{x}'=\begin{bmatrix}3&0\\0&3\end{bmatrix} \mathbf{x}.
+\mathbf{x}'=\begin{pmatrix}3&0\\0&3\end{pmatrix} \mathbf{x}, \quad \textbf{x}(0)=\begin{pmatrix}
+    1\\2
+\end{pmatrix}
 \]
 }
-\paragraph{Step 1. Find the eigenvalues.}
-$$
-0 = \det(\lambda I - A) = \begin{vmatrix}
-    \lambda-3 & 0 \\
-    0 & \lambda-3
-\end{vmatrix} = (\lambda-3)^2 \implies \lambda=3.
-$$
-\paragraph{Step 2. Find the eigenvectors.}
-\begin{align*}
-    (A-\lambda I)\mathbf{v}_1&=\mathbf{0}\\
-    \left(\begin{bmatrix}
-        3 & 0\\ 0 &3
-    \end{bmatrix}-\begin{bmatrix}
-        3 & 0\\ 0 & 3
-    \end{bmatrix}\right)\mathbf{v}_1&=\mathbf{0}\\
-     \begin{bmatrix}
-        0 & 0\\ 0 &0
-    \end{bmatrix}\mathbf{v}_1&=\mathbf{0}
-\end{align*}
-Every nonzero vector satisfies this equation. To get two independent solutions, choose two independent eigenvectors. The coordinate vectors are convenient:
-\[
-\mathbf{v}_1=\begin{bmatrix}1\\0\end{bmatrix},
-\qquad
-\mathbf{v}_2=\begin{bmatrix}0\\1\end{bmatrix}.
-\]
-\paragraph{Step 3. Write the general solution.}
+\paragraph{Step 1. Identify the eigenvalue and write the solution.}
+    Since the diagonal elements of $A$ are $3$, we identify $\lambda=3$. Substitute this into the solution
 \begin{align*}
 \mathbf{x}(t) &= c_1 \mathbf{v}_1 e^{\lambda_1 t} + c_2 \mathbf{v}_2 e^{\lambda_2 t}\\
-&=c_1 \begin{bmatrix}
+&=c_1 \begin{pmatrix}
     1\\0
-\end{bmatrix} e^{3t} + c_2 \begin{bmatrix}
+\end{pmatrix} e^{3t} + c_2 \begin{pmatrix}
     0\\1
-\end{bmatrix}e^{3t}.
+\end{pmatrix}e^{3t}.
 \end{align*}
 There is no need to deviate from our usual formula since the eigenvectors are independent.
+
+\paragraph{Step 2. Solve for $c_1$ and $c_2$.} Applying the initial condition gives the equation 
+$$
+\textbf{x}(0)=\begin{pmatrix}
+    1\\2
+\end{pmatrix}=c_1 \begin{pmatrix}
+    1\\0
+\end{pmatrix} + c_2 \begin{pmatrix}
+    0\\1
+\end{pmatrix} \quad \implies \quad c_1=1, c_2=2.
+$$
+The solution is 
+$$
+\mathbf{x}(t) =\begin{pmatrix}
+    1\\0
+\end{pmatrix} e^{3t} +2 \begin{pmatrix}
+    0\\1
+\end{pmatrix}e^{3t} = \boxed{
+\begin{pmatrix}
+    e^{3t}\\2e^{3t}
+\end{pmatrix}
+}.
+$$
 \end{example}
 
-%-------------------------------------------------------------
-\section{The Star Node}
-
-\subsection{Solution Curves}
-Let's sketch a few solution curves for 
+% -----------------
+\subsection{Stability and Classification}
+For the system 
 $$
-\mathbf{x}=c_1 \begin{bmatrix}
+    \textbf{x}' = \begin{pmatrix}
+        \lambda & 0\\
+        0 & \lambda 
+    \end{pmatrix}\textbf{x}
+$$
+the only equilibrium point is the origin $\textbf{x}^*=(0,0)$. If we take the limit at $t\to \infty$ for the general solution, we get:
+$$
+\lim_{t\to\infty}
+     c_1 \begin{pmatrix}
+        1\\0
+    \end{pmatrix} e^{\lambda t} + c_2 \begin{pmatrix}
+        0\\1
+    \end{pmatrix} e^{\lambda t} = \begin{dcases}
+        (0,0) & \text{if } \lambda<0\\
+        D.N.E. & \text{if } \lambda>0\\
+    \end{dcases}
+$$
+Therefore, the origin if \textbf{stable} if $\lambda<0$ and \textbf{unstable} otherwise. For this subcase, the type of equilibrium is called a \textbf{star}. For the classification, you would either say the origin is a \textit{stable star} or an \textit{unstable star} depending on the sign of $\lambda$. 
+
+% -----------------
+
+\subsection{Sketching the Phase Portrait}
+
+\paragraph{Rule} To sketch a star:
+\begin{enumerate}
+    \item Draw a few linear orbits through the origin of the form $y=Cx$. 
+    \item Draw arrows on the orbits going towards $(0,0)$ if $\lambda<0$, or away from $(0,0)$ if $\lambda>0$.
+\end{enumerate}
+This creates a star pattern, hence the name.
+
+\paragraph{Why it works}
+Since the general solution has the form
+$$
+\mathbf{x}=c_1 \begin{pmatrix}
     1\\0
-\end{bmatrix} e^{3t} + c_2 \begin{bmatrix}
+\end{pmatrix} e^{\lambda    t} + c_2 \begin{pmatrix}
     0\\1
-\end{bmatrix}e^{3t}.
+\end{pmatrix}e^{\lambda t},
 $$
-If $c_1=0$ and $c_2\ne0$, the trajectory lies on one of the two $y$-axis rays. If $c_1\ne0$, then
+that means the $x$ and $y$ components have the form 
 \[
-x=c_1e^{3t},\qquad y=c_2e^{3t}
-\qquad\Longrightarrow\qquad y=\frac{c_2}{c_1}x.
+x(t)=c_1e^{\lambda    t},\qquad y(t)=c_2e^{\lambda t}.
 \]
-The factor $e^{3t}$ is positive, so each nonconstant trajectory follows one ray and points away from the origin. The origin itself is an equilibrium. Drawing several rays gives the star shape below.
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    width=7cm,
-    height=7cm,
-    axis lines=middle,
-    xmin=-4, xmax=4,
-    ymin=-4, ymax=4,
-    xtick={-3,-2,-1,1,2,3},
-    ytick={-3,-2,-1,1,2,3},
-    xlabel={$x$},
-    ylabel={$y$},
-    axis equal image,
-    clip=false
-]
-
-% solution curves (straight lines through the origin)
-\addplot[red,thick,domain=-4:4] {0};
-\addplot[red,thick,domain=-4:4] {x};
-\addplot[red,thick,domain=-4:4] {-x};
-\addplot[red,thick,domain=-4:4] {0.5*x};
-\addplot[red,thick,domain=-4:4] {-0.5*x};
-
-% y-axis orbit
-\addplot[red,thick,domain=-4:4,samples=2] coordinates {(0,-4) (0,4)};
-
-% arrows pointing away from the origin
-\draw[red,->,thick] (axis cs:0.9,0) -- (axis cs:1.7,0);
-\draw[red,->,thick] (axis cs:-0.9,0) -- (axis cs:-1.7,0);
-\draw[red,->,thick] (axis cs:0,0.9) -- (axis cs:0,1.7);
-\draw[red,->,thick] (axis cs:0,-0.9) -- (axis cs:0,-1.7);
-\draw[red,->,thick] (axis cs:0.7,0.7) -- (axis cs:1.4,1.4);
-\draw[red,->,thick] (axis cs:-0.7,-0.7) -- (axis cs:-1.4,-1.4);
-\draw[red,->,thick] (axis cs:0.7,-0.7) -- (axis cs:1.4,-1.4);
-\draw[red,->,thick] (axis cs:-0.7,0.7) -- (axis cs:-1.4,1.4);
-\draw[red,->,thick] (axis cs:1.0,0.5) -- (axis cs:1.8,0.9);
-\draw[red,->,thick] (axis cs:-1.0,-0.5) -- (axis cs:-1.8,-0.9);
-\draw[red,->,thick] (axis cs:1.0,-0.5) -- (axis cs:1.8,-0.9);
-\draw[red,->,thick] (axis cs:-1.0,0.5) -- (axis cs:-1.8,0.9);
-
-% origin
-\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,0)};
-
-\end{axis}
-\end{tikzpicture}
-\caption{An unstable star.}
-\end{figure}
-
-\subsection{Classification}
-Whenever you have a linear system of the form 
+We can do parameter elimination by dividing $y$ over $x$ which gives
 $$
-\mathbf{x}' = \begin{bmatrix}
-    a & 0 \\
-    0 & a
-\end{bmatrix}\mathbf{x},
+\frac{y}{x}=\frac{c_2 e^{\lambda t}}{c_1 e^{\lambda t}} = C \implies y=Cx.
 $$
-with $a\ne0$, the equilibrium point is called a \textbf{star node}. This system has only one eigenvalue $\lambda=a$ (you should verify this). The equilibrium is located at the origin, $\mathbf{x}^* = \mathbf{0}$. The stability of the equilibrium depends on the sign of $a$. If $a<0$, then we have a \textbf{stable star}. If $a>0$, then we have an \textbf{unstable star.}
+Thus, all trajectories are lines through the origin.
+
+% \begin{figure}[H]
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     width=7cm,
+%     height=7cm,
+%     axis lines=middle,
+%     xmin=-4, xmax=4,
+%     ymin=-4, ymax=4,
+%     xtick={-3,-2,-1,1,2,3},
+%     ytick={-3,-2,-1,1,2,3},
+%     xlabel={$x$},
+%     ylabel={$y$},
+%     axis equal image,
+%     clip=false
+% ]
+
+% % solution curves (straight lines through the origin)
+% \addplot[red,thick,domain=-4:4] {0};
+% \addplot[red,thick,domain=-4:4] {x};
+% \addplot[red,thick,domain=-4:4] {-x};
+% \addplot[red,thick,domain=-4:4] {0.5*x};
+% \addplot[red,thick,domain=-4:4] {-0.5*x};
+
+% % y-axis orbit
+% \addplot[red,thick,domain=-4:4,samples=2] coordinates {(0,-4) (0,4)};
+
+% % arrows pointing away from the origin
+% \draw[red,->,thick] (axis cs:0.9,0) -- (axis cs:1.7,0);
+% \draw[red,->,thick] (axis cs:-0.9,0) -- (axis cs:-1.7,0);
+% \draw[red,->,thick] (axis cs:0,0.9) -- (axis cs:0,1.7);
+% \draw[red,->,thick] (axis cs:0,-0.9) -- (axis cs:0,-1.7);
+% \draw[red,->,thick] (axis cs:0.7,0.7) -- (axis cs:1.4,1.4);
+% \draw[red,->,thick] (axis cs:-0.7,-0.7) -- (axis cs:-1.4,-1.4);
+% \draw[red,->,thick] (axis cs:0.7,-0.7) -- (axis cs:1.4,-1.4);
+% \draw[red,->,thick] (axis cs:-0.7,0.7) -- (axis cs:-1.4,1.4);
+% \draw[red,->,thick] (axis cs:1.0,0.5) -- (axis cs:1.8,0.9);
+% \draw[red,->,thick] (axis cs:-1.0,-0.5) -- (axis cs:-1.8,-0.9);
+% \draw[red,->,thick] (axis cs:1.0,-0.5) -- (axis cs:1.8,-0.9);
+% \draw[red,->,thick] (axis cs:-1.0,0.5) -- (axis cs:-1.8,0.9);
+
+% % origin
+% \addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,0)};
+
+% \end{axis}
+% \end{tikzpicture}
+% \caption{An unstable star.}
+% \end{figure}
+
 
 \begin{example}[2]{
 Sketch the phase portrait and classify the equilibrium for the system
 \[
-\mathbf{x}' = \begin{bmatrix}
+\mathbf{x}' = \begin{pmatrix}
     -2 & 0\\
     0 & -2
-\end{bmatrix}\mathbf{x}.
+\end{pmatrix}\mathbf{x}.
 \]
 }
 This is a star node with an eigenvalue $\lambda=-2$. Every nonconstant trajectory lies on a ray. Since $\lambda<0$, draw an arrow toward the origin on each ray. For the classification, we say 
@@ -279,20 +348,21 @@ $$
 \end{figure}
 \end{example}
 
-%-------------------------------------------------------------
-\section{Case 2: One Independent Eigenvector}
+%============================================
+
+\section{Subcase 2: One Eigenvector}
 
 \subsection{Deficient Matrices}
 Consider the matrix 
 \[
-A=\begin{bmatrix}4&2\\[2pt]0&4\end{bmatrix}.
+A=\begin{pmatrix}4&2\\[2pt]0&4\end{pmatrix}.
 \]
 The eigenvalues are $\lambda_1=\lambda_2=4$. We can calculate its eigenvector
 \begin{align*}
     (A-\lambda I)\mathbf{v}&=\mathbf{0}\\
-     \begin{bmatrix}
+     \begin{pmatrix}
         0 & 2\\ 0 &0
-    \end{bmatrix}\mathbf{v}&=\mathbf{0}
+    \end{pmatrix}\mathbf{v}&=\mathbf{0}
 \end{align*}
 The only restriction is $v_2=0$. Choose $v_1=1$ to obtain $\mathbf{v}=(1,0)^T$. Every eigenvector is a nonzero multiple of $\mathbf{v}$, so we have only one eigenvector direction. A $2\times2$ matrix with a repeated eigenvalue and only one independent eigenvector is called \textbf{deficient} (or \textbf{defective}).
 \subsection{Generalized Eigenvector}
@@ -305,21 +375,21 @@ where $(\lambda,\mathbf{v})$ is a known eigenpair for $A$. Just like $\mathbf{v}
 \begin{example}[3]{
 Let's return to the previous example. Find a generalized eigenvector for the matrix  
 \[
-A=\begin{bmatrix}4&2\\[2pt]0&4\end{bmatrix}, \quad \lambda=4, \quad \mathbf{v}=\begin{bmatrix}
+A=\begin{pmatrix}4&2\\[2pt]0&4\end{pmatrix}, \quad \lambda=4, \quad \mathbf{v}=\begin{pmatrix}
     1\\0
-\end{bmatrix}
+\end{pmatrix}
 \]
 }
 To find the generalized eigenvector, we write out the system 
 \begin{align*}    
 (A-\lambda I)\mathbf{w}&=\mathbf{v},\\
-\begin{bmatrix}0&2\\0&0\end{bmatrix}\mathbf{w}&=\begin{bmatrix}1\\[2pt]0\end{bmatrix}
+\begin{pmatrix}0&2\\0&0\end{pmatrix}\mathbf{w}&=\begin{pmatrix}1\\[2pt]0\end{pmatrix}
 \end{align*}
 This system states that $w_2 = 1/2$ and $w_1$ is free. For simplicity, we can let $w_1=0$. Therefore, a generalized eigenvector of $A$ is 
 $$
-\mathbf{w} = \begin{bmatrix}
+\mathbf{w} = \begin{pmatrix}
     0\\1/2
-\end{bmatrix}.
+\end{pmatrix}.
 $$
 Choose a convenient value for the free variable, then use the equation to determine the other component.
 \end{example}
@@ -356,6 +426,7 @@ A\mathbf{x}_2(t)\\
 
 
 \subsection{General Solution}
+
 This theorem gives us a solution to $\mathbf{x}'=A\mathbf{x}$ given by the formula $\mathbf{x}_2(t)=e^{\lambda t}(\mathbf{v}t+\mathbf{w})$. This is independent from the first solution $\mathbf{x}_1(t)=\mathbf{v}e^{\lambda t}$. That means we may finally write the general solution to the system $\mathbf{x}' = A \mathbf{x}$ when $A$ is deficient:
 \[
 \boxed{
@@ -370,7 +441,7 @@ Either determinant convention gives the same eigenvalues. When using the formula
 \begin{example}[4]{
 Find the general solution to the \textit{deficient system}
 \[
-\mathbf{x}' = \begin{bmatrix}3&1\\-1&1\end{bmatrix}\mathbf{x}.
+\mathbf{x}' = \begin{pmatrix}3&1\\-1&1\end{pmatrix}\mathbf{x}.
 \]
 }
 \paragraph{Step 1. Find the eigenvalue.}
@@ -381,34 +452,31 @@ $$0=\det(A-\lambda I)=\begin{vmatrix}
 \[
 (A-2I)\mathbf{v}=\mathbf{0}
 \quad\Rightarrow\quad
-\begin{bmatrix}1&1\\-1&-1\end{bmatrix}\mathbf{v}=\mathbf{0}
+\begin{pmatrix}1&1\\-1&-1\end{pmatrix}\mathbf{v}=\mathbf{0}
 \ \Rightarrow\ 
 \mathbf{v}=
-\begin{bmatrix}1\\-1\end{bmatrix}.
+\begin{pmatrix}1\\-1\end{pmatrix}.
 \]
 \paragraph{Step 3. Generalized eigenvector.}
 \[
-\begin{bmatrix}1&1\\-1&-1\end{bmatrix}\mathbf{w}=\begin{bmatrix}1\\-1\end{bmatrix}
+\begin{pmatrix}1&1\\-1&-1\end{pmatrix}\mathbf{w}=\begin{pmatrix}1\\-1\end{pmatrix}
 \quad\implies\quad
 \text{let } w_1=0,\text{then }w_2=1 
 \quad\implies 
-\mathbf{w}=\begin{bmatrix}0\\1\end{bmatrix}.
+\mathbf{w}=\begin{pmatrix}0\\1\end{pmatrix}.
 \]
 \paragraph{Step 4. Apply the formula.}
 \begin{align*}
     \mathbf{x}(t)&=c_1\mathbf{v}e^{\lambda t}+c_2e^{\lambda t}(\mathbf{v}t+\mathbf{w})\\
-    &=c_1\begin{bmatrix}
+    &=c_1\begin{pmatrix}
         1\\-1
-    \end{bmatrix}e^{2 t}+c_2e^{2 t}\left(\begin{bmatrix}
+    \end{pmatrix}e^{2 t}+c_2e^{2 t}\left(\begin{pmatrix}
         1\\-1
-    \end{bmatrix}t+\begin{bmatrix}
+    \end{pmatrix}t+\begin{pmatrix}
         0\\1
-    \end{bmatrix}\right).
+    \end{pmatrix}\right).
 \end{align*}
 \end{example}
-
-%-------------------------------------------------------------
-\section{Degenerate Node}
 
 \subsection{Solution Curves for Deficient Systems}
 Now let us analyze the solution
@@ -421,9 +489,9 @@ c_2 e^{\lambda t}\bigl(\mathbf{v}t+\mathbf{w}\bigr),
 \]
 where
 \[
-\mathbf{v}=\begin{bmatrix}1\\-1\end{bmatrix},
+\mathbf{v}=\begin{pmatrix}1\\-1\end{pmatrix},
 \qquad
-\mathbf{w}=\begin{bmatrix}0\\1\end{bmatrix},
+\mathbf{w}=\begin{pmatrix}0\\1\end{pmatrix},
 \qquad
 \lambda=2.
 \]
@@ -479,10 +547,10 @@ c) Sketch curves on both sides. Near the origin they are tangent to the eigenvec
 Classify the equilibrium at the origin and sketch the phase portrait for
 \[
 \mathbf{x}'=
-\begin{bmatrix}
+\begin{pmatrix}
 -2 & 1\\
 0 & -2
-\end{bmatrix}\mathbf{x}.
+\end{pmatrix}\mathbf{x}.
 \]
 }
 \paragraph{Step 1. Find the eigenvalue.}
@@ -499,21 +567,21 @@ Classify the equilibrium at the origin and sketch the phase portrait for
 \[
 (-2I-A)\mathbf{v}=\mathbf{0}
 \implies
-\begin{bmatrix}
+\begin{pmatrix}
 0 & -1\\
 0 & 0
-\end{bmatrix}
-\begin{bmatrix}
+\end{pmatrix}
+\begin{pmatrix}
 v_1\\v_2
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 0\\0
-\end{bmatrix}\implies 
+\end{pmatrix}\implies 
 \mathbf{v}=
-\begin{bmatrix}
+\begin{pmatrix}
 1\\0
-\end{bmatrix}.
+\end{pmatrix}.
 \]
 \paragraph{Step 3. Write the general solution.}
 Solve $(A+2I)\mathbf{w}=\mathbf{v}$. The first row gives $w_2=1$, so we can take $\mathbf{w}=(0,1)^T$. Thus
@@ -526,17 +594,17 @@ Both $e^{-2t}$ and $te^{-2t}$ tend to zero as $t\to\infty$. Since there is one e
 \paragraph{Step 5. Sketch the phase portrait.}
 Draw inward arrows on both rays in the direction
 \[
-\mathbf{v}=\begin{bmatrix}1\\0\end{bmatrix}.
+\mathbf{v}=\begin{pmatrix}1\\0\end{pmatrix}.
 \]
 Choose a test point near $(0,0)$ but not on the linear orbit: $(0,1)$. Calculate the tangent vector
 $$
-\mathbf{x}'= \begin{bmatrix}
+\mathbf{x}'= \begin{pmatrix}
     -2&1\\0&-2
-\end{bmatrix}\begin{bmatrix}
+\end{pmatrix}\begin{pmatrix}
     0\\1
-\end{bmatrix} = \begin{bmatrix}
+\end{pmatrix} = \begin{pmatrix}
     1\\-2
-\end{bmatrix}.
+\end{pmatrix}.
 $$
 At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the shear is clockwise.
 \begin{figure}[H]
@@ -597,10 +665,7 @@ At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the
 \end{figure}
 \end{example}
 
-\pagebreak
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%============================================
 
 \newcommand{\minigrid}{
 \begin{tikzpicture}[scale=0.2, baseline=-0.6ex]
@@ -617,8 +682,10 @@ At the coordinate $(0,1)$ draw the vector $\cvec{1,-2}$. This indicates that the
 \foreach \y in {-4,-3,...,4}
     \draw (0.08,\y) -- (-0.08,\y);
 \end{tikzpicture}
+
 }
 
+\pagebreak 
 
 \section{Summary of All Cases}
 
@@ -631,15 +698,15 @@ Use the eigenvalues to identify the case. For a repeated nonzero eigenvalue, cou
 \hline
 \textbf{Type} & \textbf{Major Cases} & \textbf{Sub-cases} & \textbf{Example} & Phase Portrait \\
 \hline\\[1mm]
-Distinct real & $\lambda_1\neq\lambda_2\in\mathbb{R}$ & \textbf{Node} $\lambda_1 \lambda_2 > 0$ & $\begin{bmatrix}2&0\\0&1\end{bmatrix}$& \minigrid\\[10mm]
- & & \textbf{Saddle}  $\lambda_1 \lambda_2 < 0$& $\begin{bmatrix}2&0\\0&-3\end{bmatrix}$&\minigrid\\[10mm]
- & & \textbf{Line of Equilibria}  $\lambda_1\lambda_2=0$& $\begin{bmatrix}2&1\\4&2\end{bmatrix}$ &\minigrid\\[10mm]
+Distinct real & $\lambda_1\neq\lambda_2\in\mathbb{R}$ & \textbf{Node} $\lambda_1 \lambda_2 > 0$ & $\begin{pmatrix}2&0\\0&1\end{pmatrix}$& \minigrid\\[10mm]
+ & & \textbf{Saddle}  $\lambda_1 \lambda_2 < 0$& $\begin{pmatrix}2&0\\0&-3\end{pmatrix}$&\minigrid\\[10mm]
+ & & \textbf{Line of Equilibria}  $\lambda_1\lambda_2=0$& $\begin{pmatrix}2&1\\4&2\end{pmatrix}$ &\minigrid\\[10mm]
  \hline\\[1mm]
-Complex & $\alpha\pm i\beta$ & \textbf{Center} $\alpha =0$ & $\begin{bmatrix}0&-1\\1&0\end{bmatrix}$&\minigrid\\[10mm]
- & & \textbf{Spiral} $\alpha \ne 0$ & $\begin{bmatrix}1&3\\-3&1\end{bmatrix}$&\minigrid\\[10mm]
+Complex & $\alpha\pm i\beta$ & \textbf{Center} $\alpha =0$ & $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$&\minigrid\\[10mm]
+ & & \textbf{Spiral} $\alpha \ne 0$ & $\begin{pmatrix}1&3\\-3&1\end{pmatrix}$&\minigrid\\[10mm]
 \hline\\[1mm]
-Repeated real & $\lambda_1=\lambda_2\ne0$ & \textbf{Star} & $\begin{bmatrix}6&0\\0&6\end{bmatrix}$&\minigrid\\[10mm]
- & & \textbf{Degenerate} & $\begin{bmatrix}2&-1\\0&2\end{bmatrix}$&\minigrid\\[10mm]
+Repeated real & $\lambda_1=\lambda_2\ne0$ & \textbf{Star} & $\begin{pmatrix}6&0\\0&6\end{pmatrix}$&\minigrid\\[10mm]
+ & & \textbf{Degenerate} & $\begin{pmatrix}2&-1\\0&2\end{pmatrix}$&\minigrid\\[10mm]
 \hline
 \end{tabular}}
 \end{center}
@@ -650,7 +717,7 @@ If both eigenvalues are zero, $A=0$ gives a plane of equilibria. For $A\ne0$, th
 \begin{example}[6]{
 For the matrix
 \[
-A=\begin{bmatrix}3&1\\\alpha&1\end{bmatrix},
+A=\begin{pmatrix}3&1\\\alpha&1\end{pmatrix},
 \]
 how does the phase portrait change as $\alpha$ decreases from $0$ to $-2$?
 }
