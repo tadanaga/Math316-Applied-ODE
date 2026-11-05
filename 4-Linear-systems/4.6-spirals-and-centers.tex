@@ -155,7 +155,7 @@ Solve the initial value problem
 \]
 }
 
-\paragraph{Steps 1--3. Use the eigenpair from Example 1.}
+\paragraph{Steps 1--2. Use the eigenpair from Example 1.}
 Since $\lambda=1+i$, we have $\alpha=1$ and $\beta=1$.
 The real and imaginary parts of the eigenvector are
 \[
@@ -164,7 +164,7 @@ The real and imaginary parts of the eigenvector are
     \mathbf{q}=\begin{pmatrix}1\\0\end{pmatrix}.
 \]
 
-\paragraph{Step 4. Write the general solution.}
+\paragraph{Step 3. Write the general solution.}
 Substituting into the formula gives
 \begin{align*}
     \mathbf{x}
@@ -173,7 +173,7 @@ Substituting into the formula gives
       +c_2e^t\begin{pmatrix}-2\sin t+\cos t\\ \sin t\end{pmatrix}.
 \end{align*}
 
-\paragraph{Step 5. Apply the initial condition.}
+\paragraph{Step 4. Apply the initial condition.}
 At $t=0$, the two solution vectors reduce to $\mathbf{p}$ and
 $\mathbf{q}$, so
 \[
@@ -201,11 +201,10 @@ To understand how the general solution formula is derived, we compare the 1D and
 \begin{center}
     \textbf{Scalar Second-Order ODE}
 \end{center}
-Suppose $y''+ay'+by=0$ has real coefficients and characteristic roots $\alpha\pm i\beta$, with $\beta\ne0$. Euler's formula gives a complex solution
+Suppose $ax''+bx'+cx=0$ has real coefficients and characteristic roots $\alpha\pm i\beta$, with $\beta\ne0$. Euler's formula gives a complex solution
 \begin{align*}
 z(t)&=e^{(\alpha+i\beta)t}\\
-&=e^{\alpha t}\cos(\beta t)\\
-&\quad+i e^{\alpha t}\sin(\beta t).
+&=e^{\alpha t}(\cos(\beta t) +i\sin(\beta t)).
 \end{align*}
 The real and imaginary parts each solve the same real equation. Their linear combinations give the general real solution.
 % --------
@@ -218,11 +217,11 @@ Suppose $(\lambda,\textbf{v})$ is a complex eigenpair for $A$. Then the problem
 \[
 \mathbf{x}'=A\mathbf{x}
 \]
-has the solution $\mathbf{x}(t)=e^{\lambda t}\mathbf{v}$.
+has the solution $\mathbf{z}(t)=e^{\lambda t}\mathbf{v}$.
 
 Using Euler's formula:
 \begin{align*}
-\mathbf{x}(t)&=e^{(\alpha+i\beta) t}(\textbf{p}+i\textbf{q})\\
+\mathbf{z}(t)&=e^{(\alpha+i\beta) t}(\textbf{p}+i\textbf{q})\\
 &=e^{\alpha t}(\cos \beta t+i\sin \beta t)(\textbf{p}+i\textbf{q})\\
 &=e^{\alpha t}[(\textbf{p}\cos\beta t-\textbf{q}\sin\beta t)+\\
 &\phantom{=e{gt}]}i(\textbf{p}\sin \beta t+\textbf{q}\cos \beta t)]
