@@ -79,35 +79,41 @@ We have learned how to solve linear second-order equations with constant coeffic
 \text{Nonlinear spring:} & mx''+\gamma x'+kx+\eta x^3=0.
 \end{array}
 \]
-Explicit solutions can be difficult to find. We can still study the motion by sketching a phase portrait. The first step is to rewrite the equation as a first-order system.
+The $\sin x$ and $x^3$ cause the nonlinearity.
+Explicit solutions can be difficult to find. 
+We can still study the motion by sketching a phase portrait. 
+Before doing that, we must first learn how to rewrite the equation as a first-order \textit{system}.
 
-\subsection{A Linear Example in Matrix Form}
-Consider
+\subsection{Change to Matrix Form}
+Consider the problem
 \[
 x''+7x'+12x=0.
 \]
-The characteristic equation is $r^2+7r+12=(r+3)(r+4)=0$, so its roots are $-3$ and $-4$.
-
-Introduce the new variable $y=x'$. Then $y'=x''$, and the equation becomes
+The characteristic equation is $\lambda^2+7\lambda+12=(\lambda+3)(\lambda+4)=0$, so its roots are $-3$ and $-4$. Observe what occurs when we introduce the new variable $$y(t)=x'(t).$$ 
+Taking the derivative of this new variable gives us 
+$$\frac{d}{dt}y(t)=x''=-2x'-12x=-2y-12x.$$
+Now we can express a system for $x$ and $y$: 
 \[
 \begin{dcases}
 x'=y,\\
 y'=-12x-7y.
 \end{dcases}
 \qquad\Longrightarrow\qquad
-\boxed{
 \mathbf{x}'=
-\begin{pmatrix}0&1\\-12&-7\end{pmatrix}\mathbf{x},
+\underbrace{\begin{pmatrix}0&1\\-12&-7\end{pmatrix}}_{A}\mathbf{x},
 \quad \mathbf{x}=\begin{pmatrix}x\\y\end{pmatrix}.
-}
 \]
 The matrix has characteristic polynomial
 \[
-\det(\lambda I-A)=
-\begin{vmatrix}\lambda&-1\\12&\lambda+7\end{vmatrix}
+\det(A-\lambda I)=
+\begin{vmatrix}-\lambda&1\\-12&-7-\lambda \end{vmatrix}
 =\lambda^2+7\lambda+12.
 \]
-Thus, its eigenvalues are the same roots we found for the second-order equation. The phase-plane coordinates now represent position $x$ and velocity $y=x'$.
+Thus, its eigenvalues are the same roots we found for the second-order equation. Here is the key idea:
+\textbf{you can change a 2nd order equation into a system with the new variable}
+$$
+\boxed{y=x'.}
+$$
 
 % SIDE NOTE: 9:04 | Class practice
 % a) Ask for the new variable and the first equation.
@@ -225,16 +231,15 @@ These are the two points around which we will build our local sketches.
 % b) Differentiate first, then evaluate at the equilibrium.
 % c) Evaluate J at x*, not F at x*.
 
-\section{Linearization}
-
-\subsection{One Matrix at Each Equilibrium}
+\subsection{Phase Portrait}
+One of our goals is to learn how to sketch phase portraits for $\textbf{x}'=\textbf{F}(\textbf{x})$. Suppose this system has two equilibria $\textbf{x}^*_0$ and $\textbf{x}^*_1$.
 Near an equilibrium, a smooth nonlinear system can be approximated by a linear system. Each equilibrium has its own matrix:
 \[
 \mathbf{x}_0^*\longleftrightarrow A_0,
 \qquad
 \mathbf{x}_1^*\longleftrightarrow A_1.
 \]
-We can then use eigenvalues and eigenvectors to sketch the nearby motion. One equilibrium might have a spiral-shaped local picture, while another has a node-shaped picture.
+We can then use eigenvalues and eigenvectors to sketch the nearby motion. For example, suppose $A_0$ has complex eigenvalues and $A_1$ has distinct negative eigenvalues. Then there is a spiral-shaped local picture near $\textbf{x}^*_0$, and a node-shaped picture near $\textbf{x}^*_1$. The sketch below illustrates what the local solution curves on the phase portrait.
 
 \begin{center}
 \begin{tikzpicture}[scale=.72,>=Stealth]
@@ -279,28 +284,42 @@ We can then use eigenvalues and eigenvectors to sketch the nearby motion. One eq
         \node[above] at (0,1.4) {$A_1$};
     \end{scope}
 \end{tikzpicture}
-
-\small Schematic local pictures. The motion between the neighborhoods is still to be determined.
 \end{center}
-How do we find the matrix associated with each equilibrium?
+\noindent If you know the exact numbers in the two matrices $A_0$ and $A_1$, then you can sketch the phase portrait. But how do you find these matrices?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Linearization}
 
 \subsection{The Jacobian Matrix}
-For $\mathbf{F}=(F_1,F_2)^T$, the \textbf{Jacobian matrix} contains the four first-order partial derivatives:
+For the function
+$$
+\textbf{F}(x,y)=\begin{pmatrix}
+    f(x,y)\\
+    g(x,y)
+\end{pmatrix},
+$$
+the \textbf{Jacobian matrix} contains the four first-order partial derivatives:
 \[
 \boxed{
 J(x,y)=
 \begin{pmatrix}
-\dfrac{\partial F_1}{\partial x}&\dfrac{\partial F_1}{\partial y}\\[6pt]
-\dfrac{\partial F_2}{\partial x}&\dfrac{\partial F_2}{\partial y}
+\dfrac{\partial f}{\partial x}(x,y)&\dfrac{\partial g}{\partial y}(x,y)\\[6pt]
+\dfrac{\partial f}{\partial x}(x,y) &\dfrac{\partial g}{\partial y}(x,y)
 \end{pmatrix}.
 }
 \]
-Each row comes from one component of $\mathbf{F}$. The matrix at an equilibrium is
-\[
-\boxed{A_*=J(x^*,y^*).}
-\]
+The Jacobian is both a matrix and a function that depends on the coordinate $(x,y)$. 
+
+Suppose the system $\textbf{x}'=\textbf{F}(\textbf{x})$ has an equilibrium $x^*=(x^*,y^*)$. Then the eigenvalues of the matrix 
+$$
+\boxed{A^*=J(x^*,y^*)}
+$$
+control the local behavior near the equilibria. Finding the Jacobian is the key to studying the local behaviors in nonlinear systems. Here is an example.
 
 \begin{example}[3]{
+
+% EDIT: change f(x,y) and g(x,y) notation
 Find the Jacobian and the matrices at the two equilibria of Example 2:
 \[
 \mathbf{F}(x,y)=\begin{pmatrix}x-y\\2y(y-1)\end{pmatrix}.
@@ -457,12 +476,13 @@ Add curves that enter along the attracting direction and bend away along the rep
     \node[above left,fill=white,inner sep=1pt]
         at (1,1) {$(1,1)$};
 \end{tikzpicture}
-
 \small
 Blue: stable direction.
 Red: unstable direction.
 \end{center}
 \end{example}
+
+
 
 % SIDE NOTE: 9:34 | Two equilibria, two matrices
 % a) Reuse the equilibria and Jacobian already calculated.
@@ -541,6 +561,51 @@ We can extend the saddle portrait using the same linear orbits and curves throug
     \draw[->] (0,-3.2)--(0,4.4) node[above] {$y$};
 
     \begin{scope}
+    \clip (1,1) circle (1.5);
+
+    % Exact solution curves
+    \foreach \c/\d in {
+        0.35/0.25,0.35/-0.25,
+        -0.35/0.25,-0.35/-0.25,
+        0.8/0.2,0.8/-0.2,
+        -0.8/0.2,-0.8/-0.2
+    }{
+        \draw[thick,domain=-1.7:1.5,samples=200]
+            plot
+            ({1+\c*exp(-2*\x)+\d*exp(\x)},
+             {1+\c*exp(-2*\x)+4*\d*exp(\x)});
+
+        \draw[thick,->,domain=0:0.2,samples=20]
+            plot
+            ({1+\c*exp(-2*\x)+\d*exp(\x)},
+             {1+\c*exp(-2*\x)+4*\d*exp(\x)});
+    }
+
+    % Stable and unstable lines
+    \draw[blue,very thick] (-3,-3)--(4,4);
+    \draw[red,very thick] (0,-3)--(1.75,4);
+
+    % Stable arrows
+    \draw[blue,very thick,->] (2,2)--(1.45,1.45);
+    \draw[blue,very thick,->] (0,0)--(0.55,0.55);
+
+    % Unstable arrows
+    \draw[red,very thick,->] (1.15,1.6)--(1.3,2.2);
+    \draw[red,very thick,->] (0.85,0.4)--(0.7,-0.2);
+    \end{scope}
+
+    \draw[dashed,gray] (1,1) circle (1.5);
+    \fill (1,1) circle (2pt);
+    \node[above left,fill=white,inner sep=1pt]
+        at (1,1) {$(1,1)$};
+\end{tikzpicture}
+\raisebox{2cm}{$\longrightarrow$}
+\begin{tikzpicture}[scale=0.78]
+    % Axes
+    \draw[->] (-3.2,0)--(4.4,0) node[right] {$x$};
+    \draw[->] (0,-3.2)--(0,4.4) node[above] {$y$};
+
+    \begin{scope}
     \clip (-3,-3) rectangle (4,4);
 
     % Exact solution curves
@@ -582,7 +647,11 @@ We can extend the saddle portrait using the same linear orbits and curves throug
 \small
 Blue: stable direction.
 Red: unstable direction.
+% EDIT write better caption
 \end{center}
+% EDIT: populate the phase plane with more curves, evenly distributed.
+
+
 \subsection{Trying to Extend the Nonlinear Example}
 Now return to
 \[
@@ -612,6 +681,8 @@ The lines $y=0$ and $y=1$ are \textbf{invariant lines}: a solution starting on e
 For instance, at $(0,\tfrac12)$ the velocity is $(-\tfrac12,-\tfrac12)$, while at $(1,\tfrac12)$ it is $(\tfrac12,-\tfrac12)$. Both point downward, but their horizontal directions differ. Use this information to test the curves you propose between the equilibria.
 
 The slanted eigenvector lines describe local tangent directions. Their extensions need to be checked against the nonlinear vector field. Determining the full connections may require more analysis or numerical solutions.
+
+% Edit: need to show two possible phase portraits. 
 
 \subsection{Limitations of Linearization}
 \begin{enumerate}
