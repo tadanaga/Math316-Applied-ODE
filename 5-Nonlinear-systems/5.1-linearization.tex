@@ -91,7 +91,7 @@ x''+7x'+12x=0.
 \]
 The characteristic equation is $\lambda^2+7\lambda+12=(\lambda+3)(\lambda+4)=0$, so its roots are $-3$ and $-4$. Observe what occurs when we introduce the new variable $$y(t)=x'(t).$$ 
 Taking the derivative of this new variable gives us 
-$$\frac{d}{dt}y(t)=x''=-2x'-12x=-2y-12x.$$
+$$\frac{d}{dt}y(t)=x''=-7x'-12x=-7y-12x.$$
 Now we can express a system for $x$ and $y$: 
 \[
 \begin{dcases}
@@ -174,8 +174,8 @@ Initial position and velocity become the two components of the initial condition
 A two-dimensional \textbf{autonomous system} has the form
 \[
 \begin{dcases}
-x'=F_1(x,y),\\
-y'=F_2(x,y),
+x'=f(x,y),\\
+y'=g(x,y),
 \end{dcases}
 \qquad\text{or}\qquad
 \mathbf{x}'=\mathbf{F}(\mathbf{x}).
@@ -186,7 +186,7 @@ An \textbf{equilibrium} is a point $\mathbf{x}^*=(x^*,y^*)$ where the solution s
 \[
 \boxed{\mathbf{F}(\mathbf{x}^*)=\mathbf{0}.}
 \]
-To find equilibria, solve $F_1(x,y)=0$ and $F_2(x,y)=0$ simultaneously.
+To find equilibria, solve $f(x,y)=0$ and $g(x,y)=0$ simultaneously.
 
 \subsection{Linear versus Nonlinear Systems}
 For a homogeneous linear system $\mathbf{x}'=A\mathbf{x}$, the origin is always an equilibrium. If $A$ is invertible, it is the only one. Singular matrices can give a line or a plane of equilibria.
@@ -239,7 +239,7 @@ Near an equilibrium, a smooth nonlinear system can be approximated by a linear s
 \qquad
 \mathbf{x}_1^*\longleftrightarrow A_1.
 \]
-We can then use eigenvalues and eigenvectors to sketch the nearby motion. For example, suppose $A_0$ has complex eigenvalues and $A_1$ has distinct negative eigenvalues. Then there is a spiral-shaped local picture near $\textbf{x}^*_0$, and a node-shaped picture near $\textbf{x}^*_1$. The sketch below illustrates what the local solution curves on the phase portrait.
+We can then use eigenvalues and eigenvectors to sketch the nearby motion. For example, suppose $A_0$ has complex eigenvalues with negative real part and $A_1$ has distinct negative eigenvalues. Then there is a spiral-shaped local picture near $\textbf{x}^*_0$, and a node-shaped picture near $\textbf{x}^*_1$. The sketch below illustrates these two local pictures. This is a schematic illustration, separate from Example 2.
 
 \begin{center}
 \begin{tikzpicture}[scale=.72,>=Stealth]
@@ -285,7 +285,7 @@ We can then use eigenvalues and eigenvectors to sketch the nearby motion. For ex
     \end{scope}
 \end{tikzpicture}
 \end{center}
-\noindent If you know the exact numbers in the two matrices $A_0$ and $A_1$, then you can sketch the phase portrait. But how do you find these matrices?
+\noindent If you know the exact numbers in the two matrices $A_0$ and $A_1$, then you can sketch the motion near each equilibrium. But how do you find these matrices?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -304,29 +304,28 @@ the \textbf{Jacobian matrix} contains the four first-order partial derivatives:
 \boxed{
 J(x,y)=
 \begin{pmatrix}
-\dfrac{\partial f}{\partial x}(x,y)&\dfrac{\partial g}{\partial y}(x,y)\\[6pt]
-\dfrac{\partial f}{\partial x}(x,y) &\dfrac{\partial g}{\partial y}(x,y)
+\dfrac{\partial f}{\partial x}(x,y)&\dfrac{\partial f}{\partial y}(x,y)\\[6pt]
+\dfrac{\partial g}{\partial x}(x,y)&\dfrac{\partial g}{\partial y}(x,y)
 \end{pmatrix}.
 }
 \]
 The Jacobian is both a matrix and a function that depends on the coordinate $(x,y)$. 
 
-Suppose the system $\textbf{x}'=\textbf{F}(\textbf{x})$ has an equilibrium $x^*=(x^*,y^*)$. Then the eigenvalues of the matrix 
+Suppose the system $\textbf{x}'=\textbf{F}(\textbf{x})$ has an equilibrium $\mathbf{x}^*=(x^*,y^*)$. Then the eigenvalues of the matrix 
 $$
 \boxed{A^*=J(x^*,y^*)}
 $$
-control the local behavior near the equilibria. Finding the Jacobian is the key to studying the local behaviors in nonlinear systems. Here is an example.
+determine the local stability when their real parts are nonzero. Finding the Jacobian is the key to studying the motion near each equilibrium. Here is an example.
 
 \begin{example}[3]{
 
-% EDIT: change f(x,y) and g(x,y) notation
 Find the Jacobian and the matrices at the two equilibria of Example 2:
 \[
 \mathbf{F}(x,y)=\begin{pmatrix}x-y\\2y(y-1)\end{pmatrix}.
 \]
 }
 \paragraph{Step 1. Calculate the partial derivatives.}
-Since $F_1=x-y$ and $F_2=2y^2-2y$,
+Since $f(x,y)=x-y$ and $g(x,y)=2y^2-2y$,
 \[
 J(x,y)=\begin{pmatrix}1&-1\\0&4y-2\end{pmatrix}.
 \]
@@ -410,7 +409,7 @@ The first equation gives $y=3x-2$. Substitution into the second gives $2x-2=0$, 
 \paragraph{Step 2. Find the local matrix and its eigenpairs.}
 The Jacobian is constant:
 \[
-A_*=\begin{pmatrix}-3&1\\-4&2\end{pmatrix}.
+A^*=\begin{pmatrix}-3&1\\-4&2\end{pmatrix}.
 \]
 Its characteristic equation is
 \[
@@ -555,102 +554,58 @@ For Example 4, the translated equation $\mathbf{u}'=A\mathbf{u}$ holds everywher
 \]
 We can extend the saddle portrait using the same linear orbits and curves throughout the plane.
 \begin{center}
-\begin{tikzpicture}[scale=0.78]
-    % Axes
-    \draw[->] (-3.2,0)--(4.4,0) node[right] {$x$};
-    \draw[->] (0,-3.2)--(0,4.4) node[above] {$y$};
-
-    \begin{scope}
-    \clip (1,1) circle (1.5);
-
-    % Exact solution curves
-    \foreach \c/\d in {
-        0.35/0.25,0.35/-0.25,
-        -0.35/0.25,-0.35/-0.25,
-        0.8/0.2,0.8/-0.2,
-        -0.8/0.2,-0.8/-0.2
-    }{
-        \draw[thick,domain=-1.7:1.5,samples=200]
-            plot
-            ({1+\c*exp(-2*\x)+\d*exp(\x)},
-             {1+\c*exp(-2*\x)+4*\d*exp(\x)});
-
-        \draw[thick,->,domain=0:0.2,samples=20]
-            plot
-            ({1+\c*exp(-2*\x)+\d*exp(\x)},
-             {1+\c*exp(-2*\x)+4*\d*exp(\x)});
+\begin{tikzpicture}[scale=.59,>=Stealth]
+    \foreach \panel in {0,1}{
+        \begin{scope}[xshift=\panel*9cm]
+            \draw[->,gray] (-3.2,0)--(4.4,0) node[right] {$x$};
+            \draw[->,gray] (0,-3.2)--(0,4.4) node[above] {$y$};
+            \begin{scope}
+                \ifnum\panel=0
+                    \clip (1,1) circle (1.5);
+                \else
+                    \clip (-3,-3) rectangle (4,4);
+                \fi
+                % Exact trajectories; the same family appears in both panels.
+                \foreach \a in {.12,.35,.8,1.6,3.0}{
+                    \foreach \s in {-1,1}{
+                        \foreach \r in {-1,1}{
+                            \draw[gray!80!black,thick]
+                                plot[domain=-1.8:2,samples=160,variable=\t]
+                                ({1+\s*\a*exp(-2*\t)+\r*\a*exp(\t)},
+                                 {1+\s*\a*exp(-2*\t)+4*\r*\a*exp(\t)});
+                            \draw[->,gray!80!black,thick]
+                                plot[domain=-.15:0,samples=15,variable=\t]
+                                ({1+\s*\a*exp(-2*\t)+\r*\a*exp(\t)},
+                                 {1+\s*\a*exp(-2*\t)+4*\r*\a*exp(\t)});
+                        }
+                    }
+                }
+                \draw[blue,very thick] (-3,-3)--(4,4);
+                \draw[red,very thick] (0,-3)--(1.75,4);
+                \draw[->,blue,very thick] (2,2)--(1.45,1.45);
+                \draw[->,blue,very thick] (0,0)--(.55,.55);
+                \draw[->,red,very thick] (1.15,1.6)--(1.3,2.2);
+                \draw[->,red,very thick] (.85,.4)--(.7,-.2);
+            \end{scope}
+            \ifnum\panel=0
+                \draw[dashed,gray] (1,1) circle (1.5);
+            \fi
+            \fill (1,1) circle (2pt);
+            \node[above left,fill=white,inner sep=1pt] at (1,1) {$(1,1)$};
+            \ifnum\panel=0
+                \node at (.5,-3.65) {Local sketch};
+            \else
+                \node at (.5,-3.65) {Extended portrait};
+            \fi
+        \end{scope}
     }
-
-    % Stable and unstable lines
-    \draw[blue,very thick] (-3,-3)--(4,4);
-    \draw[red,very thick] (0,-3)--(1.75,4);
-
-    % Stable arrows
-    \draw[blue,very thick,->] (2,2)--(1.45,1.45);
-    \draw[blue,very thick,->] (0,0)--(0.55,0.55);
-
-    % Unstable arrows
-    \draw[red,very thick,->] (1.15,1.6)--(1.3,2.2);
-    \draw[red,very thick,->] (0.85,0.4)--(0.7,-0.2);
-    \end{scope}
-
-    \draw[dashed,gray] (1,1) circle (1.5);
-    \fill (1,1) circle (2pt);
-    \node[above left,fill=white,inner sep=1pt]
-        at (1,1) {$(1,1)$};
-\end{tikzpicture}
-\raisebox{2cm}{$\longrightarrow$}
-\begin{tikzpicture}[scale=0.78]
-    % Axes
-    \draw[->] (-3.2,0)--(4.4,0) node[right] {$x$};
-    \draw[->] (0,-3.2)--(0,4.4) node[above] {$y$};
-
-    \begin{scope}
-    \clip (-3,-3) rectangle (4,4);
-
-    % Exact solution curves
-    \foreach \c/\d in {
-        0.35/0.25,0.35/-0.25,
-        -0.35/0.25,-0.35/-0.25,
-        0.8/0.2,0.8/-0.2,
-        -0.8/0.2,-0.8/-0.2
-    }{
-        \draw[thick,domain=-1.7:1.5,samples=200]
-            plot
-            ({1+\c*exp(-2*\x)+\d*exp(\x)},
-             {1+\c*exp(-2*\x)+4*\d*exp(\x)});
-
-        \draw[thick,->,domain=0:0.2,samples=20]
-            plot
-            ({1+\c*exp(-2*\x)+\d*exp(\x)},
-             {1+\c*exp(-2*\x)+4*\d*exp(\x)});
-    }
-
-    % Stable and unstable lines
-    \draw[blue,very thick] (-3,-3)--(4,4);
-    \draw[red,very thick] (0,-3)--(1.75,4);
-
-    % Stable arrows
-    \draw[blue,very thick,->] (2,2)--(1.45,1.45);
-    \draw[blue,very thick,->] (0,0)--(0.55,0.55);
-
-    % Unstable arrows
-    \draw[red,very thick,->] (1.15,1.6)--(1.3,2.2);
-    \draw[red,very thick,->] (0.85,0.4)--(0.7,-0.2);
-    \end{scope}
-
-    \fill (1,1) circle (2pt);
-    \node[above left,fill=white,inner sep=1pt]
-        at (1,1) {$(1,1)$};
+    \node at (5.0,.8) {$\longrightarrow$};
 \end{tikzpicture}
 
 \small
-Blue: stable direction.
-Red: unstable direction.
-% EDIT write better caption
+The same exact trajectories extend beyond the local neighborhood.
+Blue rays approach $(1,1)$; red rays move away.
 \end{center}
-% EDIT: populate the phase plane with more curves, evenly distributed.
-
 
 \subsection{Trying to Extend the Nonlinear Example}
 Now return to
@@ -659,14 +614,36 @@ x'=x-y,\qquad y'=2y(y-1).
 \]
 Near $(0,0)$ we have a saddle, and near $(1,1)$ we have an unstable node. Try extending the local curves. Does a trajectory leaving the node approach the saddle? Which trajectories escape from this region?
 
+The two sketches below propose different extensions of the upper attracting
+branch of the saddle. The small local pictures are the same. The purple
+curves outside the circles are \textbf{tentative extensions}, not verified
+solutions of the nonlinear system.
+
 \begin{center}
-\begin{tikzpicture}[scale=3,>=Stealth]
-    \draw[->,gray] (-.55,0)--(1.6,0) node[right] {$x$};
+\begin{minipage}[t]{.48\linewidth}\centering
+\begin{tikzpicture}[scale=2.15,>=Stealth]
+    \draw[->,gray] (-.65,0)--(1.6,0) node[right] {$x$};
     \draw[->,gray] (0,-.55)--(0,1.6) node[above] {$y$};
     \localpictures
-    \node[align=center,font=\small,fill=white,inner sep=2pt]
-        at (.55,.45) {How do the\\curves connect?};
+    \draw[purple,thick,dashed,->]
+        (.62,1) .. controls (.34,.99) and (.20,.62) .. (.12,.36);
 \end{tikzpicture}
+
+\small A: a branch connects the node to the saddle.
+\end{minipage}\hfill
+\begin{minipage}[t]{.48\linewidth}\centering
+\begin{tikzpicture}[scale=2.15,>=Stealth]
+    \draw[->,gray] (-.65,0)--(1.6,0) node[right] {$x$};
+    \draw[->,gray] (0,-.55)--(0,1.6) node[above] {$y$};
+    \localpictures
+    \draw[purple,thick,dashed,->]
+        (-.6,.8) .. controls (-.35,.7) and (.04,.65) .. (.12,.36);
+    \draw[purple,thick,dashed,->]
+        (.62,1) .. controls (.25,1) and (-.2,1.10) .. (-.6,1.15);
+\end{tikzpicture}
+
+\small B: the branches extend separately.
+\end{minipage}
 \end{center}
 
 The local pictures leave some connections undetermined. To guide the extension, return to the original equations.
@@ -682,7 +659,15 @@ For instance, at $(0,\tfrac12)$ the velocity is $(-\tfrac12,-\tfrac12)$, while a
 
 The slanted eigenvector lines describe local tangent directions. Their extensions need to be checked against the nonlinear vector field. Determining the full connections may require more analysis or numerical solutions.
 
-% Edit: need to show two possible phase portraits. 
+In sketch B, the proposed branch approaching the saddle moves right while
+$x<y$. But the original equation gives $x'=x-y<0$ there. We can reject
+that extension. Sketch A remains a candidate; the local matrices alone
+do not establish the connection.
+
+% SIDE NOTE: 9:47 | Test the proposed extensions
+% a) Both sketches begin with the same local information.
+% b) Reject B: its incoming branch moves right where x < y.
+% c) Skip a full global solution; finish with the limitations by 9:50.
 
 \subsection{Limitations of Linearization}
 \begin{enumerate}
@@ -692,3 +677,4 @@ The slanted eigenvector lines describe local tangent directions. Their extension
 For today's sketches, identify the equilibria, construct the local matrices, and draw the nearby motion. When extending those sketches, use additional information from the original system.
 
 \end{document}
+
