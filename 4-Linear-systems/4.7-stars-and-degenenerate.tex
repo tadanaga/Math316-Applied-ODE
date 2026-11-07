@@ -890,19 +890,18 @@ To identify the eigenvalue case, calculate the \textbf{discriminant} of the char
 \[
 \det(A-\lambda I)=a\lambda^2+b\lambda+c=0.
 \]
-Then $D=b^2-4ac$ determines whether the eigenvalues are real and distinct ($D>0$), repeated ($D=0$), or nonreal ($D<0$). Use the quadratic formula to find the eigenvalues in terms of $\alpha$, and check their signs or real parts to determine stability. Also check when an eigenvalue becomes zero.
-
-For instance, the first matrix above has eigenvalues $\alpha\pm2i$. Its discriminant stays at $-16$, while the phase portrait changes from a stable spiral for $\alpha<0$, to a center for $\alpha=0$, to an unstable spiral for $\alpha>0$.
+Then $D=b^2-4ac$ determines whether the eigenvalues are real and distinct ($D>0$), repeated ($D=0$), or nonreal ($D<0$). Use the quadratic formula to find the eigenvalues in terms of $\alpha$, and check their signs or real parts to determine stability. Also check when an eigenvalue becomes zero because that indicates the line of equilibria.
 
 \subsection{Node to Spiral}
-A degenerate node can occur at the boundary between a \textbf{node} and a \textbf{spiral} as a parameter varies. This example shows how that happens.
+A degenerate node can occur at the boundary between a \textbf{node} and a \textbf{spiral} as a parameter varies. 
+This is why degenerates exhibit features of both a spiral and a node. The following example shows how that happens.
 
 \begin{example}[6]{
 For the parameterized matrix
 \[
 A=\begin{pmatrix}3&1\\\alpha&1\end{pmatrix},
 \]
-how does the classification of the phase portrait change as $\alpha$ is varied?
+how does the classification of the phase portrait change as $\alpha$ is varied from $-2$ to $2$?
 
 }
 First, calculate the characteristic equation 
@@ -917,8 +916,6 @@ We also need the eigenvalues $\lambda = \frac{-b\pm\sqrt{D}}{2a} = 2\pm\sqrt{1+\
 \item If $\alpha<-1$, the eigenvalues are nonreal with real part $2$. The origin is an \textbf{unstable spiral}.
 \item At $\alpha=-1$, the repeated eigenvalue is $2$. The matrix has one independent eigenvector, so the origin is an \textbf{unstable degenerate node}.
 \item If $-1<\alpha<3$, the eigenvalues are real, distinct, and positive. The origin is an \textbf{unstable node}.
-\item At $\alpha=3$, the eigenvalues are $0$ and $4$. Solving $A\mathbf{x}^*=\mathbf{0}$ gives $y=-3x$, an \textbf{unstable line of equilibria}.
-\item If $\alpha>3$, the eigenvalues have opposite signs. The origin is a \textbf{saddle}.
 \end{itemize}
 At $\alpha=-1$, the degenerate node lies at the boundary between the spiral and node cases. At $\alpha=3$, the zero eigenvalue marks another change in the phase portrait.
 

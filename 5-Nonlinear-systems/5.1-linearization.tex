@@ -8,14 +8,48 @@
 \normalsize (Section 5.1)
 \end{center}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rewriting Second-Order Equations}
 
-\subsection{From One Equation to a System}
+\subsection{Motivation}
+We have learned how to solve second order constant coefficient equations. However, there are many important nonlinear second order differential equations which cannot be solved. Here are a few important nonlinear models:
+\begin{itemize}
+    \item 
+\end{itemize}
+Although we cannot solve them, we can still plot their phase portraits! First, we must learn how to rewrite second order equations in matrix form. 
 
-We have learned how to solve second-order equations
-using characteristic equations and Laplace transforms.
-We can also rewrite them as first-order systems.
+
+\subsection{Matrix Form}
+Consider the equation
+$$
+    x''+7x'+12x=0
+$$
+The characteristic eqution is ... the eigenvalues are... 
+Now what if we introduce a new variable $y=x'$ what happens is...
+wow its a matrix equation $x'=Ax$. 
+
+
+
+
+\begin{example}[1]{
+Rewrite the equation as a first order system
+\[
+(nonlinear example) 
+\]
+}
+
+rewrite 
+\end{example}
+
+The matrix and the original second-order equation
+have the same characteristic polynomial. This explains
+why the two methods produce the same eigenvalues
+and solution.
+
+\subsection{General Theory}
+Suppose you have the general system
+$$ax''+bx'+cx=f(x)$$
+THis is how you can convert it to a system.
 
 Introduce a new variable
 \[
@@ -53,92 +87,13 @@ x(0)=x_0,\qquad x'(0)=v_0
 \mathbf{x}(0)=
 \begin{pmatrix}x_0\\v_0\end{pmatrix}.
 \]
+\subsection{What now?}
+The system we wrote is nonlinear! How do we plot its phase?
 
-%-------------------------------------------------------------
-\subsection{Solving the System}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Nonlinear Systems}
 
-\begin{example}[1]{
-Rewrite the equation as a first-order system and solve:
-\[
-x''+7x'+12x=0.
-\]
-}
-
-\paragraph{Step 1. Introduce the new variable.}
-Let $y=x'$. Then
-\[
-y'=x''=-7x'-12x=-7y-12x.
-\]
-Therefore,
-\[
-\begin{dcases}
-x'=y,\\
-y'=-12x-7y,
-\end{dcases}
-\qquad\Longleftrightarrow\qquad
-\mathbf{x}'=
-\begin{pmatrix}
-0&1\\
--12&-7
-\end{pmatrix}\mathbf{x}.
-\]
-
-\paragraph{Step 2. Find the eigenvalues.}
-The characteristic equation is
-\[
-\det(\lambda I-A)
-=
-\begin{vmatrix}
-\lambda&-1\\
-12&\lambda+7
-\end{vmatrix}
-=\lambda^2+7\lambda+12=0.
-\]
-Factoring gives
-\[
-(\lambda+3)(\lambda+4)=0,
-\qquad
-\lambda_1=-3,\quad \lambda_2=-4.
-\]
-
-\paragraph{Step 3. Find the eigenvectors.}
-The first row of $A\mathbf{v}=\lambda\mathbf{v}$ gives
-$v_2=\lambda v_1$. Choosing $v_1=1$ yields
-\[
-\mathbf{v}_1=
-\begin{pmatrix}1\\-3\end{pmatrix},
-\qquad
-\mathbf{v}_2=
-\begin{pmatrix}1\\-4\end{pmatrix}.
-\]
-Thus,
-\[
-\mathbf{x}(t)
-=c_1e^{-3t}\begin{pmatrix}1\\-3\end{pmatrix}
-+c_2e^{-4t}\begin{pmatrix}1\\-4\end{pmatrix}.
-\]
-
-\paragraph{Step 4. Read off the original solution.}
-The first component gives
-\[
-\boxed{x(t)=c_1e^{-3t}+c_2e^{-4t}.}
-\]
-The second component is
-\[
-y(t)=-3c_1e^{-3t}-4c_2e^{-4t}=x'(t),
-\]
-as expected.
-\end{example}
-
-The matrix and the original second-order equation
-have the same characteristic polynomial. This explains
-why the two methods produce the same eigenvalues
-and solution.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Linear and Nonlinear Systems}
-
-\subsection{Autonomous Systems}
+\subsection{The Equilibria}
 
 A two-dimensional \textbf{autonomous system} has the form
 \[
@@ -160,10 +115,15 @@ F_2(x,y)
 }
 \]
 The word \textit{autonomous} means that the right-hand
-side does not explicitly depend on time $t$.
+side does not explicitly depend on time $t$. 
+
+An \textbf{equilibrium} is a point $\mathbf{x}^*$ where
+\[
+\mathbf{F}(\mathbf{x}^*)=\mathbf{0}.
+\]
 
 %-------------------------------------------------------------
-\subsection{Linear Systems}
+\subsection{Linear versus Nonliear Systems}
 
 The systems we have studied so far have the form
 \[
@@ -198,9 +158,6 @@ If $A$ is invertible, the unique equilibrium is
 We will see that its phase portrait is a translated
 version of the portrait for $\mathbf{u}'=A\mathbf{u}$.
 
-%-------------------------------------------------------------
-\subsection{Nonlinear Systems}
-
 A system is \textbf{nonlinear} if its right-hand side
 contains nonlinear dependence on the unknowns, such as
 $x^2$, $xy$, or $\sin x$.
@@ -219,13 +176,11 @@ Many nonlinear systems are difficult to solve explicitly.
 However, we can still study their equilibria and sketch
 the behavior of nearby solutions.
 
+
 %-------------------------------------------------------------
 \subsection{Finding Equilibria}
+Key differenece is that nonlinears can be multiple equilibria.
 
-An \textbf{equilibrium} is a point $\mathbf{x}^*$ where
-\[
-\mathbf{F}(\mathbf{x}^*)=\mathbf{0}.
-\]
 To find equilibria, solve both equations simultaneously:
 \[
 F_1(x,y)=0,\qquad F_2(x,y)=0.
@@ -277,42 +232,88 @@ Therefore, the equilibria are
 \end{example}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Linearization}
 
-\subsection{The One-Dimensional Idea}
+\subsection{Phase Portrait for Nonlinear Systems}
+Suppose a nonlinear system has two equilibria x0 and x1. Each equilibria is associated with its \textit{own local matrix} A0 and A1. To sketch the phase diagram for the nonlinear system we must do what we did in chapter 4. classify the two equilibria based on the eigenvalues of A0 and A1. Then we sketch local, orbits near x0 and x1 based on their classification. 
 
-Near a point $x_0$, we can approximate a differentiable
-function by its tangent line:
-\[
-\boxed{
-f(x)\approx f(x_0)+f'(x_0)(x-x_0).
-}
-\]
-This is called \textbf{linearization}.
+\begin{figure}[H]
+    \centering
+\begin{tikzpicture}[
+    >=stealth,
+    scale=1,
+    trajectory/.style={thick, blue!65!black},
+    equilibrium/.style={circle, fill=black, inner sep=2pt}
+]
 
-For example, consider
-\[
-x'=f(x)=x^2-4.
-\]
-The point $x^*=2$ is an equilibrium because $f(2)=0$.
-Since $f'(2)=4$, near this equilibrium,
-\[
-x'\approx4(x-2).
-\]
-Setting $u=x-2$ gives the linearized equation
-\[
-u'=4u.
-\]
-Its solutions move away from $u=0$, suggesting that
-the original equilibrium $x^*=2$ is unstable.
+% Coordinate axes
+\draw[->, thick] (-0.5,0) -- (9,0) node[right] {$x$};
+\draw[->, thick] (0,-0.5) -- (0,5.5) node[above] {$y$};
 
-The goal is to understand a nonlinear equation near
-an equilibrium by studying a simpler linear equation.
+% Equilibria
+\coordinate (P0) at (2.8,1.8);
+\coordinate (P1) at (6.7,3.9);
 
-%-------------------------------------------------------------
+% Stable spiral around P0
+\begin{scope}[shift={(P0)}]
+    \foreach \phase in {0,100,200} {
+        \draw[trajectory, ->, domain=0:750,
+              samples=180, smooth, variable=\t]
+            plot ({
+                (1.55*exp(-0.0035*\t))*
+                cos(\t+\phase)
+            },{
+                (1.15*exp(-0.0035*\t))*
+                sin(\t+\phase)
+            });
+    }
+\end{scope}
+
+% Stable node around P1
+% Curved trajectories approaching the equilibrium
+\begin{scope}[shift={(P1)}]
+    \foreach \a/\b in {
+        -1.3/0.7,
+        -0.9/1.1,
+        -0.4/1.3,
+         0.4/1.3,
+         0.9/1.1,
+         1.3/0.7,
+        -1.2/-0.8,
+         1.2/-0.8
+    } {
+        \draw[trajectory, ->,
+              domain=0:2.8, samples=65,
+              smooth, variable=\t]
+            plot ({
+                \a*exp(-1.5*\t)
+                + \b*\t*exp(-1.5*\t)
+            },{
+                1.1*\b*exp(-0.8*\t)
+            });
+    }
+\end{scope}
+
+% Equilibrium markers
+\node[equilibrium] at (P0) {};
+\node[equilibrium] at (P1) {};
+
+% Labels
+\node[below right] at (P0) {$\mathbf{x}_0^*$};
+\node[above right] at (P1) {$\mathbf{x}_1^*$};
+
+\node at (4.3,1.3) {$A_0$};
+\node at (8.1,4.5) {$A_1$};
+\end{tikzpicture}
+\end{figure}
+
+
+
+%------------------------------------------------------
 \subsection{The Jacobian Matrix}
 
+But what exactly are these matrices A0 and A1?
 For a vector-valued function
 \[
 \mathbf{F}(x,y)=
@@ -372,9 +373,52 @@ J(x,y)=
 \]
 \end{example}
 
-%-------------------------------------------------------------
-\subsection{Linearizing Near an Equilibrium}
+%--------------------------------------------------------
+\subsection{Local Behavior Near an Equilibrium}
 
+Suppose x0 is an equilibrium for a nonlinear system x'=F(x). 
+To find the local behavior centered at x0, calculate the Jacobian of F(x).
+Then plug x0 into F(x). The matrix A0 = F(x) is what controls the local behavior of the solution near x0. 
+
+To sketch a phase for a nonliear system:
+a) find all equis
+b) find jacobian
+c) for each equi, plug x* into J and classify local matrix 
+d) for eahc equi, sketch local orbits like we've done in chap 4 
+
+%--------------------------------------------------------
+
+\subsection{How does the Jacobian Work (just going to rush this in actual lecture)}
+
+To understand the Jacobian, it helps to think of the 1D version.
+Near a point $x_0$, we can approximate a differentiable
+function by its tangent line:
+\[
+\boxed{
+f(x)\approx f(x_0)+f'(x_0)(x-x_0).
+}
+\]
+This is called \textbf{linearization}.
+
+For example, consider
+\[
+x'=f(x)=x^2-4.
+\]
+The point $x^*=2$ is an equilibrium because $f(2)=0$.
+Since $f'(2)=4$, near this equilibrium,
+\[
+x'\approx4(x-2).
+\]
+Setting $u=x-2$ gives the linearized equation
+\[
+u'=4u.
+\]
+Its solutions move away from $u=0$, suggesting that
+the original equilibrium $x^*=2$ is unstable.
+The goal is to understand a nonlinear equation near
+an equilibrium by studying a simpler linear equation.
+
+So the Jacobian is the derivative term in the 2d version of linearization.
 The two-dimensional linear approximation is
 \[
 \mathbf{F}(\mathbf{x})
@@ -408,37 +452,8 @@ We analyze this linear system using eigenvalues
 and eigenvectors, then place the resulting local
 picture at $\mathbf{x}^*$.
 
-%-------------------------------------------------------------
-\subsection{What Linearization Tells Us}
-
-For a continuously differentiable system, linearization
-determines the local stability and qualitative behavior
-when all eigenvalues of $J(\mathbf{x}^*)$ have nonzero
-real parts.
-
-In particular:
-\begin{itemize}
-    \item Negative real parts give an asymptotically
-    stable equilibrium.
-    \item Positive real parts give an unstable equilibrium.
-    \item Real eigenvalues of opposite signs give a saddle.
-\end{itemize}
-
-If an eigenvalue has zero real part, further analysis
-may be needed. In particular, a center in the linearized
-system does not guarantee a center in the nonlinear system.
-
-Our procedure is:
-\begin{enumerate}
-    \item Find the equilibria.
-    \item Compute the Jacobian.
-    \item Evaluate it at each equilibrium.
-    \item Classify each equilibrium using the eigenvalues.
-    \item Use eigenvectors to sketch the local directions.
-\end{enumerate}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A Shifted Linear System}
+\section{Sketching Local Orbits}
 
 \subsection{Translating the Equilibrium}
 
@@ -606,11 +621,9 @@ Red: unstable direction.
 \end{center}
 \end{example}
 
-%-------------------------------------------------------------==
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A Nonlinear System}
 
-\subsection{Classifying Multiple Equilibria}
+
+\subsection{Nonlinear Example}
 
 For a nonlinear system, we repeat the linearization
 procedure at each equilibrium. Different equilibria
@@ -761,6 +774,11 @@ Dashed lines show tangent directions.
 \end{center}
 \end{example}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Extending Local Orbits}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %-------------------------------------------------------------
 \subsection{Local Directions Are Not Always Straight Trajectories}
 
@@ -802,7 +820,6 @@ when more detail is needed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Nonlinear Example}
 Sketch the phase portrait of the nonlinear system
 \[
 \begin{cases}
