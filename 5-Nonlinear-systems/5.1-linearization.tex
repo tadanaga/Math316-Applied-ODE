@@ -76,13 +76,13 @@ We have learned how to solve linear second-order equations with constant coeffic
 \[
 \begin{array}{ll}
 \text{Swinging Pendulum:} & x''+\gamma x'+\omega^2\sin x=0,\\[2pt]
-\text{Density of a Star:} & x''+\frac{2}{t} x'+x^n=0,\\[2pt]
+\text{Density of a Star ($n>1$):} & x''+\frac{2}{t} x'+x^n=0,\\[2pt]
 \text{Vehicle Suspension:} & mx''+\gamma x'+kx+\eta x^3=0.
 \end{array}
 \]
-The $\sin x$, $x^n$, and $x^3$ cause the nonlinearity.
+The $\sin x$, $x^n$ (for $n>1$), and $x^3$ cause the nonlinearity.
 Explicit solutions can be difficult to find. 
-We can still study the motion by sketching a phase portrait. 
+For autonomous models, we can still study the motion by sketching a phase portrait. 
 Before doing that, we must first learn how to rewrite the equation as a first-order \textit{system}.
 
 \subsection{Change to Matrix Form}
@@ -90,7 +90,7 @@ Consider the problem
 \[
 x''+7x'+12x=0.
 \]
-The characteristic equation is $\lambda^2+7\lambda+12=(\lambda+3)(\lambda+4)=0$, so its eigenvalues are $-3$ and $-4$. Observe what occurs when we introduce the new variable $$y(t)=x'(t).$$ 
+The characteristic equation is $\lambda^2+7\lambda+12=(\lambda+3)(\lambda+4)=0$, so its roots are $-3$ and $-4$. Observe what occurs when we introduce the new variable $$y(t)=x'(t).$$ 
 Taking the derivative of this new variable gives us 
 $$\frac{d}{dt}y(t)=x''=-7x'-12x=-7y-12x.$$
 Now we can express a system for $x$ and $y$: 
@@ -112,7 +112,7 @@ $$
     -12 & -7
 \end{pmatrix}\textbf{x}}_{\text{matrix form}}
 $$
-Interestingly, the matrix $A$ has the same eigenvalues as the 2nd order DE:
+Interestingly, the eigenvalues of $A$ are the roots of the characteristic equation for the second-order DE:
 \[
 \det(A-\lambda I)=
 \begin{vmatrix}-\lambda&1\\-12&-7-\lambda \end{vmatrix}
@@ -156,20 +156,24 @@ The term $\sin x$ makes this a nonlinear system.
 \end{example}
 
 \subsection{The General Rule}
-Here is the general rule for changing a 2nd-order DE to a 1st-order system:
+To rewrite a second-order DE as a first-order system, introduce $y=x'$:
 \[
-\underbrace{
-x''=D(x,x')
-}_{\text{one 2nd order DE}} \quad \longrightarrow \quad \underbrace{\begin{dcases}
-x'=f(x,y),\\
-y'=g(x,y),
-\end{dcases}}_{\text{two 1st order DEs.}}
+\boxed{
+x''=D(t,x,x')
+\quad\Longrightarrow\quad
+\begin{dcases}
+x'=y,\\
+y'=D(t,x,y).
+\end{dcases}
+}
 \]
 \begin{enumerate}
-    \item Introduce a new variable $y=x'$ to obtain the \textbf{first equation}: $x'=y$
-    \item Replace $x'$ with $y$ to obtain the \textbf{second equation} $y'=D(x,y)$.
+    \item Introduce $y=x'$ to obtain the \textbf{first equation}: $x'=y$.
+    \item Solve the original equation for $x''$, then replace $x'$ with $y$ to obtain the \textbf{second equation}.
 \end{enumerate}
-Rewriting this DE in this form makes it easier to analyze because we can identify its equilibria and sketch its phase portrait.
+When $D$ has no explicit dependence on $t$, the resulting system is autonomous:
+$x'=y$, $y'=D(x,y)$. These are the systems whose phase portraits we will study today.
+The stellar-density equation above still depends explicitly on $t$ after rewriting, so it falls outside today's autonomous setting.
 
 %============================================
 % SIDE NOTE: 9:09 | Equilibria
@@ -208,12 +212,12 @@ $$
 \end{dcases}}_{\text{same as }\textbf{x}'=A\textbf{x}} \qquad  \qquad
 \begin{dcases}
 x'=x-y\\
-y'=2y(1-y)
+y'=2y(y-1)
 \end{dcases}
 $$
 The system on the left is \textit{linear}. It can be written in matrix form as $\mathbf{x}'=A\mathbf{x}$. The origin is always an equilibrium. If $A$ is invertible, it is the only one. Singular matrices can give a line or a plane of equilibria.
 
-The system on the right is \textit{nonlinear}. First, notice that there is no matrix $A$ associated with the system. 
+The system on the right is \textit{nonlinear}. There is no single constant matrix $A$ that writes this system as $\mathbf{x}'=A\mathbf{x}$. We will instead find a local matrix at each equilibrium. 
 Another key difference between linear and nonlinear systems is that a nonlinear system can have multiple isolated equilibria. Let's find them.
 
 \begin{example}[2]{
@@ -243,10 +247,10 @@ It is common for students to accidentally label additional points, such as $\tex
 \end{example}
 
 %============================================
-% SIDE NOTE: 9:17 | Each equilibrium has its own matrix
-% a) Show the local-picture idea before the derivative formula.
-% b) Differentiate first, then evaluate at the equilibrium.
-% c) Evaluate J at x*, not F at x*.
+% SIDE NOTE: 9:16 | Each equilibrium has its own matrix
+% a) Show the two local pictures before introducing the derivative formula.
+% b) Each matrix describes motion near its own equilibrium.
+% c) Ask how to find those matrices.
 
 \subsection{Phase Portrait}
 
@@ -306,7 +310,11 @@ We can then use eigenvalues and eigenvectors to sketch the nearby motion. For ex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Jacobian Matrix}
+% SIDE NOTE: 9:19 | Calculate the local matrices
+% a) Rows correspond to f and g; columns correspond to x and y.
+% b) Differentiate first, then substitute the equilibrium.
+% c) If short on time, omit the transpose warning.
+\section{The Jacobian Matrix}
 
 \subsection{Definition}
 For the function
@@ -332,7 +340,7 @@ Suppose the system $\textbf{x}'=\textbf{F}(\textbf{x})$ has an equilibrium $\mat
 $$
 \boxed{A^*=J(x^*,y^*)}
 $$
-determines the local phase portrait near the point $(x^*,y^*)$. Finding the Jacobian is the key to sketching phase portraits for nonlinear systems. Here is an example.
+give the local classification when their real parts are nonzero. Eigenvectors give the directions needed for the sketch. We will first use this rule, then explain why it works.
 
 \begin{example}[3]{
 Find the Jacobian and the linearization matrices at the two equilibria from Example 2:
@@ -425,24 +433,8 @@ J(1,1)
 \end{pmatrix}.
 \]
 
-Thus,
-\[
-\boxed{
-A_0=
-\begin{pmatrix}
-1 & -1\\
-0 & -2
-\end{pmatrix},
-\qquad
-A_1=
-\begin{pmatrix}
-1 & -1\\
-0 & 2
-\end{pmatrix}
-}
-\]
 
-Each equilibrium now has its own linear system, and we can analyze the local behavior by studying the eigenvalues of $A_0$ and $A_1$.
+Each equilibrium now has its own local matrix. Next, we use these matrices to sketch the nearby motion.
 \end{example}
 
 \subsection{Warning}
@@ -457,11 +449,11 @@ $$
         f_y & g_y
     \end{pmatrix}.
 $$
-You will still get the correct eigenvalue due to the way the determinant is calculated. However, you may get the wrong eigenvector. You may also reverse the orientation for centers and spirals. 
+Swapping these entries transposes the matrix. A matrix and its transpose have the same characteristic polynomial, so you still get the correct eigenvalues. However, the eigenvectors can change, and for centers and spirals the direction of rotation is reversed. Remember: differentiate each component across its own row. 
 
 
 %============================================
-% SIDE NOTE: 9:28 | Local sketches
+% SIDE NOTE: 9:26 | Local sketches
 % a) First practice moving a familiar portrait to (1,1).
 % b) Then put two different local pictures on one plane.
 % c) Keep the neighborhoods small.
@@ -472,26 +464,23 @@ Our goal is to sketch the motion in a small neighborhood of each equilibrium. Be
 
 \subsection{The Rule for Sketching Locally}
 \begin{enumerate}
-    \item Find the equilibria by solving $\mathbf{F}(\mathbf{x}^*)=\mathbf{0}$.
-    \item Calculate $J(x,y)$, then evaluate it at each equilibrium.
-    \item Find the eigenvalues of each matrix and classify the local behavior. Find eigenvectors when needed for the sketch.
-    \item Draw a phase portrait in a small local disk around each equilibrium. 
+    \item \textbf{Find the equilibria.} Solve $f(x,y)=0$ and $g(x,y)=0$ simultaneously.
+    \item \textbf{Find the local matrices.} Calculate $J(x,y)$, then evaluate $A^*=J(x^*,y^*)$ at each equilibrium.
+    \item \textbf{Classify each equilibrium.} Find the eigenvalues of $A^*$ and any eigenvectors needed for the sketch.
+    \item \textbf{Sketch near each equilibrium.} Draw the corresponding linear phase portrait in a small disk centered at $(x^*,y^*)$. Draw the eigenvector directions through this point, orient the rays, and add curved trajectories with arrows.
 \end{enumerate}
-For smooth systems, eigenvalues with nonzero real parts determine the local stability. Saddles, distinct-real nodes, and spirals have the corresponding local qualitative behavior. Zero or purely imaginary eigenvalues require further analysis.
+Use the same sketching rules from Chapter 4, but place the picture at the equilibrium instead of at the origin. For a spiral, use the local linear system to check the direction of rotation.
 
-% ------------
+For smooth systems, this classification applies when both eigenvalues have nonzero real parts. Zero or purely imaginary eigenvalues require further analysis. The disks indicate local neighborhoods; their drawn sizes are not error bounds.
 
 \subsection{A Shifted Linear System}
-
-Our first example will be a system of the form
-$$
-\textbf{x}' = A\textbf{x}+ \textbf{b}
-$$
-where $\textbf{b}$ is a constant vector. This a more general form of the system from Chapter 4. We may interpret this system as a linear system with a shift. The equilibrium is not longer at the origin. Let's apply the rules for sketching local linear orbits to this system. 
+Our first example has the form
+\[
+\mathbf{x}'=A\mathbf{x}+\mathbf{b},
+\]
+where $\mathbf{b}$ is constant. This is a linear system with constant forcing, also called an \textbf{affine system}. Its equilibrium may be shifted away from the origin. Let's apply the four sketching steps before explaining why the shift works.
 
 \begin{example}[4]{
-
-% fix all the steps to align with rules
 
 Find the equilibrium and sketch its nearby orbits:
 \[
@@ -510,12 +499,17 @@ The first equation gives $y=3x-2$. Substitution into the second gives $2x-2=0$, 
 \boxed{\mathbf{x}^*=(1,1).}
 \]
 
-\paragraph{Step 2. Find the local matrix and its eigenpairs.}
-The Jacobian is constant:
+\paragraph{Step 2. Find the local matrix.}
+Here $f(x,y)=-3x+y+2$ and $g(x,y)=-4x+2y+2$, so
 \[
-A^*=\begin{pmatrix}-3&1\\-4&2\end{pmatrix}.
+J(x,y)=\begin{pmatrix}-3&1\\-4&2\end{pmatrix},
+\qquad
+A^*=J(1,1)=\begin{pmatrix}-3&1\\-4&2\end{pmatrix}.
 \]
-Its characteristic equation is
+The constant forcing disappears when we differentiate.
+
+\paragraph{Step 3. Classify the equilibrium.}
+The characteristic equation is
 \[
 \lambda^2+\lambda-2=(\lambda+2)(\lambda-1)=0.
 \]
@@ -527,7 +521,7 @@ The eigenpairs are
 \]
 Thus, $(1,1)$ is a \textbf{saddle}.
 
-\paragraph{Step 3. Place the saddle at $(1,1)$.}
+\paragraph{Step 4. Sketch near the equilibrium.}
 Draw the eigenvector lines through the equilibrium:
 \[
 y-1=x-1 \quad\text{(inward)},\qquad
@@ -584,41 +578,61 @@ Add curves that enter along the attracting direction and bend away along the rep
 
 % -------------------
 
+% SIDE NOTE: 9:32 | Two equilibria, two local sketches
+% a) Reuse the equilibria and matrices from Examples 2 and 3.
+% b) Supply the eigenvectors if algebra is slowing the class down.
+% c) Draw only local pictures; save their extensions for the last section.
 \subsection{Two Local Pictures for a Nonlinear System}
 \begin{example}[5]{
-Use the matrices from Example 3 to classify the equilibria and sketch local orbits for
+Classify the equilibria and sketch local orbits for
 \[
 x'=x-y,\qquad y'=2y(y-1).
 \]
+Reuse the calculations from Examples 2 and 3.
 }
-\paragraph{Step 1. Classify $(0,0)$.}
-We already found
+\paragraph{Step 1. Find the equilibria.}
+Example 2 gives
 \[
-A_0=\begin{pmatrix}1&-1\\0&-2\end{pmatrix}.
+\mathbf{x}_0^*=(0,0),\qquad \mathbf{x}_1^*=(1,1).
 \]
-The eigenvalues are its diagonal entries, $1$ and $-2$. The eigenpairs are
+
+\paragraph{Step 2. Find the local matrices.}
+From Example 3,
+\[
+J(x,y)=\begin{pmatrix}1&-1\\0&4y-2\end{pmatrix},
+\]
+so
+\[
+A_0=J(0,0)=\begin{pmatrix}1&-1\\0&-2\end{pmatrix},
+\qquad
+A_1=J(1,1)=\begin{pmatrix}1&-1\\0&2\end{pmatrix}.
+\]
+
+\paragraph{Step 3. Classify each equilibrium.}
+Both matrices are triangular, so their eigenvalues are the diagonal entries.
+
+At $(0,0)$, the eigenpairs are
 \[
 \lambda=1,\quad \mathbf{v}=\begin{pmatrix}1\\0\end{pmatrix},
 \qquad
 \lambda=-2,\quad \mathbf{v}=\begin{pmatrix}1\\3\end{pmatrix}.
 \]
-Therefore, $(0,0)$ is a \textbf{saddle}. Draw the horizontal direction with outward arrows and the direction $y=3x$ with inward arrows. Add the saddle-shaped curves between them.
+The eigenvalues have opposite signs, so $(0,0)$ is a \textbf{saddle}.
 
-\paragraph{Step 2. Classify $(1,1)$.}
-At the second equilibrium,
-\[
-A_1=\begin{pmatrix}1&-1\\0&2\end{pmatrix}.
-\]
-The eigenpairs are
+At $(1,1)$, the eigenpairs are
 \[
 \lambda=1,\quad \mathbf{v}=\begin{pmatrix}1\\0\end{pmatrix},
 \qquad
 \lambda=2,\quad \mathbf{v}=\begin{pmatrix}-1\\1\end{pmatrix}.
 \]
-Both eigenvalues are positive, so $(1,1)$ is an \textbf{unstable node}. Draw outward arrows along $y=1$ and $y-1=-(x-1)$. The linearized trajectories have parabola-like shapes that open toward the fast direction $(-1,1)$, associated with $\lambda=2$. Near the equilibrium, they are tangent to the slow horizontal direction.
+Both eigenvalues are positive, so $(1,1)$ is an \textbf{unstable node}.
 
-\paragraph{Step 3. Put the two local pictures together.}
-Place each sketch in a small neighborhood of its equilibrium. The eigenvector lines give tangent directions for the nonlinear motion. The nearby curved trajectories are approximated by the linearized curves. The dashed circles mark the neighborhoods. Blue arrows point inward and red arrows point outward.
+\paragraph{Step 4. Sketch near each equilibrium.}
+\textbf{At the saddle $(0,0)$:} draw the horizontal direction with outward arrows and the direction $y=3x$ with inward arrows. Add curves entering along the attracting direction and bending away along the repelling direction.
+
+\textbf{At the node $(1,1)$:} draw the directions $y=1$ and $y-1=-(x-1)$ with outward arrows. The linearized curves have parabola-like shapes that open toward the fast direction $(-1,1)$, associated with $\lambda=2$. Except for the fast linear orbits themselves, the linearized trajectories are tangent to the slow horizontal direction near the equilibrium.
+
+Place each picture in a small disk. These are sketches of the \textbf{local linear approximations}: the nonlinear trajectories need not follow the straight eigenvector lines exactly. Blue arrows point inward and red arrows point outward.
 
 \begin{center}
 \begin{tikzpicture}[scale=3,>=Stealth]
@@ -631,37 +645,61 @@ Place each sketch in a small neighborhood of its equilibrium. The eigenvector li
 
 % -----------------------
 
-\subsection{Why This Works}
-Why does the Jacobian matrix capture the local behaviors near the equilibria?
-% SIDE NOTE: 9:25 | Keep the explanation brief
+% SIDE NOTE: 9:39 | Justify the procedure after the examples
 % a) Recall the tangent-line approximation.
-% b) F(x*) vanishes.
-% c) u measures displacement from x*. Start the examples by 9:28.
-In one variable, the tangent-line approximation is
+% b) F(x*) = 0, so only the Jacobian term remains.
+% c) Keep this brief; omit the explicit quadratic remainder if needed.
+\subsection{Why This Works}
+Why does the Jacobian give the right local matrix? In one variable, we approximate a function near $x^*$ by its tangent line:
 \[
 f(x)\approx f(x^*)+f'(x^*)(x-x^*).
 \]
-The \textbf{linearization} of a two-dimensional vector field uses the same idea:
+For a vector field, the \textbf{linearization} uses the same idea:
 \[
 \mathbf{F}(\mathbf{x})\approx
 \mathbf{F}(\mathbf{x}^*)+J(\mathbf{x}^*)(\mathbf{x}-\mathbf{x}^*).
 \]
-At an equilibrium, $\mathbf{F}(\mathbf{x}^*)=\mathbf{0}$. Set $\mathbf{u}=\mathbf{x}-\mathbf{x}^*$, the displacement from the equilibrium. The resulting \textbf{linearized system} is
+At an equilibrium, $\mathbf{F}(\mathbf{x}^*)=\mathbf{0}$. Introduce the displacement
 \[
-\boxed{\mathbf{u}'=J(\mathbf{x}^*)\mathbf{u}.}
+\mathbf{u}=\mathbf{x}-\mathbf{x}^*
+=\begin{pmatrix}x-x^*\\y-y^*\end{pmatrix}.
 \]
-Sketch this linear system at $\mathbf{u}=\mathbf{0}$, then translate the picture to $\mathbf{x}^*$.
+The equilibrium is now at $\mathbf{u}=\mathbf{0}$. Keeping only the linear terms gives the \textbf{linearized system}
+\[
+\boxed{\mathbf{u}'=A^*\mathbf{u},\qquad A^*=J(\mathbf{x}^*).}
+\]
+This explains our sketching procedure: use $A^*$ to sketch a familiar linear portrait, then place its origin at $\mathbf{x}^*$.
 
+For example, near $(1,1)$ in Example 5, set $u=x-1$ and $v=y-1$. The exact equations become
+\[
+u'=u-v,\qquad v'=2v+2v^2.
+\]
+Dropping the quadratic term $2v^2$ gives
+\[
+\begin{pmatrix}u'\\v'\end{pmatrix}
+=\underbrace{\begin{pmatrix}1&-1\\0&2\end{pmatrix}}_{A_1}
+\begin{pmatrix}u\\v\end{pmatrix}.
+\]
+The omitted nonlinear term is why we restrict this sketch to a small neighborhood.
 
 % ==================================================
 
+% SIDE NOTE: 9:42 | Extend the local pictures
+% a) The shifted linear example extends exactly.
+% b) The nonlinear example needs information beyond its local matrices.
+% c) Prioritize the comparison over solving any global trajectories.
 \section{Extending the Local Orbits}
 
 \subsection{From Local Pictures to a Full Portrait}
 A full phase portrait describes motion throughout the region of interest. We have only drawn small pieces near equilibria. How should those pieces extend?
 
 \subsection{The Shifted Linear Example}
-For Example 4, the translated equation $\mathbf{u}'=A\mathbf{u}$ holds everywhere. Its general solution is
+For Example 4, set $\mathbf{u}=\mathbf{x}-\mathbf{x}^*$. Since $A\mathbf{x}^*+\mathbf{b}=\mathbf{0}$,
+\[
+\mathbf{u}'=A(\mathbf{u}+\mathbf{x}^*)+\mathbf{b}
+=A\mathbf{u}.
+\]
+There are no nonlinear terms to drop, so this translation is exact everywhere. Its general solution is
 \[
 \mathbf{x}(t)=
 \begin{pmatrix}1\\1\end{pmatrix}
@@ -723,11 +761,14 @@ The same exact trajectories extend beyond the local neighborhood.
 Blue rays approach $(1,1)$; red rays move away.
 \end{center}
 
-We said linearization is a local approximation. 
-Why does the linearization of the shifted example extend all the way? Because the system is already linear, the linearization is exact. 
+For this affine system, the local matrix describes the entire shifted portrait. We cannot assume the same for a nonlinear system.
 
 % -----------------------
 
+% SIDE NOTE: 9:46 | Test the proposed extensions
+% a) Both sketches begin with the same local information.
+% b) Reject B: its incoming branch moves right where x < y.
+% c) If time is short, use this one sign check and skip the other field checks.
 \subsection{Trying to Extend the Nonlinear Example}
 Now return to
 \[
@@ -735,7 +776,7 @@ x'=x-y,\qquad y'=2y(y-1).
 \]
 Near $(0,0)$ we have a saddle, and near $(1,1)$ we have an unstable node. Try extending the local curves. Does a trajectory leaving the node approach the saddle? Which trajectories escape from this region?
 
-The two sketches below propose different extensions of the upper attracting
+The two schematic sketches below propose different extensions of the upper attracting
 branch of the saddle. The small local pictures are the same. The purple
 curves outside the circles are \textbf{tentative extensions}, not verified
 solutions of the nonlinear system.
@@ -746,8 +787,12 @@ solutions of the nonlinear system.
     \draw[->,gray] (-.65,0)--(1.6,0) node[right] {$x$};
     \draw[->,gray] (0,-.55)--(0,1.6) node[above] {$y$};
     \localpictures
+    % A local linearized branch below y=1, not the horizontal linear orbit.
+    \draw[purple,thick]
+        plot[domain=0:1.45,samples=40,variable=\z]
+        ({1-.3*\z+.03*\z*\z},{1-.03*\z*\z});
     \draw[purple,thick,dashed,->]
-        (.62,1) .. controls (.34,.99) and (.20,.62) .. (.12,.36);
+        (.628,.937) .. controls (.40,.84) and (.20,.60) .. (.12,.36);
 \end{tikzpicture}
 
 \small A: a branch connects the node to the saddle.
@@ -757,10 +802,14 @@ solutions of the nonlinear system.
     \draw[->,gray] (-.65,0)--(1.6,0) node[right] {$x$};
     \draw[->,gray] (0,-.55)--(0,1.6) node[above] {$y$};
     \localpictures
+    % A local linearized branch below y=1, not the horizontal linear orbit.
+    \draw[purple,thick]
+        plot[domain=0:1.45,samples=40,variable=\z]
+        ({1-.3*\z+.03*\z*\z},{1-.03*\z*\z});
     \draw[purple,thick,dashed,->]
         (-.6,.8) .. controls (-.35,.7) and (.04,.65) .. (.12,.36);
     \draw[purple,thick,dashed,->]
-        (.62,1) .. controls (.25,1) and (-.2,1.10) .. (-.6,1.15);
+        (.628,.937) .. controls (.25,.78) and (-.2,.90) .. (-.6,1.15);
 \end{tikzpicture}
 
 \small B: the branches extend separately.
@@ -782,14 +831,12 @@ The slanted eigenvector lines describe local tangent directions. Their extension
 
 In sketch B, the proposed branch approaching the saddle moves right while
 $x<y$. But the original equation gives $x'=x-y<0$ there. We can reject
-that extension. Sketch A remains a candidate; the local matrices alone
-do not establish the connection.
+that extension. Sketch A illustrates a possible connection suggested by the local pictures; its drawn curve is only schematic. The local matrices alone do not establish the connection.
 
-% SIDE NOTE: 9:47 | Test the proposed extensions
-% a) Both sketches begin with the same local information.
-% b) Reject B: its incoming branch moves right where x < y.
-% c) Skip a full global solution; finish with the limitations by 9:50.
-
+% SIDE NOTE: 9:49 | Closing point
+% a) Local matrices give local pictures.
+% b) Global connections need the original nonlinear equations.
+% c) Zero or purely imaginary eigenvalues need more analysis.
 \subsection{Limitations of Linearization}
 \begin{enumerate}
     \item \textbf{Local information.} Linearization describes behavior near an equilibrium. The original vector field determines how trajectories extend and connect farther away.
