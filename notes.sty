@@ -6,7 +6,6 @@
     amsthm,             % proofs
     amssymb,			% Extended Symbols
     mathtools,         
-    enumerate,		    % Enumerate Environments
     graphicx,			% Include Images
     lastpage,			% Reference Lastpage
     multicol,			% Use Multi-columns
@@ -19,7 +18,6 @@
     pgfplots,
     tikz-3dplot,
     physics,
-    ulem,
     bm,
     cancel,              % for \cancel 
     wasysym,
@@ -40,9 +38,16 @@
 \RequirePackage[most]{tcolorbox}
 \RequirePackage{xparse}
 
-% list spacing 
-\usepackage{enumitem}
-\setlist{nolistsep}
+% Standard list environments are preferred in tagged PDFs.
+% enumitem currently conflicts with LaTeX's experimental tagging code.
+% Keep enumitem for ordinary (untagged) course documents.
+\IfDocumentMetadataTF{}{%
+  \usepackage{enumerate}
+  \usepackage{enumitem}
+  \setlist{nolistsep}
+}
+% Avoid ulem's redefinition of \emph: it conflicts with PDF tagging.
+\usepackage[normalem]{ulem}
 
 % Section spacing is handled below using standard LaTeX sectioning commands.
 
