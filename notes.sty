@@ -27,7 +27,6 @@
     tabularx,    % for wrapping in tables
     array,
     circuitikz,
-    titlesec,
     wrapfig
 }
 \usepackage{pifont}% http://ctan.org/pkg/pifont
@@ -45,11 +44,7 @@
 \usepackage{enumitem}
 \setlist{nolistsep}
 
-% section spacing 
-\titlespacing*{\section}
-{0pt}{6pt}{4pt}
-\titlespacing*{\subsection}
-{0pt}{4pt}{2pt}
+% Section spacing is handled below using standard LaTeX sectioning commands.
 
 % tikz 
 \usetikzlibrary{3d}
@@ -70,25 +65,17 @@
 % -------------------
 \usepackage[T1]{fontenc}
 \usepackage{charter}
-\usepackage{titlesec}
+% titlesec disabled in the accessibility branch: incompatible with tagged PDF.
 % \titleformat*{\section}{\fontsize{16}{24}\selectfont\bfseries} 
 
-\titleformat{\section}[frame]
-{\normalfont} % format 
-{} % label 
-{0pt} % sep
-{\Large\bfseries\filcenter \thesection. } % before-code
-[\titlerule] % after-code
-
-\titleformat*{\subsection}
-{\fontsize{13}{20}\selectfont\bfseries}   
-% \titleformat{command}[shape]
-% {format}
-% {label}
-% {sep}
-% {before-code}
-% [after-code]
-
+% Native sectioning commands preserve tagged-PDF heading structure.
+% The former titlesec frame styling is intentionally omitted in this trial.
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-6pt}{4pt}{\normalfont\Large\bfseries\centering}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-4pt}{2pt}{\normalfont\fontsize{13}{20}\selectfont\bfseries}}
+\makeatother
 
 % -------------------
 % Customize Variables 
