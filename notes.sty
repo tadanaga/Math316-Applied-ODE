@@ -1,277 +1,190 @@
-% -------------------
-% Packages
-% -------------------
-\usepackage{
-    amsmath,			% Math Environments
-    amsthm,             % proofs
-    amssymb,			% Extended Symbols
-    mathtools,         
-    graphicx,			% Include Images
-    lastpage,			% Reference Lastpage
-    multicol,			% Use Multi-columns
-    multirow,			% Use Multi-rows
-    float,              % for in-place figures [H]
-    xcolor,
-    gensymb,
-    fancyhdr,
-    tikz,
-    pgfplots,
-    tikz-3dplot,
-    physics,
-    bm,
-    cancel,              % for \cancel 
-    wasysym,
-    subcaption, % for subfigure
-    tabularx,    % for wrapping in tables
-    array,
-    circuitikz,
-    wrapfig
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{notes}[2026/11/15 Math 316 lecture notes theme]
+
+% Optional handwriting margin: \usepackage[widemargin]{notes}.
+% Or, after loading notes, use \notesmargin[2.2in] in the preamble.
+% The value is the total left margin, measured from the paper edge.
+\newif\ifnoteswidemargin
+\DeclareOption{widemargin}{\noteswidemargintrue}
+\ProcessOptions\relax
+
+% Typography and page layout. Preserve margins already set by a lesson.
+\RequirePackage[T1]{fontenc}
+\RequirePackage{charter}
+\RequirePackage[scaled=0.92]{helvet}
+\RequirePackage{microtype}
+\@ifpackageloaded{geometry}{%
+  \geometry{headheight=23pt,headsep=16pt,footskip=26pt}%
+}{%
+  \RequirePackage[letterpaper,margin=0.8in,headheight=23pt,headsep=16pt,footskip=26pt]{geometry}%
 }
-\usepackage{pifont}% http://ctan.org/pkg/pifont
-\usepackage{parcolumns}
-% Custom style file for notes
-\usepackage{textcomp}
-\usepackage{titlesec}
-
-% \usetikzlibrary{positioning,arrows.meta}
-
+% Keep a physical left margin on every page, including two-sided documents.
+\newcommand{\notesmargin}[1][2in]{%
+  \geometry{left=#1,right=0.8in,asymmetric}%
+}
+\ifnoteswidemargin\notesmargin\fi
+\@onlypreamble\notesmargin
+\RequirePackage{amsmath,amsthm,amssymb,mathtools,bm,cancel}
+\RequirePackage{graphicx,float,multicol,multirow,tabularx,array,booktabs,subcaption,wrapfig}
+\RequirePackage{xcolor,fancyhdr,lastpage,needspace}
+% Visual theme only; no PDF metadata or tagging setup.
+\RequirePackage{enumerate,enumitem,titlesec}
+% Dependencies used by existing Math 316 lessons.
+\RequirePackage{physics,gensymb,wasysym,circuitikz,parcolumns,textcomp}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{tikz,pgfplots,tikz-3dplot}
 \RequirePackage[most]{tcolorbox}
-\RequirePackage{xparse}
-
-% Standard list environments are preferred in tagged PDFs.
-% enumitem currently conflicts with LaTeX's experimental tagging code.
-% Keep enumitem for ordinary (untagged) course documents.
-\IfDocumentMetadataTF{}{%
-  \usepackage{enumerate}
-  \usepackage{enumitem}
-  \setlist{nolistsep}
-}
-% Avoid ulem's redefinition of \emph: it conflicts with PDF tagging.
-\usepackage[normalem]{ulem}
-
-% Section spacing is handled below using standard LaTeX sectioning commands.
-
-% tikz 
-\usetikzlibrary{3d}
-\usetikzlibrary{arrows.meta}
-\usetikzlibrary{calc}
-\usetikzlibrary{angles,quotes}
-\pgfplotsset{compat=1.17}
-\usetikzlibrary{shapes.geometric, positioning}
+\RequirePackage{xparse,ifthen,pifont}
+\usetikzlibrary{3d,arrows.meta,calc,angles,quotes,shapes.geometric,positioning,
+  decorations.pathreplacing,calligraphy}
 \usepgfplotslibrary{groupplots}
-\usetikzlibrary{decorations.pathreplacing,calligraphy}
+\pgfplotsset{compat=1.17}
+\RequirePackage{hyperref}
 
-% boolean 
-\usepackage{ifthen}
-\newboolean{showanswer} % 
+% A small shared palette; change these colors to restyle all environments.
+\definecolor{notesink}{HTML}{203448}
+\definecolor{notesblue}{HTML}{245C7A}
+\definecolor{notesteal}{HTML}{237A73}
+\definecolor{notesgold}{HTML}{95611C}
+\definecolor{notesmuted}{HTML}{5A6570}
+\definecolor{notesrule}{HTML}{D7DFE5}
+\definecolor{dgreen}{HTML}{237A73}
+\colorlet{exampleaccent}{notesblue}
+\colorlet{exampleborder}{notesrule}
+\colorlet{examplebg}{notesblue!3}
+\colorlet{commentblue}{notesblue}
+\hypersetup{colorlinks=true,linkcolor=notesblue,urlcolor=notesteal}
 
-% -------------------
-% Font
-% -------------------
-\usepackage[T1]{fontenc}
-\usepackage{charter}
+% Consistent textbook-style captions for numbered figures.
+% The float package above supports [H] for placement at the source location.
+% subcaption loads caption, so no additional caption package is necessary.
+\DeclareCaptionFont{notesfigurelabel}{\bfseries\color{notesblue}}
+\DeclareCaptionFont{notesfiguretext}{\color{notesmuted}}
+\captionsetup[figure]{%
+  font=small,
+  labelfont=notesfigurelabel,
+  textfont=notesfiguretext,
+  labelsep=period,
+  justification=centering,
+  singlelinecheck=false,
+  skip=6pt,
+  position=bottom
+}
 
-
-% -------------------
-% Section headings
-% -------------------
-\titlespacing*{\section}{0pt}{6pt}{4pt}
-\titlespacing*{\subsection}{0pt}{4pt}{2pt}
-
-\titleformat{\section}[frame]
-  {\normalfont}
-  {}
-  {0pt}
-  {\Large\bfseries\filcenter \thesection. }
-  [\titlerule]
-
-\titleformat*{\subsection}
-  {\normalfont\fontsize{13}{20}\selectfont\bfseries}
-
-% Native sectioning commands preserve tagged-PDF heading structure.
-% The former titlesec frame styling is intentionally omitted in this trial.
-\makeatletter
-\renewcommand\section{\@startsection{section}{1}{\z@}%
-  {-6pt}{4pt}{\normalfont\Large\bfseries\centering}}
-\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
-  {-4pt}{2pt}{\normalfont\fontsize{13}{20}\selectfont\bfseries}}
-\makeatother
-
-% -------------------
-% Customize Variables 
-% -------------------
 \newcommand{\class}{Math 316}
-\newcommand{\term}{Fall 2025}
+\newcommand{\term}{Fall 2026}
 \newcommand{\instructor}{T. Takahashi}
+\newcommand{\lessonid}{}
+\newcommand{\lessontitle}{}
+\newboolean{showanswer}
+\setboolean{showanswer}{true}
+% Use \setboolean{showanswer}{false} for a student copy.
+\newcommand{\solutionheight}{24mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlist{topsep=4pt,itemsep=2pt,parsep=0pt,leftmargin=*}
+\setlist[enumerate,1]{label=\textcolor{notesblue}{\arabic*.}}
+\setlist[itemize,1]{label=\textcolor{notesteal}{\small\textbullet}}
+\renewcommand{\arraystretch}{1.18}
+\raggedbottom
 
+% Math 2531 heading theme: ink titles, teal numbers, and a light rule.
+\titleformat{\section}{\large\bfseries\color{notesink}}
+  {\textcolor{notesteal}{\thesection}}{0.65em}{}[\vspace{2pt}\color{notesrule}\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{notesblue}}
+  {\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{13pt}{7pt}
+\titlespacing*{\subsection}{0pt}{9pt}{3pt}
 
-% -----------
-% environments
-% -----------
-\newenvironment{ans}{%
-  \begin{itemize}%
-    \color{blue}%
-}{
-  \end{itemize}%
-  \vspace{\baselineskip}
+\fancypagestyle{pages}{%
+  \fancyhf{}
+  \fancyhead[L]{\small\sffamily\color{notesmuted}\class\enspace /\enspace Applied ODE}
+  \fancyhead[R]{\small\sffamily\color{notesmuted}\lessonid\enspace\lessontitle}
+  \fancyfoot[L]{\footnotesize\color{notesmuted}\instructor\enspace\textbullet\enspace\term}
+  \fancyfoot[R]{\footnotesize\color{notesmuted}\thepage\ /\ \pageref*{LastPage}}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \renewcommand{\headrule}{\hbox to\headwidth{\color{notesrule}\leaders\hrule height\headrulewidth\hfill}}
 }
-
-\newenvironment{note}{%
-  \begin{itemize}%
-    \color{red}%
-}{
-  \end{itemize}%
-  \vspace{\baselineskip}
-}
-
-\newtheorem{theorem}{Theorem}
-
-
-% --------------
-% Example 
-% ---------------
-\definecolor{exampleaccent}{RGB}{150,25,25}
-\definecolor{exampleborder}{RGB}{250,250,250}
-\definecolor{examplebg}{RGB}{250,250,250}
-
-% dark green
-% \definecolor{dgreen}{RGB}{1,50,32}
-\definecolor{dgreen}{RGB}{30,100,60}
-
-\RequirePackage[most]{tcolorbox}
-\RequirePackage{etoolbox}
-
-\definecolor{exampleaccent}{RGB}{150,25,25}
-\definecolor{exampleborder}{RGB}{70,70,70}
-\definecolor{examplebg}{RGB}{250,250,250}
-
-\RequirePackage[most]{tcolorbox}
-\RequirePackage{xparse}
-
-\RequirePackage[most]{tcolorbox}
-\RequirePackage{etoolbox}
-
-\RequirePackage[most]{tcolorbox}
-\RequirePackage{xparse}
-
-\NewDocumentEnvironment{example}{ O{} +m }
-{
-\begin{tcolorbox}[
-    enhanced,
-    breakable,
-    colback=white,
-    colframe=gray,
-    boxrule=0.6pt,
-    left=4mm,
-    right=4mm,
-    top=2mm,
-    bottom=2mm,
-    before skip=12pt,
-    after skip=12pt,
-    fonttitle=\bfseries,
-    coltitle=black,
-    colbacktitle=white,
-    title={EXAMPLE~#1},
-    lower separated=true,
-    segmentation style={solid, gray, line width=0.4pt}
-]
-#2
-\tcblower
-\textbf{Solution.}\par\medskip
-}
-{
-\end{tcolorbox}
-}
-
-
-% ----------
-% Align 
-% ----------
-\definecolor{commentblue}{RGB}{0,120,190}
-\newcommand{\com}[1]{\textcolor{commentblue}{\text{(#1)}}}
-% use \com inside align environments to produce blue comments off to the right side
-
-
-% -------------------
-% Header & Footer
-% -------------------
-\fancypagestyle{pages}{
-	%Headers
-	\fancyhead[L]{}
-	\fancyhead[C]{}
-	\fancyhead[R]{}
-\renewcommand{\headrulewidth}{0pt}
-	%Footers
-	\fancyfoot[L]{}
-	\fancyfoot[C]{}
-	\fancyfoot[R]{}
-\renewcommand{\footrulewidth}{0.0pt}
-}
-\headheight=14pt
-\footskip=6pt
-
-
-% ------------------------
-% Shortcuts
-% ------------------------
-
-
-% color shortcuts
-\newcommand{\red}[1]{\textcolor{red}{#1}}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-
-\newcommand{\B}[1]{\mathbf{#1}}
-\newcommand{\ve}[1]{\mathbf{#1}}
-
-
-% x and check 
-\newcommand{\xmark}{\ding{55}}%
-
-
-% bracket notation 
-\newcommand{\cvec}[1]{\left\langle #1 \right\rangle} % <a,b,c>
-
-% sign sunfction 
-\newcommand{\sgn}{\operatorname{sgn}}
-
-% real and imaginary 
-\let\Re\relax
-\let\Im\relax
-\DeclareMathOperator{\Re}{Re}
-\DeclareMathOperator{\Im}{Im}
-
-\newcommand{\mySpacing}{0.295} % Define your variable here
-
 \pagestyle{pages}
 
-\let\oldvec\vec 
-\renewcommand{\vec}[1]{\overrightarrow{#1}} %overwrite \vec command
-
-
-% Two columns with a vertical divider
-\NewDocumentCommand{\cols}{+m +m}{%
-    \par\noindent
-    \begin{minipage}[t]{0.46\textwidth}
-        \vspace{0pt}
-        #1
-    \end{minipage}%
-    \hfill
-    \vrule width 0.4pt
-    \hfill
-    \begin{minipage}[t]{0.46\textwidth}
-        \vspace{0pt}
-        #2
-    \end{minipage}%
-    \par
+% \lesson[short subtitle]{number}{title} also sets running headers.
+\NewDocumentCommand{\lesson}{O{} m m}{%
+  \renewcommand{\lessonid}{#2}\renewcommand{\lessontitle}{#3}%
+  % {\small\sffamily\bfseries\color{notesteal}\MakeUppercase{\class\enspace /\enspace Lecture Notes}\par}
+  \vspace{3pt}
+  {\fontsize{25}{30}\selectfont\bfseries\color{notesink}#2\enspace #3\par}
+  \IfBlankF{#1}{{\small\color{notesmuted}#1\par}}
+  \vspace{5pt}{\color{notesteal}\hrule height 1.2pt}\vspace{8pt}
 }
-% \cols{
-%     Consider the function
-%     \[
-%         f(x) = x^2 - 1.
-%     \]
 
-%     We want to approximate its derivative.
-% }{
-%     \centering
-%     \includegraphics[width=\linewidth]{fig.png}
-% }
+% Shared box settings: labels remain readable when printed in grayscale.
+\tcbset{notesbox/.style={enhanced,breakable,sharp corners,boxrule=0pt,
+  frame hidden,borderline west={2pt}{0pt}{notesblue},colback=notesblue!4,
+  coltitle=notesblue,fonttitle=\small\sffamily\bfseries,
+  attach title to upper={\par\smallskip},left=10pt,right=10pt,top=6pt,bottom=6pt,
+  before skip=6pt,after skip=6pt}}
+\newtcolorbox{learninggoals}{notesbox,colback=notesteal!4,
+  borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,title=Learning goals}
+\newtcolorbox{definition}[1][]{notesbox,
+  title={Definition\IfBlankF{#1}{\enspace /\enspace #1}}}
+\newtcolorbox{keyidea}[1][]{notesbox,colback=notesteal!5,
+  borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,
+  title={Key idea\IfBlankF{#1}{\enspace /\enspace #1}}}
+\newtcolorbox{commonmistake}[1][]{notesbox,colback=notesgold!6,
+  borderline west={2pt}{0pt}{notesgold},coltitle=notesgold,
+  title={Watch out\IfBlankF{#1}{\enspace /\enspace #1}}}
+\newtcolorbox{checkpoint}[1][]{notesbox,colback=white,
+  borderline west={2pt}{0pt}{notesmuted},coltitle=notesink,
+  title={Quick check\IfBlankF{#1}{\enspace /\enspace #1}}}
+\newtcolorbox{takeaway}{notesbox,colback=notesteal!4,
+  borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,title=Takeaway}
+
+% Preserve the original syntax: \begin{example}[label]{problem} solution \end{example}.
+% An omitted label uses automatic numbering. Solutions can be hidden globally.
+\newcounter{example}
+\NewDocumentEnvironment{example}{O{} +m +b}{%
+  \refstepcounter{example}%
+  \begin{tcolorbox}[notesbox,colback=white,boxrule=0.5pt,frame hidden=false,
+    colframe=notesrule,borderline west={2pt}{0pt}{exampleaccent},
+    borderline north={0.6pt}{0pt}{notesrule},
+    borderline south={0.6pt}{0pt}{notesrule},
+    title={Example\enspace\IfBlankTF{#1}{\theexample}{#1}},
+    segmentation style={solid,notesrule}]
+    #2
+    \tcblower
+    \ifthenelse{\boolean{showanswer}}{%
+      \textcolor{notesteal}{\textbf{Solution.}} #3
+    }{\textcolor{notesmuted}{\small Work space}\par\vspace{\solutionheight}}
+  \end{tcolorbox}
+}{}
+% Inline answers disappear in a student copy; the question remains visible.
+\NewDocumentCommand{\answer}{+m}{%
+  \ifthenelse{\boolean{showanswer}}{\par\smallskip\textcolor{notesteal}{\textbf{Answer.}} #1}{}%
+}
+\NewDocumentCommand{\workingspace}{O{18mm}}{\par\vspace{#1}}
+\newtheorem{theorem}{Theorem}
+
+% Existing conveniences retained for future lessons.
+\newenvironment{ans}{\begin{itemize}\color{notesblue}}{\end{itemize}}
+\newenvironment{note}{\begin{itemize}\color{notesgold}}{\end{itemize}}
+\newcommand{\com}[1]{\textcolor{commentblue}{\text{(#1)}}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{notesblue}{#1}}
+\newcommand{\B}[1]{\mathbf{#1}}
+\newcommand{\ve}[1]{\mathbf{#1}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\cvec}[1]{\left\langle #1\right\rangle}
+\DeclareMathOperator{\sgn}{sgn}
+\let\Re\relax \let\Im\relax
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Im}{Im}
+\newcommand{\mySpacing}{0.295}
+\let\oldvec\vec
+\renewcommand{\vec}[1]{\overrightarrow{#1}}
+\NewDocumentCommand{\cols}{+m +m}{%
+  \par\noindent
+  \begin{minipage}[t]{0.47\linewidth}\vspace{0pt}#1\end{minipage}\hfill
+  \begin{minipage}[t]{0.47\linewidth}\vspace{0pt}#2\end{minipage}\par
+}
+\endinput
