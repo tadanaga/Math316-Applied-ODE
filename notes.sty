@@ -31,7 +31,7 @@
 \usepackage{parcolumns}
 % Custom style file for notes
 \usepackage{textcomp}
-
+\usepackage{titlesec}
 
 % \usetikzlibrary{positioning,arrows.meta}
 
@@ -70,8 +70,23 @@
 % -------------------
 \usepackage[T1]{fontenc}
 \usepackage{charter}
-% titlesec disabled in the accessibility branch: incompatible with tagged PDF.
-% \titleformat*{\section}{\fontsize{16}{24}\selectfont\bfseries} 
+
+
+% -------------------
+% Section headings
+% -------------------
+\titlespacing*{\section}{0pt}{6pt}{4pt}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+
+\titleformat{\section}[frame]
+  {\normalfont}
+  {}
+  {0pt}
+  {\Large\bfseries\filcenter \thesection. }
+  [\titlerule]
+
+\titleformat*{\subsection}
+  {\normalfont\fontsize{13}{20}\selectfont\bfseries}
 
 % Native sectioning commands preserve tagged-PDF heading structure.
 % The former titlesec frame styling is intentionally omitted in this trial.
