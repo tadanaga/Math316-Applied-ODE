@@ -13,8 +13,11 @@ Boyce \& DiPrima, Differential Equations, 11th edition \enspace\textbullet\enspa
 
 \subsection{From Local Behavior to a Phase Portrait}
 
-A nonlinear system may have several equilibria,
-each with a different local behavior.
+Before studying another population model, let's review how to put
+local sketches together. The following system is a mathematical review
+example; its coordinates are not populations, so negative coordinates
+are allowed. A nonlinear system may have several equilibria, each with
+a different local behavior.
 
 To sketch its phase portrait:
 \begin{enumerate}
@@ -76,119 +79,43 @@ J(x,y)=
 }
 \]
 
-\paragraph{Step 3. Classify $(1,0)$.}
+\paragraph{Step 3. Classify $(1,0)$ and orient the spiral.}
 At this equilibrium,
 \[
-A_1=J(1,0)=
-\begin{pmatrix}
--1&-1\\
-2&0
-\end{pmatrix}.
+A_1=J(1,0)=\begin{pmatrix}-1&-1\\2&0\end{pmatrix},
+\qquad
+\det(\lambda I-A_1)=\lambda^2+\lambda+2.
 \]
-The characteristic equation is
-\[
-\det(\lambda I-A_1)
-=
-\begin{vmatrix}
-\lambda+1&1\\
--2&\lambda
-\end{vmatrix}
-=\lambda^2+\lambda+2=0.
-\]
-Thus,
-\[
-\lambda=\frac{-1\pm i\sqrt7}{2}.
-\]
-The eigenvalues are complex with negative real parts, so
-\[
-\boxed{(1,0)\text{ is an asymptotically stable spiral}.}
-\]
+Thus $\lambda=(-1\pm i\sqrt7)/2$. The real part is negative, so
+$(1,0)$ is a \textbf{stable spiral}.
 
-To determine its orientation, consider a point just
-to the right of the equilibrium:
+To orient it, test a point just to the right: $(1+\varepsilon,0)$,
+where $\varepsilon>0$. The original equations give
 \[
-(x,y)=(1+\varepsilon,0),
-\qquad \varepsilon>0.
+(x',y')=(-\varepsilon,\,2\varepsilon+\varepsilon^2).
 \]
-The original system gives
-\[
-\begin{pmatrix}x'\\y'\end{pmatrix}
-=
-\begin{pmatrix}
--\varepsilon\\
-2\varepsilon+\varepsilon^2
-\end{pmatrix}.
-\]
-The velocity points upward and to the left.
-Therefore, the spiral rotates counterclockwise.
+The velocity points up and left, so the spiral rotates counterclockwise.
 
-\paragraph{Step 4. Classify $(-1,2)$.}
-At this equilibrium,
+\paragraph{Step 4. Classify $(-1,2)$ and find its directions.}
+Here,
 \[
-A_2=J(-1,2)=
-\begin{pmatrix}
--1&-1\\
--2&0
-\end{pmatrix}.
+A_2=J(-1,2)=\begin{pmatrix}-1&-1\\-2&0\end{pmatrix},
+\qquad
+\det(\lambda I-A_2)=\lambda^2+\lambda-2
+=(\lambda-1)(\lambda+2).
 \]
-The characteristic equation is
+The eigenvalues have opposite signs, so $(-1,2)$ is a \textbf{saddle}.
+Solving $(A_2-\lambda I)\mathbf v=\mathbf0$ gives
 \[
-\det(\lambda I-A_2)
-=
-\begin{vmatrix}
-\lambda+1&1\\
-2&\lambda
-\end{vmatrix}
-=\lambda^2+\lambda-2
-=(\lambda-1)(\lambda+2)=0.
+\begin{array}{c|c|c}
+\lambda & \text{Eigenvector} & \text{Tangent line through }(-1,2)\\\hline
+-2 & (1,1)^T & y-2=x+1\quad\text{(inward)}\\
+1 & (1,-2)^T & y-2=-2(x+1)\quad\text{(outward)}
+\end{array}
 \]
-Hence,
-\[
-\lambda_u=1,\qquad \lambda_s=-2.
-\]
-The eigenvalues have opposite signs, so
-\[
-\boxed{(-1,2)\text{ is a saddle}.}
-\]
-
-\paragraph{Step 5. Find the saddle eigendirections.}
-For $\lambda_u=1$,
-\[
-A_2-I=
-\begin{pmatrix}
--2&-1\\
--2&-1
-\end{pmatrix},
-\]
-so $v_2=-2v_1$. Choose
-\[
-\mathbf{v}_u=
-\begin{pmatrix}1\\-2\end{pmatrix}.
-\]
-
-For $\lambda_s=-2$,
-\[
-A_2+2I=
-\begin{pmatrix}
-1&-1\\
--2&2
-\end{pmatrix},
-\]
-so $v_2=v_1$. Choose
-\[
-\mathbf{v}_s=
-\begin{pmatrix}1\\1\end{pmatrix}.
-\]
-
-The tangent lines through the saddle are
-\[
-\begin{aligned}
-y-2&=x+1
-&&\text{stable direction},\\
-y-2&=-2(x+1)
-&&\text{unstable direction}.
-\end{aligned}
-\]
+For example, when $\lambda=1$, the first row gives
+$-2v_1-v_2=0$, so we may choose $(v_1,v_2)=(1,-2)$.
+Translate each direction to the equilibrium before drawing its arrows.
 \end{example}
 
 %-------------------------------------------------------------
@@ -295,353 +222,77 @@ entire plane.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A Saddle and a Node}
+\section{Predator--Prey Models}
 
-\subsection{Finding and Classifying the Equilibria}
+\subsection{The Model}
 
-\begin{example}[2]{
-Find and classify the equilibria, then sketch the
-local behavior of
+In the competing-species model, the interaction harmed both species.
+Now suppose one species feeds on the other. Let
 \[
-\begin{dcases}
-x'=x(y-4),\\
-y'=y(x-1).
-\end{dcases}
+x(t)=\text{prey population},
+\qquad
+y(t)=\text{predator population}.
 \]
-}
-
-\paragraph{Step 1. Find the equilibria.}
-Set
-\[
-x(y-4)=0,\qquad y(x-1)=0.
-\]
-The first equation gives $x=0$ or $y=4$.
-
-If $x=0$, the second equation becomes $-y=0$.
-If $y=4$, the second equation becomes $4(x-1)=0$.
-
-Therefore, the equilibria are
-\[
-\boxed{(0,0)\qquad\text{and}\qquad(1,4).}
-\]
-
-\paragraph{Step 2. Compute the Jacobian.}
-The Jacobian is
+The classical Lotka--Volterra model is
 \[
 \boxed{
-J(x,y)=
-\begin{pmatrix}
-y-4&x\\
-y&x-1
-\end{pmatrix}.
+\begin{dcases}
+x'=ax-bxy,\\
+y'=-cy+dxy,
+\end{dcases}
+\qquad a,b,c,d>0.
 }
 \]
 
-\paragraph{Step 3. Classify $(0,0)$.}
-At the origin,
-\[
-A_1=J(0,0)=
-\begin{pmatrix}
--4&0\\
-0&-1
-\end{pmatrix}.
-\]
-For a diagonal matrix, the diagonal entries are
-eigenvalues and the coordinate vectors are eigenvectors:
-\[
-\lambda_1=-4,\qquad
-\mathbf{v}_1=\begin{pmatrix}1\\0\end{pmatrix},
-\]
-\[
-\lambda_2=-1,\qquad
-\mathbf{v}_2=\begin{pmatrix}0\\1\end{pmatrix}.
-\]
-Both eigenvalues are negative and distinct, so
-\[
-\boxed{(0,0)\text{ is an asymptotically stable node}.}
-\]
+The assumptions are:
+\begin{itemize}
+    \item Without predators, prey grow exponentially:
+    $x'=ax$.
+    \item Without prey, predators die off:
+    $y'=-cy$.
+    \item Encounters reduce the prey population
+    and support predator growth.
+\end{itemize}
 
-The $x$-component decays faster than the $y$-component.
-Generic nearby trajectories approach the origin
-tangent to the slower direction, the $y$-axis.
+%-------------------------------------------------------------
+\subsection{Understanding the Interaction}
 
-\paragraph{Step 4. Classify $(1,4)$.}
-At the second equilibrium,
-\[
-A_2=J(1,4)=
-\begin{pmatrix}
-0&1\\
-4&0
-\end{pmatrix}.
-\]
-The characteristic equation is
-\[
-\det(\lambda I-A_2)
-=
-\begin{vmatrix}
-\lambda&-1\\
--4&\lambda
-\end{vmatrix}
-=\lambda^2-4=0.
-\]
-Thus,
-\[
-\lambda_u=2,\qquad \lambda_s=-2,
-\]
-and
-\[
-\boxed{(1,4)\text{ is a saddle}.}
-\]
-
-\paragraph{Step 5. Find the saddle eigendirections.}
-For $\lambda_u=2$,
-\[
-A_2-2I=
-\begin{pmatrix}
--2&1\\
-4&-2
-\end{pmatrix}
-\implies
-\mathbf{v}_u=\begin{pmatrix}1\\2\end{pmatrix}.
-\]
-For $\lambda_s=-2$,
-\[
-A_2+2I=
-\begin{pmatrix}
-2&1\\
-4&2
-\end{pmatrix}
-\implies
-\mathbf{v}_s=\begin{pmatrix}1\\-2\end{pmatrix}.
-\]
-
-The tangent lines through $(1,4)$ are
+The interaction term $xy$ appears with opposite signs:
 \[
 \begin{aligned}
-y-4&=2(x-1)
-&&\text{unstable direction},\\
-y-4&=-2(x-1)
-&&\text{stable direction}.
+x'&=\underbrace{ax}_{\text{prey growth}}
+-\underbrace{bxy}_{\text{predation}},\\[6pt]
+y'&=-\underbrace{cy}_{\text{predator decline}}
++\underbrace{dxy}_{\text{food supply}}.
 \end{aligned}
 \]
-\end{example}
+Unlike competition, the interaction benefits one
+species while harming the other.
 
-%-------------------------------------------------------------
-\subsection{Sketching the Local Behavior}
 
-At the origin, draw a stable node. The linearized
-solutions are
-\[
-u(t)=c_1e^{-4t},
-\qquad
-v(t)=c_2e^{-t}.
-\]
-When $c_2\ne0$, eliminating $t$ gives
-\[
-u=Cv^4.
-\]
-Thus, these curves are tangent to the $v$-axis
-at the origin; they are not parabolas.
 
-At $(1,4)$, draw the stable and unstable saddle
-directions found in Example 2.
+\subsection{Reading the Assumptions}
+The constants $a$ and $c$ describe prey growth and predator decline
+without interaction. The constants $b$ and $d$ describe the effects
+of encounters on the two populations. They need not be equal: prey
+consumed and predator growth are different quantities.
 
-\begin{center}
-\begin{tikzpicture}[scale=0.88]
-    \draw[step=0.5,very thin,gray!20]
-        (-1.5,-1.5) grid (2.5,5.5);
-    \draw[->,thick] (-1.6,0)--(2.8,0)
-        node[right] {$x$};
-    \draw[->,thick] (0,-1.6)--(0,5.8)
-        node[above] {$y$};
+Unlike the competition model, this idealized model does not include
+a carrying capacity for the prey. It assumes abundant prey resources,
+constant coefficients, and no migration. The coordinate axes are
+invariant, so nonnegative initial populations remain nonnegative.
 
-    % Stable-node eigendirections
-    \draw[blue,thick] (-1.2,0)--(1.2,0);
-    \draw[blue,thick] (0,-1.2)--(0,1.2);
-    \draw[blue,thick,->] (0.9,0)--(0.4,0);
-    \draw[blue,thick,->] (-0.9,0)--(-0.4,0);
-    \draw[blue,thick,->] (0,0.9)--(0,0.4);
-    \draw[blue,thick,->] (0,-0.9)--(0,-0.4);
-
-    % Representative linearized node trajectories
-    \foreach \a/\b in {0.8/1,0.8/-1,-0.8/1,-0.8/-1}{
-        \draw[blue,thick,domain=0:3,samples=100]
-            plot
-            ({\a*exp(-4*\x)},{\b*exp(-\x)});
-        \draw[blue,thick,->,domain=0.1:0.35,samples=20]
-            plot
-            ({\a*exp(-4*\x)},{\b*exp(-\x)});
-    }
-
-    % Saddle at (1,4)
-    \draw[red,dashed,thick] (0.5,3)--(1.5,5);
-    \draw[blue,dashed,thick] (0.5,5)--(1.5,3);
-
-    \draw[red,thick,->] (1.1,4.2)--(1.35,4.7);
-    \draw[red,thick,->] (0.9,3.8)--(0.65,3.3);
-
-    \draw[blue,thick,->] (0.65,4.7)--(0.9,4.2);
-    \draw[blue,thick,->] (1.35,3.3)--(1.1,3.8);
-
-    % Equilibria
-    \fill (0,0) circle (2pt);
-    \fill (1,4) circle (2pt);
-    \node[below right] at (0,0) {$(0,0)$};
-    \node[right,fill=white,inner sep=1pt]
-        at (1.08,4) {$(1,4)$};
-\end{tikzpicture}
-
-\small
-Local behavior predicted by the linearized systems.
-Dashed lines show tangent directions at the saddle.
-\end{center}
-
-%-------------------------------------------------------------
-\subsection{Using the Original Equations}
-
-The original equations provide more information:
-\[
-x'=x(y-4),\qquad y'=y(x-1).
-\]
-In the first quadrant,
-\[
-\begin{aligned}
-y<4&\implies x'<0,
-&
-y>4&\implies x'>0,\\
-x<1&\implies y'<0,
-&
-x>1&\implies y'>0.
-\end{aligned}
-\]
-Thus, the lines $x=1$ and $y=4$ separate regions
-with different directions of motion.
-
-The coordinate axes are exact invariant lines:
-\[
-y=0\implies y'=0,
-\qquad
-x=0\implies x'=0.
-\]
-The saddle eigendirections, however, generally
-give only tangent lines to curved trajectories.
-
-%-------------------------------------------------------------
-\subsection{Local Information and Global Behavior}
-
-Linearization gives local information. To construct
-a larger phase portrait, we must also respect the
-original vector field.
-
-For these smooth systems:
-\begin{itemize}
-    \item Distinct trajectories cannot cross.
-    \item Trajectories must follow the signs of
-    $x'$ and $y'$.
-    \item The local behavior must agree with the
-    equilibrium classifications.
-\end{itemize}
-
-Non-intersection alone is not enough to determine
-how trajectories connect. Use nullclines, the vector
-field, or numerical solutions to resolve the global
-behavior.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]
-        {figs/phase_saddle_node.png}
-    \caption{A numerical phase portrait showing how
-    the local behavior extends into the rest of
-    the phase plane.}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Population Models}
-
-\subsection{Review of Logistic Growth}
-
-Suppose $x(t)$ is the population of rabbits
-in a forest. The \textbf{logistic model} is
-\[
-\boxed{
-x'=r_1x\left(1-\frac{x}{K_1}\right),
-\qquad r_1,K_1>0.
-}
-\]
-Here,
-\begin{itemize}
-    \item $r_1$ is the intrinsic growth rate;
-    \item $K_1$ is the carrying capacity.
-\end{itemize}
-For a positive initial population, the population
-approaches $K_1$. It increases below carrying capacity
-and decreases above it.
-
-%-------------------------------------------------------------
-\subsection{Noninteracting Species}
-
-Suppose a second species has population $y(t)$
-and does not interact with the rabbits. We can write
-the two logistic equations as one system:
-\[
-\begin{dcases}
-x'=r_1x\left(1-\dfrac{x}{K_1}\right),\\[4pt]
-y'=r_2y\left(1-\dfrac{y}{K_2}\right).
-\end{dcases}
-\]
-This system is \textbf{decoupled}: the equation for
-$x$ depends only on $x$, and the equation for $y$
-depends only on $y$.
-
-Solving the system is the same as solving the
-two equations separately.
-
-%-------------------------------------------------------------
-\subsection{Competing Species}
-
-Now suppose $x$ and $y$ represent rabbits and deer
-that compete for limited food or space. Their presence
-reduces each other's growth rates.
-
-A common model is
-\[
-\boxed{
-\begin{dcases}
-x'=r_1x\left(1-\dfrac{x}{K_1}\right)-\alpha xy,\\[4pt]
-y'=r_2y\left(1-\dfrac{y}{K_2}\right)-\beta xy,
-\end{dcases}
-\qquad \alpha,\beta>0.
-}
-\]
-The parameters $\alpha$ and $\beta$ describe
-the strength of competition.
-
-Both equations now depend on both populations,
-so the system is \textbf{coupled}. The interaction
-terms vanish if either species is absent and
-become stronger when both populations are large.
-
-%-------------------------------------------------------------
-\subsection{Questions for Phase Plane Analysis}
-
-A phase portrait can help us answer:
-\begin{itemize}
-    \item Does one species drive the other to extinction?
-    \item Can both species coexist at a stable equilibrium?
-    \item Does the outcome depend on the initial populations?
-\end{itemize}
-
-We investigate these questions by finding equilibria,
-classifying them, and interpreting the trajectories
-in the first quadrant.
+With competition, we looked for a surviving species or a stable
+coexistence state. Here, prey growth can support predator growth,
+which then reduces the prey supply. Could that feedback produce cycles?
+We will first analyze an example, then use its trajectories to answer.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analyzing a Predator--Prey System}
 
 \subsection{Equilibria and Linearization}
 
-\begin{example}[3]{
+\begin{example}[2]{
 Find the equilibria and analyze the linearized systems:
 \[
 \begin{dcases}
@@ -650,6 +301,7 @@ y'=-3y+xy.
 \end{dcases}
 \]
 Here, $x$ represents rabbits and $y$ represents foxes.
+The parameters are $a=4$, $b=2$, $c=3$, and $d=1$.
 }
 
 \paragraph{Step 1. Find the equilibria.}
@@ -695,7 +347,9 @@ The eigenvalues are $4$ and $-3$, so
 \boxed{(0,0)\text{ is a saddle}.}
 \]
 The $x$-axis is the unstable direction;
-the $y$-axis is the stable direction.
+the $y$-axis is the stable direction. Without foxes, rabbits grow
+exponentially. Without rabbits, foxes decline toward zero. Thus, the
+origin attracts along one axis and repels along the other.
 
 \paragraph{Step 4. Analyze the coexistence equilibrium.}
 At $(3,2)$,
@@ -740,37 +394,14 @@ so the rotation is counterclockwise.
 \end{example}
 
 %-------------------------------------------------------------
-\subsection{Why the Nonlinear Orbits Are Closed}
-
-For this particular model, an additional calculation
-confirms the center. When $x,y>0$, the quantity
-\[
-V(x,y)=x-3\ln x+2y-4\ln y
-\]
-is constant along trajectories:
-\begin{align*}
-\frac{dV}{dt}
-&=\left(1-\frac3x\right)x'
-+\left(2-\frac4y\right)y'\\
-&=(x-3)(4-2y)+(2y-4)(x-3)\\
-&=0.
-\end{align*}
-Its level curves surround the minimum at $(3,2)$
-and form closed loops.
-
-Thus, $(3,2)$ is a center for the nonlinear system.
-It is stable but not asymptotically stable:
-nearby populations cycle instead of settling
-at the equilibrium.
-
-%-------------------------------------------------------------
 \subsection{The Local Phase Portrait}
 
 For the linearized system,
 \[
 u'= -6v,\qquad v'=2u.
 \]
-Its trajectories satisfy
+Indeed, $\frac{d}{dt}(u^2+3v^2)=2u(-6v)+6v(2u)=0$.
+Thus its trajectories satisfy
 \[
 u^2+3v^2=C.
 \]
@@ -816,33 +447,69 @@ in the original population coordinates.
 
 \small
 Ellipses of the linearized system near $(3,2)$.
-The nonlinear trajectories are closed curves,
-but they are not exact ellipses.
+These ellipses suggest a local sketch. We still need to check
+whether the nonlinear trajectories close up.
 \end{center}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interpreting Predator--Prey Cycles}
 
-\subsection{Population Growth and Decline}
-
-The factored equations show when each population grows:
+\subsection{Extending the Sketch with Nullclines}
+Return to the original equations:
 \[
-x'=2x(2-y),
-\qquad
-y'=y(x-3).
+x'=2x(2-y),\qquad y'=y(x-3).
 \]
-For positive populations:
-\begin{itemize}
-    \item Rabbits increase when $y<2$ and decrease
-    when $y>2$.
-    \item Foxes increase when $x>3$ and decrease
-    when $x<3$.
-\end{itemize}
+Besides the coordinate axes, the nullclines are $y=2$ and $x=3$.
+For positive populations, they divide the plane into four regions:
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c|c|c|c}
+Region & $x'$ & $y'$ & Direction\\\hline
+$x>3,\ y<2$ & $+$ & $+$ & Up and right\\
+$x>3,\ y>2$ & $-$ & $+$ & Up and left\\
+$x<3,\ y>2$ & $-$ & $-$ & Down and left\\
+$x<3,\ y<2$ & $+$ & $-$ & Down and right
+\end{tabular}
+\end{center}
+On $y=2$, the velocity is vertical; on $x=3$, it is horizontal.
+These directions agree with counterclockwise motion around $(3,2)$.
+They do not, by themselves, rule out slowly spiraling inward or outward.
+To confirm closed orbits, we need information beyond linearization.
 
-The lines $y=2$ and $x=3$ divide the phase plane
-into regions with different directions of motion.
+\subsection{Why the Nonlinear Orbits Are Closed}
+
+For this particular model, an additional calculation
+confirms the center. When $x,y>0$, the quantity
+\[
+V(x,y)=x-3\ln x+2y-4\ln y
+\]
+is constant along trajectories:
+\begin{align*}
+\frac{dV}{dt}
+&=\left(1-\frac3x\right)x'
++\left(2-\frac4y\right)y'\\
+&=(x-3)(4-2y)+(2y-4)(x-3)\\
+&=0.
+\end{align*}
+This is a \textbf{conserved quantity}: its value does not change as
+the solution moves. Consequently, each trajectory stays on a level curve
+$V(x,y)=C$.
+
+Why are those level curves closed? The function $x-3\ln x$ decreases
+until $x=3$ and increases afterward; similarly, $2y-4\ln y$ has its
+minimum at $y=2$. Both grow without bound as their positive variable
+approaches zero or infinity. Their sum is strictly convex, so each
+level above the minimum is a closed oval surrounding $(3,2)$.
+The velocity is nonzero on each oval, so solutions travel around it
+and repeat.
+
+Thus, $(3,2)$ is a center for the nonlinear system.
+It is \textbf{stable}: sufficiently nearby solutions remain nearby.
+They cycle instead of settling at the equilibrium. This conclusion uses
+the original equations, not just the imaginary eigenvalues.
 
 %-------------------------------------------------------------
+\section{Interpreting Predator--Prey Cycles}
+
 \subsection{The Predator--Prey Cycle}
 
 In this model, positive solutions other than the
@@ -859,9 +526,17 @@ repeat a cycle:
     \item The cycle repeats.
 \end{enumerate}
 
-The predator population typically peaks after
-the prey population. The two populations oscillate
-out of step.
+We can locate the peaks directly on the phase portrait.
+The rabbit population reaches a maximum when the trajectory crosses
+$y=2$ upward on the right side of $(3,2)$: $x'$ changes from positive
+to negative. Foxes are still increasing because $x>3$.
+The fox population peaks later, when the trajectory crosses $x=3$
+leftward above $(3,2)$: $y'$ changes from positive to negative.
+Thus the predator peak follows the prey peak in each cycle.
+
+The highlighted orbit below starts at $(3,4)$. At that point,
+$x'=-12$ and $y'=0$: rabbits are declining, and foxes are at their
+maximum. The time plots show both populations along that same orbit.
 
 \begin{figure}[H]
     \centering
@@ -881,427 +556,17 @@ out of step.
 \subsection{What the Model Predicts}
 
 The classical predator--prey model predicts persistent
-population cycles. It does not predict that populations
-settle at a fixed value.
+population cycles. Except for a solution starting exactly at the coexistence equilibrium,
+positive populations do not settle at fixed values. The initial pair
+determines which closed orbit the solution follows, so the sizes of the oscillations depend
+on the initial populations. These orbits are not a single attracting cycle.
 
 This behavior depends on the assumptions of the model.
 Adding limited prey resources, harvesting, or other
-effects can change the long-term outcome.
+effects can change the long-term outcome. A center is therefore an
+important reminder: when eigenvalues have zero real part, check the
+nonlinear equations before deciding what the trajectories do.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Predator--Prey Models}
-
-\subsection{The Model}
-
-Now suppose one species feeds on the other. Let
-\[
-x(t)=\text{prey population},
-\qquad
-y(t)=\text{predator population}.
-\]
-The classical Lotka--Volterra model is
-\[
-\boxed{
-\begin{dcases}
-x'=ax-bxy,\\
-y'=-cy+dxy,
-\end{dcases}
-\qquad a,b,c,d>0.
-}
-\]
-
-The assumptions are:
-\begin{itemize}
-    \item Without predators, prey grow exponentially:
-    $x'=ax$.
-    \item Without prey, predators die off:
-    $y'=-cy$.
-    \item Encounters reduce the prey population
-    and support predator growth.
-\end{itemize}
-
-%-------------------------------------------------------------
-\subsection{Understanding the Interaction}
-
-The interaction term $xy$ appears with opposite signs:
-\[
-x'=\underbrace{ax}_{\text{prey growth}}
--\underbrace{bxy}_{\text{predation}},
-\]
-\[
-y'=-\underbrace{cy}_{\text{predator decline}}
-+\underbrace{dxy}_{\text{food supply}}.
-\]
-Unlike competition, the interaction benefits one
-species while harming the other.
-
-
-\section{Competing Species}
-Suppose there are two species of animals living in an ecosystem. If they compete for the same resources, then they are hurting each others' potential for growth. 
-
-
-\subsection*{Setup}
-
-Let $x(t)$ and $y(t)$ be the populations of two different species in an ecosystem that compete for the same resources. For example, let $x$ be the population of rabbits and $y$ be the population of deer. Here are the assumptions:
-\begin{itemize}
-    \item Population can't be negative: $x(t),y(t)\ge 0$.
-    \item Resources are limited but they replenish (e.g. grass). 
-    \item Populations grow logistically.  
-    \item Competition drives down the population growth for both species. 
-    \item There are no external influences (e.g. migration).
-\end{itemize}
-Here is an example of a system that satisfies these assumptions:
-\[
-\boxed{
-\begin{cases}
-x' = x(3 - x) - 2xy,\\[3pt]
-y' = y(2 - y) - xy.
-\end{cases}}
-\]
-This system is called the \textbf{Competitive Lotka–Volterra equations}. 
-
-\subsection*{Understanding the Terms}
-The right-hand side of $x'$ has two terms:
-\[
-x' =
-\underbrace{x(3-x)}_{\substack{\text{logistic}\\ \text{growth}}}
-\underbrace{-2xy}_{\substack{\text{competition}\\ \text{term}}}
-\]
-The logistic term contributes to the growth of the rabbit population until it reaches $x=3$, which is the carrying capacity. The other term $-2xy=0$ models the negative impact on the growth rate due to competition between the rabbits and the deer. Consider what would happen if there were no deer, e.g. $y=0$. Then the model becomes 
-$$
-x' = x(3-x)
-$$
-which describes logistic growth. 
-
-%-------------------------------------------------------------
-\section{Phase Plane}
-We want to know how the population of the rabbits and deer will change in the long run based on the initial conditions. 
-
-\subsection*{Equilibria}
-If we set $f(x,y)= x(3-x)-2xy = =x(3-x-2y)=0$ then we get two cases: $x=0$ or $x = 3-2y$.
-Let's follow the case when $x=0$. If $x=0$, then the $g(0,y)=y(2-y)=0$ which has solutions $y=0,2$. Thus we have two equilibrium points $(0,0)$ and $(0,2)$.
-
-Next, we follow the case when $x=3-2y$. If $x=3-2y$ then 
-\begin{align*}
-g(3-2y,y)&= y(2-y)-(3-2y)y\\
-&=y(2-y-3+2y)\\
-&=y(-1+y)
-\end{align*}
-The two solutions are $y=0,1$. We plug both of these points into $x=3-2y$. Then we have two more equilibria $(3,0)$ and $(1,1)$. In summary, we have four equilibria
-\[
-\boxed{ (0,0),\ (3,0),\ (0,2),\ (1,1)}.
-\]
-
-\subsection*{The Jacobian}
-The Jacobian matrix is
-\begin{align*}
-J(x,y) &=
-\begin{bmatrix}
-\partial_x f & \partial_y f\\
-\partial_xg & \partial_y g
-\end{bmatrix}\\
-&=\begin{bmatrix}
-\partial_x(x(3 - x) - 2xy) & \partial_y(x(3 - x) - 2xy)\\
-\partial_x( y(2 - y) - xy) & \partial_y( y(2 - y) - xy)
-\end{bmatrix}\\
-&=
-\begin{bmatrix}
-(3-2x - 2y & -2x\\
--y & 2-2y - x
-\end{bmatrix}.
-\end{align*}
-
-\subsection*{Classification}
-For the sake of time, the work for the classification is omitted. The key features of each equilibrium point are summarized in the table below.
-\[
-\begin{array}{c|c|c|c|l}
-\text{Equilibrium} & J(x,y) & \text{Eigenvalues}& \text{Eigenvectors}&\text{Classification}\\
-\hline
-(0,0) &
-\begin{bmatrix}3 & 0\\[2pt]0 & 2\end{bmatrix}
-& 3,2
-& \begin{bmatrix}
-    1\\0
-\end{bmatrix},\begin{bmatrix}
-    0\\1
-\end{bmatrix}
-& \text{Unstable node (source)}\\[8pt]
-(3,0) &
-\begin{bmatrix}-3 & -6\\[2pt]0 & -1\end{bmatrix}
-& -3,-1
-& \begin{bmatrix}
-    1\\0
-\end{bmatrix},\begin{bmatrix}
-    -3\\1
-\end{bmatrix}
-& \text{Stable node (sink)}\\[8pt]
-(0,2) &
-\begin{bmatrix}-1 & 0\\[2pt]-2 & -2\end{bmatrix}
-& -1,-2
-& \begin{bmatrix}
-    1\\-2
-\end{bmatrix},\begin{bmatrix}
-    0\\1
-\end{bmatrix}
-& \text{Stable node (sink)}\\[8pt]
-(1,1) &
-\begin{bmatrix}-1 & -2\\[2pt]-1 & -1\end{bmatrix}
-& -1\pm\sqrt{2}
-& \begin{bmatrix}
-    \sqrt{2}\\1
-\end{bmatrix},\begin{bmatrix}
-    -\sqrt{2}\\1
-\end{bmatrix}
-& \text{Saddle}
-\end{array}
-\]
-
-\subsection*{Phase Portrait}
-First, mark the coordinates of the four equilibria.  
-Draw the local orbits for each equilibria and their orientation. Finally, extend the curves according to the global dynamics.
-\begin{center}
-\begin{tikzpicture}[scale=2.25]
-
-    % Grid
-    \draw[step=0.5cm,very thin,gray!25] (-1,-1) grid (4,3);
-    % Axes
-    \draw[black,->,thick] (-1,0)--(4,0) node[right] {$x$ (rabbits)};
-    \draw[black,->,thick] (0,-1)--(0,3) node[above] {$y$ (deer)};
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Unstable node at (0,0)
-    % eigenvectors: <1,0>, <0,1>
-    \draw[red, thick] (-0.3,0)--(0.45,0);
-    \draw[red, thick] (0,-0.3)--(0,0.45);
-
-    % arrows away from origin
-    \draw[->, red, thick] (0.15,0)--(0.3,0);
-    \draw[->, red, thick] (-0.15,0)--(-0.3,0);
-    \draw[->, red, thick] (0,0.15)--(0,0.3);
-    \draw[->, red, thick] (0,-0.15)--(0,-0.3);
-
-    \fill (0,0) circle (2pt);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Stable node at (3,0)
-    % eigenvectors: <1,0>, <-3,1>
-    \draw[blue, thick] (2.6,0)--(3.4,0);
-    \draw[blue, thick] (3.375,-0.125)--(2.625,0.125);
-
-    % arrows toward (3,0)
-    \draw[->, blue, thick] (3.275,0)--(3.1,0);
-    \draw[->, blue, thick] (2.725,0)--(2.9,0);
-
-    \draw[->, blue, thick] (3.225,-0.075)--(3.075,-0.025);
-    \draw[->, blue, thick] (2.775,0.075)--(2.925,0.025);
-
-    \fill (3,0) circle (2pt);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Stable node at (0,2)
-    % eigenvectors: <1,-2>, <0,1>
-    \draw[blue, thick] (-0.225,2.45)--(0.225,1.55);
-    \draw[blue, thick] (0,1.6)--(0,2.4);
-
-    % arrows toward (0,2)
-    \draw[->, blue, thick] (-0.14,2.28)--(-0.06,2.12);
-    \draw[->, blue, thick] (0.14,1.72)--(0.06,1.88);
-
-    \draw[->, blue, thick] (0,2.3)--(0,2.1);
-    \draw[->, blue, thick] (0,1.7)--(0,1.9);
-
-    \fill (0,2) circle (2pt);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Saddle at (1,1)
-    % stable line (half length)
-    \draw[blue, thick] (0.575,0.7)--(1.425,1.3);
-    % unstable line (half length)
-    \draw[red, thick] (0.575,1.3)--(1.425,0.7);
-    % arrows on stable line toward (1,1)
-    \draw[->, blue, thick] (0.725,0.82)--(0.875,0.91);
-    \draw[->, blue, thick] (1.275,1.18)--(1.125,1.09);
-    % arrows on unstable line away from (1,1)
-    \draw[->, red, thick] (0.875,1.09)--(0.725,1.18);
-    \draw[->, red, thick] (1.125,0.91)--(1.275,0.82);
-    \fill (1,1) circle (2pt);
-
-\end{tikzpicture}
-\end{center}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.8\linewidth]{figs/dfield_competitive.png}
-%     \caption{This plot shows the direction field for the competitive system plotted in Matlab.}
-% \end{figure}
-
-\section{Interpretation}
-This system exhibits \textbf{competitive exclusion}, which means only one species survives in the long run. The competitive exclusion principle states that two species competing for the same resources cannot coexist in the same ecological niche. If one species has advantage over the other, the other species will be driven to extinction or forced to move. The initial population decides which species lives. If, for example, the initial condition is $\textbf{x}(0)=\begin{bmatrix}
-    1&0.5
-\end{bmatrix}^T$, then the deer will go extinct.  
-
-
-Depending on the parameters, the two species may exhibit \textbf{coexistence}, which means that the two competing species stabilize to a fixed population. In terms of phase portraits, that means the system has an equilibrium point $(x^*,y^*)$ that is a \textit{stable node} and neither $x^*$ nor $y^*$ are zero.
-
-
-\section{Predator--Prey Model}
-Now suppose one species feeds on the other.
-\subsection*{Model}
-Let $x(t)$ be the prey population and $y(t)$ the predator population. A typical model has the general form 
-\[
-\begin{cases}
-x' = a x - b x y,\\[3pt]
-y' = -c y + d x y,
-\end{cases}
-\]
-where the parameters $a,b,c,d$ are all positive. We assume that 
-\begin{itemize}
-    \item the prey grow unboundedly $x'=r x$ in the absence of predators,
-    \item the predator dies off $y'=-cy$ in the absence of prey.
-\end{itemize}
-The product $xy$ represents the encounter between a predator and prey. When a predator meets prey, the prey is killed, and the predator obtains food. That is why $x' \propto -xy$ and $y'\propto xy$.
-
-
-\section{Example}
-Let $x(t)=$ population of rabbits and $y(t)=$ population of foxes living in the same forest. Their model for their population is 
-$$
-\begin{dcases}
-    x' = 4x - 2xy\\
-    y' = -3y+xy
-\end{dcases}.
-$$
-For convenience, we will define $f(x,y):=4x-2xy$ and $g(x,y):=-y+3xy$.
-
-\subsection*{Equilibria}
-First, we set $f(x,y)=0$ and we get two cases:
-$$
-x(4-2y)=0\implies x=0 \text{ or } y=2.
-$$
-If we assume  $x=0$, then $0=g(0,y)=-y=0$ when $y=0$ so one equilibrium is $(0,0)$. If we assume $y=2$, then $0=g(x,2)=-6+2x\implies x=3$ so the other equilibrium is $(3,2)$.
-
-\subsection*{Jacobian}
-The Jacobian of this system is 
-\begin{align*}
-    J(x,y) &= \begin{bmatrix}
-        \partial_x f & \partial_y f\\
-        \partial_x g & \partial_y g
-    \end{bmatrix}\\
-    &= \begin{bmatrix}
-        4-2y & -2x\\
-        y&-3+x
-    \end{bmatrix}.
-\end{align*}
-
-\subsection*{Classification}
-The classification for the remaining equilibria are shown below.
-\[
-\begin{array}{c|c|c|c|l}
-\text{Equilibrium} & J(x,y) & \text{Eigenvalues}& \text{Eigenvectors}&\text{Classification}\\
-\hline
-(0,0) &
-\begin{bmatrix}4 & 0\\0 & -3\end{bmatrix}
-& 4,-3
-& \begin{bmatrix}
-    1\\0
-\end{bmatrix},\begin{bmatrix}
-    0\\1
-\end{bmatrix}
-& \text{Saddle}\\[8pt]
-
-(3,2) &
-\begin{bmatrix}0 & -6\\[2pt]2 & 0\end{bmatrix}
-& \pm\sqrt{12}i
-& -
-& \text{Elliptical Center}\\[8pt]
-\end{array}
-\]
-The solution near the equilibrium $(3,2)$ roughly satisfies the linear system
-$$
-\textbf{u}' \approx \begin{bmatrix}
-    0 & -6\\
-    2 & 0
-\end{bmatrix} \textbf{u}
-$$
-which describes a wide counterclockwise ellipse. At $\textbf{u}=(1,0)$ the tangent vector is $\cvec{0,2}$, and at $\textbf{u}=(0,1)$ the tangent vector is $\cvec{-6,0}$.
-
-\subsection*{Phase Portrait}
-\begin{center}
-\begin{tikzpicture}[scale=1.5]
-    % Axes
-    \draw[->,thick] (-1,0)--(6,0);
-    \draw[->,thick] (0,-1)--(0,4);
-
-    \node[right] at (6,0) {rabbits ($x$)};
-    \node[above] at (0,4) {foxes ($y$)};
-
-    % Grid
-    \draw[step=0.5cm,very thin,gray!25] (-1,-1) grid (6,4);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Saddle at (0,0)
-    % eigenvectors: <1,0>, <0,1>
-    \draw[red, thick] (-0.5,0)--(0.8,0);
-    \draw[blue, thick] (0,-0.5)--(0,0.8);
-
-    % unstable direction along x-axis
-    \draw[->, red, thick] (0.25,0)--(0.55,0);
-    \draw[->, red, thick] (-0.25,0)--(-0.55,0);
-
-    % stable direction along y-axis
-    \draw[->, blue, thick] (0,0.55)--(0,0.25);
-    \draw[->, blue, thick] (0,-0.55)--(0,-0.25);
-
-    \fill (0,0) circle (2pt);
-    \node[below left] at (0,0) {$(0,0)$};
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Elliptical center at (3,2)
-    \fill (3,2) circle (2pt);
-    \node[below right] at (3,2) {$(3,2)$};
-
-    % wide ellipses centered at (3,2)
-    \draw[black, thick] (3,2) ellipse (1.5 and 0.7);
-    % \draw[black, thick] (3,2) ellipse (0.95 and 0.45);
-
-    % counterclockwise arrows on ellipses
-    % right side: tangent points upward
-    \draw[->, black, thick] (4.5,2) -- (4.5,2.35);
-
-    % top side: tangent points left
-    \draw[->, black, thick] (3,2.7) -- (2.55,2.7);
-
-    % left side: tangent points downward
-    \draw[->, black, thick] (1.5,2) -- (1.5,1.65);
-
-    % bottom side: tangent points right
-    \draw[->, black, thick] (3,1.3) -- (3.45,1.3);
-
-
-\end{tikzpicture}
-\end{center}
-
-\section{Interpretation}
-
-Unlike competition models, predator--prey systems exhibit \textbf{cyclical behavior}. There is an endless pattern:
-\begin{enumerate} 
-    \item Prey population rises,
-    \item Predator population increases due to the abundance of food, 
-    \item Prey population falls due to over predation,
-    \item Predator population falls due to a lack of food,
-    \item Repeat
-\end{enumerate}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/pred_prey_1.png}
-    \includegraphics[width=0.75\linewidth]{figs/pred_prey_2.png}
-    \caption{The first figure shows actual solution curves for the system solved computationally. There is one particular solution curve plotted in magenta. That solution is plotted as a time series plot in the second plot.}
-\end{figure}
-\medskip
-\noindent \textbf{Key takeaway:}
-\begin{center}
-\textit{The ecosystem has a way of naturally balancing itself. The population of predator and prey cycle back and forth between max and min in an off-cycle pattern.}
-\end{center}
 
 \end{document}
