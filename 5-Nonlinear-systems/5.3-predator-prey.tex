@@ -5,290 +5,112 @@
 \begin{document}
 
 \lesson[Logan, Differential Equations, 3rd edition\enspace\textbullet\enspace Section 5.3\\
-Boyce \& DiPrima, Differential Equations, 11th edition \enspace\textbullet\enspace Sections 9.5 
+Boyce \& DiPrima, Differential Equations, 11th edition \enspace\textbullet\enspace Section 9.5 
 ]
   {Day 39}{Predator and Prey}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A Spiral and a Saddle}
+\section{Population Dynamics}
 
-\subsection{From Local Behavior to a Phase Portrait}
+\subsection{Growth and Decay Models}
+Suppose $x(t)$ and $y(t)$ represent the population of two species over time $t$, say rabbits and foxes. The units of $t$ can be months, for example. They both start at population 100. The difference is that $x$ increases by roughly 10\% each month and $y$ decreases by roughly 10\% each month: 
+\begin{align*}
+x&: 100, 110, 121,\dots\\
+y&: 100, 90, 81,\dots 
+\end{align*}
+In this case, we can model the populations of both species with simple \textbf{growth and decay models}:
+$$
+    x' =0.1x,\qquad y'=-0.1y.
+$$
+The model $x'=0.1x$ says the rabbit population grows without bound possibly because there is an abundance of food available. The model $y'=-0.1y$ says the fox population is declining possibly because of food scarcity. These models are only realistic for short time periods. 
 
-Before studying another population model, let's review how to put
-local sketches together. The following system is a mathematical review
-example; its coordinates are not populations, so negative coordinates
-are allowed. A nonlinear system may have several equilibria, each with
-a different local behavior.
+\subsection{Predator and Prey Together}
 
-To sketch its phase portrait:
-\begin{enumerate}
-    \item Find all equilibria.
-    \item Compute the Jacobian.
-    \item Classify each equilibrium using the
-    eigenvalues of the Jacobian.
-    \item Sketch the local behavior.
-    \item Use the original equations to guide
-    trajectories farther from the equilibria.
-\end{enumerate}
-
-When all eigenvalues have nonzero real parts,
-linearization determines the local qualitative
-behavior. However, it does not determine the
-entire phase portrait.
-
-%-------------------------------------------------------------
-\subsection{Finding and Classifying the Equilibria}
-
-\begin{example}[1]{
-Find and classify the equilibria, then sketch the
-local behavior of
-\[
-\begin{dcases}
-x'=1-x-y,\\
-y'=x^2-1.
+More generally, we can write the population of rabbits and foxes with parameters: $x' = rx$, and $y'=-ky$, where $r>0$ and $k>0$ represent growth and decay percentage rates per unit time. What happens if both species live in the same forest? It is not correct to simply combine the equations as 
+\begin{equation} \label{1}    
+\begin{dcases} 
+    x' = rx\\
+    y'= -ky
 \end{dcases}
-\]
-}
-
-\paragraph{Step 1. Find the equilibria.}
-Set both components equal to zero:
-\[
-1-x-y=0,\qquad x^2-1=0.
-\]
-The second equation gives $x=\pm1$.
-
-If $x=1$, then $y=0$.
-If $x=-1$, then $y=2$.
-Therefore,
-\[
-\boxed{(1,0)\qquad\text{and}\qquad(-1,2).}
-\]
-
-\paragraph{Step 2. Compute the Jacobian.}
-Let
-\[
-f(x,y)=1-x-y,\qquad g(x,y)=x^2-1.
-\]
-Then
-\[
-\boxed{
-J(x,y)=
-\begin{pmatrix}
--1&-1\\
-2x&0
-\end{pmatrix}.
-}
-\]
-
-\paragraph{Step 3. Classify $(1,0)$ and orient the spiral.}
-At this equilibrium,
-\[
-A_1=J(1,0)=\begin{pmatrix}-1&-1\\2&0\end{pmatrix},
-\qquad
-\det(\lambda I-A_1)=\lambda^2+\lambda+2.
-\]
-Thus $\lambda=(-1\pm i\sqrt7)/2$. The real part is negative, so
-$(1,0)$ is a \textbf{stable spiral}.
-
-To orient it, test a point just to the right: $(1+\varepsilon,0)$,
-where $\varepsilon>0$. The original equations give
-\[
-(x',y')=(-\varepsilon,\,2\varepsilon+\varepsilon^2).
-\]
-The velocity points up and left, so the spiral rotates counterclockwise.
-
-\paragraph{Step 4. Classify $(-1,2)$ and find its directions.}
-Here,
-\[
-A_2=J(-1,2)=\begin{pmatrix}-1&-1\\-2&0\end{pmatrix},
-\qquad
-\det(\lambda I-A_2)=\lambda^2+\lambda-2
-=(\lambda-1)(\lambda+2).
-\]
-The eigenvalues have opposite signs, so $(-1,2)$ is a \textbf{saddle}.
-Solving $(A_2-\lambda I)\mathbf v=\mathbf0$ gives
-\[
-\begin{array}{c|c|c}
-\lambda & \text{Eigenvector} & \text{Tangent line through }(-1,2)\\\hline
--2 & (1,1)^T & y-2=x+1\quad\text{(inward)}\\
-1 & (1,-2)^T & y-2=-2(x+1)\quad\text{(outward)}
-\end{array}
-\]
-For example, when $\lambda=1$, the first row gives
-$-2v_1-v_2=0$, so we may choose $(v_1,v_2)=(1,-2)$.
-Translate each direction to the equilibrium before drawing its arrows.
-\end{example}
-
-%-------------------------------------------------------------
-\subsection{Sketching the Local Behavior}
-
-Plot the equilibria and draw:
-\begin{itemize}
-    \item a counterclockwise inward spiral near $(1,0)$;
-    \item a saddle near $(-1,2)$, with inward arrows
-    along $(1,1)$ and outward arrows along $(1,-2)$.
-\end{itemize}
-
-The saddle lines indicate tangent directions.
-The nonlinear trajectories need not remain straight.
-
-\begin{center}
-\begin{tikzpicture}[scale=1.15]
-    \draw[step=0.5,very thin,gray!20]
-        (-2.2,-1) grid (2.2,3);
-    \draw[->,thick] (-2.3,0)--(2.5,0)
-        node[right] {$x$};
-    \draw[->,thick] (0,-1.1)--(0,3.2)
-        node[above] {$y$};
-
-    % Solutions of the linearized system near (1,0)
-    \foreach \r in {-0.65,0.65}{
-        \draw[blue,thick,domain=0:9,samples=300]
-            plot
-            ({1+\r*exp(-\x/2)*
-                (cos(deg(sqrt(7)*\x/2))
-                -sin(deg(sqrt(7)*\x/2))/sqrt(7))},
-             {4*\r*exp(-\x/2)*
-                sin(deg(sqrt(7)*\x/2))/sqrt(7)});
-
-        \draw[blue,thick,->,domain=0.5:0.8,samples=25]
-            plot
-            ({1+\r*exp(-\x/2)*
-                (cos(deg(sqrt(7)*\x/2))
-                -sin(deg(sqrt(7)*\x/2))/sqrt(7))},
-             {4*\r*exp(-\x/2)*
-                sin(deg(sqrt(7)*\x/2))/sqrt(7)});
-    }
-
-    % Saddle: stable tangent direction
-    \draw[blue,dashed,thick] (-1.5,1.5)--(-0.5,2.5);
-    \draw[blue,thick,->] (-1.4,1.6)--(-1.15,1.85);
-    \draw[blue,thick,->] (-0.6,2.4)--(-0.85,2.15);
-
-    % Saddle: unstable tangent direction
-    \draw[red,dashed,thick] (-1.35,2.7)--(-0.65,1.3);
-    \draw[red,thick,->] (-1.1,2.2)--(-1.3,2.6);
-    \draw[red,thick,->] (-0.9,1.8)--(-0.7,1.4);
-
-    % Equilibria
-    \fill (1,0) circle (1.8pt);
-    \fill (-1,2) circle (1.8pt);
-    \node[below right] at (1,0) {$(1,0)$};
-    \node[above left,fill=white,inner sep=1pt]
-        at (-1,2) {$(-1,2)$};
-\end{tikzpicture}
-
-\small
-Local behavior predicted by the linearized systems.
-Blue arrows point inward; red arrows point outward.
-\end{center}
-
-%-------------------------------------------------------------
-\subsection{Extending the Sketch}
-
-To guide the trajectories farther away, return
-to the original equations:
-\[
-x'=1-x-y,\qquad y'=x^2-1.
-\]
-They give the following directions:
-\[
-\begin{aligned}
-y<1-x&\implies x'>0,
-&
-y>1-x&\implies x'<0,\\
-|x|>1&\implies y'>0,
-&
-|x|<1&\implies y'<0.
-\end{aligned}
-\]
-The curves where one derivative vanishes are called
-\textbf{nullclines}. Here they are
-\[
-y=1-x,\qquad x=-1,\qquad x=1.
-\]
-
-Use these signs together with the local behavior
-to sketch trajectories. Do not extend the saddle
-eigendirections as straight lines across the
-entire plane.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]
-        {figs/phase_saddle_spiral.png}
-    \caption{A numerical phase portrait of the nonlinear
-    system. The saddle trajectories curve away from
-    their local tangent directions.}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Predator--Prey Models}
-
-\subsection{The Model}
-
-In the competing-species model, the interaction harmed both species.
-Now suppose one species feeds on the other. Let
-\[
-x(t)=\text{prey population},
-\qquad
-y(t)=\text{predator population}.
-\]
-The classical Lotka--Volterra model is
+\end{equation}
+because their populations should influence each other. More specifically, foxes hunt rabbits for food. Interaction between the two species should simultaneously promote growth for foxes and decline for rabbits. We fix the model \eqref{1} by adding two interactions terms:
+$$
+    -\alpha xy \quad\text{and}\quad \beta xy, \qquad \alpha,\beta>0
+$$
+Here is the population dynamics model for prey $x$ and predator $y$ living in the same ecosystem: 
 \[
 \boxed{
 \begin{dcases}
-x'=ax-bxy,\\
-y'=-cy+dxy,
+x'=rx-\alpha xy,\\
+y'=-ky+\beta xy,
 \end{dcases}
-\qquad a,b,c,d>0.
+\qquad r,k,\alpha,\beta>0.
 }
 \]
-
-The assumptions are:
-\begin{itemize}
-    \item Without predators, prey grow exponentially:
-    $x'=ax$.
-    \item Without prey, predators die off:
-    $y'=-cy$.
-    \item Encounters reduce the prey population
-    and support predator growth.
-\end{itemize}
+These are called the \textbf{Lotka–Volterra equations}.
 
 %-------------------------------------------------------------
-\subsection{Understanding the Interaction}
+\subsection{Understanding the Model}
 
 The interaction term $xy$ appears with opposite signs:
 \[
 \begin{aligned}
-x'&=\underbrace{ax}_{\text{prey growth}}
--\underbrace{bxy}_{\text{predation}},\\[6pt]
-y'&=-\underbrace{cy}_{\text{predator decline}}
-+\underbrace{dxy}_{\text{food supply}}.
+x'&=rx-\underbrace{\alpha xy}_{\text{predation}},\\[6pt]
+y'&=-ky+\underbrace{\beta xy}_{\text{food supply}}.
 \end{aligned}
 \]
-Unlike competition, the interaction benefits one
-species while harming the other.
+Unlike competition, the interaction benefits one species
+while harming the other.
 
+The product $xy$ represents the opportunity for rabbits
+and foxes to encounter each other. More rabbits or more
+foxes means more encounters. If either species is absent,
+then $xy=0$ and there is no interaction.
 
+The constants $\alpha$ and $\beta$ describe the strength
+of these effects:
+\begin{itemize}
+    \item $\alpha$ measures how effectively foxes hunt
+    rabbits. For example, if rabbits have fewer places
+    to hide, a larger $\alpha$ could model the increased
+    loss of rabbits to predation.
 
-\subsection{Reading the Assumptions}
-The constants $a$ and $c$ describe prey growth and predator decline
-without interaction. The constants $b$ and $d$ describe the effects
-of encounters on the two populations. They need not be equal: prey
-consumed and predator growth are different quantities.
+    \item $\beta$ measures how strongly the prey supply
+    supports fox population growth. For example, if
+    the food allows more fox cubs to survive, a larger
+    $\beta$ could model that increased growth.
+\end{itemize}
+The constants need not be equal. Eating one rabbit
+does not produce one new fox.
 
-Unlike the competition model, this idealized model does not include
-a carrying capacity for the prey. It assumes abundant prey resources,
-constant coefficients, and no migration. The coordinate axes are
-invariant, so nonnegative initial populations remain nonnegative.
+The two equations describe a feedback process:
+more rabbits provide food for more foxes, but more
+foxes consume more rabbits. Once rabbits become scarce,
+the fox population may decline, allowing rabbits
+to increase again. Could this process keep repeating?
 
-With competition, we looked for a surviving species or a stable
-coexistence state. Here, prey growth can support predator growth,
-which then reduces the prey supply. Could that feedback produce cycles?
-We will first analyze an example, then use its trajectories to answer.
+%-------------------------------------------------------------
+\subsection{Questions}
+
+We want to understand what happens to both populations
+over time:
+\begin{enumerate}
+    \item Do one or both populations die out?
+
+    \item Do the populations stabilize toward an equilibrium? 
+
+    \item Or does something different happen as $t\to\infty$?
+
+    \item How does this all depend on the parameters?
+\end{enumerate}
+
+We can investigate these questions without finding
+explicit formulas for $x(t)$ and $y(t)$. Our next step
+is to find the equilibria and sketch the phase portrait.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analyzing a Predator--Prey System}
+In this section, we will choose simple numbers for $r$, $k$, $\alpha$, $\beta$ and proceed with the phase portrait.
 
 \subsection{Equilibria and Linearization}
 
@@ -368,98 +190,23 @@ so
 \[
 \lambda=\pm2\sqrt3\,i.
 \]
-Therefore, the \textbf{linearized system} has a center.
+Therefore, the \textbf{linearized system} has a center. But because these eigenvalues have zero real part, linearization alone does not prove that the nonlinear system has a center. Some further investigation is required.
 
-Because these eigenvalues have zero real part,
-linearization alone does not prove that the
-nonlinear system has a center.
-
-\paragraph{Step 5. Determine the direction of rotation.}
-In shifted coordinates
-\[
-u=x-3,\qquad v=y-2,
-\]
-the linearized system is
-\[
-\begin{pmatrix}u'\\v'\end{pmatrix}
-=
-\begin{pmatrix}
-0&-6\\
-2&0
-\end{pmatrix}
-\begin{pmatrix}u\\v\end{pmatrix}.
-\]
-At $(u,v)=(1,0)$, the velocity is $(0,2)$,
-so the rotation is counterclockwise.
 \end{example}
 
-%-------------------------------------------------------------
-\subsection{The Local Phase Portrait}
+% --------------------
 
-For the linearized system,
+\subsection{Nullclines}
+
+First, I will convince you that there is swirling motion around the point $(3,2)$.
+\textbf{Nullclines} are curves on the phase plane that satisfy either $x'=0$ or $y'=0$.
+In the equations
 \[
-u'= -6v,\qquad v'=2u.
+x'=2x(2-y),\qquad y'=y(x-3)
 \]
-Indeed, $\frac{d}{dt}(u^2+3v^2)=2u(-6v)+6v(2u)=0$.
-Thus its trajectories satisfy
-\[
-u^2+3v^2=C.
-\]
-These are horizontally stretched ellipses centered
-at the origin in the $(u,v)$-plane, or at $(3,2)$
-in the original population coordinates.
+the nullclines are $y=2$ and $x=3$. The main advantage of nullclines is that they create distinct regions on the phase plane when plotted together.
 
-\begin{center}
-\begin{tikzpicture}[scale=1.2]
-    \draw[step=0.5,very thin,gray!20]
-        (0,0) grid (5.5,3.5);
-
-    \draw[->,thick] (0,0)--(5.9,0)
-        node[right] {$x$};
-    \draw[->,thick] (0,0)--(0,3.9)
-        node[above] {$y$};
-
-    % Saddle directions on the axes
-    \draw[red,thick,->] (0.15,0)--(0.65,0);
-    \draw[blue,thick,->] (0,0.65)--(0,0.15);
-
-    % Linearized elliptical trajectories
-    \foreach \r in {0.45,0.9,1.35}{
-        \draw[thick,domain=0:360,samples=180]
-            plot
-            ({3+\r*cos(\x)},
-             {2+\r/sqrt(3)*sin(\x)});
-
-        \foreach \a in {0,180}{
-            \draw[thick,->,domain=\a:{\a+25},samples=20]
-                plot
-                ({3+\r*cos(\x)},
-                 {2+\r/sqrt(3)*sin(\x)});
-        }
-    }
-
-    \fill (0,0) circle (1.7pt);
-    \fill (3,2) circle (1.7pt);
-    \node[below left] at (0,0) {$(0,0)$};
-    \node[below right,fill=white,inner sep=1pt]
-        at (3,2) {$(3,2)$};
-\end{tikzpicture}
-
-\small
-Ellipses of the linearized system near $(3,2)$.
-These ellipses suggest a local sketch. We still need to check
-whether the nonlinear trajectories close up.
-\end{center}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Extending the Sketch with Nullclines}
-Return to the original equations:
-\[
-x'=2x(2-y),\qquad y'=y(x-3).
-\]
-Besides the coordinate axes, the nullclines are $y=2$ and $x=3$.
-For positive populations, they divide the plane into four regions:
+Plotting $y=2$ and $x=3$ divides the phase plane into four regions. In those four regions, we can distinguish the signs of $x'$ and $y'$. The signs of $x'$ and $y'$ tell us the general orientation of the direction field in the four regions. The results are summarized in the table below.
 \begin{center}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{c|c|c|c}
@@ -469,46 +216,381 @@ $x>3,\ y>2$ & $-$ & $+$ & Up and left\\
 $x<3,\ y>2$ & $-$ & $-$ & Down and left\\
 $x<3,\ y<2$ & $+$ & $-$ & Down and right
 \end{tabular}
+\quad
+\begin{tikzpicture}[scale=0.58,>=stealth,baseline=(current bounding box.center)]
+    % Axes
+    \draw[->,gray] (0,0)--(6.5,0) node[right,black] {$x$};
+    \draw[->,gray] (0,0)--(0,4.7) node[above,black] {$y$};
+
+    % Nullclines
+    \draw[blue!70!black,dashed,thick]
+        (3,0)--(3,4.3) node[above] {$x=3$};
+    \draw[orange!80!black,dashed,thick]
+        (0,2)--(6.1,2) node[right] {$y=2$};
+
+    % Upper left: down and left
+    \draw[->,very thick] (1.9,3.6)--(1.1,2.8);
+
+    % Upper right: up and left
+    \draw[->,very thick] (4.9,2.8)--(4.1,3.6);
+
+    % Lower left: down and right
+    \draw[->,very thick] (1.1,1.4)--(1.9,0.6);
+
+    % Lower right: up and right
+    \draw[->,very thick] (4.1,0.6)--(4.9,1.4);
+
+    % Equilibrium
+    \fill (3,2) circle (2.5pt);
+    \node[below right,fill=white,inner sep=2pt]
+        at (3.1,1.9) {\small $(3,2)$};
+\end{tikzpicture}
 \end{center}
 On $y=2$, the velocity is vertical; on $x=3$, it is horizontal.
-These directions agree with counterclockwise motion around $(3,2)$.
+These directions indicate a counterclockwise motion around $(3,2)$.
 They do not, by themselves, rule out slowly spiraling inward or outward.
 To confirm closed orbits, we need information beyond linearization.
 
+%-------------------------------------------------------------
+
 \subsection{Why the Nonlinear Orbits Are Closed}
 
-For this particular model, an additional calculation
-confirms the center. When $x,y>0$, the quantity
+The nullclines suggest counterclockwise motion around
+$(3,2)$, but they do not tell us whether the trajectories
+close up or slowly spiral. To distinguish these possibilities,
+we look for a quantity that stays constant along solutions.
+
+For this system, consider
 \[
-V(x,y)=x-3\ln x+2y-4\ln y
+V(x,y)=x-3\ln x+2y-4\ln y,
+\qquad x,y>0.
 \]
-is constant along trajectories:
+Using the chain rule,
 \begin{align*}
 \frac{dV}{dt}
 &=\left(1-\frac3x\right)x'
-+\left(2-\frac4y\right)y'\\
+ +\left(2-\frac4y\right)y'\\
 &=(x-3)(4-2y)+(2y-4)(x-3)\\
 &=0.
 \end{align*}
-This is a \textbf{conserved quantity}: its value does not change as
-the solution moves. Consequently, each trajectory stays on a level curve
-$V(x,y)=C$.
+Thus, $V$ is a \textbf{conserved quantity}.
+If a solution starts at $(x_0,y_0)$, then it remains
+on the \textbf{level curve} for all time $t$
+\[
+V(x,y)=V(x_0,y_0).
+\]
 
-Why are those level curves closed? The function $x-3\ln x$ decreases
-until $x=3$ and increases afterward; similarly, $2y-4\ln y$ has its
-minimum at $y=2$. Both grow without bound as their positive variable
-approaches zero or infinity. Their sum is strictly convex, so each
-level above the minimum is a closed oval surrounding $(3,2)$.
-The velocity is nonzero on each oval, so solutions travel around it
-and repeat.
+To understand the shape of these curves, imagine the
+surface $z=V(x,y)$. This surface is shaped like a bowl
+with its lowest point at $(3,2)$. Indeed,
+\[
+V_x=1-\frac3x,\qquad V_y=2-\frac4y,
+\]
+so both derivatives vanish at $(3,2)$, and
+\[
+V_{xx}=\frac3{x^2}>0,\qquad
+V_{yy}=\frac4{y^2}>0,\qquad V_{xy}=0.
+\]
+The surface curves upward in every direction.
+It also rises without bound as either population
+approaches zero or infinity.
 
-Thus, $(3,2)$ is a center for the nonlinear system.
-It is \textbf{stable}: sufficiently nearby solutions remain nearby.
-They cycle instead of settling at the equilibrium. This conclusion uses
-the original equations, not just the imaginary eigenvalues.
+A horizontal slice above the bottom of this bowl
+produces a closed contour surrounding $(3,2)$.
+Since $V$ stays constant, each nonconstant positive
+solution follows one of these contours.
+There are no equilibria on the contour, so the
+solution keeps moving around it and repeats. Therefore, $(3,2)$ is a \textbf{center}.
+Nearby solutions remain nearby, so the equilibrium
+is \textbf{stable}. The populations cycle instead
+of settling at the equilibrium.
 
 %-------------------------------------------------------------
+
+\subsection{The Full Phase Portrait}
+
+Near $(3,2)$, the linearized system gives approximately
+elliptical orbits. We now extend this local picture
+using the original nonlinear equations:
+\[
+x'=2x(2-y),\qquad y'=y(x-3).
+\]
+The nullclines determine the counterclockwise orientation,
+and the conserved quantity confirms that the positive,
+nonconstant trajectories are closed.
+
+The numerical trajectories below show the full picture.
+Near $(3,2)$, the curves resemble the ellipses from
+linearization. Farther away, they become noticeably
+asymmetric, but they still form closed loops.
+
+% Requires \usetikzlibrary{arrows.meta}
+\begin{center}
+\begin{tikzpicture}[scale=.9,>=Stealth]
+\tikzset{
+    orbit/.style={blue!75!black,thick,line join=round},
+    motion/.style={orbit,->}
+}
+
+% Grid and axes
+\draw[step=1,very thin,gray!20]
+    (0,0) grid (8.5,5);
+\draw[->,thick] (0,0)--(8.8,0) node[right] {$x$};
+\draw[->,thick] (0,0)--(0,5.3) node[above] {$y$};
+
+% Axis ticks
+\foreach \xx in {1,...,8}{
+    \draw (\xx,.06)--(\xx,-.06)
+        node[below,font=\small] {$\xx$};
+}
+\foreach \yy in {1,...,5}{
+    \draw (.06,\yy)--(-.06,\yy)
+        node[left,font=\small] {$\yy$};
+}
+
+% --------------------------------------------------
+% Small orbit near the coexistence equilibrium
+% --------------------------------------------------
+\draw[orbit] plot coordinates {
+    (3.800,2.000) (3.786,2.076) (3.751,2.145)
+    (3.702,2.205) (3.643,2.257) (3.579,2.301)
+    (3.512,2.339) (3.441,2.371) (3.368,2.398)
+    (3.293,2.420) (3.217,2.436) (3.140,2.448)
+    (3.063,2.455) (2.985,2.457) (2.907,2.453)
+    (2.830,2.443) (2.754,2.428) (2.680,2.405)
+    (2.608,2.375) (2.540,2.338) (2.477,2.293)
+    (2.421,2.239) (2.374,2.177) (2.340,2.107)
+    (2.323,2.031) (2.325,1.954) (2.348,1.879)
+    (2.389,1.814) (2.443,1.758) (2.507,1.714)
+    (2.576,1.679) (2.649,1.652) (2.725,1.632)
+    (2.801,1.618) (2.878,1.609) (2.956,1.604)
+    (3.034,1.604) (3.111,1.608) (3.189,1.615)
+    (3.266,1.627) (3.342,1.642) (3.417,1.663)
+    (3.491,1.687) (3.562,1.718) (3.630,1.755)
+    (3.693,1.801) (3.747,1.857) (3.786,1.924)
+} -- cycle;
+
+\draw[motion]
+    (3.702,2.205)--(3.643,2.257)--(3.579,2.301);
+\draw[motion]
+    (2.443,1.758)--(2.507,1.714)--(2.576,1.679);
+
+% --------------------------------------------------
+% Second orbit
+% --------------------------------------------------
+\draw[orbit] plot coordinates {
+    (5.000,2.000) (4.964,2.174) (4.876,2.328)
+    (4.759,2.462) (4.625,2.579) (4.479,2.683)
+    (4.326,2.774) (4.167,2.855) (4.004,2.925)
+    (3.836,2.986) (3.665,3.037) (3.492,3.078)
+    (3.316,3.107) (3.138,3.124) (2.960,3.128)
+    (2.782,3.117) (2.606,3.089) (2.434,3.042)
+    (2.270,2.974) (2.115,2.884) (1.976,2.773)
+    (1.855,2.642) (1.756,2.494) (1.682,2.332)
+    (1.636,2.160) (1.621,1.983) (1.645,1.807)
+    (1.712,1.642) (1.822,1.502) (1.963,1.394)
+    (2.123,1.315) (2.292,1.260) (2.467,1.223)
+    (2.643,1.199) (2.821,1.186) (3.000,1.182)
+    (3.178,1.186) (3.356,1.197) (3.533,1.214)
+    (3.710,1.238) (3.886,1.269) (4.060,1.307)
+    (4.232,1.355) (4.400,1.412) (4.564,1.483)
+    (4.719,1.571) (4.857,1.684) (4.960,1.828)
+} -- cycle;
+
+\draw[motion]
+    (4.759,2.462)--(4.625,2.579)--(4.479,2.683);
+\draw[motion]
+    (2.606,3.089)--(2.434,3.042)--(2.270,2.974);
+\draw[motion]
+    (1.822,1.502)--(1.963,1.394)--(2.123,1.315);
+\draw[motion]
+    (3.886,1.269)--(4.060,1.307)--(4.232,1.355);
+% --------------------------------------------------
+% Third orbit
+% --------------------------------------------------
+\draw[orbit] plot coordinates {
+    (6.500,2.000) (6.434,2.279) (6.280,2.523)
+    (6.084,2.734) (5.864,2.921) (5.629,3.089)
+    (5.384,3.241) (5.130,3.379) (4.869,3.503)
+    (4.603,3.615) (4.331,3.713) (4.055,3.797)
+    (3.774,3.865) (3.490,3.916) (3.203,3.946)
+    (2.914,3.951) (2.627,3.927) (2.345,3.867)
+    (2.075,3.765) (1.826,3.618) (1.608,3.429)
+    (1.427,3.205) (1.283,2.955) (1.175,2.688)
+    (1.102,2.408) (1.064,2.122) (1.068,1.834)
+    (1.128,1.552) (1.265,1.299) (1.479,1.107)
+    (1.739,0.984) (2.018,0.909) (2.303,0.864)
+    (2.591,0.840) (2.880,0.830) (3.168,0.831)
+    (3.457,0.840) (3.745,0.858) (4.033,0.883)
+    (4.320,0.916) (4.606,0.958) (4.890,1.008)
+    (5.172,1.070) (5.451,1.145) (5.724,1.238)
+    (5.987,1.356) (6.230,1.512) (6.422,1.726)
+} -- cycle;
+
+\draw[motion]
+    (6.084,2.734)--(5.864,2.921)--(5.629,3.089);
+\draw[motion]
+    (2.627,3.927)--(2.345,3.867)--(2.075,3.765);
+\draw[motion]
+    (1.265,1.299)--(1.479,1.107)--(1.739,0.984);
+\draw[motion]
+    (4.606,0.958)--(4.890,1.008)--(5.172,1.070);
+% --------------------------------------------------
+% Outer orbit
+% --------------------------------------------------
+\draw[orbit] plot coordinates {
+    (8.000,2.000) (7.900,2.373) (7.681,2.695)
+    (7.409,2.974) (7.109,3.222) (6.791,3.448)
+    (6.461,3.655) (6.121,3.846) (5.772,4.021)
+    (5.417,4.182) (5.056,4.327) (4.688,4.457)
+    (4.314,4.569) (3.935,4.660) (3.551,4.726)
+    (3.163,4.761) (2.773,4.757) (2.388,4.702)
+    (2.017,4.583) (1.678,4.391) (1.390,4.130)
+    (1.160,3.816) (0.986,3.467) (0.859,3.099)
+    (0.771,2.719) (0.718,2.333) (0.703,1.944)
+    (0.739,1.556) (0.864,1.188) (1.124,0.902)
+    (1.477,0.741) (1.858,0.658) (2.245,0.616)
+    (2.635,0.596) (3.024,0.591) (3.414,0.597)
+    (3.804,0.611) (4.193,0.633) (4.582,0.662)
+    (4.970,0.699) (5.357,0.745) (5.743,0.801)
+    (6.127,0.869) (6.508,0.952) (6.884,1.057)
+    (7.249,1.191) (7.593,1.374) (7.879,1.636)
+} -- cycle;
+
+\draw[motion]
+    (7.409,2.974)--(7.109,3.222)--(6.791,3.448);
+\draw[motion]
+    (2.773,4.757)--(2.388,4.702)--(2.017,4.583);
+\draw[motion]
+    (0.864,1.188)--(1.124,0.902)--(1.477,0.741);
+\draw[motion]
+    (5.357,0.745)--(5.743,0.801)--(6.127,0.869);
+% --------------------------------------------------
+% Exact motion on the coordinate axes
+% --------------------------------------------------
+\draw[red,very thick,->] (.25,0)--(1.1,0);
+\draw[red,very thick,->] (4.5,0)--(5.4,0);
+\draw[blue!75!black,very thick,->] (0,1.2)--(0,.35);
+\draw[blue!75!black,very thick,->] (0,4.3)--(0,3.4);
+% Equilibria
+\fill (0,0) circle (2pt);
+\fill (3,2) circle (2pt);
+\node[below left] at (0,0) {$0$};
+\node[below,fill=white,inner sep=1.5pt]
+    at (3,1.96) {$(3,2)$};
+\end{tikzpicture}
+
+\small
+Numerical trajectories of the nonlinear system.
+Positive, nonconstant solutions travel counterclockwise
+around $(3,2)$.
+\end{center}
+
+The coordinate axes behave differently from the interior.
+If there are no foxes, the rabbits grow without bound.
+If there are no rabbits, the fox population approaches zero.
+When both populations are positive, they remain on a
+closed orbit and repeat a cycle.
+
+% =======================================================
 \section{Interpreting Predator--Prey Cycles}
+% =======================================================
+
+\subsection{Reading a Population Trajectory}
+
+Recall that a point $(x,y)$ records both populations
+at the same time. Here, $x$ is the rabbit population
+and $y$ is the fox population. The axes represent
+populations; \textbf{time is not an axis}.
+Instead, the arrows tell us which way the solution
+moves as time increases.
+
+
+% Preamble:
+% \usetikzlibrary{arrows.meta,decorations.markings}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    scale=0.9,
+    >=Stealth,
+    axis/.style={->,thick},
+    trajectory/.style={
+        very thick,
+        blue!65!black,
+        postaction={decorate},
+        decoration={
+            markings,
+            mark=at position 0.38 with {\arrow{Stealth}},
+            mark=at position 0.85 with {\arrow{Stealth}}
+        }
+    }
+]
+
+% Axes
+\draw[axis] (0,0)--(8,0) node[right] {$x$};
+\draw[axis] (0,0)--(0,5) node[above] {$y$};
+
+% Population labels
+\node[below] at (4,-0.85) {Rabbit population};
+\node[rotate=90] at (-1.3,2.5) {Fox population};
+
+% Two points along the trajectory
+\coordinate (P) at (0.9,3.8);
+\coordinate (Q) at (7.3,1.0);
+
+% Dashed projections onto the axes
+\draw[dashed,gray!65] (0,3.8)--(P)--(0.9,0);
+\draw[dashed,gray!65] (0,1.0)--(Q)--(7.3,0);
+
+% Highlight population changes along the axes
+\draw[->,line width=1.5pt,teal!80!black]
+    (0.9,0)--(7.3,0);
+\draw[->,line width=1.5pt,orange!85!black]
+    (0,3.8)--(0,1.0);
+
+% Coordinate labels
+\node[below=5pt] at (0.9,0) {$x_0$};
+\node[below=5pt] at (7.3,0) {$x_1$};
+\node[left=5pt] at (0,4.1) {$y_0$};
+\node[left=5pt] at (0,0.65) {$y_1$};
+
+% Explain the highlighted intervals
+\node[above,text=teal!80!black,fill=white,inner sep=2pt]
+    at (4.1,0.12) {Rabbits increase};
+\node[rotate=90,text=orange!85!black]
+    at (-0.55,2.4) {Foxes decrease};
+
+% Trajectory segment
+\draw[trajectory]
+    (P)
+    .. controls (1.5,2.7) and (2.4,1.9) ..
+    (3.8,1.6)
+    .. controls (5.0,1.35) and (6.2,1.2) ..
+    (Q);
+
+% Mark the earlier and later populations
+\fill[blue!65!black] (P) circle (2.5pt);
+\fill[blue!65!black] (Q) circle (2.5pt);
+\node[above right] at (P) {$(x_0,y_0)$};
+\node[above right] at (Q) {$(x_1,y_1)$};
+% Curve label
+\node[above] at (5.1,2.35) {Increasing time};
+\draw[->,thin] (5.15,2.2)--(5.3,1.45);
+\end{tikzpicture}
+\caption{Reading a trajectory segment: as time increases,
+the rabbit population rises from $x_0$ to $x_1$,
+while the fox population falls from $y_0$ to $y_1$.
+The highlighted axis arrows show these population changes.}
+\label{fig:reading-population-trajectory}
+\end{figure}
+To read a trajectory, follow its arrows:
+\begin{itemize}
+    \item Moving right means the rabbit population increases;
+    moving left means it decreases.
+    \item Moving up means the fox population increases;
+    moving down means it decreases.
+\end{itemize}
 
 \subsection{The Predator--Prey Cycle}
 
@@ -542,9 +624,13 @@ maximum. The time plots show both populations along that same orbit.
     \centering
     \includegraphics[width=0.75\linewidth]
         {figs/pred_prey_1.png}
+    \caption{Numerical trajectories in the phase plane
+    and the population time series for the highlighted
+    trajectory.}
+\end{figure}
 
-    \medskip
-
+\begin{figure}[H]
+    \centering
     \includegraphics[width=0.75\linewidth]
         {figs/pred_prey_2.png}
     \caption{Numerical trajectories in the phase plane
@@ -569,4 +655,135 @@ nonlinear equations before deciding what the trajectories do.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Multiple Populations}
+
+\subsection{Four Species}
+
+Let's briefly discuss population dynamics with multiple
+species. Consider an ecosystem with four populations:
+\begin{itemize}
+    \item $R(t)$: rabbit population;
+    \item $D(t)$: deer population;
+    \item $F(t)$: fox population;
+    \item $G(t)$: amount of grass.
+\end{itemize}
+
+We make the following assumptions:
+\begin{itemize}
+    \item Grass grows exponentially without grazing.
+    \item Rabbits and deer eat grass. Without grass,
+    both populations decline toward zero.
+    \item Rabbits and deer also interfere with each
+    other's access to feeding areas. This competition
+    reduces the growth of both populations.
+    \item Foxes eat rabbits but not deer.
+    Without rabbits, the fox population declines.
+    \item There is no migration.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    scale=0.7,
+    >=Stealth,
+    species/.style={
+        circle,
+        draw=blue!60!black,
+        thick,
+        fill=blue!3,
+        minimum size=1.55cm,
+        align=center,
+        font=\bfseries
+    },
+    feeding/.style={->,thick},
+    competition/.style={<->,thick,dashed,orange!80!black}
+]
+
+% Populations
+\node[species] (F) at (0,2) {Foxes\\$F$};
+\node[species] (R) at (-3.5,0) {Rabbits\\$R$};
+\node[species] (D) at (3.5,0) {Deer\\$D$};
+\node[species,draw=green!40!black,fill=green!5]
+    (G) at (0,-2) {Grass\\$G$};
+
+% Feeding: arrows point from the eater to its food
+\draw[feeding] (F) --
+    node[above left,midway] {eat} (R);
+\draw[feeding] (R) --
+    node[below left,midway] {eat} (G);
+\draw[feeding] (D) --
+    node[below right,midway] {eat} (G);
+
+% Direct competition harms both populations
+\draw[competition] (R) --
+    node[above] {compete} (D);
+
+\end{tikzpicture}
+\caption{Feeding arrows point from each consumer to its food.
+The dashed arrow represents competition that harms both
+rabbits and deer.}
+\label{fig:population-interactions}
+\end{figure}
+
+\subsection{Building the Model}
+
+Let's write a nonlinear system that captures this setting.
+We use three familiar ingredients:
+\begin{enumerate}
+    \item \textbf{Growth}: a positive term such as $rx$.
+    \item \textbf{Decay}: a negative term such as $-kx$.
+    \item \textbf{Interaction}: a product such as
+    $\alpha xy$, with a positive or negative sign.
+\end{enumerate}
+
+Begin without interactions. The animal populations
+decline without food, while the grass grows without grazing:
+\[
+R'=-aR,\qquad D'=-dD,\qquad
+F'=-gF,\qquad G'=jG.
+\]
+All coefficients are positive. Next, add feeding on grass. Eating grass supports
+rabbit and deer growth, but reduces the amount of grass. We introduce terms involving $RG$ to describe rabbits eating grass, and $DG$ to describe deer eating grass:
+\[
+\begin{aligned}
+R'&=-aR+bRG,\\
+D'&=-dD+eDG,\\
+G'&=jG-kRG-\ell DG.
+\end{aligned}
+\]
+
+We also assume that rabbits and deer interfere with
+each other's access to feeding areas. Since this
+competition harms both populations, we add negative
+$RD$ terms to both equations:
+\[
+\begin{aligned}
+R'&=-aR+bRG-\mu RD,\\
+D'&=-dD+eDG-\nu RD,
+\qquad \mu,\nu>0.
+\end{aligned}
+\]
+These terms describe the additional harm caused by
+direct competition, beyond the consumption of grass. Finally, foxes prey on rabbits. We add a negative
+$RF$ term to the rabbit equation and a positive
+$RF$ term to the fox equation. The complete model is
+\[
+\boxed{
+\begin{aligned}
+R'&=-aR+bRG-\mu RD-cRF,\\
+D'&=-dD+eDG-\nu RD,\\
+F'&=-gF+hRF,\\
+G'&=jG-kRG-\ell DG.
+\end{aligned}
+}
+\]
+
+Read each equation as a description of one population.
+For example, rabbits decline without food, benefit
+from grass, and are harmed by competition with deer
+and predation by foxes.
+
+All coefficients are positive, but they need not be equal.
+There are no $DF$ terms because foxes do not prey on
+deer in this model.
 \end{document}

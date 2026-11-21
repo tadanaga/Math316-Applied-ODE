@@ -4,17 +4,22 @@
 
 \begin{document}
 \lesson[Logan, Differential Equations, 3rd edition\enspace\textbullet\enspace Section 5.2\\
-Boyce \& DiPrima, Differential Equations, 11th edition \enspace\textbullet\enspace Sections 9.2 
+Boyce \& DiPrima, Differential Equations, 11th edition \enspace\textbullet\enspace Section 9.2 
 ]
   {Day 40}{The Pendulum}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Pendulum Equation}
 
-\subsection{Setup and Sign Convention}
+\subsection{Goal}
+The goal of this lecture is to study the motion of a swinging pendulum using linearization and phase portraits. A \textbf{pendulum} is an apparatus that consists of a bob of mass $m$ attached
+to a pivot by a weightless rigid rod of length $L$. Here is the plan:
+\begin{enumerate}
+    \item Describe the model for the pendulum
+    \item Analyze the dynamics in the absence of friction
+    \item Analyze the dynamics if there is friction
+\end{enumerate}
 
-A pendulum consists of a bob of mass $m$ attached
-to a pivot by a weightless rigid rod of length $L$.
-The rod can rotate in a vertical plane.
+\subsection{Setup and Sign Convention}
 
 Let $\theta(t)$ be the angle measured from the
 downward vertical. We take counterclockwise rotation
@@ -31,45 +36,99 @@ The initial conditions are
 \theta'(0)=v_0,
 \]
 where $v_0$ is the initial angular velocity.
+Figure~\ref{fig:pend-geometry} shows a positive initial angle and
+a negative initial angular velocity. The forces acting on the bob
+at this instant are shown in Figure~\ref{fig:pend-forces}.
 
-\begin{center}
-\begin{tikzpicture}[scale=0.85,>=stealth]
-    \def\pendL{3.4}
-    \def\pendAngle{30}
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.85,>=stealth,baseline=(P)]
+        \def\pendL{3}
+        \def\pendAngle{30}
 
-    \coordinate (P) at (0,0);
-    \coordinate (M) at
-        ({\pendL*sin(\pendAngle)},
-         {-\pendL*cos(\pendAngle)});
+        \coordinate (P) at (0,0);
+        \coordinate (M) at
+            ({\pendL*sin(\pendAngle)},
+             {-\pendL*cos(\pendAngle)});
 
-    \draw[dashed] (P)--(0,-\pendL)
-        node[below] {$\theta=0$};
-    \draw[thick] (P)--(M)
-        node[midway,right] {$L$};
+        \draw[dashed] (P)--(0,-\pendL) node[below] {$\theta=0$};
+        \draw[thick] (P)--(M) node[midway,right] {$L$};
+        \fill (P) circle (2pt) node[above] {$P$};
+        \fill (M) circle (3pt) node[right] {$m$};
 
-    \fill (P) circle (2pt) node[above] {$P$};
-    \fill (M) circle (3pt) node[right] {$m$};
+        \draw[->,thick] (0,-0.9)
+            arc[start angle=-90, end angle={-90+\pendAngle}, radius=0.9];
+        \node[right] at (0.35,-0.8) {$\theta_0$};
 
-    \draw[->,thick] (0,-0.9)
-        arc[start angle=-90,
-            end angle={-90+\pendAngle},radius=0.9];
-    \node[right] at (0.35,-0.8) {$\theta_0$};
+        \draw[red,thick,->] (M)
+            --++({-cos(\pendAngle)},{-sin(\pendAngle)});
+    \end{tikzpicture}
+    \caption{Geometry and initial velocity.}
+    \label{fig:pend-geometry}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.85,>=stealth,baseline=(P)]
+        \def\pendL{3}
+        \def\pendAngle{30}
+        \def\weightLength{1.4}
 
-    \draw[red,thick,->] (M)
-        --++({-cos(\pendAngle)},{-sin(\pendAngle)})
-        node[below left] {$v_0<0$};
-\end{tikzpicture}
-\end{center}
+        \coordinate (P) at (0,0);
+        \coordinate (M) at
+            ({\pendL*sin(\pendAngle)},
+             {-\pendL*cos(\pendAngle)});
 
-The diagram shows a positive initial angle and
-a negative initial angular velocity.
+        \draw[dashed] (P)--(0,-\pendL);
+        \draw[thick] (P)--(M);
+        \fill (P) circle (2pt);
+        \fill (M) circle (3pt);
+
+        \draw[->] (0,-0.8)
+            arc[start angle=-90, end angle={-90+\pendAngle}, radius=0.8];
+        \node[right] at (0.3,-0.7) {$\theta_0$};
+
+        % Weight and components
+        \draw[blue,very thick,->] (M)--++(0,-\weightLength)
+            node[below] {$mg$};
+        \draw[blue,dashed,thick,->] (M)--++
+            ({\weightLength*cos(\pendAngle)*sin(\pendAngle)},
+             {-\weightLength*cos(\pendAngle)*cos(\pendAngle)})
+            node[right] {$W_r$};
+        \draw[blue,dashed,thick,->] (M)--++
+            ({-\weightLength*sin(\pendAngle)*cos(\pendAngle)},
+             {-\weightLength*sin(\pendAngle)*sin(\pendAngle)})
+            node[left] {$W_t$};
+
+        % Rod force (inward)
+        \draw[red,thick,->] (M)--++
+            ({-0.9*sin(\pendAngle)},{0.9*cos(\pendAngle)})
+            node[above right] {rod force};
+
+        % Resistance (opposes leftward motion)
+        \draw[orange,thick,->] (M)--++
+            ({0.9*cos(\pendAngle)},{0.9*sin(\pendAngle)})
+            node[right] {$F_d$};
+    \end{tikzpicture}
+    \caption{Forces on the bob while moving left.}
+    \label{fig:pend-forces}
+\end{subfigure}
+\caption{Pendulum of length $L$ released at angle $\theta_0$.
+In panel~(\subref{fig:pend-forces}), the dashed arrows are the radial and
+tangential components of gravity, and the resistance $F_d$ opposes the
+velocity.}
+\label{fig:pendulum}
+\end{figure}
 
 Our goal is to derive an equation for $\theta(t)$.
 
 %-------------------------------------------------------------
 \subsection{Forces on the Bob}
 
-There are three contributions:
+There are three contributions, shown in
+Figure~\ref{fig:pend-forces}:
 \begin{itemize}
     \item Gravity acts vertically downward.
     \item The rod exerts a force along its length.
@@ -82,7 +141,8 @@ The signed tangential component of gravity is
 F_{\mathrm{gravity},t}=-mg\sin\theta.
 \]
 The negative sign makes gravity pull the pendulum
-toward the hanging position.
+toward the hanging position (the component $W_t$ in
+Figure~\ref{fig:pend-forces}).
 
 We model resistance as proportional to tangential
 velocity. Since that velocity is $L\theta'$,
@@ -90,62 +150,7 @@ velocity. Since that velocity is $L\theta'$,
 F_d=-bL\theta',
 \qquad b\ge0.
 \]
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[scale=0.9,>=stealth]
-    \def\pendL{3}
-    \def\pendAngle{30}
-    \def\weightLength{1.5}
-
-    \coordinate (P) at (0,0);
-    \coordinate (M) at
-        ({\pendL*sin(\pendAngle)},
-         {-\pendL*cos(\pendAngle)});
-
-    \draw[dashed] (P)--(0,-\pendL);
-    \draw[thick] (P)--(M);
-    \fill (P) circle (2pt);
-    \fill (M) circle (3pt);
-
-    \draw (0,-0.8)
-        arc[start angle=-90,
-            end angle={-90+\pendAngle},radius=0.8];
-    \node[right] at (0.3,-0.7) {$\theta$};
-
-    % Weight
-    \draw[blue,very thick,->]
-        (M)--++(0,-\weightLength)
-        node[below] {$mg$};
-
-    % Radial component of weight
-    \draw[blue,dashed,thick,->]
-        (M)--++
-        ({\weightLength*cos(\pendAngle)*sin(\pendAngle)},
-         {-\weightLength*cos(\pendAngle)*cos(\pendAngle)})
-        node[right] {$W_r$};
-
-    % Tangential component of weight
-    \draw[blue,dashed,thick,->]
-        (M)--++
-        ({-\weightLength*sin(\pendAngle)*cos(\pendAngle)},
-         {-\weightLength*sin(\pendAngle)*sin(\pendAngle)})
-        node[left] {$W_t$};
-
-    % Rod force, shown inward for this configuration
-    \draw[red,thick,->] (M)--++
-        ({-0.9*sin(\pendAngle)},{0.9*cos(\pendAngle)})
-        node[above right] {rod force};
-
-    % Resistance for leftward motion
-    \draw[orange,thick,->] (M)--++
-        ({0.9*cos(\pendAngle)},{0.9*sin(\pendAngle)})
-        node[right] {$F_d$};
-\end{tikzpicture}
-\caption{Forces when the bob is moving to the left.
-Resistance points opposite the velocity.
-The dashed arrows show the components of gravity.}
-\end{figure}
+In Figure~\ref{fig:pend-forces} the bob moves left, so $F_d$ points right.
 
 Although the rod has fixed length, the radial forces
 do not generally cancel: their resultant provides
@@ -185,36 +190,37 @@ This is the \textbf{damped pendulum equation}.
 It is nonlinear because of $\sin\theta$.
 
 %-------------------------------------------------------------
-\subsection{Connection to the Spring Equation}
-
-For small angles measured in radians,
-\[
-\sin\theta\approx\theta.
-\]
-The pendulum equation then becomes
-\[
-\theta''+\gamma\theta'+\omega^2\theta=0.
-\]
-This has the same form as the spring equation.
-
-The parameter $\omega=\sqrt{g/L}$ is the
-\textbf{small-angle natural angular frequency}.
-For large swings, the period depends on amplitude.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Pendulum without Friction}
 
 \subsection{Rewriting as a System}
+% let x = theta, y = theta' 
+% this gives us x' = f(x,y) and y'= g(x,y) 
+% now we can study it and draw phase 
 
-Set $\gamma=0$ and choose $\omega^2=4$:
+With positive damping,
+\[
+\theta''+\gamma\theta'+\omega^2\sin\theta=0,
+\qquad \gamma,\omega>0.
+\]
+Using $x=\theta$ and $y=\theta'$ gives
+\[
+\boxed{
+\begin{dcases}
+x'=y,\\
+y'=-\gamma y-\omega^2\sin x.
+\end{dcases}
+}
+\]
+In this form, we may find the equilibria and the Jacobian of the system. Then we can sketch the phase portrait.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pendulum without Friction}
+
+\subsection{Simplification}
+To make the analysis a bit simpler let's choose $\gamma=0$ and choose and $\omega^2=4$ so the model becomes 
 \[
 \theta''+4\sin\theta=0.
 \]
-Introduce
-\[
-x=\theta,\qquad y=\theta'.
-\]
-Then
+In system form, the equation is
 \[
 \boxed{
 \theta''+4\sin\theta=0
@@ -225,10 +231,6 @@ y'=-4\sin x.
 \end{dcases}
 }
 \]
-This is a first-order \textbf{nonlinear} system.
-
-The horizontal coordinate records angle; the vertical
-coordinate records angular velocity.
 
 %-------------------------------------------------------------
 \subsection{Equilibria and Linearization}
@@ -248,12 +250,13 @@ Set both derivatives equal to zero:
 \[
 y=0,\qquad \sin x=0.
 \]
-Therefore,
-\[
-\boxed{(n\pi,0),\qquad n\in\mathbb Z.}
-\]
-There are infinitely many equilibrium points
-in the unwrapped angle coordinate.
+
+Therefore, there are infinitely many equilibrium points
+$(n\pi,0)$,  $n\in\mathbb Z.$
+For simplicity, let's focus on the three equilibria 
+$$
+\boxed{(-\pi,0), \quad (0,0),\quad (\pi,0)}.
+$$
 
 \paragraph{Step 2. Compute the Jacobian.}
 The Jacobian is
@@ -266,46 +269,29 @@ J(x,y)=
 \end{pmatrix}.
 }
 \]
-At an equilibrium,
+Notice that $g_x(x,y)=-4\cos(x)$ changes signs depending on the equilibrium point:
 \[
 \cos(n\pi)=(-1)^n,
 \]
 so we consider even and odd multiples separately.
 
-\paragraph{Step 3. Analyze the even multiples.}
-At $(2n\pi,0)$,
+\paragraph{Step 3. Classify $(0,0)$.}
+At $(0,0)$, the Jacobian is
 \[
-J=
+J(0,0)=
 \begin{pmatrix}
 0&1\\
 -4&0
 \end{pmatrix}.
 \]
-The characteristic equation is
-\[
-\lambda^2+4=0,
+The characteristic equation is $\lambda^2+4=0,$ which means the eigenvalues are purely imaginary: 
+$$
 \qquad \lambda=\pm2i.
-\]
-The linearized system has a center.
+$$
+The eigenvalues indicate that $(0,0)$ is a center. Based on the structure of $J(0,0)$ we can more precisely say that it is a tall ellipse going clockwise. To be precise, this doesn't prove that $(0,0)$ has local closed orbits. We will justify this with more analysis.
 
-In coordinates $u=x-2n\pi$ and $v=y$,
-\[
-u'=v,\qquad v'=-4u.
-\]
-Its trajectories satisfy
-\[
-4u^2+v^2=C,
-\]
-so they are vertically stretched ellipses.
-At $(u,v)=(1,0)$ the velocity is $(0,-4)$,
-giving clockwise motion.
-
-Purely imaginary eigenvalues alone do not establish
-a nonlinear center. We will confirm the centers
-using energy conservation.
-
-\paragraph{Step 4. Analyze the odd multiples.}
-At $((2n+1)\pi,0)$,
+\paragraph{Step 4. Classify $(-\pi,0)$ and $(\pi,0)$.}
+At either point, the Jacobian is 
 \[
 J=
 \begin{pmatrix}
@@ -313,17 +299,11 @@ J=
 4&0
 \end{pmatrix}.
 \]
-The characteristic equation is
-\[
-\lambda^2-4=0,
+The characteristic equation is $\lambda^2-4=0$ which means the eigenvalues are real with opposite signs:
+$$
 \qquad \lambda=\pm2.
-\]
-Thus,
-\[
-\boxed{\text{Every odd-multiple equilibrium is a saddle}.}
-\]
-
-Corresponding eigenvectors are
+$$
+Thus, the equilibria $(\pm \pi,0)$ are both saddles. Corresponding eigenvectors are
 \[
 \lambda_u=2:
 \quad
@@ -338,397 +318,585 @@ and the stable tangent direction has slope $-2$.
 \end{example}
 
 %-------------------------------------------------------------
-\subsection{Physical Meaning of the Equilibria}
+\subsection{Phase Portrait}
 
-At an equilibrium, the angular velocity is zero.
+To sketch the phase portrait, begin by marking the three equilibrium points $(-\pi,0)$, $(0,0)$, and $(\pi,0)$. Draw a few tall, clockwise ellipses centered at $(0,0)$. At $(-\pi,0)$ and $(\pi,0)$ draw X-shaped  linear orbits (these are called \textit{separatrices}) for the saddle. The positive slope orbit is unstable, and the negative slope orbit is stable. 
 
-\begin{itemize}
-    \item $x=2n\pi$: the bob hangs straight down.
-    \item $x=(2n+1)\pi$: the bob stands straight up.
-\end{itemize}
-
-Angles differing by $2\pi$ represent the same physical
-orientation. Keeping $x$ unwrapped lets us track
-complete revolutions.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Energy and the Undamped Phase Portrait}
-
-\subsection{Conservation of Energy}
-
-Multiply
-\[
-\theta''+\omega^2\sin\theta=0
-\]
-by $\theta'$:
-\[
-\theta'\theta''+\omega^2\theta'\sin\theta=0.
-\]
-Recognizing derivatives,
-\[
-\frac{d}{dt}
-\left[
-\frac12(\theta')^2+\omega^2(1-\cos\theta)
-\right]=0.
-\]
-Therefore,
-\[
-\boxed{
-E(x,y)=\frac12y^2+\omega^2(1-\cos x)
-=\text{constant}.
-}
-\]
-This is the mechanical energy divided by $mL^2$.
-The first term represents kinetic energy and the
-second represents gravitational potential energy.
-
-For our equation with $\omega^2=4$,
-\[
-\boxed{E(x,y)=\frac12y^2+4(1-\cos x).}
-\]
-
-%-------------------------------------------------------------
-\subsection{Energy Levels and Trajectories}
-
-Each trajectory lies on an energy level curve.
-
-At a downward equilibrium,
-\[
-E(2n\pi,0)=0.
-\]
-At an upright equilibrium,
-\[
-E((2n+1)\pi,0)=8.
-\]
-Thus, $E=8$ is the energy needed to reach the
-upright position with zero speed.
-
-The energy levels give three types of nonconstant motion:
-\begin{itemize}
-    \item \textbf{$0<E<8$: oscillation.}
-    Closed curves surround a downward equilibrium.
-    The pendulum swings back and forth.
-
-    \item \textbf{$E=8$: separatrix motion.}
-    The pendulum approaches an upright equilibrium
-    asymptotically.
-
-    \item \textbf{$E>8$: rotation.}
-    The angular velocity never reaches zero,
-    so the pendulum continues rotating.
-\end{itemize}
-
-The closed energy curves confirm that the downward
-equilibria are centers. They are stable but not
-asymptotically stable.
-
-%-------------------------------------------------------------
-\subsection{The Phase Portrait}
-
-Near the centers, the closed curves resemble the
-ellipses predicted by linearization. Larger curves
-are not exact ellipses.
-
-The curves at $E=8$ are called \textbf{separatrices}
-because they separate oscillations from rotations.
-They satisfy
-\[
-\frac12y^2+4(1-\cos x)=8,
-\]
-or
-\[
-y=\pm4\left|\cos\frac{x}{2}\right|.
-\]
+It turns out that the linear orbits at $(\pm \pi,0)$ are \textit{connected}! The unstable orbit from $(-\pi,0)$ is connected to the stable orbit at $(\pi,0)$. A picture of the phase is shown in the figure below.
 
 \begin{center}
-\begin{tikzpicture}[x=0.62cm,y=0.48cm]
+\begin{tikzpicture}[x=1cm,y=0.65cm,>=Stealth]
     \draw[step=1,very thin,gray!20]
-        (-3.4,-5.6) grid (9.7,5.6);
+        (-4,-5.6) grid (4,5.6);
 
-    \draw[->,thick] (-3.5,0)--(10.1,0)
+    \draw[->,thick] (-4.2,0)--(4.3,0)
         node[right] {$x=\theta$};
     \draw[->,thick] (0,-5.8)--(0,6)
         node[above] {$y=\theta'$};
 
-    % Exact closed energy curves.
-    % Parameterization:
-    % x = center + 2 asin(k sin q), y = 4k cos q.
-    % The plotting parameter q is not physical time.
-    \foreach \center in {0,6.283185}{
-        \foreach \k in {0.25,0.5,0.8}{
-            \draw[blue,thick,domain=0:360,samples=220]
-                plot
-                ({\center+2*rad(asin(\k*sin(\x)))},
-                 {4*\k*cos(\x)});
+    \begin{scope}
+        \clip (-4,-5.6) rectangle (4,5.6);
 
-            \draw[blue,thick,->,domain=45:70,samples=25]
+        % Closed energy curves around (0,0).
+        % q is a plotting parameter, not physical time.
+        \foreach \k in {0.25,0.5,0.8}{
+            \draw[thick,domain=0:360,
+                  samples=220,variable=\q]
                 plot
-                ({\center+2*rad(asin(\k*sin(\x)))},
-                 {4*\k*cos(\x)});
+                ({2*rad(asin(\k*sin(\q)))},
+                 {4*\k*cos(\q)});
+
+            % Clockwise orientation.
+            \foreach \start in {45,225}{
+                \draw[thick,->,
+                      domain=\start:{\start+25},
+                      samples=25,variable=\q]
+                    plot
+                    ({2*rad(asin(\k*sin(\q)))},
+                     {4*\k*cos(\q)});
+            }
+        }
+        % Separatrices, including short outer branches.
+        % Split at the saddles so each branch is separate.
+        \foreach \left/\right in {-4/-pi,-pi/pi,pi/4}{
+            \draw[very thick,
+                  domain=\left:\right,
+                  samples=160,variable=\s]
+                plot
+                ({\s},{4*abs(cos(deg(\s/2)))});
+
+            \draw[very thick,
+                  domain=\left:\right,
+                  samples=160,variable=\s]
+                plot
+                ({\s},{-4*abs(cos(deg(\s/2)))});
+        }
+        % Above the x-axis: motion to the right.
+        % Below the x-axis: motion to the left.
+        \foreach \start/\finish in {
+            -3.9/-3.5,-0.6/0,3.5/3.9
+        }{
+            \draw[very thick,->,
+                  domain=\start:\finish,
+                  samples=25,variable=\s]
+                plot
+                ({\s},{4*abs(cos(deg(\s/2)))});
+
+            \draw[very thick,->,
+                  domain=\finish:\start,
+                  samples=25,variable=\s]
+                plot
+                ({\s},{-4*abs(cos(deg(\s/2)))});
+        }
+
+        % Rotational energy curves.
+        \foreach \energy in {10,14}{
+            \draw[thick,
+                  domain=-4:4,samples=240,variable=\s]
+                plot
+                ({\s},
+                 {sqrt(2*\energy-8*(1-cos(deg(\s))))});
+
+            \draw[thick,
+                  domain=-4:4,samples=240,variable=\s]
+                plot
+                ({\s},
+                 {-sqrt(2*\energy-8*(1-cos(deg(\s))))});
+
+            \foreach \start in {-2,1}{
+                \draw[->,
+                      domain=\start:{\start+0.5},
+                      samples=25,variable=\s]
+                    plot
+                    ({\s},
+                     {sqrt(2*\energy-8*(1-cos(deg(\s))))});
+
+                \draw[->,
+                      domain={\start+0.5}:\start,
+                      samples=25,variable=\s]
+                    plot
+                    ({\s},
+                     {-sqrt(2*\energy-8*(1-cos(deg(\s))))});
+            }
+        }
+    \end{scope}
+    % The three equilibria.
+    \foreach \n/\lab in {-1/{-\pi},0/{0},1/{\pi}}{
+        \fill ({pi*\n},0) circle (2.5pt);
+        \node[below,fill=white,inner sep=2pt]
+            at ({pi*\n},-0.15) {$\lab$};
+    }
+\end{tikzpicture}
+\end{center}
+
+%-------------------------------------------------------------
+
+\subsection{Why the Orbits Are Closed}
+
+For our system, the \textbf{energy}
+\[
+E(x,y)=\frac12y^2+4(1-\cos x)
+\]
+stays constant along each trajectory. We can prove this showing $E'=0$:
+\[
+\frac{dE}{dt}
+=yy'+4\sin x\,x'
+=y(-4\sin x)+4\sin x\,y=0.
+\]
+Thus, each trajectory stays on a level curve $E(x,y)=C$.
+
+Near $(0,0)$, these level curves are closed loops
+surrounding the minimum of $E$. Since there are no
+other equilibria on these loops, solutions keep
+moving around them and repeat. This confirms that
+$(0,0)$ is a \textbf{center} for the nonlinear system.
+The same argument applies at every $(2n\pi,0)$.
+
+% ===========================================
+\section{Interpreting the Phase}
+% ===========================================
+
+\subsection{Meaning of the Equilibria}
+
+In our nonlinear system $x=\theta$ represents the angular displacement of the rod, and $y=\theta'$ represents the angular velocity. Intuitively, any equilibria of the system $(x^*,y^*)$ physically represents a position where the pendulum does not move. 
+
+The equilibrium $(0,0)$ represents $\theta=0$ with zero velocity. The angle $\theta=0$ physically corresponds to the bob handing straight down, motionless. This is stable position. 
+
+The other equilibria $(\pm \pi,0)$ correspond to the bob standing straight above the pivot point in the 12 o'clock position! Since the pendulum is periodic, $\theta=\pi$ and $\theta=-\pi$ correspond to the same position. The pendulum is motionless in the upright position, but it is not stable. A slight nudge will cause the pendulum to swing away. 
+
+%-------------------------------------------------------------
+\subsection{Solution Curves}
+
+The horizontal axis records the angle $x=\theta$, and the
+vertical axis records the angular velocity $y=\theta'$.
+Above the horizontal axis, $\theta'>0$, so the angle increases.
+Below it, $\theta'<0$, so the angle decreases. We take positive angles to mean counterclockwise rotation. 
+
+Look at the phase portrait below. There are four types of solution curves shown color coded in the figure.
+
+The \textbf{blue curves represent oscillations}.
+The pendulum swings back and forth around its downward
+position. Each curve crosses the horizontal axis at two
+turning points, where the pendulum momentarily stops and
+reverses direction. Since there is no damping, the motion
+repeats without losing amplitude.
+
+The \textbf{green curves are separatrices}.
+They separate oscillations from full rotations.
+Along one of these trajectories, the pendulum has just
+enough energy to approach an upright position, but it
+slows down as it gets closer. It approaches that position
+as $t\to\infty$; it does not reach or pass through the
+equilibrium in finite time.
+
+The \textbf{orange curves represent counterclockwise rotations}.
+They remain above the horizontal axis, so $\theta'>0$
+throughout the motion. The pendulum slows down as it
+rises and speeds up as it falls, but it never stops.
+These curves represent endless swings over the top of the pendulum.
+
+The \textbf{purple curves represent clockwise rotations}.
+They remain below the horizontal axis, so $\theta'<0$
+throughout the motion. These curves also represent endless swings over the top of the pendulum but in the clockwise orientation.
+
+\begin{center}
+\begin{tikzpicture}[x=0.62cm,y=0.48cm,>=Stealth]
+    \draw[step=1,very thin,gray!20]
+        (-6.7,-5.6) grid (9.7,5.6);
+
+    \draw[->,thick] (-6.8,0)--(10.1,0)
+        node[right] {$x=\theta$};
+    \draw[->,thick] (0,-5.8)--(0,6)
+        node[above] {$y=\theta'$};
+
+    \begin{scope}
+    \clip (-6.7,-5.6) rectangle (9.7,5.6);
+
+    % Exact closed energy curves.
+    % q is a plotting parameter, not physical time.
+    \foreach \n in {-1,0,1}{
+        \foreach \k in {0.25,0.5,0.8}{
+            \draw[blue,thick,domain=0:360,
+                  samples=220,variable=\q]
+                plot
+                ({2*pi*\n+2*rad(asin(\k*sin(\q)))},
+                 {4*\k*cos(\q)});
+
+            \draw[blue,thick,->,domain=45:70,
+                  samples=25,variable=\q]
+                plot
+                ({2*pi*\n+2*rad(asin(\k*sin(\q)))},
+                 {4*\k*cos(\q)});
         }
     }
 
-    % Separatrices
-    \foreach \center in {0,6.283185}{
+    % Separatrices.
+    \foreach \n in {-1,0,1}{
         \draw[green!50!black,very thick,
-              domain=-pi:pi,samples=180]
-            plot ({\center+\x},{4*cos(deg(\x/2))});
+              domain=-pi:pi,samples=180,variable=\s]
+            plot ({2*pi*\n+\s},{4*cos(deg(\s/2))});
+
         \draw[green!50!black,very thick,
-              domain=-pi:pi,samples=180]
-            plot ({\center+\x},{-4*cos(deg(\x/2))});
+              domain=-pi:pi,samples=180,variable=\s]
+            plot ({2*pi*\n+\s},{-4*cos(deg(\s/2))});
 
         \draw[green!50!black,very thick,->,
-              domain=-0.5:0,samples=20]
-            plot ({\center+\x},{4*cos(deg(\x/2))});
+              domain=0:0.5,samples=20,variable=\s]
+            plot ({2*pi*\n+\s},{4*cos(deg(\s/2))});
+
         \draw[green!50!black,very thick,->,
-              domain=0:-0.5,samples=20]
-            plot ({\center+\x},{-4*cos(deg(\x/2))});
+              domain=0.5:0,samples=20,variable=\s]
+            plot ({2*pi*\n+\s},{-4*cos(deg(\s/2))});
     }
 
-    % Rotational energy curves
+    % Rotational energy curves.
     \foreach \energy in {10,14}{
-        \draw[magenta,thick,domain=-pi:3*pi,samples=300]
+        \draw[orange!85!black,thick,domain=-6.7:9.7,
+              samples=400,variable=\s]
             plot
-            (\x,{sqrt(2*\energy-8*(1-cos(deg(\x))))});
-        \draw[magenta,thick,domain=-pi:3*pi,samples=300]
-            plot
-            (\x,{-sqrt(2*\energy-8*(1-cos(deg(\x))))});
+            ({\s},{sqrt(2*\energy-8*(1-cos(deg(\s))))});
 
-        \draw[magenta,thick,->,domain=1:1.5,samples=20]
+        \draw[purple,thick,domain=-6.7:9.7,
+              samples=400,variable=\s]
             plot
-            (\x,{sqrt(2*\energy-8*(1-cos(deg(\x))))});
-        \draw[magenta,thick,->,domain=1.5:1,samples=20]
-            plot
-            (\x,{-sqrt(2*\energy-8*(1-cos(deg(\x))))});
+            ({\s},{-sqrt(2*\energy-8*(1-cos(deg(\s))))});
+
+        \foreach \start in {-5,1,7}{
+            \draw[orange!85!black,thick,->,
+                  domain=\start:{\start+0.5},
+                  samples=20,variable=\s]
+                plot
+                ({\s},{sqrt(2*\energy-8*(1-cos(deg(\s))))});
+
+            \draw[purple,thick,->,
+                  domain={\start+0.5}:\start,
+                  samples=20,variable=\s]
+                plot
+                ({\s},{-sqrt(2*\energy-8*(1-cos(deg(\s))))});
+        }
     }
+    \end{scope}
 
-    % Equilibria and labels
-    \foreach \n/\label in {-1/{-\pi},0/0,1/\pi,2/{2\pi},3/{3\pi}}{
+    % Equilibria and labels.
+    \foreach \n/\lab in {
+        -2/{-2\pi},-1/{-\pi},0/{0},
+         1/{\pi},2/{2\pi},3/{3\pi}
+    }{
         \fill ({pi*\n},0) circle (2pt);
         \node[below,fill=white,inner sep=1pt]
-            at ({pi*\n},-0.18) {$\label$};
+            at ({pi*\n},-0.18) {$\lab$};
     }
 \end{tikzpicture}
 
 \small
-Blue: oscillations.
+Blue: small swings.
 Green: separatrices.
-Magenta: rotations.
+Orange: full counterclockwise rotations ($y>0$).
+Purple: full clockwise rotations ($y<0$).
 \end{center}
 
-Above the $x$-axis, $x'=y>0$, so trajectories move
-to the right. Below it, they move to the left.
+% Above the $x$-axis, $x'=y>0$, so trajectories move
+% to the right. Below it, they move to the left.
 
 %-------------------------------------------------------------
-\subsection{Three Initial Velocities}
+\subsection{Initial Conditions}
+
+To describe a particular motion of the pendulum, we specify
+two \textbf{initial conditions}:
+\[
+\theta(0)=x_0,\qquad \theta'(0)=v_0.
+\]
+Here, $x_0$ is the \textbf{initial angle}: it tells us where
+the pendulum starts. The \textbf{initial angular velocity}
+$v_0$ tells us how fast and in which direction it starts
+moving. If $v_0>0$, the pendulum starts moving
+counterclockwise; if $v_0<0$, it starts moving clockwise.
+If $v_0=0$, it is released from rest.
+
+Since $x=\theta$ and $y=\theta'$, these conditions give
+the initial point
+\[
+\boxed{(x(0),y(0))=(x_0,v_0)}
+\]
+on the phase plane. The solution curve passes through
+this point. To understand the subsequent motion, locate
+$(x_0,v_0)$ and follow the arrows along its trajectory.
+If the initial point is an equilibrium, the pendulum
+remains at rest.
 
 \begin{example}[2]{
-For
+For the undamped pendulum
 \[
-\theta''+4\sin\theta=0,\qquad \theta(0)=0,
+\theta''+4\sin\theta=0,
 \]
-describe the motion for each initial angular velocity:
-\[
-\text{(a) }\theta'(0)=2,\qquad
-\text{(b) }\theta'(0)=5,\qquad
-\text{(c) }\theta'(0)=4.
-\]
+describe the physical meaning of each initial condition.
+Then use the phase portrait to determine the type of motion.
+
+\begin{enumerate}
+    \item[(a)] $\theta(0)=\dfrac{\pi}{2},\quad \theta'(0)=0.$
+    \item[(b)] $\theta(0)=0,\quad \theta'(0)=-5.$
+\end{enumerate}
 }
 
-\paragraph{Step 1. Find the initial energy.}
-Since $\theta(0)=0$,
+\paragraph{(a) Released from rest.}
+The pendulum starts at an angle $\pi/2$ counterclockwise
+from the downward position and is released from rest.
+The initial point on the phase plane is
 \[
-E=\frac12\bigl(\theta'(0)\bigr)^2.
+(x_0,v_0)=\left(\frac{\pi}{2},0\right).
 \]
-Compare this value with the separatrix energy $8$.
+This point lies on a closed blue trajectory.
+The pendulum initially moves clockwise toward the bottom,
+then swings back and forth between
+$\theta=-\pi/2$ and $\theta=\pi/2$.
+The motion is an \textbf{oscillation}.
 
-\paragraph{Step 2. Classify each motion.}
+\paragraph{(b) Given an initial push.}
+The pendulum starts at the downward position with
+angular velocity $-5$ radians per unit time.
+The negative sign means it initially moves clockwise.
+The initial point on the phase plane is
+\[
+(x_0,v_0)=(0,-5).
+\]
+This point lies below the lower green separatrix,
+on a purple trajectory. The initial speed is large
+enough to carry the pendulum over the top.
+It continues making full revolutions without reversing
+direction. The motion is a \textbf{clockwise rotation}.
 
-\textbf{(a) Initial velocity $2$.}
-\[
-E=\frac12(2)^2=2<8.
-\]
-The pendulum swings back and forth indefinitely.
-At a turning point, $\theta'=0$, so
-\[
-4(1-\cos\theta)=2
-\implies \cos\theta=\frac12.
-\]
-Thus, the turning angles are $\theta=\pm\pi/3$.
-
-\medskip
-\textbf{(b) Initial velocity $5$.}
-\[
-E=\frac12(5)^2=\frac{25}{2}>8.
-\]
-The pendulum has enough energy to rotate over
-the top repeatedly. Its angular velocity remains positive.
-
-\medskip
-\textbf{(c) Initial velocity $4$.}
-\[
-E=\frac12(4)^2=8.
-\]
-The solution follows a separatrix:
-\[
-\theta(t)\to\pi,
-\qquad
-\theta'(t)\to0
-\quad\text{as }t\to\infty.
-\]
-It approaches the upright position but does not
-reach it in finite time.
 \end{example}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]
-        {figs/pend_phase1.png}
-    \caption{Trajectories for the three initial velocities.
-    Blue: oscillation. Magenta: rotation.
-    Green: asymptotic approach to the upright equilibrium.}
-\end{figure}
+\begin{center}
+\begin{tikzpicture}[
+    x=1cm,y=0.58cm,
+    >=Stealth,
+    background orbit/.style={gray!45,thin},
+    oscillation/.style={blue,very thick},
+    rotation/.style={purple,very thick}
+]
+    \draw[step=1,very thin,gray!15]
+        (-4,-5.6) grid (4,5.6);
 
+    \draw[->,thick] (-4.2,0)--(4.4,0)
+        node[right] {$x=\theta$};
+    \draw[->,thick] (0,-5.8)--(0,6)
+        node[above] {$y=\theta'$};
+
+    \begin{scope}
+    \clip (-4,-5.6) rectangle (4,5.6);
+
+    % Background oscillations.
+    \foreach \k in {0.25,0.5,0.9}{
+        \draw[background orbit,
+              domain=0:360,samples=200,variable=\q]
+            plot
+            ({2*rad(asin(\k*sin(\q)))},
+             {4*\k*cos(\q)});
+    }
+
+    % Separatrices.
+    \foreach \sg in {-1,1}{
+        \draw[green!45!black,thick,
+              domain=-4:4,samples=250,variable=\s]
+            plot
+            ({\s},{\sg*4*abs(cos(deg(\s/2)))});
+    }
+
+    % Background rotations.
+    \foreach \energy in {9,11,15}{
+        \foreach \sg in {-1,1}{
+            \draw[background orbit,
+                  domain=-4:4,samples=250,variable=\s]
+                plot
+                ({\s},
+                 {\sg*sqrt(2*\energy
+                    -8*(1-cos(deg(\s))))});
+        }
+    }
+
+    % (a) Exact closed orbit through (pi/2,0).
+    % Energy E=4; k=1/sqrt(2).
+    \draw[oscillation,
+          domain=0:360,samples=250,variable=\q]
+        plot
+        ({2*rad(asin(sin(\q)/sqrt(2)))},
+         {2*sqrt(2)*cos(\q)});
+
+    % Clockwise motion in the phase plane.
+    \foreach \start in {20,110,200,290}{
+        \draw[oscillation,->,
+              domain=\start:{\start+18},
+              samples=25,variable=\q]
+            plot
+            ({2*rad(asin(sin(\q)/sqrt(2)))},
+             {2*sqrt(2)*cos(\q)});
+    }
+
+    % (b) Exact rotational orbit through (0,-5).
+    % Energy E=25/2; angular velocity stays negative.
+    \draw[rotation,
+          domain=-4:4,samples=250,variable=\s]
+        plot
+        ({\s},{-sqrt(17+8*cos(deg(\s)))});
+
+    % Motion is to the left because theta' < 0.
+    \foreach \start in {-2,0.8,3}{
+        \draw[rotation,->,
+              domain=\start:{\start-0.5},
+              samples=25,variable=\s]
+            plot
+            ({\s},{-sqrt(17+8*cos(deg(\s)))});
+    }
+    \end{scope}
+
+    % Equilibria.
+    \foreach \n in {-1,0,1}{
+        \fill[red!75!black] ({pi*\n},0) circle (2.5pt);
+    }
+
+    % Horizontal-axis labels.
+    \node[below left,fill=white,inner sep=1pt]
+        at (-pi,0) {$-\pi$};
+    \node[below left,fill=white,inner sep=1pt]
+        at (0,0) {$0$};
+    \node[below right,fill=white,inner sep=1pt]
+        at (pi,0) {$\pi$};
+
+    % Initial condition (a).
+    \fill[blue] ({pi/2},0) circle (3pt);
+    \node[blue,above right,fill=white,inner sep=2pt]
+        at ({pi/2},0.12)
+        {(a) $\left(\frac{\pi}{2},0\right)$};
+
+    % Initial condition (b).
+    \fill[purple] (0,-5) circle (3pt);
+    \node[purple,below right,fill=white,inner sep=2pt]
+        at (0.12,-5)
+        {(b) $(0,-5)$};
+
+    % Vertical-axis reference.
+    \draw (-0.08,5)--(0.08,5);
+    \node[left] at (-0.08,5) {$5$};
+
+\end{tikzpicture}
+
+\small
+Blue: oscillation through $(\pi/2,0)$.
+Purple: clockwise rotation through $(0,-5)$.
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Pendulum with Friction}
+\section{Pendulum with Friction}
 
-\subsection{The Damped System}
+\subsection{Damped versus Undamped}
 
-With positive damping,
+With friction, the pendulum equation becomes
 \[
 \theta''+\gamma\theta'+\omega^2\sin\theta=0,
-\qquad \gamma,\omega>0.
+\qquad \gamma>0,\quad \omega>0.
 \]
-Using $x=\theta$ and $y=\theta'$ gives
-\[
-\boxed{
-\begin{dcases}
-x'=y,\\
-y'=-\gamma y-\omega^2\sin x.
-\end{dcases}
-}
-\]
-The equilibria remain
-\[
-\boxed{(n\pi,0),\qquad n\in\mathbb Z.}
-\]
-Damping changes their stability and the surrounding
-trajectories.
+The coefficient $\gamma$ measures damping.
+When $\gamma=0$, oscillations and rotations can
+continue indefinitely. When $\gamma>0$, friction
+removes energy, so these motions cannot continue
+indefinitely.
 
-%-------------------------------------------------------------
-\subsection{Energy Loss}
+The damped and undamped models have two things in common:
+\begin{itemize}
+    \item The equilibria are still $(n\pi,0)$,
+    where $n$ is an integer.
+    \item The upright equilibria, at odd multiples
+    of $\pi$, are still \textbf{saddle points}.
+\end{itemize}
 
-Use the same energy function:
+The main change occurs at the downward equilibria
+$(2n\pi,0)$. Their linearizations have characteristic
+equation
 \[
-E(x,y)=\frac12y^2+\omega^2(1-\cos x).
+\lambda^2+\gamma\lambda+\omega^2=0.
 \]
-Along a damped solution,
-\begin{align*}
-\frac{dE}{dt}
-&=yy'+\omega^2\sin x\,x'\\
-&=y(-\gamma y-\omega^2\sin x)
-+\omega^2\sin x\,y\\
-&=-\gamma y^2.
-\end{align*}
-Therefore,
-\[
-\boxed{\frac{dE}{dt}=-\gamma y^2\le0.}
-\]
-Energy decreases whenever the bob is moving.
-Consequently, nonconstant closed trajectories
-are no longer possible.
+The damping determines their classification:
+\begin{itemize}
+    \item \textbf{Underdamped} ($0<\gamma<2\omega$):
+    stable spirals. The pendulum swings back and
+    forth with decreasing amplitude.
 
-%-------------------------------------------------------------
-\subsection{Classifying the Equilibria}
+    \item \textbf{Critically damped} ($\gamma=2\omega$):
+    the linearization has a stable degenerate node.
+    The pendulum approaches its downward position
+    without repeated oscillations.
+
+    \item \textbf{Overdamped} ($\gamma>2\omega$):
+    stable nodes. The pendulum again approaches
+    its downward position without repeated oscillations.
+\end{itemize}
+
+These descriptions apply near a downward equilibrium.
+A sufficiently strong initial push can still produce
+full rotations before friction slows the pendulum down.
+
+% ------------------
 
 \begin{example}[3]{
-Classify the equilibria of the damped pendulum:
+Classify the downward equilibria $(2n\pi,0)$
+of the damped pendulum
+\[
+\theta''+2\theta'+4\sin\theta=0.
+\]
+}
+Here, $\gamma=2$ and $\omega=2$.
+
+\paragraph{Step 1. Write the system and its Jacobian.}
+Let $x=\theta$ and $y=\theta'$. Then
 \[
 \begin{dcases}
 x'=y,\\
-y'=-\gamma y-\omega^2\sin x,
+y'=-2y-4\sin x,
 \end{dcases}
-\qquad \gamma,\omega>0.
-\]
-}
-
-\paragraph{Step 1. Compute the Jacobian.}
-The Jacobian is
-\[
+\qquad
 J(x,y)=
 \begin{pmatrix}
 0&1\\
--\omega^2\cos x&-\gamma
+-4\cos x&-2
 \end{pmatrix}.
 \]
 
-\paragraph{Step 2. Analyze the downward equilibria.}
-At $(2n\pi,0)$,
+\paragraph{Step 2. Evaluate at the downward equilibria.}
+Since $\cos(2n\pi)=1$, every downward equilibrium
+has the same linearization:
 \[
-J=
+J(2n\pi,0)=
 \begin{pmatrix}
 0&1\\
--\omega^2&-\gamma
+-4&-2
 \end{pmatrix}.
 \]
 The characteristic equation is
 \[
-\lambda^2+\gamma\lambda+\omega^2=0,
+\lambda^2+2\lambda+4=0,
 \]
-so
+which gives
 \[
-\lambda=
-\frac{-\gamma\pm\sqrt{\gamma^2-4\omega^2}}{2}.
+\lambda=-1\pm i\sqrt{3}.
 \]
 
-There are three cases:
-\begin{itemize}
-    \item $0<\gamma<2\omega$:
-    complex eigenvalues with negative real parts.
-    The equilibrium is a \textbf{stable spiral}.
-
-    \item $\gamma=2\omega$:
-    the repeated eigenvalue is $\lambda=-\omega$.
-    The linearized system has a
-    \textbf{stable improper node}.
-
-    \item $\gamma>2\omega$:
-    two distinct negative eigenvalues.
-    The equilibrium is a \textbf{stable node}.
-\end{itemize}
-Every downward equilibrium is asymptotically stable.
-
-\paragraph{Step 3. Analyze the upright equilibria.}
-At $((2n+1)\pi,0)$,
+\paragraph{Step 3. Classify and interpret.}
+The eigenvalues are complex with negative real parts, so
 \[
-J=
-\begin{pmatrix}
-0&1\\
-\omega^2&-\gamma
-\end{pmatrix}.
+\boxed{\text{Every }(2n\pi,0)\text{ is a stable spiral}.}
 \]
-The characteristic equation is
-\[
-\lambda^2+\gamma\lambda-\omega^2=0.
-\]
-The product of the eigenvalues is $-\omega^2<0$,
-so one is positive and the other is negative.
-
-Therefore,
-\[
-\boxed{\text{Every upright equilibrium remains a saddle}.}
-\]
+The motion is \textbf{underdamped}. Near a downward
+equilibrium, the pendulum swings back and forth with
+decreasing amplitude, approaching rest.
 \end{example}
-
 %-------------------------------------------------------------
-\subsection{Interpreting the Damping Cases}
+\subsection{Phase Portraits}
 
 The classifications describe motion near a downward
 equilibrium:
 \begin{itemize}
     \item \textbf{Underdamped}: the bob oscillates
-    with decreasing amplitude.
-    The phase portrait has a clockwise stable spiral.
+    with decreasing amplitude. The phase portrait has a clockwise stable spiral.
 
     \item \textbf{Critically damped}: the bob approaches
     equilibrium without repeated oscillations.
@@ -739,10 +907,6 @@ equilibrium:
     equilibrium without repeated oscillations.
     The local phase portrait is a stable node.
 \end{itemize}
-
-Large initial velocities may produce complete rotations
-before the pendulum settles. The node or spiral
-classification describes its eventual local motion.
 
 \begin{figure}[H]
 \centering
@@ -769,9 +933,26 @@ classification describes its eventual local motion.
     \caption{Critically damped: $\gamma=2\omega$.}
 \end{subfigure}
 
-\caption{Damped pendulum phase portraits.
-Downward equilibria are asymptotically stable;
-upright equilibria remain saddles.}
 \end{figure}
+
+\subsection{Pendulum Animation}
+
+Watch the pendulum move alongside its trajectory in
+the phase plane. The point $(\theta,\theta')$ records
+its angle and angular velocity at each instant.
+
+Try changing the initial angle, initial velocity,
+and damping:
+\begin{itemize}
+    \item Without damping, compare a back-and-forth
+    swing with a full rotation.
+    \item At each turning point, notice that the
+    trajectory crosses $\theta'=0$.
+    \item Add a small amount of damping and watch
+    the trajectory spiral toward a downward equilibrium.
+\end{itemize}
+
+Large initial velocities may produce complete rotations
+before the pendulum settles. The node or spiral classification describes its eventual local motion.
 
 \end{document}
