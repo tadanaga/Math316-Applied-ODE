@@ -9,11 +9,23 @@
 %
 % Use only one of these lines. No separate geometry line is needed.
 % Do not add \normalmargin, \lecturemargin, or \notesmargin commands.
-% This package supplies visual styling, not PDF metadata or tagging.
+% Intended workflow: metadata-enabled documents compiled with recent
+% LuaLaTeX. Keep \DocumentMetadata BEFORE \documentclass in each .tex file.
+% The stylesheet cannot activate document metadata after the class loads.
+% Native lists and sectioning avoid enumitem/enumerate/titlesec conflicts.
+% Compilation alone does not certify PDF/UA compliance: figures, tables,
+% math, and custom boxes still need document-level accessibility checks.
 %
 % Example document:
+%   \DocumentMetadata{
+%     tagging=on,
+%     tagging-setup={math/setup=mathml-SE},
+%     pdfstandard=ua-2,
+%     lang=en-US
+%   }
 %   \documentclass[10pt,letterpaper]{article}
 %   \usepackage[widemargin]{notes}
+%   \hypersetup{pdftitle={Introduction},pdfauthor={Your Name}}
 %   \begin{document}
 %   \lesson{Day 1}{Introduction}
 %   Your content.
@@ -22,8 +34,10 @@
 %======================================================================
 % 1. PERSONALIZATION -- EDIT THESE DEFAULTS WHEN SHARING THE TEMPLATE
 %======================================================================
-% Alternatively, override any command with \renewcommand in a document
+% Override the course/instructor/lesson text below with \renewcommand
 % AFTER \usepackage{notes} and BEFORE \begin{document}.
+% These settings control visible text; set PDF title/author separately
+% with \hypersetup in the document.
 % Example: \renewcommand{\instructor}{Your Name}
 %----------------------------------------------------------------------
 \newcommand{\class}{Math 316}
@@ -37,7 +51,9 @@
 
 %----------------------------------------------------------------------
 % Margin dimensions (measured from the paper edge).
-% The widemargin option changes only the left margin.
+% Edit these defaults HERE, before geometry reads them.
+% The widemargin option changes the left margin and keeps it on the
+% physical left side in two-sided documents.
 %----------------------------------------------------------------------
 \newcommand{\notesstandardmargin}{0.7in}
 \newcommand{\notesannotationmargin}{2.2in}
@@ -69,7 +85,8 @@
 %======================================================================
 % 3. FONTS AND DEPENDENCIES
 %======================================================================
-% Keep these dependencies for compatibility with existing course notes.
+% Dependencies retained for existing course content, not a claim that
+% every environment they provide has been validated for PDF tagging.
 %----------------------------------------------------------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage{charter}
@@ -82,10 +99,12 @@
 \RequirePackage{graphicx,float,multicol,multirow,tabularx,array,booktabs,subcaption,wrapfig}
 %---- Colors, headers, and page references -----------------------------
 \RequirePackage{xcolor,fancyhdr,lastpage,needspace}
-% Visual theme only; no PDF metadata or tagging setup.
-\RequirePackage{enumerate,enumitem,titlesec}
+%---- Native lists and headings ---------------------------------------
+% Do not load enumerate, enumitem, or titlesec here.
+% Use standard itemize/enumerate and the native section commands below.
 % Dependencies used by existing Math 316 lessons.
 \RequirePackage{physics,gensymb,wasysym,circuitikz,parcolumns,textcomp}
+% Preserve the standard meaning of \emph.
 \RequirePackage[normalem]{ulem}
 %---- Drawing and plots -----------------------------------------------
 \RequirePackage{tikz,pgfplots,tikz-3dplot}
@@ -95,6 +114,7 @@
   decorations.pathreplacing,decorations.markings,calligraphy}
 \usepgfplotslibrary{groupplots}
 \pgfplotsset{compat=1.17}
+% hyperref is loaded here; documents need only \hypersetup for metadata.
 \RequirePackage{hyperref}
 
 %======================================================================
@@ -117,7 +137,8 @@
 %======================================================================
 % 5. FIGURE CAPTIONS
 %======================================================================
-% Consistent textbook-style captions for numbered figures.
+% Consistent captions for numbered figures. A visible caption does not
+% replace alternative text for a diagram or image.
 % The float package above supports [H] for placement at the source location.
 % subcaption loads caption, so no additional caption package is necessary.
 \DeclareCaptionFont{notesfigurelabel}{\bfseries\color{notesblue}}
@@ -142,27 +163,32 @@
 \newboolean{showanswer}
 \setboolean{showanswer}{true}
 
-% Use \setboolean{showanswer}{false} for a student copy.
+% Blank height in each example when its solution is hidden.
+% Override with \renewcommand{\solutionheight}{30mm}, for example.
+% The older ans/note list environments are NOT controlled by showanswer.
 \newcommand{\solutionheight}{24mm}
 %======================================================================
 % 7. PARAGRAPHS, LISTS, AND SECTION HEADINGS
 %======================================================================
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt plus 1pt}
-\setlist{topsep=4pt,itemsep=2pt,parsep=0pt,leftmargin=*}
-\setlist[enumerate,1]{label=\textcolor{notesblue}{\arabic*.}}
-\setlist[itemize,1]{label=\textcolor{notesteal}{\small\textbullet}}
 \renewcommand{\arraystretch}{1.18}
 \raggedbottom
 
-%---- Section headings ------------------------------------------------
-% Heading theme: ink titles, teal numbers, and a light rule.
-\titleformat{\section}{\LARGE\bfseries\color{notesink}}
-  {\textcolor{notesteal}{\thesection}}{0.65em}{}[\vspace{2pt}\color{notesrule}\titlerule]
-\titleformat{\subsection}{\normalsize\bfseries\color{notesblue}}
-  {\thesubsection}{0.6em}{}
-\titlespacing*{\section}{0pt}{13pt}{7pt}
-\titlespacing*{\subsection}{0pt}{9pt}{3pt}
+%---- Native lists ----------------------------------------------------
+% Standard itemize and enumerate require no additional packages.
+% Leave spacing/labels to LaTeX's tagging-aware list implementation.
+% For custom labels, use \item[(a)] rather than legacy [a)] list options.
+%
+%---- Native section headings -----------------------------------------
+% Keep LaTeX's \@startsection pathway for numbered/starred headings,
+% contents entries, and tagging. Do not redefine \@sect or \@ssect.
+% Large ink section titles and blue subsections retain the hierarchy.
+% The former titlesec rule and separately colored numbers are omitted.
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-13pt}{7pt}{\normalfont\LARGE\bfseries\color{notesink}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-9pt}{3pt}{\normalfont\normalsize\bfseries\color{notesblue}}}
 
 %======================================================================
 % 8. RUNNING HEADERS, FOOTERS, AND LESSON TITLE
@@ -179,7 +205,9 @@
 }
 \pagestyle{pages}
 
-% \lesson[short subtitle]{number}{title} also sets running headers.
+%---- Visible lesson title --------------------------------------------
+% \lesson[reference or subtitle]{day/number}{title} sets running headers.
+% This display is not a numbered section and does not set PDF metadata.
 \NewDocumentCommand{\lesson}{O{} m m}{%
   \renewcommand{\lessonid}{#2}\renewcommand{\lessontitle}{#3}%
   \vspace{3pt}
@@ -192,7 +220,9 @@
 % 9. TEACHING BOXES
 %======================================================================
 % Optional titles: \begin{definition}[Title], \begin{keyidea}[Title], etc.
-% Shared box settings: labels remain readable when printed in grayscale.
+% Shared visual settings; titles distinguish boxes without relying on color.
+% Preserve existing syntax and appearance. Check reading order and tags
+% for these custom tcolorbox environments in the final PDF.
 \tcbset{notesbox/.style={enhanced,breakable,sharp corners,boxrule=0pt,
   frame hidden,borderline west={2pt}{0pt}{notesblue},colback=notesblue!4,
   coltitle=notesblue,fonttitle=\small\sffamily\bfseries,
@@ -223,7 +253,10 @@
 %======================================================================
 % 10. EXAMPLES, ANSWERS, AND THEOREMS
 %======================================================================
-% Preserve the original syntax: \begin{example}[label]{problem} solution \end{example}. An omitted label uses automatic numbering. Solutions can be hidden globally.
+% Usage: \begin{example}[label]{problem} solution \end{example}
+% An omitted label displays the automatic example counter.
+% Each example advances the counter, including explicitly labeled ones.
+% showanswer controls the solution body, not the problem statement.
 \newcounter{example}
 \NewDocumentEnvironment{example}{O{} +m +b}{%
   \refstepcounter{example}%
@@ -240,7 +273,9 @@
     }{\textcolor{notesmuted}{\small Work space}\par\vspace{\solutionheight}}
   \end{tcolorbox}
 }{}
-% Inline answers disappear in a student copy; the question remains visible.
+%---- Answers and work space ------------------------------------------
+% \answer{...} content disappears when showanswer is false.
+% Keep the question outside \answer so it remains visible.
 \NewDocumentCommand{\answer}{+m}{%
   \ifthenelse{\boolean{showanswer}}{\par\smallskip\textcolor{notesteal}{\textbf{Answer.}} #1}{}%
 }
@@ -251,6 +286,8 @@
 % 11. SHORTCUTS RETAINED FOR EXISTING LESSONS
 %======================================================================
 %---- Colored lists and text ------------------------------------------
+% ans and note are ordinary lists with color; neither hides its content.
+% \com{...} is a textual annotation intended for math environments.
 \newenvironment{ans}{\begin{itemize}\color{notesblue}}{\end{itemize}}
 \newenvironment{note}{\begin{itemize}\color{notesgold}}{\end{itemize}}
 \newcommand{\com}[1]{\textcolor{commentblue}{\text{(#1)}}}
@@ -272,6 +309,8 @@
 \renewcommand{\vec}[1]{\overrightarrow{#1}}
 %---- Two columns -----------------------------------------------------
 % Usage: \cols{left content}{right content}
+% These minipages do not split across pages. Keep content short and
+% check that the PDF reading order follows the left column, then right.
 \NewDocumentCommand{\cols}{+m +m}{%
   \par\noindent
   \begin{minipage}[t]{0.47\linewidth}\vspace{0pt}#1\end{minipage}\hfill
