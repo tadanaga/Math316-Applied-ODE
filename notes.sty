@@ -1,37 +1,93 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{notes}[2026/11/15 Math 316 lecture notes theme]
+\ProvidesPackage{notes}[2026/11/22 Shared lecture notes theme]
 
-% Optional handwriting margin: \usepackage[widemargin]{notes}.
-% Or, after loading notes, use \notesmargin[2.2in] in the preamble.
-% The value is the total left margin, measured from the paper edge.
+%======================================================================
+% QUICK START
+%======================================================================
+% Standard margins:   \usepackage{notes}
+% Annotation margin:  \usepackage[widemargin]{notes}
+%
+% Use only one of these lines. No separate geometry line is needed.
+% Do not add \normalmargin, \lecturemargin, or \notesmargin commands.
+% This package supplies visual styling, not PDF metadata or tagging.
+%
+% Example document:
+%   \documentclass[10pt,letterpaper]{article}
+%   \usepackage[widemargin]{notes}
+%   \begin{document}
+%   \lesson{Day 1}{Introduction}
+%   Your content.
+%   \end{document}
+
+%======================================================================
+% 1. PERSONALIZATION -- EDIT THESE DEFAULTS WHEN SHARING THE TEMPLATE
+%======================================================================
+% Alternatively, override any command with \renewcommand in a document
+% AFTER \usepackage{notes} and BEFORE \begin{document}.
+% Example: \renewcommand{\instructor}{Your Name}
+%----------------------------------------------------------------------
+\newcommand{\class}{Math 316}
+\newcommand{\coursename}{Applied ODE}
+\newcommand{\term}{Fall 2026}
+\newcommand{\instructor}{T. Takahashi}
+
+% Running-header text; \lesson sets these automatically.
+\newcommand{\lessonid}{}
+\newcommand{\lessontitle}{}
+
+%----------------------------------------------------------------------
+% Margin dimensions (measured from the paper edge).
+% The widemargin option changes only the left margin.
+%----------------------------------------------------------------------
+\newcommand{\notesstandardmargin}{0.7in}
+\newcommand{\notesannotationmargin}{2.2in}
+\newcommand{\notestopmargin}{1in}
+\newcommand{\notesbottommargin}{1in}
+
+%======================================================================
+% 2. PACKAGE OPTION AND PAGE LAYOUT
+%======================================================================
 \newif\ifnoteswidemargin
 \DeclareOption{widemargin}{\noteswidemargintrue}
 \ProcessOptions\relax
 
-% Typography and page layout. Preserve margins already set by a lesson.
+\@ifpackageloaded{geometry}{%
+  \geometry{headheight=23pt,headsep=16pt,footskip=26pt}%
+}{%
+  \RequirePackage[
+    left=\notesstandardmargin,right=\notesstandardmargin,
+    top=\notestopmargin,bottom=\notesbottommargin,
+    headheight=23pt,headsep=16pt,footskip=26pt
+  ]{geometry}%
+}
+\ifnoteswidemargin
+  \geometry{left=\notesannotationmargin,asymmetric}
+\fi
+% Preserve explicit geometry settings in existing lesson files.
+% For new documents, let notes load geometry and manage the margins.
+
+%======================================================================
+% 3. FONTS AND DEPENDENCIES
+%======================================================================
+% Keep these dependencies for compatibility with existing course notes.
+%----------------------------------------------------------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage{charter}
 \RequirePackage[scaled=0.92]{helvet}
 \RequirePackage{microtype}
-\@ifpackageloaded{geometry}{%
-  \geometry{headheight=23pt,headsep=16pt,footskip=26pt}%
-}{%
-  \RequirePackage[letterpaper,margin=0.8in,headheight=23pt,headsep=16pt,footskip=26pt]{geometry}%
-}
-% Keep a physical left margin on every page, including two-sided documents.
-\newcommand{\notesmargin}[1][2in]{%
-  \geometry{left=#1,right=0.8in,asymmetric}%
-}
-\ifnoteswidemargin\notesmargin\fi
-\@onlypreamble\notesmargin
+
+%---- Mathematics -----------------------------------------------------
 \RequirePackage{amsmath,amsthm,amssymb,mathtools,bm,cancel}
+%---- Figures and tables ----------------------------------------------
 \RequirePackage{graphicx,float,multicol,multirow,tabularx,array,booktabs,subcaption,wrapfig}
+%---- Colors, headers, and page references -----------------------------
 \RequirePackage{xcolor,fancyhdr,lastpage,needspace}
 % Visual theme only; no PDF metadata or tagging setup.
 \RequirePackage{enumerate,enumitem,titlesec}
 % Dependencies used by existing Math 316 lessons.
 \RequirePackage{physics,gensymb,wasysym,circuitikz,parcolumns,textcomp}
 \RequirePackage[normalem]{ulem}
+%---- Drawing and plots -----------------------------------------------
 \RequirePackage{tikz,pgfplots,tikz-3dplot}
 \RequirePackage[most]{tcolorbox}
 \RequirePackage{xparse,ifthen,pifont}
@@ -42,6 +98,9 @@
 \pgfplotsset{compat=1.17}
 \RequirePackage{hyperref}
 
+%======================================================================
+% 4. COLOR THEME -- EDIT THESE COLORS TO PERSONALIZE THE LOOK
+%======================================================================
 % A small shared palette; change these colors to restyle all environments.
 \definecolor{notesink}{HTML}{203448}
 \definecolor{notesblue}{HTML}{245C7A}
@@ -56,6 +115,9 @@
 \colorlet{commentblue}{notesblue}
 \hypersetup{colorlinks=true,linkcolor=notesblue,urlcolor=notesteal}
 
+%======================================================================
+% 5. FIGURE CAPTIONS
+%======================================================================
 % Consistent textbook-style captions for numbered figures.
 % The float package above supports [H] for placement at the source location.
 % subcaption loads caption, so no additional caption package is necessary.
@@ -72,16 +134,20 @@
   position=bottom
 }
 
-\newcommand{\class}{Math 316}
-\newcommand{\term}{Fall 2026}
-\newcommand{\instructor}{T. Takahashi}
-\newcommand{\lessonid}{}
-\newcommand{\lessontitle}{}
+
+%======================================================================
+% 6. SOLUTION VISIBILITY AND WRITING SPACE
+%======================================================================
+% After loading notes, use \setboolean{showanswer}{false} to hide
+% example solutions and \answer content. Other text is not hidden.
 \newboolean{showanswer}
 \setboolean{showanswer}{true}
 
 % Use \setboolean{showanswer}{false} for a student copy.
 \newcommand{\solutionheight}{24mm}
+%======================================================================
+% 7. PARAGRAPHS, LISTS, AND SECTION HEADINGS
+%======================================================================
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt plus 1pt}
 \setlist{topsep=4pt,itemsep=2pt,parsep=0pt,leftmargin=*}
@@ -90,7 +156,8 @@
 \renewcommand{\arraystretch}{1.18}
 \raggedbottom
 
-% Math 2531 heading theme: ink titles, teal numbers, and a light rule.
+%---- Section headings ------------------------------------------------
+% Heading theme: ink titles, teal numbers, and a light rule.
 \titleformat{\section}{\LARGE\bfseries\color{notesink}}
   {\textcolor{notesteal}{\thesection}}{0.65em}{}[\vspace{2pt}\color{notesrule}\titlerule]
 \titleformat{\subsection}{\normalsize\bfseries\color{notesblue}}
@@ -98,9 +165,12 @@
 \titlespacing*{\section}{0pt}{13pt}{7pt}
 \titlespacing*{\subsection}{0pt}{9pt}{3pt}
 
+%======================================================================
+% 8. RUNNING HEADERS, FOOTERS, AND LESSON TITLE
+%======================================================================
 \fancypagestyle{pages}{%
   \fancyhf{}
-  \fancyhead[L]{\small\sffamily\color{notesmuted}\class\enspace /\enspace Applied ODE}
+  \fancyhead[L]{\small\sffamily\color{notesmuted}\class\enspace /\enspace\coursename}
   \fancyhead[R]{\small\sffamily\color{notesmuted}\lessonid\enspace\lessontitle}
   \fancyfoot[L]{\footnotesize\color{notesmuted}\instructor\enspace\textbullet\enspace\term}
   \fancyfoot[R]{\footnotesize\color{notesmuted}\thepage\ /\ \pageref*{LastPage}}
@@ -113,13 +183,16 @@
 % \lesson[short subtitle]{number}{title} also sets running headers.
 \NewDocumentCommand{\lesson}{O{} m m}{%
   \renewcommand{\lessonid}{#2}\renewcommand{\lessontitle}{#3}%
-  % {\small\sffamily\bfseries\color{notesteal}\MakeUppercase{\class\enspace /\enspace Lecture Notes}\par}
   \vspace{3pt}
   {\fontsize{25}{30}\selectfont\bfseries\color{notesink}#2\enspace #3\par}
   \IfBlankF{#1}{{\small\color{notesmuted}#1\par}}
   \vspace{5pt}{\color{notesteal}\hrule height 1.2pt}\vspace{8pt}
 }
 
+%======================================================================
+% 9. TEACHING BOXES
+%======================================================================
+% Optional titles: \begin{definition}[Title], \begin{keyidea}[Title], etc.
 % Shared box settings: labels remain readable when printed in grayscale.
 \tcbset{notesbox/.style={enhanced,breakable,sharp corners,boxrule=0pt,
   frame hidden,borderline west={2pt}{0pt}{notesblue},colback=notesblue!4,
@@ -142,6 +215,9 @@
 \newtcolorbox{takeaway}{notesbox,colback=notesteal!4,
   borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,title=Takeaway}
 
+%======================================================================
+% 10. EXAMPLES, ANSWERS, AND THEOREMS
+%======================================================================
 % Preserve the original syntax: \begin{example}[label]{problem} solution \end{example}. An omitted label uses automatic numbering. Solutions can be hidden globally.
 \newcounter{example}
 \NewDocumentEnvironment{example}{O{} +m +b}{%
@@ -166,13 +242,18 @@
 \NewDocumentCommand{\workingspace}{O{18mm}}{\par\vspace{#1}}
 \newtheorem{theorem}{Theorem}
 
-% Existing conveniences retained for future lessons.
+%======================================================================
+% 11. SHORTCUTS RETAINED FOR EXISTING LESSONS
+%======================================================================
+%---- Colored lists and text ------------------------------------------
 \newenvironment{ans}{\begin{itemize}\color{notesblue}}{\end{itemize}}
 \newenvironment{note}{\begin{itemize}\color{notesgold}}{\end{itemize}}
 \newcommand{\com}[1]{\textcolor{commentblue}{\text{(#1)}}}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\green}[1]{\textcolor{green}{#1}}
 \newcommand{\blue}[1]{\textcolor{notesblue}{#1}}
+%---- Mathematical notation -------------------------------------------
+% \cvec{a,b} produces angle brackets; \vec uses an over-arrow.
 \newcommand{\B}[1]{\mathbf{#1}}
 \newcommand{\ve}[1]{\mathbf{#1}}
 \newcommand{\xmark}{\ding{55}}
@@ -184,6 +265,8 @@
 \newcommand{\mySpacing}{0.295}
 \let\oldvec\vec
 \renewcommand{\vec}[1]{\overrightarrow{#1}}
+%---- Two columns -----------------------------------------------------
+% Usage: \cols{left content}{right content}
 \NewDocumentCommand{\cols}{+m +m}{%
   \par\noindent
   \begin{minipage}[t]{0.47\linewidth}\vspace{0pt}#1\end{minipage}\hfill
