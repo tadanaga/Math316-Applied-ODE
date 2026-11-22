@@ -92,8 +92,7 @@
 \RequirePackage[most]{tcolorbox}
 \RequirePackage{xparse,ifthen,pifont}
 \usetikzlibrary{3d,arrows.meta,calc,angles,quotes,shapes.geometric,positioning,
-  decorations.pathreplacing,calligraphy}
-\usetikzlibrary{decorations.markings}
+  decorations.pathreplacing,decorations.markings,calligraphy}
 \usepgfplotslibrary{groupplots}
 \pgfplotsset{compat=1.17}
 \RequirePackage{hyperref}
@@ -199,19 +198,25 @@
   coltitle=notesblue,fonttitle=\small\sffamily\bfseries,
   attach title to upper={\par\smallskip},left=10pt,right=10pt,top=6pt,bottom=6pt,
   before skip=6pt,after skip=6pt}}
+  
 \newtcolorbox{learninggoals}{notesbox,colback=notesteal!4,
   borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,title=Learning goals}
+
 \newtcolorbox{definition}[1][]{notesbox,
   title={Definition\IfBlankF{#1}{\enspace /\enspace #1}}}
+
 \newtcolorbox{keyidea}[1][]{notesbox,colback=notesteal!5,
   borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,
   title={Key idea\IfBlankF{#1}{\enspace /\enspace #1}}}
+
 \newtcolorbox{commonmistake}[1][]{notesbox,colback=notesgold!6,
   borderline west={2pt}{0pt}{notesgold},coltitle=notesgold,
   title={Watch out\IfBlankF{#1}{\enspace /\enspace #1}}}
+
 \newtcolorbox{checkpoint}[1][]{notesbox,colback=white,
   borderline west={2pt}{0pt}{notesmuted},coltitle=notesink,
   title={Quick check\IfBlankF{#1}{\enspace /\enspace #1}}}
+
 \newtcolorbox{takeaway}{notesbox,colback=notesteal!4,
   borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,title=Takeaway}
 
