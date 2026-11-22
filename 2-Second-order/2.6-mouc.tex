@@ -1,6 +1,27 @@
+% !TeX program = lualatex
+%======================================================================
+% DOCUMENT SETUP -- compile with recent LuaLaTeX
+%======================================================================
+% Metadata must appear before \documentclass.
+\DocumentMetadata{
+  tagging=on,
+  tagging-setup={math/setup=mathml-SE},
+  pdfstandard=ua-2,
+  lang=en-US
+}
 \documentclass[10pt,letterpaper]{article}
 \usepackage{notes}
 % \usepackage[widemargin]{notes}
+
+%----------------------------------------------------------------------
+% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+%----------------------------------------------------------------------
+\hypersetup{
+  pdflang={en-US},
+  pdftitle={\class{} - 2.6 Method of Undetermined Coefficients},
+  pdfauthor={\instructor},
+  pdfsubject={\coursename}
+}
 
 \begin{document}
 

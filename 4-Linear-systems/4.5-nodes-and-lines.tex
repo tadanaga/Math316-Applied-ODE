@@ -1,11 +1,16 @@
+% !TeX program = lualatex
+%======================================================================
+% DOCUMENT SETUP -- compile with recent LuaLaTeX
+%======================================================================
+% Metadata must appear before \documentclass.
+\DocumentMetadata{
+  tagging=on,
+  tagging-setup={math/setup=mathml-SE},
+  pdfstandard=ua-2,
+  lang=en-US
+}
 \documentclass[10pt,letterpaper]{article}
-\usepackage[
-    lmargin=2.2in,
-    rmargin=0.7in,
-    tmargin=1.0in,
-    bmargin=1.0in
-]{geometry}
-\usepackage{notes}
+\usepackage[widemargin]{notes}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
@@ -39,6 +44,16 @@
         \pgfmathsetmacro{\tox}{1+.18*#1}
         \draw[->,orbit]plot[domain=\fromx:\tox,samples=20]({\sx*\x},{\c*\x*\x});
     }}
+}
+
+%----------------------------------------------------------------------
+% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+%----------------------------------------------------------------------
+\hypersetup{
+  pdflang={en-US},
+  pdftitle={\class{} - 4.5 Nodes, Stability, and a Line of Equilibria},
+  pdfauthor={\instructor},
+  pdfsubject={\coursename}
 }
 
 \begin{document}

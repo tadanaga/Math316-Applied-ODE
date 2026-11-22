@@ -1,6 +1,16 @@
+% !TeX program = lualatex
+%======================================================================
+% DOCUMENT SETUP -- compile with recent LuaLaTeX
+%======================================================================
+% Metadata must appear before \documentclass.
+\DocumentMetadata{
+  tagging=on,
+  tagging-setup={math/setup=mathml-SE},
+  pdfstandard=ua-2,
+  lang=en-US
+}
 \documentclass[10pt,letterpaper]{article}
-\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
-\usepackage{notes}
+\usepackage[widemargin]{notes}
 \usepackage{listings}
 
 \lstdefinestyle{lecturematlab}{
@@ -14,6 +24,16 @@
     keepspaces=true,
     showstringspaces=false,
     frame=single
+}
+
+%----------------------------------------------------------------------
+% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+%----------------------------------------------------------------------
+\hypersetup{
+  pdflang={en-US},
+  pdftitle={\class{} - Day 41 Numerical Solutions},
+  pdfauthor={\instructor},
+  pdfsubject={\coursename}
 }
 
 \begin{document}

@@ -1,6 +1,27 @@
+% !TeX program = lualatex
+%======================================================================
+% DOCUMENT SETUP -- compile with recent LuaLaTeX
+%======================================================================
+% Metadata must appear before \documentclass.
+\DocumentMetadata{
+  tagging=on,
+  tagging-setup={math/setup=mathml-SE},
+  pdfstandard=ua-2,
+  lang=en-US
+}
 \documentclass[10pt,letterpaper]{article}
-\usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
-\usepackage{notes}
+\usepackage[widemargin]{notes}
+
+%----------------------------------------------------------------------
+% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+%----------------------------------------------------------------------
+\hypersetup{
+  pdflang={en-US},
+  pdftitle={\class{} - 2.2 Characteristic Equation: Real, Distinct Roots},
+  pdfauthor={\instructor},
+  pdfsubject={\coursename}
+}
+
 \begin{document}
 
 \lesson[Logan, Differential Equations, 3rd edition\enspace\textbullet\enspace Section 2.2.1]

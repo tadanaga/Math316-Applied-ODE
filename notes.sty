@@ -25,7 +25,8 @@
 %   }
 %   \documentclass[10pt,letterpaper]{article}
 %   \usepackage[widemargin]{notes}
-%   \hypersetup{pdftitle={Introduction},pdfauthor={Your Name}}
+%   \hypersetup{pdflang={en-US},pdftitle={Introduction},
+%     pdfauthor={\instructor},pdfsubject={\coursename}}
 %   \begin{document}
 %   \lesson{Day 1}{Introduction}
 %   Your content.
@@ -115,6 +116,8 @@
 \usepgfplotslibrary{groupplots}
 \pgfplotsset{compat=1.17}
 % hyperref is loaded here; documents need only \hypersetup for metadata.
+% Unicode mathematics is shared by every lecture. Load after the other
+% mathematics packages and notation definitions (see end of this file).
 \RequirePackage{hyperref}
 
 %======================================================================
@@ -316,4 +319,12 @@
   \begin{minipage}[t]{0.47\linewidth}\vspace{0pt}#1\end{minipage}\hfill
   \begin{minipage}[t]{0.47\linewidth}\vspace{0pt}#2\end{minipage}\par
 }
+%======================================================================
+% 12. UNICODE MATHEMATICS
+%======================================================================
+% All lectures use LuaLaTeX. Load unicode-math centrally, after legacy
+% math packages/shortcuts, matching the previous lecture-level load order.
+% Do not load unicode-math again in individual lecture files.
+% The default OpenType math font is Latin Modern Math.
+\RequirePackage{unicode-math}
 \endinput

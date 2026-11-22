@@ -1,4 +1,8 @@
-% ADA tagged PDF experiment. Compile with recent LuaLaTeX.
+% !TeX program = lualatex
+%======================================================================
+% DOCUMENT SETUP -- compile with recent LuaLaTeX
+%======================================================================
+% Metadata must appear before \documentclass.
 \DocumentMetadata{
   tagging=on,
   tagging-setup={math/setup=mathml-SE},
@@ -8,12 +12,15 @@
 \documentclass[letterpaper]{article}
 \usepackage{notes}
 % \usepackage[widemargin]{notes}
-\usepackage{unicode-math}
+
+%----------------------------------------------------------------------
+% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+%----------------------------------------------------------------------
 \hypersetup{
   pdflang={en-US},
-  pdftitle={Math 316 - 1.1 First-Order Differential Equations},
-  pdfauthor={T. Takahashi},
-  pdfsubject={Applied Ordinary Differential Equations}
+  pdftitle={\class{} - 1.1 First-Order Differential Equations},
+  pdfauthor={\instructor},
+  pdfsubject={\coursename}
 }
 
 \begin{document}
