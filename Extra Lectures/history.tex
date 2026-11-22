@@ -1,226 +1,445 @@
-\documentclass[10pt,letterpaper]{article}
+\documentclass[11pt,letterpaper]{article}
 \usepackage[lmargin=2.2in,rmargin=0.7in,tmargin=1.0in,bmargin=1.0in]{geometry}
 \usepackage{notes}
 
 \begin{document}
 
-\lesson[Logan, Differential Equations, 3rd edition\enspace\textbullet\enspace Chapter 5\\
-Boyce \& DiPrima, Differential Equations, 11th edition \enspace\textbullet\enspace Chapter 9 
-]
-  {Day 41}{Overview on Nonlinear Systems}
+\lesson[George F. Simmons, Differential Equations with Applications and Historical Notes, 3rd Edition]
+  {Day 41}{Historical Context}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A Spiral and a Saddle}
 
-\subsection{From Local Behavior to a Phase Portrait}
+Differential equations began with calculus itself in the late 17th century.
 
-Before studying another population model, let's review how to put
-local sketches together. The following system is a mathematical review
-example; its coordinates are not populations, so negative coordinates
-are allowed. A nonlinear system may have several equilibria, each with
-a different local behavior.
+Newton and Leibniz (1670s-1690s). Newton treated differential equations as a core part of his "fluxions" method. He classified first-order equations and solved many with infinite series. Leibniz developed the notation we still use (dy/dx, ∫) and found methods like separation of variables and reduction of homogeneous equations by substitution.
 
-To sketch its phase portrait:
-\begin{enumerate}
-    \item Find all equilibria.
-    \item Compute the Jacobian.
-    \item Classify each equilibrium using the
-    eigenvalues of the Jacobian.
-    \item Sketch the local behavior.
-    \item Use the original equations to guide
-    trajectories farther from the equilibria.
-\end{enumerate}
+The Bernoullis (1690s). Jacob and Johann Bernoulli drove much of the early progress, often in rivalry with each other. Jacob's 1690 solution to the isochrone problem (the curve along which a body falls with uniform vertical speed) was the first published use of the word "integral." Their work led to the Bernoulli equation (1695), which Leibniz showed could be reduced to a linear one. The brachistochrone problem (1696) pushed things toward the calculus of variations.
 
-When all eigenvalues have nonzero real parts,
-linearization determines the local qualitative
-behavior. However, it does not determine the
-entire phase portrait.
+Riccati and Clairaut (1720s-1730s). Jacopo Riccati studied the quadratic first-order equation now bearing his name. Alexis Clairaut studied what we now call Clairaut equations, which have singular solutions that aren't members of the general family. That was a new and puzzling idea at the time.
 
-%-------------------------------------------------------------
-\subsection{Finding and Classifying the Equilibria}
+Euler (1730s-1770s). Euler turned a collection of tricks into something like a theory. He developed integrating factors, solved linear equations with constant coefficients using exponentials (1743), and treated higher-order equations systematically. He also introduced a numerical stepping method in 1768, which we still call Euler's method.
 
-\begin{example}[1]{
-Find and classify the equilibria, then sketch the
-local behavior of
-\[
-\begin{dcases}
-x'=1-x-y,\\
-y'=x^2-1.
-\end{dcases}
-\]
-}
+Partial differential equations (1740s). D'Alembert derived the wave equation for a vibrating string in 1747. Euler, Daniel Bernoulli, and d'Alembert then argued for years over what counted as an admissible solution. That debate fed into the eventual development of Fourier analysis and the modern notion of a function.
 
-\paragraph{Step 1. Find the equilibria.}
-Set both components equal to zero:
-\[
-1-x-y=0,\qquad x^2-1=0.
-\]
-The second equation gives $x=\pm1$.
+Lagrange and Laplace (late 1700s). Lagrange introduced variation of parameters (1774) and recast mechanics in terms of differential equations. Laplace applied them to celestial mechanics.
 
-If $x=1$, then $y=0$.
-If $x=-1$, then $y=2$.
-Therefore,
-\[
-\boxed{(1,0)\qquad\text{and}\qquad(-1,2).}
-\]
+Until about 1800, the goal was to find explicit formulas for solutions. The shift to asking whether solutions exist at all came with Cauchy's existence theorems in the 1820s, followed by Lipschitz, Liouville, and later Picard.
 
-\paragraph{Step 2. Compute the Jacobian.}
-Let
-\[
-f(x,y)=1-x-y,\qquad g(x,y)=x^2-1.
-\]
-Then
-\[
-\boxed{
-J(x,y)=
-\begin{pmatrix}
--1&-1\\
-2x&0
-\end{pmatrix}.
-}
-\]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{First-Order Equations: Describing Change}
 
-\paragraph{Step 3. Classify $(1,0)$ and orient the spiral.}
-At this equilibrium,
-\[
-A_1=J(1,0)=\begin{pmatrix}-1&-1\\2&0\end{pmatrix},
-\qquad
-\det(\lambda I-A_1)=\lambda^2+\lambda+2.
-\]
-Thus $\lambda=(-1\pm i\sqrt7)/2$. The real part is negative, so
-$(1,0)$ is a \textbf{stable spiral}.
 
-To orient it, test a point just to the right: $(1+\varepsilon,0)$,
-where $\varepsilon>0$. The original equations give
-\[
-(x',y')=(-\varepsilon,\,2\varepsilon+\varepsilon^2).
-\]
-The velocity points up and left, so the spiral rotates counterclockwise.
-
-\paragraph{Step 4. Classify $(-1,2)$ and find its directions.}
-Here,
-\[
-A_2=J(-1,2)=\begin{pmatrix}-1&-1\\-2&0\end{pmatrix},
-\qquad
-\det(\lambda I-A_2)=\lambda^2+\lambda-2
-=(\lambda-1)(\lambda+2).
-\]
-The eigenvalues have opposite signs, so $(-1,2)$ is a \textbf{saddle}.
-Solving $(A_2-\lambda I)\mathbf v=\mathbf0$ gives
-\[
-\begin{array}{c|c|c}
-\lambda & \text{Eigenvector} & \text{Tangent line through }(-1,2)\\\hline
--2 & (1,1)^T & y-2=x+1\quad\text{(inward)}\\
-1 & (1,-2)^T & y-2=-2(x+1)\quad\text{(outward)}
-\end{array}
-\]
-For example, when $\lambda=1$, the first row gives
-$-2v_1-v_2=0$, so we may choose $(v_1,v_2)=(1,-2)$.
-Translate each direction to the equilibrium before drawing its arrows.
-\end{example}
-
-%-------------------------------------------------------------
-\subsection{Sketching the Local Behavior}
-
-Plot the equilibria and draw:
 \begin{itemize}
-    \item a counterclockwise inward spiral near $(1,0)$;
-    \item a saddle near $(-1,2)$, with inward arrows
-    along $(1,1)$ and outward arrows along $(1,-2)$.
+  \item \textbf{Separable} (Jacob Bernoulli 1690, Leibniz 1691). The isochrone problem was the motivating example.
+  \item \textbf{Linear} (Leibniz and Johann Bernoulli, 1690s). The first general method came from a substitution trick.
+  \item \textbf{Bernoulli equation} (posed by Jacob in 1695). Leibniz reduced it to a linear equation in 1696, and Johann found a similar method.
+  \item \textbf{Riccati} (about 1724). Riccati studied a special case. Daniel Bernoulli found cases that could be solved, and Euler later showed that one known solution reduces the equation to a linear one.
+  \item \textbf{Exact equations and integrating factors} (Clairaut and Euler, about 1739--1740). They found the test $\partial M/\partial x = \partial N/\partial t$ independently. Euler then used integrating factors to turn non-exact equations into exact ones, and later gave the linear equation's integrating factor.
+  \item \textbf{Cauchy} (1820s) proved existence by showing that Euler polygon approximations converge.
+  \item \textbf{Lipschitz} (1868) added the condition that gives uniqueness.
+  \item \textbf{Peano} (1890) proved existence under continuity alone, so uniqueness can fail without Lipschitz.
+  \item \textbf{Picard} (1890s) used successive approximations, and \textbf{Lindel\"of} (1894) refined them. This is the Picard--Lindel\"of theorem.
+  \item \textbf{Liouville} (1830s--40s) showed that some equations, including Riccati ones, cannot be solved with elementary functions. This is why the focus moved away from finding formulas.
+  \item \textbf{Verhulst} (1838) proposed the logistic equation for population growth.
+  \item \textbf{Poincar\'e} (1880s) founded the qualitative theory: study the phase portrait and stability without solving the equation.
 \end{itemize}
 
-The saddle lines indicate tangent directions.
-The nonlinear trajectories need not remain straight.
+\subsection{From Calculus to Differential Equations}
 
-\begin{center}
-\begin{tikzpicture}[scale=1.15]
-    \draw[step=0.5,very thin,gray!20]
-        (-2.2,-1) grid (2.2,3);
-    \draw[->,thick] (-2.3,0)--(2.5,0)
-        node[right] {$x$};
-    \draw[->,thick] (0,-1.1)--(0,3.2)
-        node[above] {$y$};
+In the seventeenth century, Newton and Leibniz independently
+developed calculus. Derivatives provided a language for
+instantaneous change. Differential equations posed the
+reverse question: if we know how a quantity changes,
+can we determine the quantity itself?
 
-    % Solutions of the linearized system near (1,0)
-    \foreach \r in {-0.65,0.65}{
-        \draw[blue,thick,domain=0:9,samples=300]
-            plot
-            ({1+\r*exp(-\x/2)*
-                (cos(deg(sqrt(7)*\x/2))
-                -sin(deg(sqrt(7)*\x/2))/sqrt(7))},
-             {4*\r*exp(-\x/2)*
-                sin(deg(sqrt(7)*\x/2))/sqrt(7)});
-
-        \draw[blue,thick,->,domain=0.5:0.8,samples=25]
-            plot
-            ({1+\r*exp(-\x/2)*
-                (cos(deg(sqrt(7)*\x/2))
-                -sin(deg(sqrt(7)*\x/2))/sqrt(7))},
-             {4*\r*exp(-\x/2)*
-                sin(deg(sqrt(7)*\x/2))/sqrt(7)});
-    }
-
-    % Saddle: stable tangent direction
-    \draw[blue,dashed,thick] (-1.5,1.5)--(-0.5,2.5);
-    \draw[blue,thick,->] (-1.4,1.6)--(-1.15,1.85);
-    \draw[blue,thick,->] (-0.6,2.4)--(-0.85,2.15);
-
-    % Saddle: unstable tangent direction
-    \draw[red,dashed,thick] (-1.35,2.7)--(-0.65,1.3);
-    \draw[red,thick,->] (-1.1,2.2)--(-1.3,2.6);
-    \draw[red,thick,->] (-0.9,1.8)--(-0.7,1.4);
-
-    % Equilibria
-    \fill (1,0) circle (1.8pt);
-    \fill (-1,2) circle (1.8pt);
-    \node[below right] at (1,0) {$(1,0)$};
-    \node[above left,fill=white,inner sep=1pt]
-        at (-1,2) {$(-1,2)$};
-\end{tikzpicture}
-
-\small
-Local behavior predicted by the linearized systems.
-Blue arrows point inward; red arrows point outward.
-\end{center}
-
-%-------------------------------------------------------------
-\subsection{Extending the Sketch}
-
-To guide the trajectories farther away, return
-to the original equations:
+For example, suppose a population grows at a rate
+proportional to its current size:
 \[
-x'=1-x-y,\qquad y'=x^2-1.
+P'=rP,\qquad P(0)=P_0.
 \]
-They give the following directions:
+Separation of variables gives
 \[
-\begin{aligned}
-y<1-x&\implies x'>0,
-&
-y>1-x&\implies x'<0,\\
-|x|>1&\implies y'>0,
-&
-|x|<1&\implies y'<0.
-\end{aligned}
+\boxed{P(t)=P_0e^{rt}.}
 \]
-The curves where one derivative vanishes are called
-\textbf{nullclines}. Here they are
+A simple rule about the rate produces a prediction
+for the entire population history.
+
+% SIDE NOTE: 9:04 | From Rates to Solutions
+% a) Model: P' = rP.
+% b) Solve: P = Ce^{rt}.
+% c) Apply the IC: C = P_0.
+
+\subsection{The Search for Methods}
+
+Our first chapter introduced several ways to recover
+a solution from its derivative. The form of the equation
+helps us choose the method:
 \[
-y=1-x,\qquad x=-1,\qquad x=1.
+\begin{array}{c|c}
+\text{Equation} & \text{Method}\\ \hline
+y'=f(t)g(y) & \text{Separation of variables}\\[2mm]
+y'+p(t)y=q(t) & \text{Integrating factor}
+\end{array}
+\]
+For a linear equation, the integrating factor
+\[
+\mu(t)=e^{\int p(t)\,dt}
+\]
+turns the left side into a product derivative:
+\[
+(\mu y)'=\mu q.
 \]
 
-Use these signs together with the local behavior
-to sketch trajectories. Do not extend the saddle
-eigendirections as straight lines across the
-entire plane.
+\paragraph{Historical glimpse.}
+In 1696, Johann Bernoulli asked which curve would carry
+a sliding bead between two points in the least time.
+This is the \textbf{brachistochrone problem}.
+The shortest path need not be the fastest:
+a steeper initial descent can help the bead gain speed.
+Problems like this illustrate how physical questions
+encouraged the development of new mathematical methods.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]
-        {figs/phase_saddle_spiral.png}
-    \caption{A numerical phase portrait of the nonlinear
-    system. The saddle trajectories curve away from
-    their local tangent directions.}
-\end{figure}
+% Optional: show a straight track and a curved track.
+% Ask which is faster; do not derive the brachistochrone.
 
+\paragraph{Quick review.}
+Which method would you try for each equation?
+\[
+y'=t(1+y^2),
+\qquad
+y'+2y=t.
+\]
 
+% BLUE TRANSITION BOX: From Rates to Forces
+% We can describe growth with a first derivative.
+% Motion under a force naturally leads to a second derivative.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Second-Order Equations: Predicting Motion}
+
+% Simmons: Sections 17, 20--21.
+% Historical background: Chapter 3, Appendices A and B.
+
+% SIDE NOTE: 9:12 | Forces Produce Motion
+% a) Newton's law: F = mx''.
+% b) Springs give a restoring force.
+% c) Damping and forcing change the motion.
+
+\subsection{Newton's Law and Oscillations}
+
+Newton's mechanics connected forces to acceleration.
+For a mass attached to a spring, this leads to
+\[
+\boxed{mx''+cx'+kx=F(t).}
+\]
+Each term has a physical meaning:
+\[
+\underbrace{mx''}_{\text{mass times acceleration}}
++
+\underbrace{cx'}_{\text{damping}}
++
+\underbrace{kx}_{\text{restoring term}}
+=
+\underbrace{F(t)}_{\text{external force}}.
+\]
+
+The same mathematical form also appears in electrical
+circuits. Once we understand the equation, we can apply
+that understanding to more than one physical system.
+
+\subsection{Why Exponentials Appear}
+
+Euler was a central figure in the eighteenth-century
+development of differential equations.
+A powerful idea in our study of linear equations is
+to try an exponential:
+\[
+x=e^{\lambda t}.
+\]
+For
+\[
+mx''+cx'+kx=0,
+\]
+this gives
+\[
+(m\lambda^2+c\lambda+k)e^{\lambda t}=0.
+\]
+Thus, a differential equation becomes an algebraic equation:
+\[
+\boxed{m\lambda^2+c\lambda+k=0.}
+\]
+
+Real roots produce exponential terms.
+Complex roots produce oscillatory terms.
+The roots therefore tell us how the system moves.
+
+\paragraph{Quick review.}
+Predict the motion without solving for constants:
+\[
+x''+4x=0,
+\qquad
+x''+2x'+4x=0.
+\]
+The first oscillates indefinitely.
+The second oscillates with decreasing amplitude.
+
+\paragraph{An external force.}
+For a nonhomogeneous equation, we write
+\[
+x=x_h+x_p.
+\]
+The complementary solution describes the system's
+natural motion; a particular solution accounts for
+the applied force. Resonance shows that the frequency
+of that force can matter greatly.
+
+% BLUE TRANSITION BOX: What If the Force Switches On?
+% Smooth forcing is only one possibility.
+% We also need to describe switches and sudden impulses.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Laplace Transforms: Turning Calculus into Algebra}
+
+% Simmons: Section 23 and Chapter 9.
+% Section 23 discusses Heaviside's operational methods.
+% Do not identify Heaviside's original methods with the
+% modern Laplace-transform method without qualification.
+
+% SIDE NOTE: 9:22 | Transform, Solve, Invert
+% a) Transform the differential equation.
+% b) Solve an algebraic equation.
+% c) Invert to recover the solution.
+
+\subsection{The Operational Viewpoint}
+
+Simmons describes Oliver Heaviside's operational methods:
+an approach that treated differentiation using algebraic
+rules. The idea was powerful, although its justification
+required care.
+
+Our Laplace-transform method gives a precise way to
+turn differentiation into algebra. If
+\[
+Y(s)=\mathcal{L}\{y(t)\},
+\]
+then
+\[
+\boxed{\mathcal{L}\{y'\}=sY(s)-y(0).}
+\]
+Notice that the initial condition enters the calculation
+automatically.
+
+\subsection{A Familiar Equation in a New Form}
+
+Consider
+\[
+y'+2y=1,\qquad y(0)=0.
+\]
+Taking the Laplace transform gives
+\[
+sY+2Y=\frac1s.
+\]
+Therefore,
+\[
+Y=\frac{1}{s(s+2)}
+=\frac12\left(\frac1s-\frac1{s+2}\right),
+\]
+and inversion gives
+\[
+\boxed{y(t)=\frac12(1-e^{-2t}).}
+\]
+
+We could also solve this equation with an integrating
+factor. The transform method becomes especially useful
+when the input is piecewise or impulsive.
+
+\paragraph{Quick review.}
+What physical input does each expression represent?
+\[
+H(t-3),
+\qquad
+\delta(t-3).
+\]
+The first switches on at $t=3$.
+The second represents an idealized instantaneous impulse.
+
+% BLUE TRANSITION BOX: Several Quantities at Once
+% A single equation is not always enough.
+% Interacting quantities require a system.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Linear Systems: Finding the Basic Motions}
+
+% Simmons: Section 22 and Chapter 10.
+% Use coupled oscillators as the historical application;
+% the matrix notation below is our course's modern language.
+
+% SIDE NOTE: 9:30 | Eigenvectors Describe Basic Motions
+% a) Try x = e^{lambda t}v.
+% b) The equation becomes Av = lambda v.
+% c) Combine the basic solutions.
+
+\subsection{From One Object to Interacting Objects}
+
+Simmons discusses coupled harmonic oscillators:
+objects whose motions influence one another.
+Such problems require several unknown functions.
+
+Even a single second-order equation can be written
+as a system. For example,
+\[
+x''+4x=0
+\]
+becomes, with $y=x'$,
+\[
+\begin{pmatrix}x\\y\end{pmatrix}'
+=
+\begin{pmatrix}
+0&1\\
+-4&0
+\end{pmatrix}
+\begin{pmatrix}x\\y\end{pmatrix}.
+\]
+The two coordinates record position and velocity.
+
+\subsection{The Role of Eigenvalues}
+
+For a linear system
+\[
+\mathbf{x}'=A\mathbf{x},
+\]
+try
+\[
+\mathbf{x}=e^{\lambda t}\mathbf{v}.
+\]
+Substitution gives
+\[
+\boxed{A\mathbf{v}=\lambda\mathbf{v}.}
+\]
+Thus, eigenvalues and eigenvectors arise directly
+from the search for exponential solutions.
+
+Eigenvectors determine special directions of motion.
+Eigenvalues determine growth, decay, and oscillation.
+Together, they help us construct both solutions
+and phase portraits.
+
+\paragraph{Quick review.}
+Classify the origin for each matrix:
+\[
+A_1=
+\begin{pmatrix}2&0\\0&-1\end{pmatrix},
+\qquad
+A_2=
+\begin{pmatrix}-1&0\\0&-2\end{pmatrix},
+\qquad
+A_3=
+\begin{pmatrix}0&1\\-4&0\end{pmatrix}.
+\]
+These give a saddle, a stable node, and a center.
+
+% BLUE TRANSITION BOX: What If We Cannot Find a Formula?
+% A solution formula is one way to understand motion.
+% A phase portrait offers another.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Nonlinear Systems: Understanding Without Solving}
+
+% Simmons: Sections 57--58 and Chapter 11, Appendix A.
+% The discussion below emphasizes qualitative behavior,
+% not a complete chronology of nonlinear dynamics.
+
+% SIDE NOTE: 9:38 | Predict Without an Explicit Solution
+% a) Find equilibria.
+% b) Linearize near each equilibrium.
+% c) Use the original equations to check the larger picture.
+
+\subsection{Poincare's Change of Viewpoint}
+
+In the late nineteenth century, Henri Poincar\'e
+helped establish the qualitative study of differential
+equations through his work in celestial mechanics.
+
+The central question broadened:
+even without an explicit solution, can we determine
+whether motion is bounded, periodic, or unstable?
+
+This is the viewpoint we used for nonlinear systems:
+\[
+x'=f(x,y),\qquad y'=g(x,y).
+\]
+We find equilibria and examine the Jacobian
+\[
+J(x,y)=
+\begin{pmatrix}
+f_x&f_y\\
+g_x&g_y
+\end{pmatrix}.
+\]
+Linearization describes local behavior, while the
+original equations help us understand the full portrait.
+
+\subsection{From Mechanics to Population Dynamics}
+
+The Lotka--Volterra model applies differential equations
+to interacting populations:
+\[
+\begin{dcases}
+x'=rx-\alpha xy,\\
+y'=-ky+\beta xy.
+\end{dcases}
+\]
+Prey support predator growth, while predators reduce
+the prey population.
+
+We can interpret the interaction terms, find equilibria,
+and study population cycles without obtaining explicit
+formulas for $x(t)$ and $y(t)$.
+
+\paragraph{Quick review.}
+If the eigenvalues at an equilibrium are purely imaginary,
+does that prove the nonlinear system has a center?
+
+No. It identifies a center for the linearized system.
+We need additional information, such as a conserved
+quantity, to establish closed nonlinear orbits.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{One Problem Connecting the Course}
+
+% SIDE NOTE: 9:47 | Return to the Pendulum
+% a) Mechanics gives the equation.
+% b) Linearization gives an approximation.
+% c) The phase portrait explains the possible motions.
+
+The pendulum brings several chapters together:
+\[
+\boxed{\theta''+\gamma\theta'
++\omega^2\sin\theta=0.}
+\]
+
+\begin{itemize}
+    \item \textbf{Modeling:}
+    forces determine the differential equation.
+
+    \item \textbf{Linear equations:}
+    near the downward position, $\sin\theta\approx\theta$.
+
+    \item \textbf{Systems:}
+    angle and angular velocity become two coordinates.
+
+    \item \textbf{Nonlinear analysis:}
+    the phase portrait distinguishes oscillation,
+    rotation, and approach to equilibrium.
+
+    \item \textbf{Numerical approximation:}
+    computation lets us visualize individual motions.
+\end{itemize}
+
+We began the course by looking for solution formulas.
+We finish with a broader goal:
+\[
+\boxed{\text{Use differential equations to understand
+and predict change.}}
+\]
 
 \end{document}
