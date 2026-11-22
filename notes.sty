@@ -79,6 +79,7 @@
 \newcommand{\lessontitle}{}
 \newboolean{showanswer}
 \setboolean{showanswer}{true}
+
 % Use \setboolean{showanswer}{false} for a student copy.
 \newcommand{\solutionheight}{24mm}
 \setlength{\parindent}{0pt}
@@ -141,8 +142,7 @@
 \newtcolorbox{takeaway}{notesbox,colback=notesteal!4,
   borderline west={2pt}{0pt}{notesteal},coltitle=notesteal,title=Takeaway}
 
-% Preserve the original syntax: \begin{example}[label]{problem} solution \end{example}.
-% An omitted label uses automatic numbering. Solutions can be hidden globally.
+% Preserve the original syntax: \begin{example}[label]{problem} solution \end{example}. An omitted label uses automatic numbering. Solutions can be hidden globally.
 \newcounter{example}
 \NewDocumentEnvironment{example}{O{} +m +b}{%
   \refstepcounter{example}%
