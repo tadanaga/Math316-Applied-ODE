@@ -1,0 +1,582 @@
+% !TeX program = lualatex
+%======================================================================
+% DOCUMENT SETUP -- compile with recent LuaLaTeX
+%======================================================================
+% Metadata must appear before \documentclass.
+\DocumentMetadata{
+  tagging=on,
+  tagging-setup={math/setup=mathml-SE},
+  pdfstandard=ua-2,
+  lang=en-US
+}
+\documentclass[10pt,letterpaper]{article}
+\usepackage{notes}
+% \usepackage[widemargin]{notes}
+
+%----------------------------------------------------------------------
+% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+%----------------------------------------------------------------------
+\hypersetup{
+  pdflang={en-US},
+  pdftitle={\class{} - 2.6 Method of Undetermined Coefficients - Part 1},
+  pdfauthor={\instructor},
+  pdfsubject={\coursename}
+}
+
+% Standalone lecture: compile this file from the repository root.
+% Keep notes.sty on the TeX search path. The original 2.6-mouc.tex is unchanged.
+% Timing comments describe a suggested 9:00--9:50 class; optional extensions
+% remain in the notes for independent reading or a longer class.
+\begin{document}
+\lesson[Logan, Differential Equations, 3rd edition\enspace\textbullet\enspace Section 2.3.1]
+  {2.6, Part 1}{Building the Method}
+\renewcommand{\lessontitle}{Undetermined Coefficients, Part 1}
+\section{Method of Undetermined Coefficients}
+
+\subsection{Homogeneous vs. Nonhomogeneous}
+
+% SIDE NOTE: 9:00 | Two Pieces
+% a) A nonzero forcing term changes the problem.
+% b) Separate the homogeneous family from one particular solution.
+% c) Keep the integrating-factor review brief.
+Throughout these two lectures, $a,b,c$ are real constants and $a\ne0$.
+We are studying linear equations with constant coefficients.
+
+So far, we have been solving \textbf{homogeneous problems} (HP):
+\begin{equation}
+ax''+bx'+cx=0. \tag{HP}
+\end{equation}
+Homogeneous means that the right-hand side is zero. A
+\textbf{nonhomogeneous problem} (NHP) has the form
+\begin{equation}
+ax''+bx'+cx=f(t), \tag{NHP}
+\end{equation}
+where $f(t)$ is not identically zero. The function $f(t)$ is
+called the \textbf{forcing term} or \textbf{source term}.
+For a spring-mass system, it represents an external force
+acting on the mass. Our goal is to solve nonhomogeneous equations
+for certain types of forcing terms. We begin with a
+first-order example.
+
+%-------------------------------------------------------------
+\subsection{First-Order NHP}
+
+Consider the equation
+\[
+x'+2x=9e^t.
+\]
+We already know how to solve this using an integrating factor.
+With $\mu(t)=e^{2t}$, we obtain
+\begin{align*}
+x(t)
+&=e^{-2t}\left(\int 9e^{3t}\,dt+C\right)\\
+&=e^{-2t}\left(3e^{3t}+C\right)\\
+&=Ce^{-2t}+3e^t.
+\end{align*}
+Notice that the solution has two pieces:
+\[
+x(t)=
+\underbrace{Ce^{-2t}}_{\text{solves }x'+2x=0}
++
+\underbrace{3e^t}_{\text{solves }x'+2x=9e^t}.
+\]
+We will use this structure to develop a new method.
+
+%-------------------------------------------------------------
+\subsection{New Method}
+
+We solve the same equation by finding these two pieces
+separately:
+\[
+x(t)=x_h(t)+x_p(t).
+\]
+Here, $x_h$ is the \textbf{general homogeneous solution},
+and $x_p$ is a \textbf{particular solution}: any one
+solution of the nonhomogeneous equation.
+
+\par\medskip
+\textbf{Step 1. Find the homogeneous solution.}
+Temporarily set the forcing term to zero:
+\[
+x'+2x=0.
+\]
+The general solution is
+\[
+x_h(t)=Ce^{-2t}.
+\]
+
+\par\medskip
+\textbf{Step 2. Choose a trial function.}
+Since the forcing term is $9e^t$, we guess a form for the particular solution
+\[
+x_p(t)=Ae^t,
+\]
+where $A$ is an unknown coefficient. Differentiating $e^t$
+preserves its form, so this is a reasonable guess.
+
+\par\medskip
+\textbf{Step 3. Determine the coefficient.}
+Substitute the trial function into the nonhomogeneous equation:
+\begin{align*}
+x_p'+2x_p&=9e^t\\
+Ae^t+2Ae^t&=9e^t\\
+3Ae^t&=9e^t.
+\end{align*}
+Thus, $A=3$ and $x_p(t)=3e^t$.
+
+\par\medskip
+\textbf{Step 4. Combine the two pieces.}
+The general solution is
+\[
+\boxed{x(t)=x_h(t)+x_p(t)=Ce^{-2t}+3e^t.}
+\]
+This agrees with the integrating-factor solution.
+The same approach also works for second-order equations.
+
+%-------------------------------------------------------------
+\subsection{Why the Sum Works}
+Why does the summation 
+$$
+    x=x_h+x_p
+$$
+work?
+Suppose $x_h$ solves the homogeneous equation and $x_p$
+solves the nonhomogeneous equation. Substituting their sum gives
+\begin{align*}
+ax''+bx'+cx&=f(t)\\
+a(x_h+x_p)''+b(x_h+x_p)'+c(x_h+x_p)&=f(t)\\
+(ax_h''+bx_h'+cx_h)+(ax_p''+bx_p'+cx_p)&=f(t)\\
+(0)+(f(t))&=f(t)\\
+f&=f \; \checkmark
+\end{align*}
+Therefore, $x_h+x_p$ solves the nonhomogeneous equation. There is also a reason this gives \emph{every} solution. If $x$ is any
+solution of the nonhomogeneous equation, subtract the particular solution:
+\[
+a(x-x_p)''+b(x-x_p)'+c(x-x_p)=f(t)-f(t)=0.
+\]
+Thus $x-x_p$ belongs to the homogeneous family, and $x=x_h+x_p$.
+
+A particular solution is not unique. For example, both $3e^t$ and
+$3e^t+5e^{-2t}$ solve $x'+2x=9e^t$. We choose the simplest convenient
+one; the homogeneous term already accounts for all the remaining freedom.
+
+%-------------------------------------------------------------
+\subsection{Method of Undetermined Coefficients}
+
+The \textbf{method of undetermined coefficients} finds a
+particular solution by choosing a trial function with unknown
+coefficients and solving for them. To solve
+\[
+ax''+bx'+cx=f(t),
+\]
+use the following steps:
+\begin{enumerate}
+    \item Find the general homogeneous solution $x_h$ by solving
+    \[
+    ax''+bx'+cx=0.
+    \]
+
+    \item Choose a trial function for $x_p$ based on the form
+    of $f(t)$. 
+
+    \item Substitute $x_p$ into the nonhomogeneous equation
+    and solve for its unknown coefficients.
+
+    \item Write the general solution
+    \[
+    x(t)=x_h(t)+x_p(t).
+    \]
+
+    \item If initial conditions are given, apply them to the
+    complete solution to determine the arbitrary constants.
+\end{enumerate}
+
+We already know how to find $x_h$ using the characteristic
+equation. The new task is choosing a suitable trial function
+for $x_p$, which we discuss next. 
+
+
+
+
+The coefficients $A,B,\ldots$ in a trial are \textbf{undetermined coefficients}:
+substitution into the DE fixes their values. The constants $c_1,c_2$ in $x_h$
+are \textbf{arbitrary constants}: initial conditions determine their values.
+Do not use the initial conditions to choose $A,B,\ldots$.
+
+% TRANSITION (blue box): We know how to find x_h. How do we choose x_p?
+\section{The Trial Function}
+
+\subsection{When the Method Applies}
+
+The method of undetermined coefficients applies when the forcing
+term $f(t)$ is built from:
+\begin{itemize}
+    \item Polynomials,
+    \item Exponentials $e^{\beta t}$,
+    \item Waves $\sin(\omega t)$ and $\cos(\omega t)$,
+    \item Sums and products of these functions.
+\end{itemize}
+For example, we can use the method to solve
+\[
+x''+x'+x=3e^{2t}\sin t+t^2,
+\]
+but it does not apply to
+\[
+x''+x'+x=\ln t.
+\]
+The key feature of the allowed functions is that repeated
+differentiation produces the same types of terms. This lets
+us choose a trial function with finitely many unknown coefficients.
+
+%-------------------------------------------------------------
+
+% SIDE NOTE: 9:10 | A Complete Second-Order Example
+% a) Find x_h using the characteristic equation.
+% b) Choose a full quadratic and match all three powers.
+% c) Explain why the missing linear term still needs a coefficient.
+\subsection{A Polynomial Forcing Term}
+\begin{example}{
+Find the general solution to
+\[
+x''-3x'+2x=2t^2-3.
+\]
+}
+\textbf{Step 1. Find the homogeneous solution.}
+First, solve the homogeneous equation. The characteristic equation is
+\[
+\lambda^2-3\lambda+2=(\lambda-1)(\lambda-2)=0,
+\]
+so
+\[
+x_h(t)=c_1e^t+c_2e^{2t}.
+\]
+
+\textbf{Step 2. Choose and differentiate the trial.}
+Since the forcing term is a quadratic polynomial, use
+\[
+x_p(t)=At^2+Bt+C.
+\]
+We include the linear term even though it does not appear
+in the forcing term. Differentiating gives
+\[
+x_p'=2At+B,
+\qquad
+x_p''=2A.
+\]
+\textbf{Step 3. Match coefficients.}
+Substitute into the nonhomogeneous equation and collect
+like powers of $t$:
+\begin{align*}
+2A-3(2At+B)+2(At^2+Bt+C)&=2t^2-3,\\
+(2A)t^2+(2B-6A)t+(2A-3B+2C)&=2t^2-3.
+\end{align*}
+For this equality to hold for every $t$, the coefficients
+of corresponding powers must match:
+\[
+\begin{dcases}
+2A=2,\\
+2B-6A=0,\\
+2A-3B+2C=-3.
+\end{dcases}
+\]
+Solving in order gives
+\[
+A=1,\qquad B=3,\qquad C=2.
+\]
+\textbf{Step 4. Assemble the general solution.}
+Therefore, $x_p(t)=t^2+3t+2$, and the general solution is
+\[
+\boxed{x(t)=c_1e^t+c_2e^{2t}+t^2+3t+2.}
+\]
+\end{example}
+
+
+\subsection{Why Include the Missing Powers?}
+In the previous example, the forcing has no linear term. Why include $Bt$?
+If we had tried only $At^2+C$, substitution would give
+\[
+x_p''-3x_p'+2x_p=2At^2-6At+(2A+2C).
+\]
+Matching $2t^2$ requires $A=1$, but then the unwanted term $-6t$ remains.
+The extra term $Bt$ gives us a way to cancel it. A coefficient may turn
+out to be zero, but we should not set it to zero before substitution.
+
+Matching coefficients means matching an identity for \emph{every} $t$,
+not just making the equation work at one chosen time.
+\subsection{Table of Trial Functions}
+
+The table below gives the basic trial forms. Greek letters
+represent known constants from the forcing term; capital
+Latin letters represent unknown coefficients.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Type}
+& \textbf{Forcing term $f(t)$}
+& \textbf{Trial function $x_p(t)$}\\
+\hline
+Constant
+& $\alpha$
+& $A$\\
+\hline
+Exponential
+& $\alpha e^{\beta t}$
+& $Ae^{\beta t}$\\
+\hline
+Polynomial
+& $\alpha_2t^2+\alpha_1t+\alpha_0$
+& $At^2+Bt+C$\\
+\hline
+Wave
+& \shortstack{$\alpha\sin(\omega t)$ or $\alpha\cos(\omega t)$}
+& $A\cos(\omega t)+B\sin(\omega t)$\\
+\hline
+\end{tabular}
+\caption{Basic trial forms suggested by the forcing term.}
+\end{table}
+
+The polynomial row extends to any degree: for a polynomial
+of degree $n$, use a trial polynomial of degree $n$ with an
+unknown coefficient for every power of $t$, including the constant. 
+These are \textbf{initial trial forms}. Substitution will tell us whether
+the proposed form can produce the required forcing term.
+
+%-------------------------------------------------------------
+\begin{example}{
+Choose an initial trial function from the table for each forcing term.
+Do not solve for its coefficients.
+\begin{enumerate}
+    \item $f(t)=6$
+    \item $f(t)=-3e^{4t}$
+    \item $f(t)=3t^2$
+    \item $f(t)=12\sin 3t$
+\end{enumerate}
+}
+\begin{enumerate}
+    \item For a constant forcing term, try
+    \[
+    x_p(t)=A.
+    \]
+
+    \item For an exponential forcing term, keep the
+    same exponent:
+    \[
+    x_p(t)=Ae^{4t}.
+    \]
+
+    \item For a quadratic forcing term, include every
+    power through degree two:
+    \[
+    x_p(t)=At^2+Bt+C.
+    \]
+
+    \item For a sinusoidal forcing term, include both
+    sine and cosine with the same frequency:
+    \[
+    x_p(t)=A\cos 3t+B\sin 3t.
+    \]
+\end{enumerate}
+\end{example}
+
+The trial function may need terms that are absent from $f(t)$.
+Our goal is to include the types of terms produced by
+differentiation. For example, if $f(t)=3t^2$, we use
+\[
+x_p(t)=At^2+Bt+C,
+\]
+even though the forcing term has no linear or constant term.
+Including all three coefficients gives us the freedom to
+match the quadratic term and cancel any unwanted lower-degree
+terms after substitution. The same goes for waves. We need both 
+the sine and cosine because their derivatives switch between the two. 
+
+
+% SIDE NOTE: 9:23 | Why Both Sine and Cosine?
+% a) Differentiation switches sine and cosine.
+% b) Include both, then let substitution determine the coefficients.
+% c) The trial keeps the forcing frequency.
+\subsection{A Sinusoidal Forcing Term}
+\begin{example}{Find the general solution to
+\[
+x''+2x'+2x=5\cos t.
+\]}
+\textbf{Step 1. Find the homogeneous solution.}
+The characteristic equation is $\lambda^2+2\lambda+2=0$, so
+\[
+x_h=e^{-t}(c_1\cos t+c_2\sin t).
+\]
+\textbf{Step 2. Choose the trial.}
+Try $x_p=A\cos t+B\sin t$. Then
+\[
+x_p'=-A\sin t+B\cos t,\qquad x_p''=-A\cos t-B\sin t.
+\]
+\textbf{Step 3. Match the sine and cosine coefficients.}
+Substitution gives
+\[
+(A+2B)\cos t+(B-2A)\sin t=5\cos t+0\sin t.
+\]
+Consequently,
+\[
+A+2B=5,\qquad B-2A=0,
+\]
+so $A=1$ and $B=2$. Therefore,
+\[
+\boxed{x=e^{-t}(c_1\cos t+c_2\sin t)+\cos t+2\sin t.}
+\]
+\end{example}
+Trying only $A\cos t$ would produce an unwanted sine term from $2x_p'$.
+Including $B\sin t$ lets us cancel that term. Notice also that the
+frequency is fixed by the forcing: we determine the amplitudes, not a new frequency.
+
+% SIDE NOTE: 9:32 | Sums and Products
+% a) Add trial groups for sums.
+% b) Combine factors for products, keeping coefficients independent.
+% c) Do not solve a large coefficient system here.
+\section{Rules for Trial Functions}
+
+The basic trial forms extend to more complicated forcing terms.
+We begin with two rules: the sum rule and the product rule.
+
+%-------------------------------------------------------------
+\subsection{Sum Rule}
+
+If the forcing term is a sum, add the trial forms for its
+individual terms. Use separate unknown coefficients for
+each part.
+
+For example, if
+\[
+x''+2x=t+\sin 3t,
+\]
+then the initial trial function is
+\[
+x_p(t)=
+\underbrace{At+B}_{\text{for }t}
++
+\underbrace{C\cos 3t+D\sin 3t}_{\text{for }\sin 3t}.
+\]
+We can substitute the entire trial function at once or
+find a particular solution for each forcing term separately
+and add the results. For instance, you may substitute 
+$$
+At+B
+$$
+into $x''+2x=t$ and solve for $A$ and $B$. Then you can 
+substitute
+$$
+C\cos3t+D\sin3t
+$$
+into $x''+2x=\sin3t$ to find $C$ and $D$. Then combine the results at the end.
+%-------------------------------------------------------------
+\subsection{Product Rule}
+
+When the forcing term is a product of a polynomial, an
+exponential, and a wave, combine their trial forms.
+After expanding, give every distinct term its own
+unknown coefficient.
+
+\par\medskip
+\textbf{Polynomial times exponential.}
+For a forcing term such as
+\[
+f(t)=4te^{2t},
+\]
+use a full linear polynomial multiplied by the exponential:
+\[
+x_p(t)=(At+B)e^{2t}.
+\]
+
+\par\medskip
+\textbf{Exponential times wave.}
+For
+\[
+f(t)=e^{-3t}\sin 2t,
+\]
+include both sine and cosine:
+\[
+x_p(t)=e^{-3t}(A\cos 2t+B\sin 2t).
+\]
+
+\par\medskip
+\textbf{Polynomial times wave.}
+For
+\[
+f(t)=t\cos t,
+\]
+give sine and cosine their own full linear polynomials:
+\[
+x_p(t)=(At+B)\cos t+(Ct+D)\sin t.
+\]
+Do not use $(At+B)(C\cos t+D\sin t)$: that form ties
+the coefficients together. The coefficients of
+$t\cos t$, $\cos t$, $t\sin t$, and $\sin t$
+must be independent.
+
+%-------------------------------------------------------------
+
+\subsection{Combining All Three Types}
+For a forcing term such as $t^2e^{3t}\sin 2t$, use
+\[
+x_p=e^{3t}\bigl[(At^2+Bt+C)\cos 2t+(Dt^2+Et+F)\sin 2t\bigr].
+\]
+There are six independent coefficients. Both polynomial factors have
+ degree two; the exponential rate and trigonometric frequency remain fixed.
+This is a trial-selection exercise, not a request to differentiate this long expression.
+
+% SIDE NOTE: 9:40 | Your Turn: Choose the Trial
+% a) Identify the building blocks before writing coefficients.
+% b) Use independent coefficients and combine repeated trial terms.
+% c) Let students explain their choices; leave the long product for reading if late.
+\subsection{Practice Choosing Trials}
+\begin{example}{For each equation, choose a trial function. Do not determine its coefficients.
+\begin{enumerate}
+\item $x''-x=2t+e^{-3t}$.
+\item $x''+x=e^{-3t}\sin 2t$.
+\item $x''+4x=t\cos t$.
+\item $x''+2x'+2x=t^2+3t+e^{2t}$.
+\end{enumerate}}
+\begin{enumerate}
+\item $x_p=At+B+Ce^{-3t}$: add the polynomial and exponential trials.
+\item $x_p=e^{-3t}(A\cos 2t+B\sin 2t)$: include both waves.
+\item $x_p=(At+B)\cos t+(Ct+D)\sin t$: each wave gets its own polynomial.
+\item $x_p=At^2+Bt+C+De^{2t}$: one full quadratic already covers both $t^2$ and $3t$.
+Do not add another linear polynomial with redundant coefficients.
+\end{enumerate}
+\end{example}
+
+\subsection{A Product Worked Out}
+% OPTIONAL EXTENSION: Independent reading, or use in a longer class.
+\begin{example}{Find a particular solution of $x''-x=4te^{2t}$.}
+Try $x_p=(At+B)e^{2t}$. Differentiating carefully gives
+\begin{align*}
+x_p'&=(2At+A+2B)e^{2t},\\
+x_p''&=(4At+4A+4B)e^{2t}.
+\end{align*}
+Substitution gives
+\[
+x_p''-x_p=(3At+4A+3B)e^{2t}=4te^{2t}.
+\]
+Cancel the nonzero factor $e^{2t}$ and match coefficients:
+\[
+3A=4,\qquad 4A+3B=0.
+\]
+Hence
+\[
+\boxed{x_p=\left(\frac43t-\frac{16}{9}\right)e^{2t}.}
+\]
+The problem asks only for a particular solution. If it asked for the general
+solution, we would add $c_1e^t+c_2e^{-t}$.
+\end{example}
+
+% SIDE NOTE: 9:48 | The Main Idea
+% a) Choose a family that contains the terms produced by differentiation.
+% b) Substitute and match coefficients.
+% c) Next class: what if no choice of coefficients works?
+\subsection{Looking Ahead}
+So far, substitution has allowed us to determine the coefficients in each trial.
+Next time, we will encounter a problem where our usual choice does not work.
+We will use the failure to understand how to repair the method.
+\end{document}
