@@ -2,7 +2,6 @@
 %======================================================================
 % DOCUMENT SETUP -- compile with recent LuaLaTeX
 %======================================================================
-% Metadata must appear before \documentclass.
 \DocumentMetadata{
   tagging=on,
   tagging-setup={math/setup=mathml-SE},
@@ -11,306 +10,454 @@
 }
 \documentclass[11pt,letterpaper]{article}
 \usepackage[widemargin]{notes}
+% \usepackage{notes}
 
 %----------------------------------------------------------------------
-% PDF PROPERTIES -- title for this lecture; author/course from notes.sty
+% PDF PROPERTIES
 %----------------------------------------------------------------------
 \hypersetup{
   pdflang={en-US},
-  pdftitle={\class{} - Day 41 Historical Context},
+  pdftitle={\class{} - Day 41: A Historical Review},
   pdfauthor={\instructor},
   pdfsubject={\coursename}
 }
 
 \begin{document}
 
-\lesson[George F. Simmons, Differential Equations with Applications and Historical Notes, 3rd Edition]
-  {Day 41}{Historical Context}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lesson[George F. Simmons, Differential Equations with
+Applications and Historical Notes, 3rd edition]
+  {Day 41}{A Historical Review}
 
-\begin{enumerate}
-    \item testin
-    \item 1 2
-\end{enumerate}
+%======================================================================
+% OPENING
+%======================================================================
 
-Differential equations began with calculus itself in the late 17th century.
-
-Newton and Leibniz (1670s-1690s). Newton treated differential equations as a core part of his "fluxions" method. He classified first-order equations and solved many with infinite series. Leibniz developed the notation we still use (dy/dx, ∫) and found methods like separation of variables and reduction of homogeneous equations by substitution.
-
-The Bernoullis (1690s). Jacob and Johann Bernoulli drove much of the early progress, often in rivalry with each other. Jacob's 1690 solution to the isochrone problem (the curve along which a body falls with uniform vertical speed) was the first published use of the word "integral." Their work led to the Bernoulli equation (1695), which Leibniz showed could be reduced to a linear one. The brachistochrone problem (1696) pushed things toward the calculus of variations.
-
-Riccati and Clairaut (1720s-1730s). Jacopo Riccati studied the quadratic first-order equation now bearing his name. Alexis Clairaut studied what we now call Clairaut equations, which have singular solutions that aren't members of the general family. That was a new and puzzling idea at the time.
-
-Euler (1730s-1770s). Euler turned a collection of tricks into something like a theory. He developed integrating factors, solved linear equations with constant coefficients using exponentials (1743), and treated higher-order equations systematically. He also introduced a numerical stepping method in 1768, which we still call Euler's method.
-
-Partial differential equations (1740s). D'Alembert derived the wave equation for a vibrating string in 1747. Euler, Daniel Bernoulli, and d'Alembert then argued for years over what counted as an admissible solution. That debate fed into the eventual development of Fourier analysis and the modern notion of a function.
-
-Lagrange and Laplace (late 1700s). Lagrange introduced variation of parameters (1774) and recast mechanics in terms of differential equations. Laplace applied them to celestial mechanics.
-
-Until about 1800, the goal was to find explicit formulas for solutions. The shift to asking whether solutions exist at all came with Cauchy's existence theorems in the 1820s, followed by Lipschitz, Liouville, and later Picard.
+The goal of this lecture is to connect the major ideas
+from our five chapters and place them in historical
+context. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{First-Order Equations: Describing Change}
-
-
-\begin{itemize}
-  \item \textbf{Separable} (Jacob Bernoulli 1690, Leibniz 1691). The isochrone problem was the motivating example.
-  \item \textbf{Linear} (Leibniz and Johann Bernoulli, 1690s). The first general method came from a substitution trick.
-  \item \textbf{Bernoulli equation} (posed by Jacob in 1695). Leibniz reduced it to a linear equation in 1696, and Johann found a similar method.
-  \item \textbf{Riccati} (about 1724). Riccati studied a special case. Daniel Bernoulli found cases that could be solved, and Euler later showed that one known solution reduces the equation to a linear one.
-  \item \textbf{Exact equations and integrating factors} (Clairaut and Euler, about 1739--1740). They found the test $\partial M/\partial x = \partial N/\partial t$ independently. Euler then used integrating factors to turn non-exact equations into exact ones, and later gave the linear equation's integrating factor.
-  \item \textbf{Cauchy} (1820s) proved existence by showing that Euler polygon approximations converge.
-  \item \textbf{Lipschitz} (1868) added the condition that gives uniqueness.
-  \item \textbf{Peano} (1890) proved existence under continuity alone, so uniqueness can fail without Lipschitz.
-  \item \textbf{Picard} (1890s) used successive approximations, and \textbf{Lindel\"of} (1894) refined them. This is the Picard--Lindel\"of theorem.
-  \item \textbf{Liouville} (1830s--40s) showed that some equations, including Riccati ones, cannot be solved with elementary functions. This is why the focus moved away from finding formulas.
-  \item \textbf{Verhulst} (1838) proposed the logistic equation for population growth.
-  \item \textbf{Poincar\'e} (1880s) founded the qualitative theory: study the phase portrait and stability without solving the equation.
-\end{itemize}
+\section{Chapter 1: First-Order Equations}
 
 \subsection{From Calculus to Differential Equations}
 
-In the seventeenth century, Newton and Leibniz independently
-developed calculus. Derivatives provided a language for
-instantaneous change. Differential equations posed the
-reverse question: if we know how a quantity changes,
-can we determine the quantity itself?
+\textbf{Main: Use derivatives to create models that involve rates of change.}
+
+In the late seventeenth century, Isaac Newton and
+Gottfried Wilhelm Leibniz independently developed
+calculus. Derivatives gave mathematicians a language
+for instantaneous change. Differential equations
+asked a related question: if we know how a quantity
+changes, can we determine the quantity itself?
 
 For example, suppose a population grows at a rate
-proportional to its current size:
+proportional to its size:
 \[
-P'=rP,\qquad P(0)=P_0.
+P'=rP.
 \]
-Separation of variables gives
+Separation of variables gives the family
+\[
+P(t)=Ce^{rt}.
+\]
+The initial condition $P(0)=P_0$ selects one member:
 \[
 \boxed{P(t)=P_0e^{rt}.}
 \]
-A simple rule about the rate produces a prediction
-for the entire population history.
 
-% SIDE NOTE: 9:04 | From Rates to Solutions
-% a) Model: P' = rP.
-% b) Solve: P = Ce^{rt}.
-% c) Apply the IC: C = P_0.
+The differential equation describes the growth rule.
+The initial condition tells us where that growth begins.
 
-\subsection{The Search for Methods}
+\textbf{Segue: How did modeling inspire mathematicians?}
 
-Our first chapter introduced several ways to recover
-a solution from its derivative. The form of the equation
-helps us choose the method:
+%----------------------------------------------------------------------
+\subsection{Finding a Method That Fits}
+
+\textbf{Main: People started finding techniques to solve models.}
+
+Leibniz and the Bernoulli brothers, Jacob and Johann,
+were central figures in the early development of
+differential equations. Many early problems involved
+curves, motion, and geometry. Solving them required
+recognizing useful forms and making clever substitutions.
+
+That is also how we approached first-order equations.
+Before calculating, we identified the structure.
+
+A \textbf{separable equation} has the form
 \[
-\begin{array}{c|c}
-\text{Equation} & \text{Method}\\ \hline
-y'=f(t)g(y) & \text{Separation of variables}\\[2mm]
-y'+p(t)y=q(t) & \text{Integrating factor}
-\end{array}
+x'=f(t)g(x).
 \]
-For a linear equation, the integrating factor
+We separate the variables and integrate. When dividing
+by $g(x)$, we must also check whether $g(x)=0$ gives
+equilibrium solutions.
+
+A \textbf{first-order linear equation} has the form
+\[
+x'+p(t)x=q(t).
+\]
+The integrating factor
 \[
 \mu(t)=e^{\int p(t)\,dt}
 \]
-turns the left side into a product derivative:
+turns the equation into
 \[
-(\mu y)'=\mu q.
+(\mu x)'=\mu q.
 \]
 
-\paragraph{Historical glimpse.}
-In 1696, Johann Bernoulli asked which curve would carry
-a sliding bead between two points in the least time.
-This is the \textbf{brachistochrone problem}.
-The shortest path need not be the fastest:
-a steeper initial descent can help the bead gain speed.
-Problems like this illustrate how physical questions
-encouraged the development of new mathematical methods.
+Both methods make the equation easier to integrate,
+but they use different features of its structure.
 
-% Optional: show a straight track and a curved track.
-% Ask which is faster; do not derive the brachistochrone.
-
-\paragraph{Quick review.}
-Which method would you try for each equation?
+\begin{example}{
+Which method would you try?
 \[
-y'=t(1+y^2),
+x'=t(1+x^2),
 \qquad
-y'+2y=t.
+x'+2x=t.
 \]
+}
+The first is separable. The second is linear and can be solved with an integrating factor.
+\end{example}
+
+
+%----------------------------------------------------------------------
+
+\subsection{Existence, Uniqueness, and Behavior}
+
+\textbf{Main: make physical interpretations without explicitly solving models}
+
+Finding a formula is only one part of understanding
+a differential equation. We also asked:
+\begin{itemize}
+    \item Does a solution exist?
+    \item Does the initial condition determine a
+    unique solution?
+    \item How does the solution behave over time?
+\end{itemize}
+
+During the nineteenth century, mathematicians including
+Cauchy, Lipschitz, Peano, and Picard developed the theory
+behind existence and uniqueness. This work helped
+separate the question of whether a solution exists
+from the question of whether we can write it down.
+
+Recall a sufficient condition from our course:
+if $f$ and $f_x$ are continuous near $(t_0,x_0)$,
+then the IVP
+\[
+x'=f(t,x),\qquad x(t_0)=x_0
+\]
+has a unique solution on some interval around $t_0$.
+This is a local conclusion; it does not automatically
+guarantee a solution for all future time.
+
+We also studied autonomous equations using phase lines.
+For example, Pierre-Fran\c{c}ois Verhulst proposed a
+logistic population model in 1838:
+\[
+P'=rP\left(1-\frac{P}{K}\right),
+\qquad r,K>0.
+\]
+The equilibria are $P=0$ and $P=K$. Without solving:
+\[
+\begin{aligned}
+0<P<K &\quad\Longrightarrow\quad P'>0,\\
+P>K   &\quad\Longrightarrow\quad P'<0.
+\end{aligned}
+\]
+Positive populations move toward the carrying
+capacity $K$.
+
+We could find an explicit solution, but the signs
+already tell us the main long-term behavior.
 
 % BLUE TRANSITION BOX: From Rates to Forces
-% We can describe growth with a first derivative.
-% Motion under a force naturally leads to a second derivative.
+% Growth naturally involves a first derivative.
+% Acceleration naturally involves a second derivative.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Second-Order Equations: Predicting Motion}
-
-% Simmons: Sections 17, 20--21.
-% Historical background: Chapter 3, Appendices A and B.
+\section{Chapter 2: Second-Order Equations}
 
 % SIDE NOTE: 9:12 | Forces Produce Motion
-% a) Newton's law: F = mx''.
-% b) Springs give a restoring force.
-% c) Damping and forcing change the motion.
+% a) Newton's law connects force and acceleration.
+% b) Identify mass, damping, stiffness, and forcing.
+% c) The same equation can describe different physical systems.
 
-\subsection{Newton's Law and Oscillations}
+\subsection{Newton's Law and the Spring Model}
 
-Newton's mechanics connected forces to acceleration.
-For a mass attached to a spring, this leads to
+\textbf{Main: Newton's law naturally produces 2nd order DEs}
+
+
+Newton's laws of motion, published in the
+\textit{Principia} in 1687, connected forces to
+changes in motion. For constant mass,
 \[
-\boxed{mx''+cx'+kx=F(t).}
-\]
-Each term has a physical meaning:
-\[
-\underbrace{mx''}_{\text{mass times acceleration}}
-+
-\underbrace{cx'}_{\text{damping}}
-+
-\underbrace{kx}_{\text{restoring term}}
-=
-\underbrace{F(t)}_{\text{external force}}.
+F=mx''.
 \]
 
-The same mathematical form also appears in electrical
-circuits. Once we understand the equation, we can apply
-that understanding to more than one physical system.
+For a spring-mass system, the forces lead to
+\[
+\boxed{mx''+\gamma x'+kx=F(t).}
+\]
+Here,
+\begin{itemize}
+    \item $m$ is the mass;
+    \item $\gamma$ is the damping coefficient;
+    \item $k$ is the spring constant;
+    \item $F(t)$ is the applied external force.
+\end{itemize}
 
-\subsection{Why Exponentials Appear}
+The restoring force is $-kx$, and the damping force
+is $-\gamma x'$. Moving these terms to the left
+gives the equation above.
 
-Euler was a central figure in the eighteenth-century
-development of differential equations.
-A powerful idea in our study of linear equations is
-to try an exponential:
+The same mathematical structure appears in electrical
+circuits. Studying one equation can therefore help us
+understand several kinds of physical systems.
+
+\textbf{Segue: people sought analytic solutions to these problems}
+
+%----------------------------------------------------------------------
+\subsection{Euler and Exponential Solutions}
+\textbf{Main: Exponential trial solutions transform linear differential equations into algebraic problems. }
+
+Leonhard Euler helped organize and extend the methods
+of differential equations during the eighteenth century.
+His work on linear equations with constant coefficients
+connected differential equations to algebraic equations.
+
+The key observation is familiar:
+differentiating an exponential preserves its form.
+For
+\[
+mx''+\gamma x'+kx=0,
+\]
+try
 \[
 x=e^{\lambda t}.
 \]
-For
+Substitution gives
 \[
-mx''+cx'+kx=0,
+(m\lambda^2+\gamma\lambda+k)e^{\lambda t}=0.
 \]
-this gives
+Since the exponential is never zero,
 \[
-(m\lambda^2+c\lambda+k)e^{\lambda t}=0.
-\]
-Thus, a differential equation becomes an algebraic equation:
-\[
-\boxed{m\lambda^2+c\lambda+k=0.}
+\boxed{m\lambda^2+\gamma\lambda+k=0.}
 \]
 
-Real roots produce exponential terms.
-Complex roots produce oscillatory terms.
-The roots therefore tell us how the system moves.
+This is the \textbf{characteristic equation}.
+Its roots determine the forms of the solutions:
+\begin{itemize}
+    \item Distinct real roots give two exponential terms.
+    \item A repeated real root introduces a factor of $t$.
+    \item Complex roots give sine and cosine terms
+    multiplied by an exponential.
+\end{itemize}
 
-\paragraph{Quick review.}
-Predict the motion without solving for constants:
+The connection between complex exponentials and
+oscillations is expressed by Euler's formula:
+\[
+e^{i\beta t}=\cos\beta t+i\sin\beta t.
+\]
+
+\begin{example}
+{
+Compare
 \[
 x''+4x=0,
 \qquad
 x''+2x'+4x=0.
 \]
-The first oscillates indefinitely.
-The second oscillates with decreasing amplitude.
-
-\paragraph{An external force.}
-For a nonhomogeneous equation, we write
+}
+Their characteristic roots are
 \[
-x=x_h+x_p.
+\lambda=\pm2i,
+\qquad
+\lambda=-1\pm i\sqrt3.
 \]
-The complementary solution describes the system's
-natural motion; a particular solution accounts for
-the applied force. Resonance shows that the frequency
-of that force can matter greatly.
+Nonzero solutions of the first equation oscillate
+with constant amplitude. Solutions of the second
+\end{example}
+oscillate with a decaying amplitude.
 
-% BLUE TRANSITION BOX: What If the Force Switches On?
-% Smooth forcing is only one possibility.
-% We also need to describe switches and sudden impulses.
+%----------------------------------------------------------------------
+% SIDE NOTE: 9:18 | Natural Motion and Forcing
+% a) Write x = x_h + x_p.
+% b) Recall why a duplicate trial fails.
+% c) Connect the repaired trial to resonance.
+
+\subsection{Superposition, Forcing, and Resonance}
+\textbf{Main: MOUC was developed to help us uderstand external forces modeled as source functions}
+
+For a nonhomogeneous equation, we used
+\[
+\boxed{x=x_h+x_p.}
+\]
+The homogeneous solution contributes zero to the
+forcing, while the particular solution contributes
+$F(t)$. Their sum therefore solves the required equation.
+
+The method of undetermined coefficients finds $x_p$
+by choosing a trial and determining its coefficients.
+Our failed trials taught us something important:
+a trial already belonging to the homogeneous family
+cannot produce a nonzero forcing term.
+
+For example,
+\[
+x''+4x=\cos2t
+\]
+has homogeneous solution
+\[
+x_h=c_1\cos2t+c_2\sin2t.
+\]
+The usual sine/cosine trial is a duplicate.
+Multiplying the trial group by $t$ leads to
+\[
+x_p=\frac{t}{4}\sin2t.
+\]
+
+The growing factor $t$ also has a physical meaning.
+In this ideal undamped model, forcing at the natural
+frequency produces \textbf{resonance}: oscillations
+with a growing amplitude.
+
+For damped systems, we also distinguished the
+decaying \textbf{transient response} from the
+long-term response driven by the external force.
+
+\textbf{Segue: MOUC is not sufficient to handle intstantaneous changes.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Laplace Transforms: Turning Calculus into Algebra}
+\section{Chapter 3: Laplace Transforms}
 
-% Simmons: Section 23 and Chapter 9.
-% Section 23 discusses Heaviside's operational methods.
-% Do not identify Heaviside's original methods with the
-% modern Laplace-transform method without qualification.
 
-% SIDE NOTE: 9:22 | Transform, Solve, Invert
-% a) Transform the differential equation.
-% b) Solve an algebraic equation.
-% c) Invert to recover the solution.
 
-\subsection{The Operational Viewpoint}
+\subsection{Transform, Solve, and Invert}
+\textbf{Main: transform make DEs easier to manipulate}
 
-Simmons describes Oliver Heaviside's operational methods:
-an approach that treated differentiation using algebraic
-rules. The idea was powerful, although its justification
-required care.
+Pierre-Simon Laplace worked extensively on probability
+and celestial mechanics in the late eighteenth and
+early nineteenth centuries. Integral-transform methods
+were among the mathematical tools associated with
+his work.
 
-Our Laplace-transform method gives a precise way to
-turn differentiation into algebra. If
+The \textbf{Laplace transform} assigns a new function
+to $x(t)$:
 \[
-Y(s)=\mathcal{L}\{y(t)\},
+X(s)=\mathcal{L}\{x(t)\}
+=\int_0^\infty e^{-st}x(t)\,dt,
 \]
-then
-\[
-\boxed{\mathcal{L}\{y'\}=sY(s)-y(0).}
-\]
-Notice that the initial condition enters the calculation
-automatically.
+for values of $s$ where the integral converges.
 
-\subsection{A Familiar Equation in a New Form}
-
-Consider
+Our most useful identities were
 \[
-y'+2y=1,\qquad y(0)=0.
+\mathcal{L}\{x'\}=sX(s)-x(0)
 \]
-Taking the Laplace transform gives
+and
 \[
-sY+2Y=\frac1s.
+\mathcal{L}\{x''\}
+=s^2X(s)-sx(0)-x'(0).
+\]
+Derivatives become algebraic expressions involving
+$X(s)$, and the initial conditions enter directly.
+
+\begin{example}{
+Solve this IVP using the Laplace transform.
+\[
+x'+2x=1,\qquad x(0)=0.
+\]
+}
+The equation
+\[
+(s+2)X=\frac1s.
 \]
 Therefore,
 \[
-Y=\frac{1}{s(s+2)}
+X=\frac{1}{s(s+2)}
 =\frac12\left(\frac1s-\frac1{s+2}\right),
 \]
-and inversion gives
+so
 \[
-\boxed{y(t)=\frac12(1-e^{-2t}).}
+\boxed{x(t)=\frac12(1-e^{-2t}).}
 \]
+An integrating factor would also solve this problem.
+The value of the transform method becomes especially
+clear when the input is piecewise or impulsive.
+\end{example}
 
-We could also solve this equation with an integrating
-factor. The transform method becomes especially useful
-when the input is piecewise or impulsive.
+%----------------------------------------------------------------------
+\subsection{Switches and Impulses}
 
-\paragraph{Quick review.}
-What physical input does each expression represent?
+\textbf{Main: transforms were effective for discontinuous forcing and impulsive forcing}
+
+Later, Oliver Heaviside developed operational methods
+for electrical problems. He manipulated differentiation
+using algebraic rules, obtaining useful solutions
+while raising questions about how those rules should
+be justified.
+
+Heaviside's original operational calculus was not
+identical to the Laplace-transform method we learned.
+However, both illustrate the same useful ambition:
+turn a differential equation into an algebraic problem.
+
+The \textbf{unit step function}
 \[
-H(t-3),
+H(t-a)
+\]
+describes an input that switches on at $t=a$.
+
+The \textbf{Dirac delta}
+\[
+\delta(t-a)
+\]
+represents an idealized instantaneous impulse.
+It is not an ordinary function with a finite spike.
+
+Their Laplace transforms are
+\[
+\mathcal{L}\{H(t-a)\}=\frac{e^{-as}}{s},
 \qquad
-\delta(t-3).
+\mathcal{L}\{\delta(t-a)\}=e^{-as}.
 \]
-The first switches on at $t=3$.
-The second represents an idealized instantaneous impulse.
 
-% BLUE TRANSITION BOX: Several Quantities at Once
-% A single equation is not always enough.
-% Interacting quantities require a system.
+\begin{example}{
+Suppose a battery initially off was turned on at $t=5$ seconds. How is this modeled? How does Laplace transform help solve this model?
+}   
+Interpret the forces
+\[
+F(t)=(A\sin(t-5))H(t-5),
+\]
+Finish this idea...
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Linear Systems: Finding the Basic Motions}
+\section{Chapter 4: Linear Systems}
 
-% Simmons: Section 22 and Chapter 10.
-% Use coupled oscillators as the historical application;
-% the matrix notation below is our course's modern language.
+% SIDE NOTE: 9:30 | Find the Basic Motions
+% a) Interacting objects lead to coupled equations.
+% b) A second-order equation is also a first-order system.
+% c) The exponential trial produces an eigenvalue problem.
 
-% SIDE NOTE: 9:30 | Eigenvectors Describe Basic Motions
-% a) Try x = e^{lambda t}v.
-% b) The equation becomes Av = lambda v.
-% c) Combine the basic solutions.
+\subsection{From One Quantity to Several}
 
-\subsection{From One Object to Interacting Objects}
+\textbf{Main: 2D motion such as moving planets requires a system of DEs}
 
-Simmons discusses coupled harmonic oscillators:
-objects whose motions influence one another.
-Such problems require several unknown functions.
+Problems involving several interacting objects
+helped drive the development of differential equations.
+The eighteenth-century study of vibrations involved
+mathematicians such as Euler, Daniel Bernoulli,
+d'Alembert, and Lagrange. Celestial mechanics likewise
+required studying bodies that influence one another.
 
-Even a single second-order equation can be written
-as a system. For example,
+Our matrix notation gives a compact way to describe
+such interactions:
+\[
+\mathbf{x}'=A\mathbf{x}.
+\]
+
+Even a single second-order equation can be rewritten
+as a first-order system. For example,
 \[
 x''+4x=0
 \]
@@ -324,32 +471,61 @@ becomes, with $y=x'$,
 \end{pmatrix}
 \begin{pmatrix}x\\y\end{pmatrix}.
 \]
-The two coordinates record position and velocity.
+The coordinates now record position and velocity
+at the same time.
 
-\subsection{The Role of Eigenvalues}
+%----------------------------------------------------------------------
+\subsection{The Exponential Idea Returns}
 
-For a linear system
-\[
-\mathbf{x}'=A\mathbf{x},
-\]
-try
+\textbf{Main: exact solution can be found with eigenvalues and eigenvectors}
+
+For a scalar equation, we tried $e^{\lambda t}$.
+For a system, we tried
 \[
 \mathbf{x}=e^{\lambda t}\mathbf{v}.
 \]
-Substitution gives
+Substituting gives
+\[
+\lambda e^{\lambda t}\mathbf{v}
+=e^{\lambda t}A\mathbf{v},
+\]
+and therefore
 \[
 \boxed{A\mathbf{v}=\lambda\mathbf{v}.}
 \]
-Thus, eigenvalues and eigenvectors arise directly
+
+The \textbf{eigenvalue problem} arises naturally
 from the search for exponential solutions.
 
-Eigenvectors determine special directions of motion.
-Eigenvalues determine growth, decay, and oscillation.
-Together, they help us construct both solutions
-and phase portraits.
+For distinct real eigenvalues,
+\[
+\mathbf{x}(t)
+=c_1e^{\lambda_1t}\mathbf{v}_1
++c_2e^{\lambda_2t}\mathbf{v}_2.
+\]
+Real eigenvectors determine the directions of
+linear orbits. The signs of the eigenvalues
+determine whether those orbits point toward
+or away from the origin.
 
-\paragraph{Quick review.}
-Classify the origin for each matrix:
+Complex eigenvalues introduce rotation, while
+their real parts determine growth or decay.
+
+%----------------------------------------------------------------------
+\subsection{From Formulas to Phase Portraits}
+
+\textbf{We can describe make qualitative inferences using phase portraits.}
+
+A \textbf{phase portrait} displays representative
+trajectories, with arrows indicating increasing time.
+It lets us compare many initial conditions in one picture.
+
+We classified the familiar cases:
+nodes, saddles, lines of equilibria, centers,
+spirals, stars, and degenerate nodes.
+
+\begin{example}{    
+Classify the origin for
 \[
 A_1=
 \begin{pmatrix}2&0\\0&-1\end{pmatrix},
@@ -360,111 +536,130 @@ A_2=
 A_3=
 \begin{pmatrix}0&1\\-4&0\end{pmatrix}.
 \]
-These give a saddle, a stable node, and a center.
+}
+These give a saddle, a stable node, and a center,
+respectively.
 
-% BLUE TRANSITION BOX: What If We Cannot Find a Formula?
-% A solution formula is one way to understand motion.
-% A phase portrait offers another.
+Notice the connection to Chapter 2. The matrix
+$A_3$ describes the same undamped oscillator
+$x''+4x=0$. Its eigenvalues are the characteristic
+roots we found earlier.
+\end{example}
+
+% BLUE TRANSITION BOX: Understand Without a Formula
+% Linear systems let us connect formulas and pictures.
+% For nonlinear systems, the picture may be our main source of information.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Nonlinear Systems: Understanding Without Solving}
+\section{Chapter 5: Nonlinear Systems}
 
-% Simmons: Sections 57--58 and Chapter 11, Appendix A.
-% The discussion below emphasizes qualitative behavior,
-% not a complete chronology of nonlinear dynamics.
+% SIDE NOTE: 9:38 | A Different Kind of Answer
+% a) Poincare studied the behavior of solutions.
+% b) Find equilibria and linearize nearby.
+% c) Local information does not determine the full portrait.
 
-% SIDE NOTE: 9:38 | Predict Without an Explicit Solution
-% a) Find equilibria.
-% b) Linearize near each equilibrium.
-% c) Use the original equations to check the larger picture.
-
-\subsection{Poincare's Change of Viewpoint}
+\subsection{Poincar\'e and Qualitative Questions}
 
 In the late nineteenth century, Henri Poincar\'e
-helped establish the qualitative study of differential
-equations through his work in celestial mechanics.
+helped establish the qualitative theory of
+differential equations, particularly through
+his work on celestial mechanics.
 
-The central question broadened:
-even without an explicit solution, can we determine
-whether motion is bounded, periodic, or unstable?
+Instead of asking only for a solution formula,
+one could ask:
+\begin{itemize}
+    \item Does the motion remain bounded?
+    \item Does it approach an equilibrium?
+    \item Does it repeat?
+    \item What happens after a small change
+    in the initial condition?
+\end{itemize}
 
-This is the viewpoint we used for nonlinear systems:
+This viewpoint brings us back to the phase lines
+from Chapter 1, but now several quantities
+can change together.
+
+%----------------------------------------------------------------------
+\subsection{Linearization Connects Two Chapters}
+
+For
 \[
-x'=f(x,y),\qquad y'=g(x,y).
+x'=f(x,y),\qquad y'=g(x,y),
 \]
-We find equilibria and examine the Jacobian
+an \textbf{equilibrium} $(x^*,y^*)$ satisfies
 \[
-J(x,y)=
+f(x^*,y^*)=0,\qquad g(x^*,y^*)=0.
+\]
+
+Near that point, we use the \textbf{Jacobian matrix}
+\[
+J(x^*,y^*)=
 \begin{pmatrix}
-f_x&f_y\\
-g_x&g_y
+f_x(x^*,y^*)&f_y(x^*,y^*)\\
+g_x(x^*,y^*)&g_y(x^*,y^*)
 \end{pmatrix}.
 \]
-Linearization describes local behavior, while the
-original equations help us understand the full portrait.
+With
+\[
+u=x-x^*,\qquad v=y-y^*,
+\]
+the local linear approximation is
+\[
+\begin{pmatrix}u\\v\end{pmatrix}'
+=
+J(x^*,y^*)
+\begin{pmatrix}u\\v\end{pmatrix}.
+\]
 
-\subsection{From Mechanics to Population Dynamics}
+This is why our work on linear systems was so useful:
+it gives us a way to study a nonlinear system
+near each equilibrium.
 
-The Lotka--Volterra model applies differential equations
-to interacting populations:
+However, linearization is local. It does not
+automatically tell us how trajectories connect
+far from the equilibrium.
+
+%----------------------------------------------------------------------
+% SIDE NOTE: 9:43 | From Mechanics to Populations
+% a) Verhulst modeled one population.
+% b) Lotka and Volterra studied interacting populations.
+% c) Read the terms before doing any calculations.
+
+\subsection{Population Dynamics}
+
+Differential equations also became tools for studying
+living systems. Verhulst's logistic model described
+a single population with limited resources.
+In the early twentieth century, Alfred Lotka and
+Vito Volterra independently developed models
+of interacting populations.
+
+Our predator--prey model was
 \[
 \begin{dcases}
 x'=rx-\alpha xy,\\
-y'=-ky+\beta xy.
+y'=-ky+\beta xy,
 \end{dcases}
-\]
-Prey support predator growth, while predators reduce
-the prey population.
-
-We can interpret the interaction terms, find equilibria,
-and study population cycles without obtaining explicit
-formulas for $x(t)$ and $y(t)$.
-
-\paragraph{Quick review.}
-If the eigenvalues at an equilibrium are purely imaginary,
-does that prove the nonlinear system has a center?
-
-No. It identifies a center for the linearized system.
-We need additional information, such as a conserved
-quantity, to establish closed nonlinear orbits.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{One Problem Connecting the Course}
-
-% SIDE NOTE: 9:47 | Return to the Pendulum
-% a) Mechanics gives the equation.
-% b) Linearization gives an approximation.
-% c) The phase portrait explains the possible motions.
-
-The pendulum brings several chapters together:
-\[
-\boxed{\theta''+\gamma\theta'
-+\omega^2\sin\theta=0.}
+\qquad r,k,\alpha,\beta>0.
 \]
 
+Each term expresses an assumption:
 \begin{itemize}
-    \item \textbf{Modeling:}
-    forces determine the differential equation.
-
-    \item \textbf{Linear equations:}
-    near the downward position, $\sin\theta\approx\theta$.
-
-    \item \textbf{Systems:}
-    angle and angular velocity become two coordinates.
-
-    \item \textbf{Nonlinear analysis:}
-    the phase portrait distinguishes oscillation,
-    rotation, and approach to equilibrium.
-
-    \item \textbf{Numerical approximation:}
-    computation lets us visualize individual motions.
+    \item $rx$: prey grow in the absence of predators.
+    \item $-ky$: predators decline in the absence of prey.
+    \item $-\alpha xy$: encounters reduce the prey population.
+    \item $\beta xy$: food supports predator growth.
 \end{itemize}
 
-We began the course by looking for solution formulas.
-We finish with a broader goal:
-\[
-\boxed{\text{Use differential equations to understand
-and predict change.}}
-\]
+The two interaction coefficients need not be equal.
+Prey consumed and predator growth are different
+quantities.
+
+We interpreted the terms, found equilibria, and
+studied trajectories without needing explicit
+formulas for both populations. This is a useful
+example of Poincar\'e's broader viewpoint:
+understanding a solution does not always require
+writing it down.
 
 \end{document}

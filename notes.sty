@@ -1,6 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{notes}[2026/11/22 Shared lecture notes theme]
-
+\ProvidesPackage{notes}
 %======================================================================
 % QUICK START
 %======================================================================
@@ -56,7 +55,7 @@
 % The widemargin option changes the left margin and keeps it on the
 % physical left side in two-sided documents.
 %----------------------------------------------------------------------
-\newcommand{\notesstandardmargin}{0.7in}
+\newcommand{\notesstandardmargin}{0.9in}
 \newcommand{\notesannotationmargin}{2.2in}
 \newcommand{\notestopmargin}{1in}
 \newcommand{\notesbottommargin}{1in}
@@ -295,7 +294,7 @@
 \newenvironment{note}{\begin{itemize}\color{notesgold}}{\end{itemize}}
 \newcommand{\com}[1]{\textcolor{commentblue}{\text{(#1)}}}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
-\newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\green}[1]{\textcolor{dgreen}{#1}}
 \newcommand{\blue}[1]{\textcolor{notesblue}{#1}}
 %---- Mathematical notation -------------------------------------------
 % \cvec{a,b} produces angle brackets; \vec uses an over-arrow.
@@ -324,7 +323,6 @@
 %======================================================================
 % All lectures use LuaLaTeX. Load unicode-math centrally, after legacy
 % math packages/shortcuts, matching the previous lecture-level load order.
-% Do not load unicode-math again in individual lecture files.
 % The default OpenType math font is Latin Modern Math.
 \RequirePackage{unicode-math}
 \endinput

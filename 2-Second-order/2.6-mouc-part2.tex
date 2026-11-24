@@ -23,10 +23,6 @@
   pdfsubject={\coursename}
 }
 
-% Standalone lecture: compile this file from the repository root.
-% Keep notes.sty on the TeX search path. The original 2.6-mouc.tex is unchanged.
-% Timing comments allow a longer 9:00--10:00 session; optional extensions
-% remain in the notes for independent reading or a longer class.
 \begin{document}
 \lesson[Logan, Differential Equations, 3rd edition\enspace\textbullet\enspace Section 2.3.1]
   {2.6, Part 2}{Repairing the Trial}
@@ -86,6 +82,7 @@ $0$ and $f(t)$.
 \[
 x''-4x=e^{2t}.
 \]}
+
 \textbf{Step 1. Find the homogeneous solution.}
 The characteristic equation is
 \[
@@ -114,9 +111,7 @@ Substituting into the nonhomogeneous equation gives
 \qquad\text{or}\qquad
 0=e^{2t}.
 \]
-This cannot hold for any $t$, regardless of the value of $A$.
-
-We cannot finish the problem using this trial. Before choosing another
+This cannot hold for any $t$, regardless of the value of $A$. We cannot finish the problem using this trial. Before choosing another
 one, let's understand what went wrong.
 \end{example}
 
@@ -168,6 +163,7 @@ x''-4x=e^{2t}.
 \]
 Use the new trial $x_p=Ate^{2t}$ to complete the solution.
 }
+
 \textbf{Step 1. Keep the homogeneous solution.}
 We already found
 \[
