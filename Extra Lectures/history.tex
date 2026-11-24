@@ -34,14 +34,17 @@ Applications and Historical Notes, 3rd edition]
 
 The goal of this lecture is to connect the major ideas
 from our five chapters and place them in historical
-context. 
+context. We follow the order of the course, not a strict
+timeline: physical questions led to equations, the search
+for formulas led to new methods, and difficult equations
+motivated studying solutions without explicit formulas.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Chapter 1: First-Order Equations}
 
 \subsection{From Calculus to Differential Equations}
 
-\textbf{Main: Use derivatives to create models that involve rates of change.}
+\textbf{Main idea: A rate law turns a physical assumption into a differential equation.}
 
 In the late seventeenth century, Isaac Newton and
 Gottfried Wilhelm Leibniz independently developed
@@ -50,6 +53,17 @@ for instantaneous change. Differential equations
 asked a related question: if we know how a quantity
 changes, can we determine the quantity itself?
 
+Some of the earliest problems concerned moving bodies
+and curves defined by their tangents. In 1701, Newton
+published work on the cooling of hot objects; a modern
+idealization is $T'=-k(T-T_a)$. Later, Thomas Malthus
+argued in 1798 that unchecked population growth could
+be geometric. The equation below is a modern formulation
+of proportional growth, not an equation Malthus wrote.
+
+% Historical sources: U. Besson, European Journal of Physics (2011),
+% DOI 10.1088/0143-0807/32/2/007 (Newton's 1701 cooling work).
+% MacTutor biography of Verhulst and historical work on Malthus (1798).
 For example, suppose a population grows at a rate
 proportional to its size:
 \[
@@ -67,18 +81,27 @@ The initial condition $P(0)=P_0$ selects one member:
 The differential equation describes the growth rule.
 The initial condition tells us where that growth begins.
 
-\textbf{Segue: How did modeling inspire mathematicians?}
+\textbf{Segue: A rate law gives us an equation. How can we recover the unknown function?}
 
 %----------------------------------------------------------------------
 \subsection{Finding a Method That Fits}
 
-\textbf{Main: People started finding techniques to solve models.}
+\textbf{Main idea: Recognize a useful structure before choosing an exact solution method.}
 
 Leibniz and the Bernoulli brothers, Jacob and Johann,
 were central figures in the early development of
 differential equations. Many early problems involved
 curves, motion, and geometry. Solving them required
 recognizing useful forms and making clever substitutions.
+Leibniz treated first-order linear equations in 1694;
+Johann Bernoulli and, later, Euler helped turn such
+individual insights into more systematic methods.
+Our integrating-factor formula condenses that history
+into one reliable procedure.
+
+% Historical source: Mathematical Association of America,
+% "Solving First-Order Linear Differential Equations:
+% Three Mini-Primary Source Projects" (Leibniz, Bernoulli, Euler).
 
 That is also how we approached first-order equations.
 Before calculating, we identified the structure.
@@ -108,14 +131,22 @@ Both methods make the equation easier to integrate,
 but they use different features of its structure.
 
 \begin{example}{
-Which method would you try?
+Classify both equations, then solve the linear one.
 \[
 x'=t(1+x^2),
 \qquad
 x'+2x=t.
 \]
 }
-The first is separable. The second is linear and can be solved with an integrating factor.
+The first is separable. For the second, $\mu=e^{2t}$ gives
+\[
+(e^{2t}x)'=te^{2t},\qquad
+e^{2t}x=e^{2t}\left(\frac t2-\frac14\right)+C.
+\]
+Hence
+\[
+\boxed{x(t)=\frac t2-\frac14+Ce^{-2t}.}
+\]
 \end{example}
 
 
@@ -123,7 +154,7 @@ The first is separable. The second is linear and can be solved with an integrati
 
 \subsection{Existence, Uniqueness, and Behavior}
 
-\textbf{Main: make physical interpretations without explicitly solving models}
+\textbf{Main idea: Existence, uniqueness, and long-term behavior are separate from finding a formula.}
 
 Finding a formula is only one part of understanding
 a differential equation. We also asked:
@@ -134,11 +165,18 @@ a differential equation. We also asked:
     \item How does the solution behave over time?
 \end{itemize}
 
-During the nineteenth century, mathematicians including
-Cauchy, Lipschitz, Peano, and Picard developed the theory
-behind existence and uniqueness. This work helped
-separate the question of whether a solution exists
-from the question of whether we can write it down.
+During the nineteenth century, Cauchy advanced
+existence arguments, while Lipschitz, Peano, and
+Picard clarified the assumptions behind existence
+and uniqueness. In particular, continuity alone can
+give local existence without guaranteeing uniqueness.
+This separated the question of whether a solution exists
+from whether we can write it down.
+
+% History: Cauchy's work in the 1820s; Peano's existence
+% results in the late 1880s; Picard's iterations around 1890.
+% See Trefethen et al., Exploring ODEs, historical notes,
+% https://people.maths.ox.ac.uk/trefethen/Exploring.pdf
 
 Recall a sufficient condition from our course:
 if $f$ and $f_x$ are continuous near $(t_0,x_0)$,
@@ -152,7 +190,8 @@ guarantee a solution for all future time.
 
 We also studied autonomous equations using phase lines.
 For example, Pierre-Fran\c{c}ois Verhulst proposed a
-logistic population model in 1838:
+logistic population model in 1838 to account for
+limits on unchecked growth:
 \[
 P'=rP\left(1-\frac{P}{K}\right),
 \qquad r,K>0.
@@ -170,6 +209,10 @@ capacity $K$.
 We could find an explicit solution, but the signs
 already tell us the main long-term behavior.
 
+\textbf{Segue:} A growth law involves the first
+derivative. Newton's force law involves acceleration,
+so mechanics naturally leads to second-order equations.
+
 % BLUE TRANSITION BOX: From Rates to Forces
 % Growth naturally involves a first derivative.
 % Acceleration naturally involves a second derivative.
@@ -184,12 +227,15 @@ already tell us the main long-term behavior.
 
 \subsection{Newton's Law and the Spring Model}
 
-\textbf{Main: Newton's law naturally produces 2nd order DEs}
+\textbf{Main idea: Force laws naturally give equations involving acceleration.}
 
 
 Newton's laws of motion, published in the
 \textit{Principia} in 1687, connected forces to
-changes in motion. For constant mass,
+changes in motion. Together with Hooke's earlier
+work on elastic restoring forces, they provide
+building blocks for the modern spring model.
+For constant mass,
 \[
 F=mx''.
 \]
@@ -214,7 +260,7 @@ The same mathematical structure appears in electrical
 circuits. Studying one equation can therefore help us
 understand several kinds of physical systems.
 
-\textbf{Segue: people sought analytic solutions to these problems}
+\textbf{Segue:} Given a force law, can we predict the motion by finding an explicit formula?
 
 %----------------------------------------------------------------------
 \subsection{Euler and Exponential Solutions}
@@ -222,8 +268,14 @@ understand several kinds of physical systems.
 
 Leonhard Euler helped organize and extend the methods
 of differential equations during the eighteenth century.
-His work on linear equations with constant coefficients
-connected differential equations to algebraic equations.
+In the 1730s and 1740s, Euler and Johann Bernoulli
+studied higher-order linear equations; Euler's published
+treatment connected constant-coefficient differential
+equations to algebraic ones.
+
+% Historical source: MAA, "Solving Linear Higher Order
+% Differential Equations with Euler and Johann Bernoulli,"
+% discussing their correspondence (1739) and Euler's 1743 work.
 
 The key observation is familiar:
 differentiating an exponential preserves its form.
@@ -259,25 +311,26 @@ oscillations is expressed by Euler's formula:
 e^{i\beta t}=\cos\beta t+i\sin\beta t.
 \]
 
-\begin{example}
-{
-Compare
+\begin{example}{
+Compare the general solutions of
 \[
 x''+4x=0,
 \qquad
 x''+2x'+4x=0.
 \]
 }
-Their characteristic roots are
+The characteristic roots are $\lambda=\pm2i$
+and $\lambda=-1\pm i\sqrt3$, respectively. Thus
 \[
-\lambda=\pm2i,
-\qquad
-\lambda=-1\pm i\sqrt3.
+x_1=c_1\cos2t+c_2\sin2t,
 \]
-Nonzero solutions of the first equation oscillate
-with constant amplitude. Solutions of the second
+\[
+x_2=e^{-t}\bigl(c_1\cos(\sqrt3 t)
+                   +c_2\sin(\sqrt3 t)\bigr).
+\]
+The first oscillates with constant amplitude;
+the second has a decaying amplitude.
 \end{example}
-oscillate with a decaying amplitude.
 
 %----------------------------------------------------------------------
 % SIDE NOTE: 9:18 | Natural Motion and Forcing
@@ -286,7 +339,14 @@ oscillate with a decaying amplitude.
 % c) Connect the repaired trial to resonance.
 
 \subsection{Superposition, Forcing, and Resonance}
-\textbf{Main: MOUC was developed to help us uderstand external forces modeled as source functions}
+\textbf{Main idea: Superposition separates natural motion from the response to a force.}
+
+The characteristic equation describes a spring
+left to move on its own, with $F(t)=0$. But a
+periodic push changes the model to
+$mx''+\gamma x'+kx=F(t)$. What must we add to
+the natural motion to account for that push?
+Linearity supplies the answer.
 
 For a nonhomogeneous equation, we used
 \[
@@ -325,7 +385,10 @@ For damped systems, we also distinguished the
 decaying \textbf{transient response} from the
 long-term response driven by the external force.
 
-\textbf{Segue: MOUC is not sufficient to handle intstantaneous changes.}
+\textbf{Segue:} Polynomial, exponential, and sinusoidal
+forcing work well with MOUC. What if a voltage
+switches on suddenly or an input acts almost
+instantaneously?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Chapter 3: Laplace Transforms}
@@ -333,13 +396,18 @@ long-term response driven by the external force.
 
 
 \subsection{Transform, Solve, and Invert}
-\textbf{Main: transform make DEs easier to manipulate}
+\textbf{Main idea: Transforms turn differentiation into algebra while retaining the initial data.}
 
-Pierre-Simon Laplace worked extensively on probability
-and celestial mechanics in the late eighteenth and
-early nineteenth centuries. Integral-transform methods
-were among the mathematical tools associated with
-his work.
+Pierre-Simon Laplace used related integral methods
+in probability and mathematical physics in the late
+eighteenth and early nineteenth centuries.
+The streamlined transform technique we use today
+was systematized much later; Laplace did not
+work from our modern table of transforms.
+
+% History: C. C. Gillispie, Pierre-Simon Laplace, 1749--1827
+% (Princeton University Press); see discussion of the
+% subsequent development of the Laplace transform.
 
 The \textbf{Laplace transform} assigns a new function
 to $x(t)$:
@@ -388,13 +456,19 @@ clear when the input is piecewise or impulsive.
 %----------------------------------------------------------------------
 \subsection{Switches and Impulses}
 
-\textbf{Main: transforms were effective for discontinuous forcing and impulsive forcing}
+\textbf{Main idea: Steps and impulses represent real switching and short-duration inputs.}
 
-Later, Oliver Heaviside developed operational methods
-for electrical problems. He manipulated differentiation
-using algebraic rules, obtaining useful solutions
-while raising questions about how those rules should
-be justified.
+As telegraph and telephone networks expanded in the
+late nineteenth century, Oliver Heaviside studied
+electrical signals propagating through wires.
+His operational calculus replaced differentiation
+by algebraic manipulation, making transient circuit
+problems easier to tackle, though the rules still
+needed rigorous justification.
+
+% History: MacTutor biography of Oliver Heaviside;
+% "On Heaviside's contributions to transmission line theory"
+% (Philosophical Transactions A, 2018).
 
 Heaviside's original operational calculus was not
 identical to the Laplace-transform method we learned.
@@ -413,6 +487,13 @@ The \textbf{Dirac delta}
 \]
 represents an idealized instantaneous impulse.
 It is not an ordinary function with a finite spike.
+The notation became widespread through Dirac's
+work in quantum mechanics in the twentieth century;
+impulse-like mathematical ideas are older than Dirac.
+
+% History: Stanford Encyclopedia of Philosophy,
+% "Quantum Theory and Mathematical Rigor," section on
+% Dirac's delta and his 1930 textbook.
 
 Their Laplace transforms are
 \[
@@ -421,14 +502,32 @@ Their Laplace transforms are
 \mathcal{L}\{\delta(t-a)\}=e^{-as}.
 \]
 
-\begin{example}{
-Suppose a battery initially off was turned on at $t=5$ seconds. How is this modeled? How does Laplace transform help solve this model?
-}   
-Interpret the forces
+For example, in a series RLC circuit the charge $q$
+and current $i=q'$ satisfy
 \[
-F(t)=(A\sin(t-5))H(t-5),
+Lq''+Rq'+\frac1Cq=V(t).
 \]
-Finish this idea...
+A voltage $V_0H(t-a)$ models switching a source on
+at $t=a$. An ideal voltage impulse $J\delta(t-a)$
+models an extremely short pulse; it changes the
+inductor current by $J/L$ in the ideal circuit.
+
+% OPTIONAL worked example if short on lecture time.
+\begin{example}{
+A series RL circuit has $L=1$, $R=2$, and $i(0)=0$.
+A 6-volt source switches on at $t=5$. Find $i(t)$.
+}
+The equation is $i'+2i=6H(t-5)$.
+Transforming gives
+\[
+(s+2)I(s)=\frac{6e^{-5s}}s,\qquad
+I(s)=3e^{-5s}\left(\frac1s-\frac1{s+2}\right).
+\]
+Using the second shifting theorem,
+\[
+\boxed{i(t)=3\bigl(1-e^{-2(t-5)}\bigr)H(t-5).}
+\]
+The current is zero until the switch closes.
 \end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -441,17 +540,20 @@ Finish this idea...
 
 \subsection{From One Quantity to Several}
 
-\textbf{Main: 2D motion such as moving planets requires a system of DEs}
+\textbf{Main idea: Interacting quantities must be modeled together as a system.}
 
 Problems involving several interacting objects
 helped drive the development of differential equations.
 The eighteenth-century study of vibrations involved
 mathematicians such as Euler, Daniel Bernoulli,
-d'Alembert, and Lagrange. Celestial mechanics likewise
-required studying bodies that influence one another.
+d'Alembert, and Lagrange. Their work on small
+oscillations and normal modes asked how coupled bodies
+move together. Celestial mechanics likewise required
+studying bodies that exert forces on one another.
 
-Our matrix notation gives a compact way to describe
-such interactions:
+The matrix notation below is modern shorthand for
+these coupled equations, not how eighteenth-century
+mathematicians originally wrote them:
 \[
 \mathbf{x}'=A\mathbf{x}.
 \]
@@ -477,7 +579,7 @@ at the same time.
 %----------------------------------------------------------------------
 \subsection{The Exponential Idea Returns}
 
-\textbf{Main: exact solution can be found with eigenvalues and eigenvectors}
+\textbf{Main idea: Exponential modes reduce a linear system to an eigenvalue problem.}
 
 For a scalar equation, we tried $e^{\lambda t}$.
 For a system, we tried
@@ -495,7 +597,10 @@ and therefore
 \]
 
 The \textbf{eigenvalue problem} arises naturally
-from the search for exponential solutions.
+from the search for exponential solutions. It also
+formalizes the older physical idea of \emph{normal modes}:
+special motions in which the components share a common
+time dependence.
 
 For distinct real eigenvalues,
 \[
@@ -514,7 +619,7 @@ their real parts determine growth or decay.
 %----------------------------------------------------------------------
 \subsection{From Formulas to Phase Portraits}
 
-\textbf{We can describe make qualitative inferences using phase portraits.}
+\textbf{Main idea: A phase portrait summarizes whole families of motions without solving each IVP.}
 
 A \textbf{phase portrait} displays representative
 trajectories, with arrows indicating increasing time.
@@ -537,8 +642,10 @@ A_3=
 \begin{pmatrix}0&1\\-4&0\end{pmatrix}.
 \]
 }
-These give a saddle, a stable node, and a center,
-respectively.
+The eigenvalues are $2,-1$ for $A_1$,
+$-1,-2$ for $A_2$, and $\pm2i$ for $A_3$.
+Thus these give a saddle, a stable node, and a
+center, respectively.
 
 Notice the connection to Chapter 2. The matrix
 $A_3$ describes the same undamped oscillator
@@ -560,10 +667,22 @@ roots we found earlier.
 
 \subsection{Poincar\'e and Qualitative Questions}
 
-In the late nineteenth century, Henri Poincar\'e
-helped establish the qualitative theory of
-differential equations, particularly through
-his work on celestial mechanics.
+\textbf{Main idea: Geometry and stability can reveal behavior when explicit solutions are unavailable.}
+
+Poincar\'e began a systematic study of trajectories
+defined by differential equations in the early 1880s.
+His later work on celestial mechanics, especially
+the three-body problem, showed how powerful that
+geometric viewpoint could be. Newton's laws gave
+the equations of interacting bodies, but not a
+general explicit formula for their motions.
+Poincar\'e instead studied the geometry of possible
+trajectories, periodic motion, and stability.
+
+% History: Poincare's "curves defined by differential
+% equations" memoirs (1880s) preceded his three-body work;
+% see the history of the three-body problem (1889 prize
+% and Methodes nouvelles, 1892--1899).
 
 Instead of asking only for a solution formula,
 one could ask:
@@ -581,6 +700,8 @@ can change together.
 
 %----------------------------------------------------------------------
 \subsection{Linearization Connects Two Chapters}
+
+\textbf{Main idea: Nearby nonlinear motion can often be approximated by a familiar linear system.}
 
 For
 \[
@@ -627,12 +748,21 @@ far from the equilibrium.
 
 \subsection{Population Dynamics}
 
+\textbf{Main idea: Model assumptions about interactions can predict population cycles.}
+
 Differential equations also became tools for studying
 living systems. Verhulst's logistic model described
 a single population with limited resources.
-In the early twentieth century, Alfred Lotka and
-Vito Volterra independently developed models
-of interacting populations.
+In the 1920s, Alfred Lotka studied interacting
+populations, inspired partly by physical chemistry.
+Independently, Vito Volterra investigated predator--prey
+cycles after a question about Adriatic fishing data
+raised by the biologist Umberto d'Ancona.
+
+% History: S. Kingsland, "Alfred J. Lotka and the origins
+% of theoretical population ecology," PNAS (2015);
+% A Short History of Mathematical Population Dynamics,
+% chapter "Lotka, Volterra and the predator--prey system".
 
 Our predator--prey model was
 \[
@@ -661,5 +791,26 @@ formulas for both populations. This is a useful
 example of Poincar\'e's broader viewpoint:
 understanding a solution does not always require
 writing it down.
+
+% OPTIONAL: algebraic recap of nonlinear linearization.
+\begin{example}{
+Find the positive coexistence equilibrium of the
+predator--prey system and classify its linearization.
+}
+Setting $x'=y'=0$ gives
+$(x^*,y^*)=(k/\beta,r/\alpha)$. At this point,
+\[
+J(x^*,y^*)=
+\begin{pmatrix}
+0&-\alpha k/\beta\\
+\beta r/\alpha&0
+\end{pmatrix},
+\qquad \lambda^2=-rk.
+\]
+The linearized system has a center. Purely imaginary
+eigenvalues alone do not prove that a \emph{nonlinear}
+equilibrium is a center; this model has an additional
+conserved quantity that establishes closed orbits.
+\end{example}
 
 \end{document}
